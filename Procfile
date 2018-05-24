@@ -1,1 +1,1 @@
-web: gunicorn time-tracker123:app --log-file=-
+web: gunicorn time-server:app --log-file=-
