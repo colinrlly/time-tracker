@@ -11,8 +11,10 @@ from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 import psycopg2
 
+from helpers import set_users_activity
+
 app = Flask(__name__, instance_relative_config=True)
-app.config.from_pyfile('production.py')
+app.config.from_pyfile('development.py')
 db = SQLAlchemy(app)
 
 from models import *
@@ -27,7 +29,12 @@ def hello_world():
 @app.route('/api/update-activity', methods=['POST'])
 def update_activity():
     """ Updates the servers records of which activity the user is currently doing. """
-    request.form['activity']
+    
+    set_users_activity(db.session, 
+        UsersCurrentActivities, 
+        user="maggie", 
+        activity=request.form['activity'])
+
     return 'success'
 
 
