@@ -11,7 +11,7 @@ from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 import psycopg2
 
-from helpers import set_users_activity
+from helpers import *
 
 app = Flask(__name__, instance_relative_config=True)
 app.config.from_pyfile('development.py')
@@ -32,11 +32,21 @@ def update_activity():
     
     set_users_activity(db.session, 
         UsersCurrentActivities, 
-        user="maggie", 
+        user="colin", 
         activity=request.form['activity'])
 
     return 'success'
 
+
+@app.route('/api/stop-activity', methods=['POST'])
+def stop_activity():
+    """ Stops the user's current activity """
+
+    stop_users_activity(db.session,
+        UsersCurrentActivities,
+        user="colin")
+
+    return 'success'
 
 if __name__ == '__main__':
     """ Starts the Flask development server. """
