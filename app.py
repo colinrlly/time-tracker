@@ -26,7 +26,7 @@ def hello_world():
     return render_template("index.html")
 
 
-@app.route('/api/update-activity', methods=['POST'])
+@app.route('/api/start-activity', methods=['POST'])
 def update_activity():
     """ Updates the servers records of which activity the user is currently doing. """
     
