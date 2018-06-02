@@ -32,7 +32,7 @@ def update_activity():
     
     set_users_activity(db.session, 
         UsersCurrentActivities, 
-        user="colin", 
+        user='colin', 
         activity=request.form['activity'])
 
     return 'success'
@@ -44,9 +44,21 @@ def stop_activity():
 
     stop_users_activity(db.session,
         UsersCurrentActivities,
-        user="colin")
+        user='colin')
 
     return 'success'
+
+
+@app.route('/api/save-activity', methods=['POST'])
+def save_activity():
+    """ Creates a Google Calendar event of the user's last stopped activity """
+
+    save_users_activity(db.session,
+        UsersCurrentActivities,
+        user='colin')
+
+    return 'success'
+
 
 if __name__ == '__main__':
     """ Starts the Flask development server. """

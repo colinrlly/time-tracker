@@ -24,7 +24,6 @@ start = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
 # While waiting parse the color of the event
 if sys.argv[1] == 'Games':
   colorId = 8
-  
 elif sys.argv[1] == 'Plants':
   colorId = 10
 elif sys.argv[1] == 'Work':
