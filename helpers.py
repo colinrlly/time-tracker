@@ -1,11 +1,13 @@
 from __future__ import print_function  # Needs to be imported first
 
+import os
 import datetime
 import sys
 from datetime import datetime
 from apiclient.discovery import build
 from httplib2 import Http
 from oauth2client import file, client, tools
+from oauth2client.client import OAuth2WebServerFlow
 
 
 def set_users_activity(session, model, user, activity):
@@ -50,7 +52,10 @@ def save_users_activity(session, model, user):
     store = file.Storage('credentials.json')
     creds = store.get()
     if not creds or creds.invalid:
-        flow = client.flow_from_clientsecrets('client_secret.json', SCOPES)
+        flow = client.OAuth2WebServerFlow(client_id=os.environ['GOOGLE_CLIENT_ID'],
+                                            client_secret=os.environ['GOOGLE_CLIENT_SECRET'],
+                                            scope=SCOPES,
+                                            redirect_urls='/')
         creds = tools.run_flow(flow, store)
     service = build('calendar', 'v3', http=creds.authorize(Http()))
 
