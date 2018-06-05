@@ -6,8 +6,26 @@ $('button.activity').click(function() {
         });
 
     $('button.stop').show();
+    var act = $(this).html();
+    act_name(act);
+    start_timer(moment());
+    
 });
 
+$('button.plus').click(function() {
+    /* show the add activity overlay */
+    $('div.overlay').show();   
+});
+
+$('button.add').click(function() {
+    /* saves new activity, makes a button for it, and hides overlay */
+    $('div.overlay').hide();   
+});
+
+$('button.close').click(function() {
+    /* saves new activity, makes a button for it, and hides overlay */
+    $('div.overlay').hide();   
+});
 
 $('button.stop').click(function() {
     /* Sends the stop-activity command to the server 
@@ -17,6 +35,9 @@ $('button.stop').click(function() {
     $('button.stop').hide();
     $('button.delete').show();
     $('button.save').show();
+    
+    stop_timer();
+    flash_timer();
 });
 
 
@@ -24,6 +45,9 @@ $('button.delete').click(function() {
     /* Does nothing in effect not saving the user's last event */
     $('button.delete').hide();
     $('button.save').hide();
+    
+    reset_timer();
+    act_hide();
 });
 
 
