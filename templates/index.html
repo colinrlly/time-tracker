@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="google-signin-client_id" content="379069589012-e6278tvlf5qsj797mq2kuhkbhkgqmotm.apps.googleusercontent.com">
         <title>Log Those Activities</title>
         
         <link rel="stylesheet" type="text/css" href="../static/css/styles.css">
@@ -49,6 +50,9 @@
             <img src="../static/image/logo.png" alt="Log logo" style="width:100px;height:autopx;">
         </div>
 
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+
+        <script src="https://apis.google.com/js/platform.js?onload=start"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="../static/js/act_display.js"></script>
         <script src="../static/js/moment.js"></script>
