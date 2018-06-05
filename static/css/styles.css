@@ -1,0 +1,210 @@
+html{
+    min-height: 100%;
+}
+body{
+    height: 100%;
+    min-height: 100%;
+    background: linear-gradient(#523624, #1e1310);
+    background-repeat: no-repeat;
+}
+.plus{
+    background-color:rgba(0, 0, 0, 0);
+    border: none;
+    text-align: center;
+    text-decoration:none;
+    color: white;
+    font-size: 2.2em;
+    font-family: 'Alegreya Sans bold', sans-serif; 
+}
+.plus:hover{
+    color: #589992;
+    cursor: pointer;
+}
+.close{ 
+    background-color:rgba(0, 0, 0, 0);
+    border: none;
+    text-align:center;
+    text-decoration:none;
+    color: #589992;
+    font-size: 1.8em;
+    font-family: 'Alegreya Sans regular', sans-serif; 
+     width: 50px;
+    height: 50px;
+    
+    
+}
+.close:hover{
+    color: #c2e0dd;
+    cursor: pointer;
+}
+.close2{
+    text-align: center; 
+    width: 50px;
+    height: 50px;
+    
+    
+}
+
+.add{
+    height: 60px;
+    width: 150px;
+    border: none;
+    color: white;
+    background-color: #66442c;
+    text-align: center;
+    text-decoration:none;
+    display: inline-block;
+    font-size: 1.5em;
+    font-family: 'Alegreya Sans light', sans-serif;
+    margin: 20px 10px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    align-content: center;   
+}
+.add:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    cursor: pointer;
+}
+
+.overlay{
+    position:fixed;
+    height: 90%;
+    width: 90%;
+    background-color: beige;
+    text-align: center;
+    font-size: 1.5em;
+    font-family: 'Alegreya Sans light', sans-serif;
+    
+}
+
+.activity{
+   /* background-color: #ad8c76;*/
+    height: 80px;
+    width: 200px;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration:none;
+    display: inline-block;
+    font-size: 1.5em;
+    font-family: 'Alegreya Sans light', sans-serif;
+    margin: 20px 10px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.activity:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    cursor: pointer;
+}
+
+.activity:nth-child(odd){
+    background-color: #ad8c76;
+}
+
+.activity:nth-child(even){ 
+      background-color:#965a36;
+}
+
+.name{
+    font-size: 3em;
+    font-family: 'Alegreya Sans light', sans serif;
+    color:white;
+    
+}
+
+.time{
+    font-size: 6em;
+    font-family: 'Alegreya Sans light', sans serif;
+    color:#589992;
+}
+
+.timebox{
+    align-items: center;
+    text-align: center;
+    height: 150px;
+}
+
+.butt{
+   align-content: center;
+   text-align: center;     
+   margin: 20px auto;    
+}
+.stop{
+    height: 60px;
+    width: 150px;
+    border: none;
+    color: white;
+    background-color: #66442c;
+    text-align: center;
+    text-decoration:none;
+    display: inline-block;
+    font-size: 1.5em;
+    font-family: 'Alegreya Sans light', sans-serif;
+    margin: 20px 10px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    align-content: center;   
+}
+.save:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    cursor: pointer;
+}
+.stop:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    cursor: pointer;
+}
+.delete:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    cursor: pointer;
+}
+.delete{
+     height: 60px;
+    width: 150px;
+    border: none;
+    color: white;
+    background-color: #773a30;
+    text-align: center;
+    text-decoration:none;
+    display: inline-block;
+    font-size: 1.5em;
+    font-family: 'Alegreya Sans light', sans-serif;
+    margin: 20px 10px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    align-content: center;    
+}
+.save{
+    height: 60px;
+    width: 150px;
+    border: none;
+    color: white;
+    background-color: #4d8262;
+    text-align: center;
+    text-decoration:none;
+    display: inline-block;
+    font-size: 1.5em;
+    font-family: 'Alegreya Sans light', sans-serif;
+    margin:20px 10px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    align-content: center; 
+}
+
+.butt2{
+    align-content: center;
+   text-align: center;     
+   margin: 20px auto; 
+}
+
+hr.style1{
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(255, 255, 255, 0.75), rgba(0, 0, 0, 0));
+}
+
+.logo{
+    margin: auto auto;
+    text-align: center;
+    bottom: 0px;
+}
