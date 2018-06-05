@@ -33,5 +33,24 @@ $('button.save').click(function() {
     $('button.delete').hide();
     $('button.save').hide();
 
-    $.post('/api/save-activity');
+    window.location.replace('/api/save-activity');
+});
+
+
+function onSignIn(googleUser) {
+    var profile = googleUser.getBasicProfile();
+    // console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+    // console.log('Name: ' + profile.getName());
+    // console.log('Image URL: ' + profile.getImageUrl());
+    // console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+
+    // console.log(googleUser.getAuthResponse().id_token);
+
+    $.post('/api/verify-id-token', {'token': googleUser.getAuthResponse().id_token});
+}
+
+gapi.load('auth2', function() {
+    auth2 = gapi.auth2.init({
+        client_id: '379069589012-e6278tvlf5qsj797mq2kuhkbhkgqmotm.apps.googleusercontent.com'
+    })
 });
