@@ -3,7 +3,6 @@ from __future__ import print_function  # Needs to be imported first
 import os
 import datetime
 import sys
-import flask
 
 import google
 from datetime import datetime
@@ -50,33 +49,14 @@ def stop_users_activity(session, model, user):
     return 'stopped'
 
 
-def save_users_activity(session, model, user, calendar):
-    """ In the database @session, saves the @user's last stopped event
+def save_users_activity(model, user, calendar):
+    """ Saves the @user's last stopped event
         to Google calendar 
         
         Returns: URL to newly created Google Calendar event 
     """
-    print('save_users_activity')
-
     # Get the last activity
     instance = model.query.filter_by(user=user).first()
-
-    # # Setup the Calendar API
-    # SCOPES = 'https://www.googleapis.com/auth/calendar'
-    # store = file.Storage('credentials.json')
-    # creds = store.get()
-    # if not creds or creds.invalid:
-    #     flow = client.OAuth2WebServerFlow(client_id=os.environ['GOOGLE_CLIENT_ID'],
-    #                                         client_secret=os.environ['GOOGLE_CLIENT_SECRET'],
-    #                                         scope=SCOPES,
-    #                                         redirect_urls='/')
-    #     creds = tools.run_flow(flow, store)
-
-    # # Load credentials from the session.
-    # credentials = google.oauth2.credentials.Credentials(
-    #     **flask.session['credentials'])
-    
-    # service = build('calendar', 'v3', credentials=credentials)
 
     # Parse the color of the event
     if instance.activity == 'Games':
@@ -112,7 +92,6 @@ def save_users_activity(session, model, user, calendar):
     # Add the event to the calendar
     event = calendar.events().insert(calendarId='primary', body=event).execute()
 
-    print(event.get('htmlLink'))
     return str(event.get('htmlLink'))
 
 
@@ -139,30 +118,6 @@ def get_auth_token(token):
     except ValueError:
         # Invalid token
         return 'invalid'
-
-
-def get_calendar_credentials(session):
-    if 'credentials' not in session:
-        return flask.redirect('authorize')
-
-    # Load credentials from the session.
-    credentials = google.oauth2.credentials.Credentials(
-        **session['credentials'])
-
-    # Save credentials back to session in case access token was refreshed.
-    # ACTION ITEM: In a production app, you likely want to save these
-    #              credentials in a persistent database instead.
-    session['credentials'] = credentials_to_dict(credentials)
-
-    return credentials
-
-
-def get_calendar(credentials):
-    print(credentials.authorize())
-
-    calendar = build(API_SERVICE_NAME, API_VERSION, credentials=credentials)
-
-    return calendar
 
 
 def credentials_to_dict(credentials):

@@ -73,14 +73,11 @@ def stop_activity():
 def verify_id_token():
     token = request.form['token']
 
-    print(get_auth_token(token))
-
     return render_template('index.html')
 
 
 @app.route('/api/save-activity')
 def save_activity():
-    print('save_activity top')
     if 'credentials' not in flask.session:
         return flask.redirect('authorize')
 
@@ -88,7 +85,7 @@ def save_activity():
     credentials = google.oauth2.credentials.Credentials(
         **flask.session['credentials'])
 
-    service = googleapiclient.discovery.build(
+    calendar = googleapiclient.discovery.build(
         API_SERVICE_NAME, API_VERSION, credentials=credentials)
 
     # Save credentials back to session in case access token was refreshed.
@@ -96,22 +93,16 @@ def save_activity():
     #              credentials in a persistent database instead.
     flask.session['credentials'] = credentials_to_dict(credentials)
 
-    # Call the Calendar API
-    now = datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
-    print('Getting the upcoming 10 events')
-    events_result = service.events().list(calendarId='primary', timeMin=now,
-                                        maxResults=10, singleEvents=True,
-                                        orderBy='startTime').execute()
-    events = events_result.get('items', [])
+    save_users_activity(
+        UsersCurrentActivities,
+        'colin',
+        calendar)
 
-    if not events:
-        return 'No upcoming events found.'
-    return render_template('index.html')
+    return flask.redirect(flask.url_for('home'))
 
 
 @app.route('/authorize')
 def authorize():
-    print('authorize top')
     # Create flow instance to manage the OAuth 2.0 Authorization Grant Flow steps.
     flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
         CLIENT_SECRETS_FILE, scopes=SCOPES)
@@ -128,7 +119,6 @@ def authorize():
     # Store the state so the callback can verify the auth server response.
     flask.session['state'] = state
 
-    print('authorize bottom')
     return flask.redirect(authorization_url)
 
 
@@ -136,7 +126,6 @@ def authorize():
 def oauth2callback():
   # Specify the state when creating the flow in the callback so that it can
   # verified in the authorization server response.
-  print('oauth2callback')
   state = flask.session['state']
 
   flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
