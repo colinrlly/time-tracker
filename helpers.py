@@ -4,6 +4,8 @@ import os
 import datetime
 import sys
 
+from flask import render_template
+
 import google
 from datetime import datetime
 from apiclient.discovery import build
@@ -22,28 +24,34 @@ SCOPES = 'https://www.googleapis.com/auth/calendar'
 API_SERVICE_NAME = 'calendar'
 API_VERSION = 'v3'
 
-def set_users_activity(session, model, user, activity):
-    """ In the database @session, sets or creates @user's current @activity """
-    instance = model.query.filter_by(user=user).first()
+
+def get_or_create_user(session, model, user_id):
+    instance = model.query.filter_by(id=user_id).first()
+
     if instance:
-        instance.activity = activity
-        instance.started_at = datetime.utcnow()
-        session.add(instance)
-        session.commit()
-        return 'updated'
+        return instance
     else:
-        instance = model(user=user, activity=activity, started_at=datetime.utcnow())
+        instance = model(id=user_id)
         session.add(instance)
         session.commit()
-        return 'created'
+        return instance
+
+
+def set_users_activity(session, model, user, activity):
+    """ In the database @session, sets @user's current @activity """
+    user.current_activity = activity
+    user.started_at = datetime.utcnow()
+    session.add(user)
+    session.commit()
+
+    return 'set'
 
 
 def stop_users_activity(session, model, user):
     """ In the database @session, stops @user's current activity """
 
-    instance = model.query.filter_by(user=user).first()
-    instance.stopped_at = datetime.utcnow()
-    session.add(instance)
+    user.stopped_at = datetime.utcnow()
+    session.add(user)
     session.commit()
 
     return 'stopped'
@@ -55,32 +63,29 @@ def save_users_activity(model, user, calendar):
         
         Returns: URL to newly created Google Calendar event 
     """
-    # Get the last activity
-    instance = model.query.filter_by(user=user).first()
-
     # Parse the color of the event
-    if instance.activity == 'Games':
+    if user.current_activity == 'Games':
         colorId = 8
-    elif instance.activity == 'Plants':
+    elif user.current_activity == 'Plants':
         colorId = 10
-    elif instance.activity == 'Work':
+    elif user.current_activity == 'Work':
         colorId = 2
-    elif instance.activity == 'Personal':
+    elif user.current_activity == 'Personal':
         colorId = 5
-    elif instance.activity == 'Art':
+    elif user.current_activity == 'Art':
         colorId = 3
     else:
         colorId = 1
 
     # Make the event
     event = {
-    'summary': instance.activity,
+    'summary': user.current_activity,
     'start': {
-        'dateTime': instance.started_at.isoformat() + 'Z',
+        'dateTime': user.started_at.isoformat() + 'Z',
         'timeZone': 'UTC',
     },
     'end': {
-        'dateTime': instance.stopped_at.isoformat() + 'Z',
+        'dateTime': user.stopped_at.isoformat() + 'Z',
         'timeZone': 'UTC',
     },
     'reminders': {
@@ -95,29 +100,21 @@ def save_users_activity(model, user, calendar):
     return str(event.get('htmlLink'))
 
 
-def get_auth_token(token):
+def get_idinfo(token):
     try:
         # Specify the CLIENT_ID of the app that accesses the backend:
         idinfo = id_token.verify_oauth2_token(token, requests.Request(), CLIENT_ID)
 
-        # Or, if multiple clients access the backend server:
-        # idinfo = id_token.verify_oauth2_token(token, requests.Request())
-        # if idinfo['aud'] not in [CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]:
-        #     raise ValueError('Could not verify audience.')
-
-
         if idinfo['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
             raise ValueError('Wrong issuer.')
 
-        # If auth request is from a G Suite domain:
-        # if idinfo['hd'] != GSUITE_DOMAIN_NAME:
-        #     raise ValueError('Wrong hosted domain.')
-
         # ID token is valid. Get the user's Google Account ID from the decoded token.
-        return 'auth token: ' + idinfo['sub']
+        return idinfo
     except ValueError:
         # Invalid token
-        return 'invalid'
+        print('invalid token')
+
+        return False
 
 
 def credentials_to_dict(credentials):

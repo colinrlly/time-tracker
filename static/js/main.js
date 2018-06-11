@@ -50,7 +50,6 @@ $('button.delete').click(function() {
     act_hide();
 });
 
-
 $('button.save').click(function() {
     /* Tells the server to make a google calendar event 
         of the user's last stopped activity */
@@ -60,17 +59,8 @@ $('button.save').click(function() {
     window.location.replace('/api/save-activity');
 });
 
-
-function onSignIn(googleUser) {
-    var profile = googleUser.getBasicProfile();
-    // console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    // console.log('Name: ' + profile.getName());
-    // console.log('Image URL: ' + profile.getImageUrl());
-    // console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-
-    // console.log(googleUser.getAuthResponse().id_token);
-
-    $.post('/api/verify-id-token', {'token': googleUser.getAuthResponse().id_token});
+function onSignIn(google_user) {
+    $.post('/api/verify-and-login', {'token': google_user.getAuthResponse().id_token});
 }
 
 gapi.load('auth2', function() {

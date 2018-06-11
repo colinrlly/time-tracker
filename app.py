@@ -8,6 +8,7 @@
 import os
 import flask
 from datetime import datetime
+from httplib2 import Http
 
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
@@ -19,6 +20,8 @@ import google_auth_oauthlib.flow
 import googleapiclient.discovery
 from oauth2client import client
 from google.auth.transport import requests
+
+from oauth2client.client import credentials_from_code, AccessTokenCredentials
 
 from helpers import *
 
@@ -33,7 +36,7 @@ from models import *
 # Set up Google Constants
 CLIENT_ID = client_id=os.environ['GOOGLE_CLIENT_ID']
 CLIENT_SECRET = client_secret=os.environ['GOOGLE_CLIENT_SECRET']
-SCOPES = 'https://www.googleapis.com/auth/calendar'
+SCOPES = ['https://www.googleapis.com/auth/calendar profile']
 API_SERVICE_NAME = 'calendar'
 API_VERSION = 'v3'
 
@@ -48,9 +51,12 @@ def home():
 def update_activity():
     """ Updates the servers records of which activity the user is currently doing. """
     
-    set_users_activity(db.session, 
-        UsersCurrentActivities, 
-        user='colin', 
+    user = get_or_create_user(db.session, User, flask.session['user_id'])
+
+    set_users_activity(
+        session=db.session, 
+        model=User, 
+        user=user, 
         activity=request.form['activity'])
 
     return 'success'
@@ -59,42 +65,53 @@ def update_activity():
 @app.route('/api/stop-activity', methods=['POST'])
 def stop_activity():
     """ Stops the user's current activity """
+    user = get_or_create_user(db.session, User, flask.session['user_id'])
 
-    stop_users_activity(db.session,
-        UsersCurrentActivities,
-        user='colin')
+    stop_users_activity(
+        session=db.session,
+        model=User,
+        user=user)
 
     return 'success'
 
 
-@app.route('/api/verify-id-token', methods=['POST'])
+@app.route('/api/verify-and-login', methods=['POST'])
 def verify_id_token():
     token = request.form['token']
 
-    return render_template('index.html')
+    idinfo = get_idinfo(token)
+
+    if idinfo:
+        flask.session['user_id'] = idinfo['sub']
+        return 'success'
+
+    return 'error'
 
 
 @app.route('/api/save-activity')
 def save_activity():
-    if 'credentials' not in flask.session:
+    user = get_or_create_user(db.session, User, flask.session['user_id'])
+
+    if not user.credentials:
         return flask.redirect('authorize')
 
-    # Load credentials from the session.
-    credentials = client.OAuth2Credentials.from_json(flask.session['credentials'])
-    # credentials = google.oauth2.credentials.Credentials(
-    #     flask.session['credentials'])
+    # Load credentials from the database.
+    credentials = client.OAuth2Credentials.from_json(user.credentials)
+
+    if credentials.access_token_expired:
+        credentials.refresh(Http())
 
     calendar = googleapiclient.discovery.build(
         API_SERVICE_NAME, API_VERSION, credentials=credentials)
 
-    # Store credentials in the session.
-    # ACTION ITEM: In a production app, you likely want to save these
-    #              credentials in a persistent database instead.
-    flask.session['credentials'] = credentials.to_json()
+    # Store credentials in the database.
+    user.credentials = credentials.to_json()
+    db.session.add(user)
+    db.session.commit()
 
     save_users_activity(
-        UsersCurrentActivities,
-        'colin',
+        User,
+        user,
         calendar)
 
     return flask.redirect(flask.url_for('home'))
@@ -105,34 +122,22 @@ def authorize():
     # Create flow instance to manage the OAuth 2.0 Authorization Grant Flow steps.
     flow = client.OAuth2WebServerFlow(client_id=CLIENT_ID,
                                       client_secret=CLIENT_SECRET,
-                                      scope=SCOPES)
+                                      scope=SCOPES,
+                                      access_type='offline',
+                                      prompt='consent')
 
     flow.redirect_uri = flask.url_for('oauth2callback', _external=True)
 
     authorization_url = flow.step1_get_authorize_url()
-
-    # authorization_url, state = flow.authorization_url(
-    #     # Enable offline access so that you can refresh an access token without
-    #     # re-prompting the user for permission. Recommended for web server apps.
-    #     access_type='offline',
-    #     # Enable incremental authorization. Recommended as a best practice.
-    #     include_granted_scopes='true')
-
-    # Store the state so the callback can verify the auth server response.
-    # flask.session['state'] = state
 
     return flask.redirect(authorization_url)
 
 
 @app.route('/oauth2callback')
 def oauth2callback():
-    # Specify the state when creating the flow in the callback so that it can
-    # verified in the authorization server response.
-    # state = flask.session['state']
-
     flow = client.OAuth2WebServerFlow(client_id=CLIENT_ID,
-                                        client_secret=CLIENT_SECRET,
-                                        scope=SCOPES)
+                                      client_secret=CLIENT_SECRET,
+                                      scope=SCOPES)
 
     flow.redirect_uri = flask.url_for('oauth2callback', _external=True)
 
@@ -140,10 +145,11 @@ def oauth2callback():
     authorization_response = request.args.get('code')
     credentials = flow.step2_exchange(authorization_response)
 
-    # Store credentials in the session.
-    # ACTION ITEM: In a production app, you likely want to save these
-    #              credentials in a persistent database instead.
-    flask.session['credentials'] = credentials.to_json()
+    # Store credentials in the database.
+    user = get_or_create_user(db.session, User, flask.session['user_id'])
+    user.credentials = credentials.to_json()
+    db.session.add(user)
+    db.session.commit()
 
     return flask.redirect(flask.url_for('save_activity'))
 

@@ -1,26 +1,65 @@
-from sqlalchemy import Column, Integer, DateTime, String
+from sqlalchemy import Column, Integer, DateTime, String, ForeignKey, BigInteger
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.dialects.postgresql import JSON
 
 from app import db
 
+class User(db.Model):
+    """ Model to store a user. 
+    
+        One model to rule them all. This model holds the 
+        user's profile information, current activity information,
+        and Google credentials information.
+        
+        The id for this model is the users Google account id.
+    """
 
-class UsersCurrentActivities(db.Model):
-    """ Model to keep track of which user is doing which activity """
+    __tablename__ = 'user'
 
-    __tablename__ = 'users_current_activities'
+    id = Column(String(30), primary_key=True, nullable=False, unique=True)
+    email = Column(String(255), nullable=True)
+    name = Column(String(255), nullable=True)
+    picture = Column(String(2000), nullable=True)  # 2000 characters is max URL length
+    given_name = Column(String(255), nullable=True)
+    family_name = Column(String(255), nullable=True)
+    locale = Column(String(10), nullable=True)
 
-    id = Column(Integer, primary_key=True, autoincrement=True, nullable=False, unique=True)
-    user = Column(String(255), nullable=False)
-    activity = Column(String(255), nullable=False)
-    started_at = Column(DateTime, nullable=False)
+    # related to activity
+    current_activity = Column(String(255), nullable=True)
+    started_at = Column(DateTime, nullable=True)
     stopped_at = Column(DateTime, nullable=True)
 
-    def __init__(self, user, activity, started_at):
-        self.user = user
-        self.activity = activity
-        self.started_at = started_at
+    # related to credentials
+    refresh_token = Column(String(255), nullable=True)
+    credentials = Column(String(7000), nullable=True)
 
-    def __repr__(self):
-        return '<Track:user %r, activity %r, updated_at %r, stopped_at %r>' % \
-        (self.user, self.activity, self.updated_at, self.stopped_at)
+# class CurrentActivity(db.Model):
+#     """ Model to keep track of which user is doing which activity """
+
+#     __tablename__ = 'current_activitiy'
+
+#     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False, unique=True)
+#     user_id = Column(Integer, ForeignKey(User.id), nullable=False)
+#     activity = Column(String(255), nullable=False)
+#     started_at = Column(DateTime, nullable=False)
+#     stopped_at = Column(DateTime, nullable=True)
+
+#     def __init__(self, user, activity, started_at):
+#         self.user = user
+#         self.activity = activity
+#         self.started_at = started_at
+
+#     def __repr__(self):
+#         return '<Track:user %r, activity %r, updated_at %r, stopped_at %r>' % \
+#         (self.user, self.activity, self.updated_at, self.stopped_at)
+
+
+# class Credentials(db.Model):
+#     """ Model to map Google Calendar credentials to Users """
+
+#     __tablename__ = 'credentials'
+
+#     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False, unique=True)
+#     user_id = Column(Integer, ForeignKey(User.id), nullable=False)
+#     refresh_token = Column(String(255), nullable=False)
+#     credentials = Column(String(7000), nullable=False)
