@@ -80,10 +80,10 @@ def verify_id_token():
     token = request.form['token']
 
     idinfo = get_idinfo(token)
-    
 
     if idinfo:
         flask.session['user_id'] = idinfo['sub']
+        print(flask.session)
         return 'success'
 
     return 'error'
