@@ -83,7 +83,6 @@ def verify_id_token():
 
     if idinfo:
         flask.session['user_id'] = idinfo['sub']
-        print(flask.session)
         return 'success'
 
     return 'error'
