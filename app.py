@@ -44,7 +44,35 @@ API_VERSION = 'v3'
 @app.route('/')
 def home():
     """ Renders the homepage template. """
-    return render_template("index.html")
+    # Get user's list of activities from the database.
+    if 'user_id' in flask.session:
+        user = get_or_create_user(db.session, User, flask.session['user_id'])
+        activities = Activities.query.filter_by(user_id=user.id).all()
+
+        # Decide whether there is a currently running activity
+        if user.stopped_at < user.started_at:
+            running = True
+        else:
+            running = False
+
+        started_at = user.started_at
+        current_activity = user.current_activity    
+    else:
+        activities = []
+        running = False
+        started_at = None
+        current_activity = None
+
+    now = datetime.utcnow()
+
+    return render_template(
+        "index.html", 
+        activities=activities, 
+        running_activity=running,
+        start_time=started_at,
+        now_time=str(now),
+        current_activity=current_activity
+    )
 
 
 @app.route('/api/start-activity', methods=['POST'])
@@ -75,19 +103,6 @@ def stop_activity():
     return 'success'
 
 
-@app.route('/api/verify-and-login', methods=['POST'])
-def verify_id_token():
-    token = request.form['token']
-
-    idinfo = get_idinfo(token)
-
-    if idinfo:
-        flask.session['user_id'] = idinfo['sub']
-        return 'success'
-
-    return 'error'
-
-
 @app.route('/api/save-activity')
 def save_activity():
     user = get_or_create_user(db.session, User, flask.session['user_id'])
@@ -115,6 +130,30 @@ def save_activity():
         calendar)
 
     return flask.redirect(flask.url_for('home'))
+
+
+@app.route('/api/verify-and-login', methods=['POST'])
+def verify_id_token():
+    token = request.form['token']
+
+    idinfo = get_idinfo(token)
+
+    if idinfo:
+        flask.session['user_id'] = idinfo['sub']
+        return 'success'
+
+    return 'error'
+
+
+@app.route('/api/create-activity', methods=['POST'])
+def create_activity():
+    user = get_or_create_user(db.session, User, flask.session['user_id'])
+
+    activity = Activities(user_id=user.id, name=request.form['activity'])
+    db.session.add(activity)
+    db.session.commit()
+
+    return 'created'
 
 
 @app.route('/authorize')

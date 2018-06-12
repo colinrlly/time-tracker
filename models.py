@@ -33,33 +33,15 @@ class User(db.Model):
     refresh_token = Column(String(255), nullable=True)
     credentials = Column(String(7000), nullable=True)
 
-# class CurrentActivity(db.Model):
-#     """ Model to keep track of which user is doing which activity """
 
-#     __tablename__ = 'current_activitiy'
+class Activities(db.Model):
+    """ Model to store a users activities.
 
-#     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False, unique=True)
-#     user_id = Column(Integer, ForeignKey(User.id), nullable=False)
-#     activity = Column(String(255), nullable=False)
-#     started_at = Column(DateTime, nullable=False)
-#     stopped_at = Column(DateTime, nullable=True)
+        Basically just a table of strings representing a User's list of activities
+    """
 
-#     def __init__(self, user, activity, started_at):
-#         self.user = user
-#         self.activity = activity
-#         self.started_at = started_at
+    __tablename__ = 'activities'
 
-#     def __repr__(self):
-#         return '<Track:user %r, activity %r, updated_at %r, stopped_at %r>' % \
-#         (self.user, self.activity, self.updated_at, self.stopped_at)
-
-
-# class Credentials(db.Model):
-#     """ Model to map Google Calendar credentials to Users """
-
-#     __tablename__ = 'credentials'
-
-#     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False, unique=True)
-#     user_id = Column(Integer, ForeignKey(User.id), nullable=False)
-#     refresh_token = Column(String(255), nullable=False)
-#     credentials = Column(String(7000), nullable=False)
+    id = Column(Integer, primary_key=True, autoincrement=True, nullable=False, unique=True)
+    user_id = Column(String(30), ForeignKey("user.id"), nullable=False)
+    name = Column(String(255), nullable=False)

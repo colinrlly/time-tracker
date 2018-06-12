@@ -1,15 +1,14 @@
-$('button.activity').click(function() {
+$('.butt').on('click', 'button.activity', function() {
     /* Sends the updated activity to the server and shows the stop button */
     $.post('/api/start-activity',
-        {
-            'activity': $(this).html()
-        });
+    {
+        'activity': $(this).html()
+    });
 
     $('button.stop').show();
     var act = $(this).html();
     act_name(act);
-    start_timer(moment());
-    
+    start_timer(moment(utc_now()));
 });
 
 $('button.plus').click(function() {
@@ -40,7 +39,6 @@ $('button.stop').click(function() {
     flash_timer();
 });
 
-
 $('button.delete').click(function() {
     /* Does nothing in effect not saving the user's last event */
     $('button.delete').hide();
@@ -59,6 +57,10 @@ $('button.save').click(function() {
     window.location.replace('/api/save-activity');
 });
 
+$('button.add_new_activity').click(function() {
+    $.post('/api/create-activity', {'activity': 'Exercise'});
+});
+
 function onSignIn(google_user) {
     $.post('/api/verify-and-login', {'token': google_user.getAuthResponse().id_token});
 }
@@ -68,3 +70,9 @@ gapi.load('auth2', function() {
         client_id: '379069589012-e6278tvlf5qsj797mq2kuhkbhkgqmotm.apps.googleusercontent.com'
     })
 });
+
+// If the STOP button is shown when the page loads then we should set the timer
+// to the time given by the server
+if ($('button.stop').is(':visible')) {
+    start_timer(START_TIME);
+};

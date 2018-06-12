@@ -2,10 +2,11 @@ var timer;
 
 var start_timer = function(start_time) {
     if (!timer) {
-        var now = moment();
+        var now = moment(utc_now());
+        start_time = moment(start_time)
         var diff = now - start_time;
         var interval = 1000;
-        var duration = moment.duration(diff * 1000, 'milliseconds');
+        var duration = moment.duration(diff, 'milliseconds');
 
         timer = setInterval(function() {
             var seconds = ('0' + duration.seconds()).substr(-2, 2);
@@ -30,4 +31,17 @@ var flash_timer = function() {
 
 var reset_timer = function() {
     $('span.time').html('00:00:00');
+}
+
+function utc_now() {
+    var d = new Date();
+
+    return new Date(
+        d.getUTCFullYear(),
+        d.getUTCMonth(),
+        d.getUTCDate(),
+        d.getUTCHours(),
+        d.getUTCMinutes(), 
+        d.getUTCSeconds()
+    );
 }
