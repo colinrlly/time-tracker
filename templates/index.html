@@ -10,17 +10,37 @@
         
         <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans:300,300i,400,400i,500,500i,700,700i,800,800i,900,900i" rel="stylesheet"> 
     </head>
-    <body>
-        
-        <div class='overlay' style='display:none'>
-            <div class=close2><button class='close'>+</button></div>
-            <p>Add a New Activity</p>
-            <button class=add>Add</button>
+    <body style="height: 100%">
+        <div class="overlayout">
+            <div class='overlay' style='display:none'>
+                <div class=close2><button class='close'>+</button></div>
+
+                <p>Add a New Activity</p>
+
+                <input type="text" name="Activity Names">
+
+                <p>Event Color</p>
+
+                <button class="color" style="background-color:#dc2127"></button>
+                <button class="color" style="background-color:#FF887c"></button>
+                <button class="color" style="background-color:#ffb878"></button>
+                <button class="color" style="background-color:#fbd75b"></button>
+                <button class="color" style="background-color:#51b749"></button>
+                <button class="color" style="background-color:#7ae7bf"></button>
+                 <button class="color" style="background-color:#46d6db"></button>
+                <button class="color" style="background-color:#a4bdfc"></button>
+                <button class="color" style="background-color:#5484ed"></button>
+                <button class="color" style="background-color:#e1e1e1"></button>
+                <button class="color" style="background-color:#DBADFF"></button>
+                <br>
+                <button class="add">Add</button>
+            </div>
         </div>
+        
         <div>
-            <button class='plus'>+</button>
+            <button class="plus">+</button>
         </div>
-        
+
         <div class="timebox">
             {% if running_activity %}
                 <span class="name">{{current_activity}}</span>
@@ -64,8 +84,6 @@
         <div class="logo">
             <img src="../static/image/logo.png" alt="Log logo" style="width:100px;height:autopx;">
         </div>
-
-        <div class="g-signin2" data-onsuccess="onSignIn"></div>
 
         <br>
 

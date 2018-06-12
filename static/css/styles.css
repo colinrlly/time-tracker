@@ -1,11 +1,14 @@
 html{
     min-height: 100%;
+    width: 100%;
+    background: linear-gradient(#523624, #1e1310);
+    background-repeat: no-repeat;
 }
 body{
     height: 100%;
-    min-height: 100%;
-    background: linear-gradient(#523624, #1e1310);
-    background-repeat: no-repeat;
+    width: 100%;
+    margin: 0;
+    
 }
 .plus{
     background-color:rgba(0, 0, 0, 0);
@@ -29,9 +32,7 @@ body{
     font-size: 1.8em;
     font-family: 'Alegreya Sans regular', sans-serif; 
      width: 50px;
-    height: 50px;
-    
-    
+    height: 50px;   
 }
 .close:hover{
     color: #c2e0dd;
@@ -41,8 +42,10 @@ body{
     text-align: center; 
     width: 50px;
     height: 50px;
-    
-    
+}
+p{
+    margin-top: 30px;
+    margin-bottom: 9px;
 }
 
 .add{
@@ -54,7 +57,7 @@ body{
     text-align: center;
     text-decoration:none;
     display: inline-block;
-    font-size: 1.5em;
+    font-size: 1.2em;
     font-family: 'Alegreya Sans light', sans-serif;
     margin: 20px 10px;
     border-radius: 12px;
@@ -65,18 +68,42 @@ body{
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
     cursor: pointer;
 }
+input[type=text] {
+    background-color: rgba(102, 68, 44, 0.54);
+    border: none;
+    border-radius: 5px;
+    width: 200px;
+    height: 25px;   
+}
+.frost{
+    filter: blur(5px);
+    z-index: -1;
+}
+.overlayout{
+    margin: auto auto;   
+}
 
 .overlay{
     position:fixed;
-    height: 90%;
-    width: 90%;
-    background-color: beige;
+    z-index: 1;
+    height: 300;
+    width: 400;
+    background-color: rgb(235, 232, 224);
     text-align: center;
     font-size: 1.5em;
-    font-family: 'Alegreya Sans light', sans-serif;
-    
+    font-family: 'Alegreya Sans light', sans-serif; 
 }
-
+.color{
+     height: 50px;
+    width: 50px;
+    border: none;
+    text-decoration:none;
+    display: inline-block;
+    margin: 20px 10px;
+    border-radius: 100%;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    align-content: center;  
+}
 .activity{
    /* background-color: #ad8c76;*/
     height: 80px;
@@ -114,7 +141,7 @@ body{
 }
 
 .time{
-    font-size: 6em;
+    font-size: 5.3em;
     font-family: 'Alegreya Sans light', sans serif;
     color:#589992;
 }
@@ -128,7 +155,8 @@ body{
 .butt{
    align-content: center;
    text-align: center;     
-   margin: 20px auto;    
+   margin: 20px auto; 
+    width:90%; 
 }
 .stop{
     height: 60px;
@@ -206,5 +234,29 @@ hr.style1{
 .logo{
     margin: auto auto;
     text-align: center;
-    bottom: 0px;
+    padding-top: 30px;
+    
 }
+
+/*Sign in page styles*/
+.slogo{
+    padding-top: 100px;
+    padding-bottom: 5px;
+    margin: auto auto;
+    text-align: center;
+}
+.gbutton{
+    width: 120px;
+    margin: auto auto;
+    text-align: center; 
+    padding-top: 35px;
+    padding-bottom: 15px;
+}
+hr.style2{
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(255, 255, 255, 0.75), rgba(0, 0, 0, 0));
+    width:60%;
+}
+/*Sign in page styles end*/
+    

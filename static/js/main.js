@@ -13,17 +13,21 @@ $('.butt').on('click', 'button.activity', function() {
 
 $('button.plus').click(function() {
     /* show the add activity overlay */
+    
+    $('div.blur').addClass('frost');
     $('div.overlay').show();   
 });
 
 $('button.add').click(function() {
     /* saves new activity, makes a button for it, and hides overlay */
-    $('div.overlay').hide();   
+    $('div.overlay').hide();
+    $('div.blur').removeClass('frost');
 });
 
 $('button.close').click(function() {
     /* saves new activity, makes a button for it, and hides overlay */
-    $('div.overlay').hide();   
+    $('div.overlay').hide();
+    $('div.blur').removeClass('frost');
 });
 
 $('button.stop').click(function() {
