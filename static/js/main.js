@@ -66,8 +66,18 @@ $('button.add_new_activity').click(function() {
 });
 
 function onSignIn(google_user) {
-    $.post('/api/verify-and-login', {'token': google_user.getAuthResponse().id_token});
-}
+    $.post('/login', {'token': google_user.getAuthResponse().id_token}, function(redirect_url) {
+        window.location.replace(redirect_url);
+    });
+};
+
+$('.g-signout').click(function() {
+    auth2.signOut().then(function() {
+        $.post('/logout', {}, function(redirect_url) {
+            window.location.replace(redirect_url);
+        });
+    });
+});
 
 gapi.load('auth2', function() {
     auth2 = gapi.auth2.init({

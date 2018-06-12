@@ -45,3 +45,5 @@ class Activities(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False, unique=True)
     user_id = Column(String(30), ForeignKey("user.id"), nullable=False)
     name = Column(String(255), nullable=False)
+    # TODO: add color
+    

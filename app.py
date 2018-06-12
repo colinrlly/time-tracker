@@ -10,7 +10,9 @@ import flask
 from datetime import datetime
 from httplib2 import Http
 
-from flask import Flask, render_template, request
+from functools import wraps
+
+from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 import psycopg2
 
@@ -41,27 +43,36 @@ API_SERVICE_NAME = 'calendar'
 API_VERSION = 'v3'
 
 
+@app.teardown_appcontext
+def shutdown_session(exception=None):
+    db.session.remove()
+
+
+def login_required(f):
+    @wraps(f)
+    # If the user is not logged in return them to the login page
+    def decorated_function(*args, **kwargs):
+        if 'user_id' not in flask.session:
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+
 @app.route('/')
-def home():
-    """ Renders the homepage template. """
+@login_required
+def index():
     # Get user's list of activities from the database.
-    if 'user_id' in flask.session:
-        user = get_or_create_user(db.session, User, flask.session['user_id'])
-        activities = Activities.query.filter_by(user_id=user.id).all()
+    user = get_or_create_user(db.session, User, flask.session['user_id'])
+    activities = Activities.query.filter_by(user_id=user.id).all()
 
-        # Decide whether there is a currently running activity
-        if user.stopped_at < user.started_at:
-            running = True
-        else:
-            running = False
-
-        started_at = user.started_at
-        current_activity = user.current_activity    
+    # Decide whether there is a currently running activity
+    if user.started_at:
+        running = user.stopped_at < user.started_at
     else:
-        activities = []
         running = False
-        started_at = None
-        current_activity = None
+
+    started_at = user.started_at
+    current_activity = user.current_activity    
 
     now = datetime.utcnow()
 
@@ -71,11 +82,37 @@ def home():
         running_activity=running,
         start_time=started_at,
         now_time=str(now),
-        current_activity=current_activity
-    )
+        current_activity=current_activity)
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    """ Serves the login page if method is GET, else logs the user in. """
+    if request.method == 'GET':
+        return render_template('login.html')
+    else:  # method is POST
+        token = request.form['token']  # Get the temporary id token
+
+        idinfo = get_idinfo(token)  # Get the permanent Google profile dictionary
+
+        if idinfo:
+            flask.session['user_id'] = idinfo['sub']  # Get the permanent Google id
+            return url_for('index')
+
+        return 'error'
+
+
+@app.route('/logout', methods=['POST'])
+@login_required
+def logout():
+    """ Logs the currently signed in user out. """
+    flask.session.clear()
+
+    return url_for('index')
 
 
 @app.route('/api/start-activity', methods=['POST'])
+@login_required
 def update_activity():
     """ Updates the servers records of which activity the user is currently doing. """
     
@@ -91,6 +128,7 @@ def update_activity():
 
 
 @app.route('/api/stop-activity', methods=['POST'])
+@login_required
 def stop_activity():
     """ Stops the user's current activity """
     user = get_or_create_user(db.session, User, flask.session['user_id'])
@@ -104,11 +142,12 @@ def stop_activity():
 
 
 @app.route('/api/save-activity')
+@login_required
 def save_activity():
     user = get_or_create_user(db.session, User, flask.session['user_id'])
 
     if not user.credentials:
-        return flask.redirect('authorize')
+        return redirect('authorize')
 
     # Load credentials from the database.
     credentials = client.OAuth2Credentials.from_json(user.credentials)
@@ -124,28 +163,19 @@ def save_activity():
     db.session.add(user)
     db.session.commit()
 
-    save_users_activity(
-        User,
-        user,
-        calendar)
+    successful = save_users_activity(
+            User,
+            user,
+            calendar)
+    
+    if not successful:  # The Google credentials were revoked
+        return redirect(url_for('authorize'))
 
-    return flask.redirect(flask.url_for('home'))
-
-
-@app.route('/api/verify-and-login', methods=['POST'])
-def verify_id_token():
-    token = request.form['token']
-
-    idinfo = get_idinfo(token)
-
-    if idinfo:
-        flask.session['user_id'] = idinfo['sub']
-        return 'success'
-
-    return 'error'
+    return redirect(url_for('index'))
 
 
 @app.route('/api/create-activity', methods=['POST'])
+@login_required
 def create_activity():
     user = get_or_create_user(db.session, User, flask.session['user_id'])
 
@@ -157,6 +187,7 @@ def create_activity():
 
 
 @app.route('/authorize')
+@login_required
 def authorize():
     # Create flow instance to manage the OAuth 2.0 Authorization Grant Flow steps.
     flow = client.OAuth2WebServerFlow(client_id=CLIENT_ID,
@@ -165,20 +196,21 @@ def authorize():
                                       access_type='offline',
                                       prompt='consent')
 
-    flow.redirect_uri = flask.url_for('oauth2callback', _external=True)
+    flow.redirect_uri = url_for('oauth2callback', _external=True)
 
     authorization_url = flow.step1_get_authorize_url()
 
-    return flask.redirect(authorization_url)
+    return redirect(authorization_url)
 
 
 @app.route('/oauth2callback')
+@login_required
 def oauth2callback():
     flow = client.OAuth2WebServerFlow(client_id=CLIENT_ID,
                                       client_secret=CLIENT_SECRET,
                                       scope=SCOPES)
 
-    flow.redirect_uri = flask.url_for('oauth2callback', _external=True)
+    flow.redirect_uri = url_for('oauth2callback', _external=True)
 
     # Use the authorization server's response to fetch the OAuth 2.0 tokens.
     authorization_response = request.args.get('code')
@@ -190,7 +222,7 @@ def oauth2callback():
     db.session.add(user)
     db.session.commit()
 
-    return flask.redirect(flask.url_for('save_activity'))
+    return redirect(url_for('save_activity'))
 
 
 if __name__ == '__main__':

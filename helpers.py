@@ -4,14 +4,14 @@ import os
 import datetime
 import sys
 
-from flask import render_template
+from flask import render_template, redirect, url_for
 
 import google
 from datetime import datetime
 from apiclient.discovery import build
 from httplib2 import Http
 from oauth2client import file, client, tools
-from oauth2client.client import OAuth2WebServerFlow
+from oauth2client.client import OAuth2WebServerFlow, HttpAccessTokenRefreshError
 from google.oauth2 import id_token
 from google.auth.transport import requests
 import googleapiclient.discovery
@@ -29,11 +29,13 @@ def get_or_create_user(session, model, user_id):
     instance = model.query.filter_by(id=user_id).first()
 
     if instance:
+        session.close()
         return instance
     else:
         instance = model(id=user_id)
         session.add(instance)
         session.commit()
+        session.close()
         return instance
 
 
@@ -43,6 +45,7 @@ def set_users_activity(session, model, user, activity):
     user.started_at = datetime.utcnow()
     session.add(user)
     session.commit()
+    session.close()
 
     return 'set'
 
@@ -53,6 +56,7 @@ def stop_users_activity(session, model, user):
     user.stopped_at = datetime.utcnow()
     session.add(user)
     session.commit()
+    session.close()
 
     return 'stopped'
 
@@ -79,25 +83,25 @@ def save_users_activity(model, user, calendar):
 
     # Make the event
     event = {
-    'summary': user.current_activity,
-    'start': {
-        'dateTime': user.started_at.isoformat() + 'Z',
-        'timeZone': 'UTC',
-    },
-    'end': {
-        'dateTime': user.stopped_at.isoformat() + 'Z',
-        'timeZone': 'UTC',
-    },
-    'reminders': {
-        'useDefault': False
-    },
-    'colorId': colorId
+        'summary': user.current_activity,
+        'start': {
+            'dateTime': user.started_at.isoformat() + 'Z',
+            'timeZone': 'UTC'},
+        'end': {
+            'dateTime': user.stopped_at.isoformat() + 'Z',
+            'timeZone': 'UTC'},
+        'reminders': {
+            'useDefault': False},
+        'colorId': colorId
     }
 
-    # Add the event to the calendar
-    event = calendar.events().insert(calendarId='primary', body=event).execute()
+    # Attempt to add the event to the calendar
+    try:
+        event = calendar.events().insert(calendarId='primary', body=event).execute()  # Add the event to the calendar
+    except HttpAccessTokenRefreshError:  # Google credentials were revoked, need to authorize again
+        return False
 
-    return str(event.get('htmlLink'))
+    return True
 
 
 def get_idinfo(token):
