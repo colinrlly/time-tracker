@@ -87,7 +87,7 @@ def index():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    """ Serves the login page if method is GET, else logs the user in. """
+    """ Serves the login page if method is GET, if POST logs the user in. """
     if request.method == 'GET':
         return render_template('login.html')
     else:  # method is POST
@@ -149,8 +149,10 @@ def save_activity():
     if not user.credentials:
         return redirect('authorize')
 
-    # Load credentials from the database.
-    credentials = client.OAuth2Credentials.from_json(user.credentials)
+    try:
+        credentials = client.OAuth2Credentials.from_json(user.credentials)  # Load credentials from the database.
+    except HttpAccessTokenRefreshError:  # Google credentials were revoked, need to authorize again
+        return redirect(url_for('authorize'))
 
     if credentials.access_token_expired:
         credentials.refresh(Http())
@@ -164,9 +166,9 @@ def save_activity():
     db.session.commit()
 
     successful = save_users_activity(
-            User,
-            user,
-            calendar)
+                    User,
+                    user,
+                    calendar)
     
     if not successful:  # The Google credentials were revoked
         return redirect(url_for('authorize'))
