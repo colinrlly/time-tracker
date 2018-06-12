@@ -23,7 +23,7 @@ import googleapiclient.discovery
 from oauth2client import client
 from google.auth.transport import requests
 
-from oauth2client.client import credentials_from_code, AccessTokenCredentials
+from oauth2client.client import credentials_from_code, AccessTokenCredentials, HttpAccessTokenRefreshError
 
 from helpers import *
 
