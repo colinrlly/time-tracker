@@ -151,11 +151,11 @@ def save_activity():
 
     try:
         credentials = client.OAuth2Credentials.from_json(user.credentials)  # Load credentials from the database.
+        
+        if credentials.access_token_expired:
+            credentials.refresh(Http())
     except HttpAccessTokenRefreshError:  # Google credentials were revoked, need to authorize again
         return redirect(url_for('authorize'))
-
-    if credentials.access_token_expired:
-        credentials.refresh(Http())
 
     calendar = googleapiclient.discovery.build(
         API_SERVICE_NAME, API_VERSION, credentials=credentials)
