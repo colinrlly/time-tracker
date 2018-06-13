@@ -80,9 +80,22 @@ input[type=text] {
     z-index: -1;
 }
 .overlayout{
-    margin: auto auto;   
+    margin: auto auto;  
+    width: 100%;
+    height: 100%; 
+    align-content: center;
+    text-align: center;
 }
+.g-signout{
+    font-family: 'Alegreya Sans light', sans-serif; 
+    background-color: none;
+    background: none;
+    text-decoration:none;
+    font-size: 1em;
+    border: none;
+    color: whitesmoke;
 
+}
 .overlay{
     position:fixed;
     z-index: 1;
@@ -94,7 +107,7 @@ input[type=text] {
     font-family: 'Alegreya Sans light', sans-serif; 
 }
 .color{
-     height: 50px;
+    height: 50px;
     width: 50px;
     border: none;
     text-decoration:none;
@@ -104,8 +117,12 @@ input[type=text] {
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
     align-content: center;  
 }
+.selectedcolor{
+    box-shadow: none;
+    border: 10px solid black;
+}
 .activity{
-   /* background-color: #ad8c76;*/
+    /* background-color: #ad8c76;*/
     height: 80px;
     width: 200px;
     border: none;

@@ -18,10 +18,25 @@ $('button.plus').click(function() {
     $('div.overlay').show();   
 });
 
+
 $('button.add').click(function() {
     /* saves new activity, makes a button for it, and hides overlay */
     $('div.overlay').hide();
     $('div.blur').removeClass('frost');
+
+    var name = $('input.Activity_Names').val();
+    var color = $('button.selectedcolor').attr('name');
+
+    $.post('/api/create-activity', {'activity': name, 'color': color});
+
+    $('div.butt').append(
+        '<button class="activity">' + name + '</button>'
+    );
+});
+
+$('button.color').click(function() {
+    $('button.selectedcolor').removeClass('selectedcolor');
+    $(this).addClass('selectedcolor');
 });
 
 $('button.close').click(function() {
@@ -61,9 +76,6 @@ $('button.save').click(function() {
     window.location.replace('/api/save-activity');
 });
 
-$('button.add_new_activity').click(function() {
-    $.post('/api/create-activity', {'activity': 'Exercise'});
-});
 
 function onSignIn(google_user) {
     $.post('/login', {'token': google_user.getAuthResponse().id_token}, function(redirect_url) {

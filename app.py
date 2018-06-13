@@ -77,12 +77,12 @@ def index():
     now = datetime.utcnow()
 
     return render_template(
-        "index.html", 
-        activities=activities, 
-        running_activity=running,
-        start_time=started_at,
-        now_time=str(now),
-        current_activity=current_activity)
+            "index.html", 
+            activities=activities, 
+            running_activity=running,
+            start_time=started_at,
+            now_time=str(now),
+            current_activity=current_activity)
 
 
 @app.route('/login', methods=['GET', 'POST'])

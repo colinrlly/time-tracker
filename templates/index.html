@@ -17,21 +17,21 @@
 
                 <p>Add a New Activity</p>
 
-                <input type="text" name="Activity Names">
+                <input type="text" class="Activity_Names">
 
                 <p>Event Color</p>
-
-                <button class="color" style="background-color:#dc2127"></button>
-                <button class="color" style="background-color:#FF887c"></button>
-                <button class="color" style="background-color:#ffb878"></button>
-                <button class="color" style="background-color:#fbd75b"></button>
-                <button class="color" style="background-color:#51b749"></button>
-                <button class="color" style="background-color:#7ae7bf"></button>
-                 <button class="color" style="background-color:#46d6db"></button>
-                <button class="color" style="background-color:#a4bdfc"></button>
-                <button class="color" style="background-color:#5484ed"></button>
-                <button class="color" style="background-color:#e1e1e1"></button>
-                <button class="color" style="background-color:#DBADFF"></button>
+                
+                <button class="color" style="background-color:#dc2127" name='11'></button>
+                <button class="color" style="background-color:#FF887c" name='4'></button>
+                <button class="color" style="background-color:#ffb878" name='6'></button>
+                <button class="color" style="background-color:#fbd75b" name='5'></button>
+                <button class="color" style="background-color:#51b749" name='10'></button>
+                <button class="color" style="background-color:#7ae7bf" name='2'></button>
+                <button class="color" style="background-color:#46d6db" name='7'></button>
+                <button class="color selectedcolor" style="background-color:#a4bdfc" name='1'></button>
+                <button class="color" style="background-color:#5484ed" name='9'></button>
+                <button class="color" style="background-color:#e1e1e1" name='8'></button>
+                <button class="color" style="background-color:#DBADFF" name='3'></button>
                 <br>
                 <button class="add">Add</button>
             </div>
@@ -42,51 +42,49 @@
         </div>
 
         <button class='g-signout'>Sign out</button>
-
-        <div class="timebox">
+       
+        <div class="blur">
+            <div class="timebox">
+                {% if running_activity %}
+                    <span class="name">{{current_activity}}</span>
+                {% else %}
+                    <span class="name" style="display: none;"></span>
+                {% endif %}
+                <br>
+                <!--<hr class='style1'>-->
+                <span class="time">00:00:00</span>
+            </div>
+            
             {% if running_activity %}
-                <span class="name">{{current_activity}}</span>
+            <div class="butt2">
+                <button class='stop'>STOP</button>
+                <button class='delete' style='display: none;'>DELETE</button>
+                <button class='save' style='display: none;'>SAVE</button>
+            </div>
+            <script>
+                var START_TIME = '{{start_time}}';
+                var NOW_TIME = '{{now_time}}'
+            </script>
             {% else %}
-                <span class="name" style="display: none;"></span>
+            <div class="butt2">
+                <button class='stop' style='display: none;'>STOP</button>
+                <button class='delete' style='display: none;'>DELETE</button>
+                <button class='save' style='display: none;'>SAVE</button>
+            </div>
             {% endif %}
-            <br>
-            <!--<hr class='style1'>-->
-            <span class="time">00:00:00</span>    
-         </div>
-        
-         {% if running_activity %}
-        <div class="butt2">
-            <button class='stop'>STOP</button>
-            <button class='delete' style='display: none;'>DELETE</button>
-            <button class='save' style='display: none;'>SAVE</button>
-        </div>
-        <script>
-            var START_TIME = '{{start_time}}';
-            var NOW_TIME = '{{now_time}}'
-        </script>
-        {% else %}
-        <div class="butt2">
-            <button class='stop' style='display: none;'>STOP</button>
-            <button class='delete' style='display: none;'>DELETE</button>
-            <button class='save' style='display: none;'>SAVE</button>
-        </div>
-        {% endif %}
 
-        <hr class="style1">
-        
-        <div class="butt">
-            <button class='activity'>Games</button>
-            <button class='activity'>Plants</button>
-            <button class='activity'>Work</button>
-            <button class='activity'>Personal</button>
-            <button class='activity'>Art</button>
-            <button class='activity'>Exercise</button>
-        </div>
-        
-        <div class="logo">
-            <img src="../static/image/logo.png" alt="Log logo" style="width:100px;height:autopx;">
-        </div>
+            <hr class="style1">
 
+            <div class="butt">
+                {% for activity in activities %}
+                    <button class='activity'>{{activity.name}}</button>
+                {% endfor %}
+            </div>
+            
+            <div class="logo">
+                <img src="../static/image/logo.png" alt="Log logo" style="width:100px;height:autopx;">
+            </div>
+        </div>
         <br>
 
         <button class="add_new_activity">Add New Activity</button>
