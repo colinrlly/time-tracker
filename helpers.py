@@ -29,13 +29,11 @@ def get_or_create_user(session, model, user_id):
     instance = model.query.filter_by(id=user_id).first()
 
     if instance:
-        session.close()
         return instance
     else:
         instance = model(id=user_id)
         session.add(instance)
         session.commit()
-        session.close()
         return instance
 
 
