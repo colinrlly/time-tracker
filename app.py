@@ -66,7 +66,7 @@ def index():
     activities = Activities.query.filter_by(user_id=user.id).all()
 
     # Decide whether there is a currently running activity
-    if user.started_at:
+    if user.started_at or not user.stopped_at:
         running = user.stopped_at < user.started_at
     else:
         running = False
