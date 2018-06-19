@@ -20,6 +20,13 @@ var start_timer = function(start_time) {
     }
 }
 
+var timer_is_running = function() {
+    if (timer) 
+        return true;
+    else
+        return false;
+}
+
 var stop_timer = function() {
     clearInterval(timer);
     timer = null;

@@ -25,6 +25,8 @@ from google.auth.transport import requests
 
 from oauth2client.client import credentials_from_code, AccessTokenCredentials, HttpAccessTokenRefreshError
 
+import json
+
 from helpers import *
 
 # Set up Flask app
@@ -181,12 +183,20 @@ def save_activity():
 @login_required
 def create_activity():
     user = get_or_create_user(db.session, User, flask.session['user_id'])
+    activities = Activity.query.filter_by(user_id=user.id).all()
 
-    activity = Activity(user_id=user.id, name=request.form['activity'], color=request.form['color'])
-    db.session.add(activity)
-    db.session.commit()
+    # convert list of objects to list of names
+    names = [] 
+    for x in activities:
+        names.append(x.name)
 
-    return str(activity.id)
+    if request.form['activity'] in names:  # If new activity is a duplicate
+        return json.dumps({'success': 'false', 'activity_id': 'null'})
+    else:
+        activity = Activity(user_id=user.id, name=request.form['activity'], color=request.form['color'])
+        db.session.add(activity)
+        db.session.commit()
+        return json.dumps({'success': 'true', 'activity_id': activity.id})
 
 
 @app.route('/authorize')

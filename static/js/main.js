@@ -1,14 +1,16 @@
 $('.butt').on('click', 'button.activity', function() {
     /* Sends the updated activity to the server and shows the stop button */
-    $.post('/api/start-activity',
-    {
-        'activity_id': $(this).data('activity-id')
-    });
+    if (!timer_is_running()) {
+        $.post('/api/start-activity',
+        {
+            'activity_id': $(this).data('activity-id')
+        });
 
-    $('button.stop').show();
-    var act = $(this).html();
-    act_name(act);
-    start_timer(moment(utc_now()));
+        $('button.stop').show();
+        var act = $(this).html();
+        act_name(act);
+        start_timer(moment(utc_now()));
+    }
 });
 
 $('button.plus').click(function() {
@@ -18,7 +20,6 @@ $('button.plus').click(function() {
     $('div.overlay').show();   
 });
 
-
 $('button.add').click(function() {
     /* saves new activity, makes a button for it, and hides overlay */
     $('div.overlay').hide();
@@ -27,10 +28,16 @@ $('button.add').click(function() {
     var name = $('input.Activity_Names').val();
     var color = $('button.selectedcolor').attr('name');
 
-    $.post('/api/create-activity', {'activity': name, 'color': color}, function(activity_id) {
-        $('div.butt').append(
-            '<button class="activity" data-activity-id=' + activity_id + '>' + name + '</button>'
-        );
+    $.post('/api/create-activity', {'activity': name, 'color': color}, function(json) {
+        data = JSON.parse(json);
+
+        if (data['successfull'] == 'true') {
+            $('div.butt').append(
+                '<button class="activity" data-activity-id=' + data['activity_id'] + '>' + name + '</button>'
+            );
+        } else {
+            window.alert('New activity cannot be a duplicate');
+        }
     });
 });
 
@@ -40,7 +47,7 @@ $('button.color').click(function() {
 });
 
 $('button.close').click(function() {
-    /* saves new activity, makes a button for it, and hides overlay */
+    /* Closes add activity dialog. */
     $('div.overlay').hide();
     $('div.blur').removeClass('frost');
 });
