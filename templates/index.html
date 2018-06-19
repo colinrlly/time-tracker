@@ -77,7 +77,7 @@
 
             <div class="butt">
                 {% for activity in activities %}
-                    <button class='activity'>{{activity.name}}</button>
+                    <button class='activity' data-activity-id='{{activity.id}}'>{{activity.name}}</button>
                 {% endfor %}
             </div>
             

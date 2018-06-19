@@ -2,7 +2,7 @@ $('.butt').on('click', 'button.activity', function() {
     /* Sends the updated activity to the server and shows the stop button */
     $.post('/api/start-activity',
     {
-        'activity': $(this).html()
+        'activity_id': $(this).data('activity-id')
     });
 
     $('button.stop').show();
@@ -27,11 +27,11 @@ $('button.add').click(function() {
     var name = $('input.Activity_Names').val();
     var color = $('button.selectedcolor').attr('name');
 
-    $.post('/api/create-activity', {'activity': name, 'color': color});
-
-    $('div.butt').append(
-        '<button class="activity">' + name + '</button>'
-    );
+    $.post('/api/create-activity', {'activity': name, 'color': color}, function(activity_id) {
+        $('div.butt').append(
+            '<button class="activity" data-activity-id=' + activity_id + '>' + name + '</button>'
+        );
+    });
 });
 
 $('button.color').click(function() {

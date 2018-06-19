@@ -63,13 +63,13 @@ def login_required(f):
 def index():
     # Get user's list of activities from the database.
     user = get_or_create_user(db.session, User, flask.session['user_id'])
-    activities = Activities.query.filter_by(user_id=user.id).all()
+    activities = Activity.query.filter_by(user_id=user.id).all()
 
     # Decide whether there is a currently running activity
-    if user.started_at or not user.stopped_at:
-        running = user.stopped_at < user.started_at
-    else:
+    if not user.started_at or not user.stopped_at:
         running = False
+    else:
+        running = user.stopped_at < user.started_at
 
     started_at = user.started_at
     current_activity = user.current_activity    
@@ -122,7 +122,7 @@ def update_activity():
         session=db.session, 
         model=User, 
         user=user, 
-        activity=request.form['activity'])
+        activity_id=request.form['activity_id'])
 
     return 'success'
 
@@ -167,6 +167,7 @@ def save_activity():
 
     successful = save_users_activity(
                     User,
+                    Activity,
                     user,
                     calendar)
     
@@ -181,11 +182,11 @@ def save_activity():
 def create_activity():
     user = get_or_create_user(db.session, User, flask.session['user_id'])
 
-    activity = Activities(user_id=user.id, name=request.form['activity'])
+    activity = Activity(user_id=user.id, name=request.form['activity'], color=request.form['color'])
     db.session.add(activity)
     db.session.commit()
 
-    return 'created'
+    return str(activity.id)
 
 
 @app.route('/authorize')

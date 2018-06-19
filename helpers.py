@@ -37,9 +37,9 @@ def get_or_create_user(session, model, user_id):
         return instance
 
 
-def set_users_activity(session, model, user, activity):
+def set_users_activity(session, model, user, activity_id):
     """ In the database @session, sets @user's current @activity """
-    user.current_activity = activity
+    user.current_activity = activity_id
     user.started_at = datetime.utcnow()
     session.add(user)
     session.commit()
@@ -59,29 +59,21 @@ def stop_users_activity(session, model, user):
     return 'stopped'
 
 
-def save_users_activity(model, user, calendar):
+def save_users_activity(User, Activity, user, calendar):
     """ Saves the @user's last stopped event
         to Google calendar 
         
         Returns: URL to newly created Google Calendar event 
     """
-    # Parse the color of the event
-    if user.current_activity == 'Games':
-        colorId = 8
-    elif user.current_activity == 'Plants':
-        colorId = 10
-    elif user.current_activity == 'Work':
-        colorId = 2
-    elif user.current_activity == 'Personal':
-        colorId = 5
-    elif user.current_activity == 'Art':
-        colorId = 3
-    else:
-        colorId = 1
+    # Get the user's current activity
+    activity_id = user.current_activity
+    activity = Activity.query.get(activity_id)
+    name = activity.name
+    color = activity.color
 
     # Make the event
     event = {
-        'summary': user.current_activity,
+        'summary': name,
         'start': {
             'dateTime': user.started_at.isoformat() + 'Z',
             'timeZone': 'UTC'},
@@ -90,7 +82,7 @@ def save_users_activity(model, user, calendar):
             'timeZone': 'UTC'},
         'reminders': {
             'useDefault': False},
-        'colorId': colorId
+        'colorId': color
     }
 
     # Attempt to add the event to the calendar

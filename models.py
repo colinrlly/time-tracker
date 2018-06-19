@@ -25,7 +25,7 @@ class User(db.Model):
     locale = Column(String(10), nullable=True)
 
     # related to activity
-    current_activity = Column(String(255), nullable=True)
+    current_activity = Column(Integer, nullable=True)  # Should be FK but I don't want to deal with that
     started_at = Column(DateTime, nullable=True)
     stopped_at = Column(DateTime, nullable=True)
 
@@ -34,16 +34,15 @@ class User(db.Model):
     credentials = Column(String(7000), nullable=True)
 
 
-class Activities(db.Model):
+class Activity(db.Model):
     """ Model to store a users activities.
 
         Basically just a table of strings representing a User's list of activities
     """
 
-    __tablename__ = 'activities'
+    __tablename__ = 'activity'
 
     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False, unique=True)
     user_id = Column(String(30), ForeignKey("user.id"), nullable=False)
     name = Column(String(255), nullable=False)
-    # TODO: add color
-    
+    color = Column(Integer, nullable=False)
