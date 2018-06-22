@@ -85,6 +85,8 @@ def save_users_activity(User, Activity, user, calendar):
         'colorId': color
     }
 
+    print(event)
+    
     # Attempt to add the event to the calendar
     try:
         event = calendar.events().insert(calendarId='primary', body=event).execute()  # Add the event to the calendar
