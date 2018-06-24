@@ -110,8 +110,6 @@ $('button.save').click(function() {
     $('button.activity').show();
 });
 
-
-
 function onSignIn(google_user) {
     $.post('/login', {'token': google_user.getAuthResponse().id_token}, function(redirect_url) {
         window.location.replace(redirect_url);

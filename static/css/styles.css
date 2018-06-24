@@ -81,7 +81,6 @@ input[type=text] {
     position: relative;
 }
 
-
 .g-signout{
     font-family: 'Alegreya Sans light', sans-serif; 
     background-color: none;
@@ -246,8 +245,8 @@ input[type=text] {
 
 .butt2{
     align-content: center;
-   text-align: center;     
-   margin: 20px auto; 
+    text-align: center;     
+    margin: 20px auto; 
 }
 
 hr.style1{
@@ -261,6 +260,16 @@ hr.style1{
     text-align: center;
     padding-top: 30px;
     
+}
+
+body > div.options_cirlce {
+    border-radius: 15px;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    background-color: red;
 }
 
 /*Sign in page styles*/
