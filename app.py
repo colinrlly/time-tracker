@@ -72,9 +72,10 @@ def index():
         running = False
     else:
         running = user.stopped_at < user.started_at
-        
+    
     started_at = user.started_at
-    current_activity = user.current_activity    
+    current_activity_id = user.current_activity
+    current_activity = Activity.query.filter_by(id=current_activity_id).first().name
 
     now = datetime.utcnow()
 
