@@ -72,7 +72,7 @@ def index():
         running = False
     else:
         running = user.stopped_at < user.started_at
-
+        
     started_at = user.started_at
     current_activity = user.current_activity    
 
