@@ -10,6 +10,9 @@ $('.butt').on('click', 'button.activity', function() {
         var act = $(this).html();
         act_name(act);
         start_timer(moment(utc_now()));
+        
+        // Hide all the buttons when timer is running
+        $('button.activity').hide();
     }
 });
 
@@ -17,7 +20,9 @@ $('button.plus').click(function() {
     /* show the add activity overlay */
     
     $('div.blur').addClass('frost');
-    $('div.overlay').show();   
+    $('div.overlay').show();
+    $('div.overlayout').show();
+    $('button.activity').prop("disabled",true);
 });
 
 $('button.add').click(function() {
@@ -40,6 +45,22 @@ $('button.add').click(function() {
         }
     });
 });
+
+// Get the modal
+var overlay = $('.overlay');
+var overlayout = $('.overlayout');
+var plus = document.querySelector('.plus');
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if ($(event.target).parent().get(0) != overlay.get(0) && event.target != plus && $(event.target).get(0) != overlay.get(0)) {
+        console.log(event.target);
+        overlay.hide();
+        overlayout.hide();
+        $('div.blur').removeClass('frost');
+        $('button.activity').prop("disabled",false);
+    }
+}
 
 $('button.color').click(function() {
     $('button.selectedcolor').removeClass('selectedcolor');
@@ -72,6 +93,9 @@ $('button.delete').click(function() {
     
     reset_timer();
     act_hide();
+    
+    // Show all the buttons
+    $('button.activity').show();
 });
 
 $('button.save').click(function() {
@@ -81,8 +105,10 @@ $('button.save').click(function() {
     $('button.save').hide();
 
     window.location.replace('/api/save-activity');
+    
+    // Show all the buttons
+    $('button.activity').show();
 });
-
 
 function onSignIn(google_user) {
     $.post('/login', {'token': google_user.getAuthResponse().id_token}, function(redirect_url) {

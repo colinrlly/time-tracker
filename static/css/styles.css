@@ -78,14 +78,9 @@ input[type=text] {
 .frost{
     filter: blur(5px);
     z-index: -1;
+    position: relative;
 }
-.overlayout{
-    margin: auto auto;  
-    width: 100%;
-    height: 100%; 
-    align-content: center;
-    text-align: center;
-}
+
 .g-signout{
     font-family: 'Alegreya Sans light', sans-serif; 
     background-color: none;
@@ -96,15 +91,27 @@ input[type=text] {
     color: whitesmoke;
 
 }
+.overlayout{
+    margin: auto auto;  
+    width: 100%;
+    height: 100%; 
+    align-content: center;
+    text-align: center;
+    position: fixed;
+    top: 20%;
+    left: 25%;
+   
+}
 .overlay{
     position:fixed;
-    z-index: 1;
-    height: 300;
-    width: 400;
-    background-color: rgb(235, 232, 224);
+    z-index: 10;
+    height: 70%;
+    width: 50%;
+    background-color: rgb(240, 237, 227);
     text-align: center;
     font-size: 1.5em;
     font-family: 'Alegreya Sans light', sans-serif; 
+    border-radius: 12px;
 }
 .color{
     height: 50px;
@@ -118,9 +125,9 @@ input[type=text] {
     align-content: center;  
 }
 .selectedcolor{
-    box-shadow: none;
-    border: 10px solid black;
+    box-shadow: inset 0 0 10px #000000;
 }
+
 .activity{
     /* background-color: #ad8c76;*/
     height: 80px;
@@ -158,7 +165,7 @@ input[type=text] {
 }
 
 .time{
-    font-size: 5.3em;
+    font-size: 6em;
     font-family: 'Alegreya Sans light', sans serif;
     color:#589992;
 }
@@ -238,8 +245,8 @@ input[type=text] {
 
 .butt2{
     align-content: center;
-   text-align: center;     
-   margin: 20px auto; 
+    text-align: center;     
+    margin: 20px auto; 
 }
 
 hr.style1{
@@ -253,6 +260,16 @@ hr.style1{
     text-align: center;
     padding-top: 30px;
     
+}
+
+body > div.options_cirlce {
+    border-radius: 15px;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    background-color: red;
 }
 
 /*Sign in page styles*/
@@ -276,4 +293,22 @@ hr.style2{
     width:60%;
 }
 /*Sign in page styles end*/
+
+/*mobile designs*/
     
+@media only screen and (max-width: 500px) {
+    /* For mobile phones: */
+    .time {
+        font-size: 4.8em;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    /* For mobile phones: */
+    .activity {
+        width: 97%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+/*mobile designs*/
