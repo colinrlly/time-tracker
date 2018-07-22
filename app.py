@@ -75,7 +75,7 @@ def index():
     
     started_at = user.started_at
     current_activity_id = user.current_activity
-    current_activity = Activity.query.filter_by(id=current_activity_id).first().name
+    current_activity = Activity.query.filter_by(id=current_activity_id).first()
 
     print(current_activity)
     if current_activity:
