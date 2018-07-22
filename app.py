@@ -77,6 +77,11 @@ def index():
     current_activity_id = user.current_activity
     current_activity = Activity.query.filter_by(id=current_activity_id).first().name
 
+    if current_activity:
+        current_activity = current_activity.name()
+    else:
+        current_activity = ''
+
     now = datetime.utcnow()
 
     return render_template(
