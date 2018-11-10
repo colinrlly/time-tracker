@@ -54,7 +54,6 @@ var plus = document.querySelector('.plus');
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
     if ($(event.target).parent().get(0) != overlay.get(0) && event.target != plus && $(event.target).get(0) != overlay.get(0)) {
-        console.log(event.target);
         overlay.hide();
         overlayout.hide();
         $('div.blur').removeClass('frost');
@@ -128,6 +127,13 @@ gapi.load('auth2', function() {
     auth2 = gapi.auth2.init({
         client_id: '379069589012-e6278tvlf5qsj797mq2kuhkbhkgqmotm.apps.googleusercontent.com'
     })
+
+    // Load in Google profile picture
+    setTimeout(function() {
+        $('body > div.options_cirlce')
+            .css('background-image', 'url(' + auth2.currentUser.Ab.w3.Paa + ')')
+            .show();
+    }, 300);
 });
 
 // If the STOP button is shown when the page loads then we should set the timer

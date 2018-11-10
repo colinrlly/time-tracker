@@ -269,7 +269,10 @@ body > div.options_cirlce {
     right: 10px;
     width: 30px;
     height: 30px;
-    background-color: red;
+    background-color: transparent;
+    background-position: center;
+    background-size: 30px 30px;
+    display: none;
 }
 
 /*Sign in page styles*/
