@@ -1,0 +1,67 @@
+
+2018-11-10T19:05:32.812877+00:00 app[web.1]: 10.35.230.36 - - [10/Nov/2018:19:05:32 +0000] "GET /static/image/logo.png HTTP/1.1" 200 - "http://www.log-time.com/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
+2018-11-10T19:05:32.829406+00:00 app[web.1]: 10.37.251.208 - - [10/Nov/2018:19:05:32 +0000] "GET /static/js/act_display.js HTTP/1.1" 200
+- "http://www.log-time.com/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
+2018-11-10T19:05:32.776984+00:00 heroku[router]: at=info method=GET path="/static/css/styles.css" host=www.log-time.com request_id=5ae26c97-e48e-4030-be25-862bf2c9ce70 fwd="98.10.46.173" dyno=web.1 connect=0ms service=3ms status=200 bytes=6975 protocol=http
+2018-11-10T19:05:32.812761+00:00 heroku[router]: at=info method=GET path="/static/image/logo.png" host=www.log-time.com request_id=5fbdbbc3-0a9a-4b34-9c38-7ffb124747cd fwd="98.10.46.173" dyno=web.1 connect=0ms service=2ms status=200 bytes=10554 protocol=http
+2018-11-10T19:05:33.128993+00:00 heroku[router]: at=info method=GET path="/static/image/Favicon.png" host=www.log-time.com request_id=a552114f-b355-45b7-b42a-b2f8ef92a4b2 fwd="98.10.46.173" dyno=web.1 connect=1ms service=4ms status=200 bytes=8393 protocol=http
+2018-11-10T19:05:33.129021+00:00 app[web.1]: 10.37.251.208 - - [10/Nov/2018:19:05:33 +0000] "GET /static/image/Favicon.png HTTP/1.1" 200
+- "http://www.log-time.com/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
+2018-11-10T19:38:38.454729+00:00 heroku[web.1]: Idling
+2018-11-10T19:38:38.455281+00:00 heroku[web.1]: State changed from up to down
+2018-11-10T19:38:39.125048+00:00 heroku[web.1]: Stopping all processes with SIGTERM
+2018-11-10T19:38:39.135345+00:00 app[web.1]: [2018-11-10 19:38:39 +0000] [4] [INFO] Handling signal: term
+2018-11-10T19:38:39.135399+00:00 app[web.1]: [2018-11-10 19:38:39 +0000] [8] [INFO] Worker exiting (pid: 8)
+2018-11-10T19:38:39.235933+00:00 app[web.1]: [2018-11-10 19:38:39 +0000] [4] [INFO] Shutting down: Master
+2018-11-10T19:38:39.323499+00:00 heroku[web.1]: Process exited with status 0
+2018-11-10T19:47:32.524055+00:00 heroku[web.1]: Unidling
+2018-11-10T19:47:32.524957+00:00 heroku[web.1]: State changed from down to starting
+2018-11-10T19:47:35.582537+00:00 heroku[web.1]: Starting process with command `gunicorn app:app -w 1 --log-file=-`
+2018-11-10T19:47:37.945998+00:00 app[web.1]: [2018-11-10 19:47:37 +0000] [4] [INFO] Starting gunicorn 19.8.1
+2018-11-10T19:47:37.946778+00:00 app[web.1]: [2018-11-10 19:47:37 +0000] [4] [INFO] Listening at: http://0.0.0.0:46645 (4)
+2018-11-10T19:47:37.946988+00:00 app[web.1]: [2018-11-10 19:47:37 +0000] [4] [INFO] Using worker: sync
+2018-11-10T19:47:37.951497+00:00 app[web.1]: [2018-11-10 19:47:37 +0000] [8] [INFO] Booting worker with pid: 8
+2018-11-10T19:47:39.158126+00:00 heroku[web.1]: State changed from starting to up
+2018-11-10T19:47:39.984670+00:00 app[web.1]: {'summary': 'MVP', 'start': {'dateTime': '2018-11-10T19:03:35.779084Z', 'timeZone': 'UTC'},
+'end': {'dateTime': '2018-11-10T18:08:15.544661Z', 'timeZone': 'UTC'}, 'reminders': {'useDefault': False}, 'colorId': 6}
+2018-11-10T19:47:40.084949+00:00 app[web.1]: [2018-11-10 19:47:40 +0000] [8] [ERROR] Error handling request /api/save-activity
+2018-11-10T19:47:40.084952+00:00 app[web.1]: Traceback (most recent call last):
+2018-11-10T19:47:40.084955+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/workers/sync.py", line 135, in handle
+2018-11-10T19:47:40.084957+00:00 app[web.1]: self.handle_request(listener, req, client, addr)
+2018-11-10T19:47:40.084958+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/gunicorn/workers/sync.py", line 176, in handle_request
+2018-11-10T19:47:40.084960+00:00 app[web.1]: respiter = self.wsgi(environ, resp.start_response)
+2018-11-10T19:47:40.084962+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/flask/app.py", line 2309, in __call__
+2018-11-10T19:47:40.084964+00:00 app[web.1]: return self.wsgi_app(environ, start_response)
+2018-11-10T19:47:40.084965+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/flask/app.py", line 2295, in wsgi_app
+2018-11-10T19:47:40.084967+00:00 app[web.1]: response = self.handle_exception(e)
+2018-11-10T19:47:40.084969+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/flask/app.py", line 1741, in handle_exception
+2018-11-10T19:47:40.084970+00:00 app[web.1]: reraise(exc_type, exc_value, tb)
+2018-11-10T19:47:40.084972+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/flask/_compat.py", line 35, in reraise2018-11-10T19:47:40.084974+00:00 app[web.1]: raise value
+2018-11-10T19:47:40.084981+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/flask/app.py", line 2292, in wsgi_app
+2018-11-10T19:47:40.084983+00:00 app[web.1]: response = self.full_dispatch_request()
+2018-11-10T19:47:40.084985+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/flask/app.py", line 1815, in full_dispatch_request
+2018-11-10T19:47:40.084986+00:00 app[web.1]: rv = self.handle_user_exception(e)
+2018-11-10T19:47:40.084988+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/flask/app.py", line 1718, in handle_user_exception
+2018-11-10T19:47:40.084990+00:00 app[web.1]: reraise(exc_type, exc_value, tb)
+2018-11-10T19:47:40.084991+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/flask/_compat.py", line 35, in reraise2018-11-10T19:47:40.084993+00:00 app[web.1]: raise value
+2018-11-10T19:47:40.084995+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/flask/app.py", line 1813, in full_dispatch_request
+2018-11-10T19:47:40.084996+00:00 app[web.1]: rv = self.dispatch_request()
+2018-11-10T19:47:40.084998+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/flask/app.py", line 1799, in dispatch_request
+2018-11-10T19:47:40.084999+00:00 app[web.1]: return self.view_functions[rule.endpoint](**req.view_args)
+2018-11-10T19:47:40.085001+00:00 app[web.1]: File "/app/app.py", line 59, in decorated_function
+2018-11-10T19:47:40.085003+00:00 app[web.1]: return f(*args, **kwargs)
+2018-11-10T19:47:40.085005+00:00 app[web.1]: File "/app/app.py", line 180, in save_activity
+2018-11-10T19:47:40.085006+00:00 app[web.1]: calendar)
+2018-11-10T19:47:40.085008+00:00 app[web.1]: File "/app/helpers.py", line 92, in save_users_activity
+2018-11-10T19:47:40.085010+00:00 app[web.1]: event = calendar.events().insert(calendarId='primary', body=event).execute()  # Add the event to the calendar
+2018-11-10T19:47:40.085012+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/googleapiclient/_helpers.py", line 130, in positional_wrapper
+2018-11-10T19:47:40.085014+00:00 app[web.1]: return wrapped(*args, **kwargs)
+2018-11-10T19:47:40.085015+00:00 app[web.1]: File "/app/.heroku/python/lib/python3.6/site-packages/googleapiclient/http.py", line 840, in execute
+2018-11-10T19:47:40.085017+00:00 app[web.1]: raise HttpError(resp, content, uri=self.uri)
+2018-11-10T19:47:40.085019+00:00 app[web.1]: googleapiclient.errors.HttpError: <HttpError 400 when requesting https://www.googleapis.com/calendar/v3/calendars/primary/events?alt=json returned "The specified time range is empty.">
+2018-11-10T19:47:40.085021+00:00 app[web.1]: 10.61.249.31 - - [10/Nov/2018:19:47:40 +0000] "GET /api/save-activity HTTP/1.1" 500 - "-" "-"
+2018-11-10T19:47:40.086440+00:00 heroku[router]: at=info method=GET path="/api/save-activity" host=www.log-time.com request_id=02544c86-4c0b-4151-809a-624c55e4adcd fwd="98.10.46.173" dyno=web.1 connect=1ms service=304ms status=500 bytes=244 protocol=http
+2018-11-10T19:47:40.444947+00:00 heroku[router]: at=info method=GET path="/favicon.ico" host=www.log-time.com request_id=76162624-5356-4a8f-94a6-0d7700e75b79 fwd="98.10.46.173" dyno=web.1 connect=1ms service=5ms status=404 bytes=386 protocol=http
+2018-11-10T19:47:40.584088+00:00 heroku[router]: at=info method=POST path="/api/stop-activity" host=www.log-time.com request_id=dfa9b2a7-c528-4cd3-956a-36cf2dfe4cbd fwd="98.10.46.173" dyno=web.1 connect=1ms service=13ms status=200 bytes=180 protocol=http
+2018-11-10T19:47:40.444198+00:00 app[web.1]: 10.61.249.31 - - [10/Nov/2018:19:47:40 +0000] "GET /favicon.ico HTTP/1.1" 404 233 "http://www.log-time.com/api/save-activity" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
+2018-11-10T19:47:40.583856+00:00 app[web.1]: 10.13.184.197 - - [10/Nov/2018:19:47:40 +0000] "POST /api/stop-activity HTTP/1.1" 200 7 "http://www.log-time.com/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
