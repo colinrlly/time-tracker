@@ -51,6 +51,7 @@ def set_users_activity(session, model, user, activity_id):
 def stop_users_activity(session, model, user):
     """ In the database @session, stops @user's current activity """
 
+    print('stopping')
     user.stopped_at = datetime.utcnow()
     session.add(user)
     session.commit()

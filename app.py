@@ -99,7 +99,10 @@ def login():
     if request.method == 'GET':
         return render_template('login.html')
     else:  # method is POST
-        token = request.form['token']  # Get the temporary id token
+        try:
+            token = request.form['token']  # Get the temporary id token (from website)
+        except:
+            token = request.get_json()['token']  # Get the temporary id token (from app)
 
         idinfo = get_idinfo(token)  # Get the permanent Google profile dictionary
 
@@ -136,10 +139,14 @@ def update_activity():
 
 
 @app.route('/api/stop-activity', methods=['POST'])
-@login_required
+# @login_required
 def stop_activity():
     """ Stops the user's current activity """
-    user = get_or_create_user(db.session, User, flask.session['user_id'])
+    user_id = request.get_json()['user_id']
+    print(user_id)
+
+    user = get_or_create_user(db.session, User, user_id)
+    print(user)
 
     stop_users_activity(
         session=db.session,

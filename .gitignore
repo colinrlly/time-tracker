@@ -2,3 +2,4 @@ client_secret.json
 credentials.json
 config.py
 *.pyc
+time-env/*
