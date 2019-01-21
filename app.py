@@ -97,6 +97,14 @@ def index():
 def login():
     """ Serves the login page if method is GET, if POST logs the user in. """
     if request.method == 'GET':
+        redirectUrl = request.args.get('redirectUrl')
+
+        if redirectUrl:
+            flask.session['redirectUrl'] = redirectUrl
+            flask.session['client'] = 'app'
+        else:
+            flask.session['client'] = 'web'
+
         return render_template('login.html')
     else:  # method is POST
         try:
@@ -108,7 +116,13 @@ def login():
 
         if idinfo:
             flask.session['user_id'] = idinfo['sub']  # Get the permanent Google id
-            return url_for('index')
+            flask.session['user_name'] = idinfo['name']
+            flask.session['user_picture'] = idinfo['picture']
+
+            if flask.session['client'] == 'app':
+                return '/render-redirect-to-app'
+            else:
+                return url_for('index')
 
         return 'error'
 
@@ -142,11 +156,12 @@ def update_activity():
 # @login_required
 def stop_activity():
     """ Stops the user's current activity """
-    user_id = request.get_json()['user_id']
-    print(user_id)
+    try:
+        user_id = flask.session['user_id']
+    except:
+        user_id = request.get_json()['user_id']
 
     user = get_or_create_user(db.session, User, user_id)
-    print(user)
 
     stop_users_activity(
         session=db.session,
@@ -156,40 +171,77 @@ def stop_activity():
     return 'success'
 
 
-@app.route('/api/save-activity')
-@login_required
+@app.route('/api/save-activity', methods=['GET', 'POST'])
+# @login_required
 def save_activity():
-    user = get_or_create_user(db.session, User, flask.session['user_id'])
+    if request.method == 'GET':
+        user = get_or_create_user(db.session, User, flask.session['user_id'])
 
-    if not user.credentials:
-        return redirect('authorize')
+        if not user.credentials:
+            return redirect('authorize')
 
-    try:
-        credentials = client.OAuth2Credentials.from_json(user.credentials)  # Load credentials from the database.
+        try:
+            credentials = client.OAuth2Credentials.from_json(user.credentials)  # Load credentials from the database.
+            
+            if credentials.access_token_expired:
+                credentials.refresh(Http())
+        except HttpAccessTokenRefreshError:  # Google credentials were revoked, need to authorize again
+            return redirect(url_for('authorize'))
+
+        calendar = googleapiclient.discovery.build(
+            API_SERVICE_NAME, API_VERSION, credentials=credentials)
+
+        # Store credentials in the database.
+        user.credentials = credentials.to_json()
+        db.session.add(user)
+        db.session.commit()
+
+        successful = save_users_activity(
+                        User,
+                        Activity,
+                        user,
+                        calendar)
         
-        if credentials.access_token_expired:
-            credentials.refresh(Http())
-    except HttpAccessTokenRefreshError:  # Google credentials were revoked, need to authorize again
-        return redirect(url_for('authorize'))
+        if not successful:  # The Google credentials were revoked
+            return redirect(url_for('authorize'))
 
-    calendar = googleapiclient.discovery.build(
-        API_SERVICE_NAME, API_VERSION, credentials=credentials)
+        return redirect(url_for('index'))
+    else:  # method is POST
+        no_credentials_error = json.dumps({'success': False, 'message': False })
 
-    # Store credentials in the database.
-    user.credentials = credentials.to_json()
-    db.session.add(user)
-    db.session.commit()
+        permanentId = request.get_json()['permanentId']
 
-    successful = save_users_activity(
-                    User,
-                    Activity,
-                    user,
-                    calendar)
-    
-    if not successful:  # The Google credentials were revoked
-        return redirect(url_for('authorize'))
+        user = get_or_create_user(db.session, User, permanentId)
 
-    return redirect(url_for('index'))
+        if not user.credentials:
+            return no_credentials_error
+
+        try:
+            credentials = client.OAuth2Credentials.from_json(user.credentials)  # Load credentials from the database.
+            
+            if credentials.access_token_expired:
+                credentials.refresh(Http())
+        except HttpAccessTokenRefreshError:  # Google credentials were revoked, need to authorize again
+            return no_credentials_error
+
+        calendar = googleapiclient.discovery.build(
+            API_SERVICE_NAME, API_VERSION, credentials=credentials)
+
+        # Store credentials in the database.
+        user.credentials = credentials.to_json()
+        db.session.add(user)
+        db.session.commit()
+
+        successful = save_users_activity(
+                        User,
+                        Activity,
+                        user,
+                        calendar)
+        
+        if not successful:  # The Google credentials were revoked
+            return no_credentials_error
+
+        return json.dumps({'success': True})        
 
 
 @app.route('/api/create-activity', methods=['POST'])
@@ -248,7 +300,28 @@ def oauth2callback():
     db.session.add(user)
     db.session.commit()
 
-    return redirect(url_for('save_activity'))
+    if flask.session['client'] == 'app':
+        url = '{redirectUrl}/--/'.format(redirectUrl = flask.session['redirectUrl'])
+
+        return redirect(url)
+    else:
+        return redirect(url_for('save_activity'))
+
+
+@app.route('/render-redirect-to-app')
+def render_redirect_to_app():
+    return render_template('open_app.html')
+
+
+@app.route('/redirect-to-app')
+def redirect_to_app():
+    url = '{redirectUrl}/--/?userId={user_id}&userName={user_name}&userPicture={user_picture}'.format(
+        redirectUrl = flask.session['redirectUrl'],
+        user_id = flask.session['user_id'],
+        user_name = flask.session['user_name'],
+        user_picture = flask.session['user_picture'])
+
+    return redirect(url)
 
 
 if __name__ == '__main__':
