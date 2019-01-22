@@ -137,17 +137,24 @@ def logout():
 
 
 @app.route('/api/start-activity', methods=['POST'])
-@login_required
+# @login_required
 def update_activity():
     """ Updates the servers records of which activity the user is currently doing. """
-    
-    user = get_or_create_user(db.session, User, flask.session['user_id'])
+    try:
+        user_id = flask.session['user_id']
+        activity_id = request.form['activity_id']
+    except:
+        data = request.get_json()
+        user_id = data['user_id']
+        activity_id = data['activity_id']
+
+    user = get_or_create_user(db.session, User, user_id)
 
     set_users_activity(
         session=db.session, 
         model=User, 
         user=user, 
-        activity_id=request.form['activity_id'])
+        activity_id=activity_id)
 
     return 'success'
 
@@ -274,6 +281,19 @@ def get_current_activity():
     activity = get_users_current_activity(db.session, Activity, user)
 
     return json.dumps(activity)
+
+
+# @app.route('/api/get-all-activities', methods=['POST'])
+# # @login_required
+# def get_all_acitivities():
+#     user_id = request.get_json()['user_id']
+
+#     user = get_or_create_user(db.session, User, user_id)
+
+#     activities = get_all_users_activities(db.session, Activity, user)
+
+#     return json.dumps(activities)
+
 
 @app.route('/authorize')
 @login_required
