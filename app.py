@@ -252,20 +252,29 @@ def save_activity():
 
 
 @app.route('/api/create-activity', methods=['POST'])
-@login_required
+# @login_required
 def create_activity():
-    user = get_or_create_user(db.session, User, flask.session['user_id'])
-    activities = Activity.query.filter_by(user_id=user.id).all()
+    try:
+        user_id = flask.session['user_id']
+        name = request.form['activity']
+        color = request.form['color']
+    except:
+        data = request.get_json()
+        user_id = data['user_id']
+        name = data['name']
+        color = data['color']
+
+    activities = Activity.query.filter_by(user_id=user_id).all()
 
     # convert list of objects to list of names
     names = [] 
     for x in activities:
         names.append(x.name)
 
-    if request.form['activity'] in names:  # If new activity is a duplicate
+    if name in names:  # If new activity is a duplicate
         return json.dumps({'success': 'false', 'activity_id': 'null'})
     else:
-        activity = Activity(user_id=user.id, name=request.form['activity'], color=request.form['color'])
+        activity = Activity(user_id=user_id, name=name, color=color)
         db.session.add(activity)
         db.session.commit()
         return json.dumps({'success': 'true', 'activity_id': activity.id})
