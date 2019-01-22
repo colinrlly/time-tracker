@@ -70,6 +70,14 @@ def get_users_current_activity(session, Activity, user):
 
     return {"started_at": started_at, "stopped_at": stopped_at, "name": name, "color": color}
 
+def get_all_users_activities(session, Activity, user_id):
+    """ Gets a list of the users activities """
+
+    activities = Activity.query.filter_by(user_id=user_id).all()
+
+    activities = list(map(lambda x: {'id': x.id, 'name': x.name, 'color': x.color}, activities))
+
+    return activities
 
 def save_users_activity(User, Activity, user, calendar):
     """ Saves the @user's last stopped event

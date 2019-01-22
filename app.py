@@ -283,16 +283,14 @@ def get_current_activity():
     return json.dumps(activity)
 
 
-# @app.route('/api/get-all-activities', methods=['POST'])
-# # @login_required
-# def get_all_acitivities():
-#     user_id = request.get_json()['user_id']
+@app.route('/api/get-all-activities', methods=['POST'])
+# @login_required
+def get_all_acitivities():
+    user_id = request.get_json()['user_id']
 
-#     user = get_or_create_user(db.session, User, user_id)
+    activities = get_all_users_activities(db.session, Activity, user_id)
 
-#     activities = get_all_users_activities(db.session, Activity, user)
-
-#     return json.dumps(activities)
+    return json.dumps(activities)
 
 
 @app.route('/authorize')
