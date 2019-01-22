@@ -174,7 +174,7 @@ def stop_activity():
 @app.route('/api/save-activity', methods=['GET', 'POST'])
 # @login_required
 def save_activity():
-    if request.method == 'GET':
+    if request.method == 'GET': # Request is coming from website
         user = get_or_create_user(db.session, User, flask.session['user_id'])
 
         if not user.credentials:
@@ -206,7 +206,7 @@ def save_activity():
             return redirect(url_for('authorize'))
 
         return redirect(url_for('index'))
-    else:  # method is POST
+    else:  # method is POST...request is coming from app
         no_credentials_error = json.dumps({'success': False, 'message': False })
 
         permanentId = request.get_json()['permanentId']
@@ -263,6 +263,17 @@ def create_activity():
         db.session.commit()
         return json.dumps({'success': 'true', 'activity_id': activity.id})
 
+
+@app.route('/api/get-current-activity', methods=['POST'])
+# @login_required
+def get_current_activity():
+    user_id = request.get_json()['user_id']
+
+    user = get_or_create_user(db.session, User, user_id)
+
+    activity = get_users_current_activity(db.session, Activity, user)
+
+    return json.dumps(activity)
 
 @app.route('/authorize')
 @login_required

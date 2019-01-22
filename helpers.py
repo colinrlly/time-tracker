@@ -58,6 +58,18 @@ def stop_users_activity(session, model, user):
 
     return 'stopped'
 
+def get_users_current_activity(session, Activity, user):
+    """ Gets the users current activity """
+
+    activity_id = user.current_activity
+    activity = Activity.query.get(activity_id)
+    started_at = user.started_at.isoformat() + 'Z'
+    stopped_at = user.stopped_at.isoformat() + 'Z'
+    name = activity.name
+    color = activity.color
+
+    return {"started_at": started_at, "stopped_at": stopped_at, "name": name, "color": color}
+
 
 def save_users_activity(User, Activity, user, calendar):
     """ Saves the @user's last stopped event
