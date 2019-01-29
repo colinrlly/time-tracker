@@ -40,7 +40,7 @@ from models import *
 # Set up Google Constants
 CLIENT_ID = client_id=os.environ['GOOGLE_CLIENT_ID']
 CLIENT_SECRET = client_secret=os.environ['GOOGLE_CLIENT_SECRET']
-SCOPES = ['https://www.googleapis.com/auth/calendar profile']
+SCOPES = ['https://www.googleapis.com/auth/calendar profile email']
 API_SERVICE_NAME = 'calendar'
 API_VERSION = 'v3'
 
@@ -118,6 +118,15 @@ def login():
             flask.session['user_id'] = idinfo['sub']  # Get the permanent Google id
             flask.session['user_name'] = idinfo['name']
             flask.session['user_picture'] = idinfo['picture']
+            flask.session['user_email'] = idinfo['email']
+
+            user = get_or_create_user(db.session, User, idinfo['sub'])
+            credentials = user.credentials
+            if credentials:
+                credentials = json.loads(credentials)
+                flask.session['calendar_email'] = credentials['id_token']['email']
+            else:
+                flask.session['calendar_email'] = ''
 
             if flask.session['client'] == 'app':
                 return '/render-redirect-to-app'
@@ -339,7 +348,12 @@ def oauth2callback():
     db.session.commit()
 
     if flask.session['client'] == 'app':
-        url = '{redirectUrl}/--/'.format(redirectUrl = flask.session['redirectUrl'])
+        credentials = json.loads(credentials.to_json())
+        print(credentials)
+
+        url = '{redirectUrl}/--/?calendarEmail={calendar_email}'.format(
+            redirectUrl = flask.session['redirectUrl'],
+            calendar_email = credentials['id_token']['email'])
 
         return redirect(url)
     else:
@@ -353,11 +367,13 @@ def render_redirect_to_app():
 
 @app.route('/redirect-to-app')
 def redirect_to_app():
-    url = '{redirectUrl}/--/?userId={user_id}&userName={user_name}&userPicture={user_picture}'.format(
+    url = '{redirectUrl}/--/?userId={user_id}&userName={user_name}&userPicture={user_picture}&userEmail={user_email}&calendarEmail={calendar_email}'.format(
         redirectUrl = flask.session['redirectUrl'],
         user_id = flask.session['user_id'],
         user_name = flask.session['user_name'],
-        user_picture = flask.session['user_picture'])
+        user_picture = flask.session['user_picture'],
+        user_email = flask.session['user_email'],
+        calendar_email = flask.session['calendar_email'])
 
     return redirect(url)
 
