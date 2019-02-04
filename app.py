@@ -311,6 +311,15 @@ def get_all_acitivities():
     return json.dumps(activities)
 
 
+@app.route('/api/delete-activity', methods=['POST'])
+def delete_activity():
+    activity_id = request.get_json()['activity_id']
+
+    delete_users_activity(db.session, Activity, activity_id)
+
+    return json.dumps('success')
+
+
 @app.route('/authorize')
 @login_required
 def authorize():

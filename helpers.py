@@ -63,12 +63,15 @@ def get_users_current_activity(session, Activity, user):
 
     activity_id = user.current_activity
     activity = Activity.query.get(activity_id)
-    started_at = user.started_at.isoformat() + 'Z'
-    stopped_at = user.stopped_at.isoformat() + 'Z'
-    name = activity.name
-    color = activity.color
+    if activity:
+        started_at = user.started_at.isoformat() + 'Z'
+        stopped_at = user.stopped_at.isoformat() + 'Z'
+        name = activity.name
+        color = activity.color
 
-    return {"started_at": started_at, "stopped_at": stopped_at, "name": name, "color": color}
+        return {"success": True, "started_at": started_at, "stopped_at": stopped_at, "name": name, "color": color}
+    else:
+        return {"success": False}
 
 def get_all_users_activities(session, Activity, user_id):
     """ Gets a list of the users activities """
@@ -78,6 +81,13 @@ def get_all_users_activities(session, Activity, user_id):
     activities = list(map(lambda x: {'id': x.id, 'name': x.name, 'color': x.color}, activities))
 
     return activities
+
+def delete_users_activity(session, Activity, activity_id):
+    """ Deletes an activity by id """
+
+    activity = Activity.query.get(activity_id)
+    session.delete(activity)
+    session.commit()
 
 def save_users_activity(User, Activity, user, calendar):
     """ Saves the @user's last stopped event
