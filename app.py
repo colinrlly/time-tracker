@@ -97,15 +97,17 @@ def index():
 def login():
     """ Serves the login page if method is GET, if POST logs the user in. """
     if request.method == 'GET':
-        redirectUrl = request.args.get('redirectUrl')
+        # redirectUrl = request.args.get('redirectUrl')
 
-        if redirectUrl:
-            flask.session['redirectUrl'] = redirectUrl
-            flask.session['client'] = 'app'
-        else:
-            flask.session['client'] = 'web'
+        # if redirectUrl:
+        #     flask.session['redirectUrl'] = redirectUrl
+        #     flask.session['client'] = 'app'
+        # else:
+        #     flask.session['client'] = 'web'
 
-        return render_template('login.html')
+        # return render_template('login.html')
+
+        return redirect(url_for('login_oauth_server_flow'))
     else:  # method is POST
         try:
             token = request.form['token']  # Get the temporary id token (from website)
@@ -367,6 +369,35 @@ def oauth2callback():
         return redirect(url)
     else:
         return redirect(url_for('save_activity'))
+
+
+@app.route('/login_oauth_server_flow')
+def login_oauth_server_flow():
+    flow = client.OAuth2WebServerFlow(client_id=CLIENT_ID,
+                                      client_secret=CLIENT_SECRET,
+                                      scope='profile')
+
+    flow.redirect_uri = url_for('login_oauth2callback', _external=True)
+
+    authorization_url = flow.step1_get_authorize_url()
+
+    return redirect(authorization_url)
+
+
+@app.route('/login_oauth2callback')
+def login_oauth2callback():
+    flow = client.OAuth2WebServerFlow(client_id=CLIENT_ID,
+                                      client_secret=CLIENT_SECRET,
+                                      scope='profile')
+
+    flow.redirect_uri = url_for('login_oauth2callback', _external=True)
+
+    authorization_response = request.args.get('code')
+    credentials = flow.step2_exchange(authorization_response)
+
+    print(credentials.to_json())
+
+    return render_template('login.html')
 
 
 @app.route('/render-redirect-to-app')
