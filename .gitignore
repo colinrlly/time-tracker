@@ -3,3 +3,5 @@ credentials.json
 config.py
 *.pyc
 time-env/*
+migrations/*
+.vscode/*

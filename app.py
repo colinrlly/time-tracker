@@ -395,7 +395,8 @@ def login_oauth2callback():
     authorization_response = request.args.get('code')
     credentials = flow.step2_exchange(authorization_response)
 
-    print(credentials.to_json())
+    print('google id:')
+    print(json.loads(credentials.to_json())['id_token']['sub'])
 
     return render_template('login.html')
 
