@@ -373,15 +373,18 @@ def login_oauth2callback():
         flask.session['user_email'] = idinfo['email']
 
         user = get_or_create_user(db.session, User, idinfo['sub'])
-        credentials = user.credentials
-        if credentials:
-            credentials = json.loads(credentials)
-            flask.session['calendar_email'] = credentials['id_token']['email']
-        else:
-            flask.session['calendar_email'] = ''
 
         if flask.session['client'] == 'app':
-            return redirect(url_for('redirect_to_app'))
+            credentials = user.credentials
+
+            if credentials:
+                credentials = json.loads(credentials)
+
+                flask.session['calendar_email'] = credentials['id_token']['email']
+            else:
+                flask.session['calendar_email'] = ''
+
+                return redirect(url_for('redirect_to_app'))
         else:
             return redirect(url_for('index'))
 
