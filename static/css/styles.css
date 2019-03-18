@@ -82,15 +82,22 @@ input[type=text] {
 }
 
 .g-signout{
-    font-family: 'Alegreya Sans light', sans-serif; 
-    background-color: none;
-    background: none;
-    text-decoration:none;
-    font-size: 1em;
-    border: none;
-    color: whitesmoke;
-
+    position: fixed;
+    top: 10px;
+    right: 10px;
 }
+
+.g-signout:hover {
+    cursor: pointer;
+}
+
+.g-signout > span {
+    font-family: 'Alegreya Sans light', sans-serif; 
+    font-size: 1em;
+    color: whitesmoke;
+    margin-left: 3px;
+}
+
 .overlayout{
     margin: auto auto;  
     width: 100%;
@@ -263,38 +270,40 @@ hr.style1{
 }
 
 body > div.options_cirlce {
-    border-radius: 15px;
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    width: 30px;
-    height: 30px;
-    background-color: transparent;
-    background-position: center;
-    background-size: 30px 30px;
-    display: none;
+
 }
 
 /*Sign in page styles*/
-.slogo{
+.slogo {
     padding-top: 100px;
     padding-bottom: 5px;
     margin: auto auto;
     text-align: center;
 }
-.gbutton{
-    width: 120px;
+.gbutton {
     margin: auto auto;
-    text-align: center; 
-    padding-top: 35px;
-    padding-bottom: 15px;
+    display: block;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin-top: 30px;
+    width: 200px;
+    height: 29px;
 }
-hr.style2{
+.gbutton:hover {
+    cursor: pointer;
+}
+.gbutton-image {
+    width: 200px;
+    height: auto;
+}
+hr.style2 {
     border: 0;
     height: 1px;
     background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(255, 255, 255, 0.75), rgba(0, 0, 0, 0));
     width:60%;
 }
+
 /*Sign in page styles end*/
 
 /*mobile designs*/

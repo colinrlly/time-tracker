@@ -93,49 +93,19 @@ def index():
             current_activity=current_activity)
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET'])
 def login():
     """ Serves the login page if method is GET, if POST logs the user in. """
     if request.method == 'GET':
-        # redirectUrl = request.args.get('redirectUrl')
+        redirectUrl = request.args.get('redirectUrl')
 
-        # if redirectUrl:
-        #     flask.session['redirectUrl'] = redirectUrl
-        #     flask.session['client'] = 'app'
-        # else:
-        #     flask.session['client'] = 'web'
+        if redirectUrl:
+            flask.session['redirectUrl'] = redirectUrl
+            flask.session['client'] = 'app'
+        else:
+            flask.session['client'] = 'web'
 
-        # return render_template('login.html')
-
-        return redirect(url_for('login_oauth_server_flow'))
-    else:  # method is POST
-        try:
-            token = request.form['token']  # Get the temporary id token (from website)
-        except:
-            token = request.get_json()['token']  # Get the temporary id token (from app)
-
-        idinfo = get_idinfo(token)  # Get the permanent Google profile dictionary
-
-        if idinfo:
-            flask.session['user_id'] = idinfo['sub']  # Get the permanent Google id
-            flask.session['user_name'] = idinfo['name']
-            flask.session['user_picture'] = idinfo['picture']
-            flask.session['user_email'] = idinfo['email']
-
-            user = get_or_create_user(db.session, User, idinfo['sub'])
-            credentials = user.credentials
-            if credentials:
-                credentials = json.loads(credentials)
-                flask.session['calendar_email'] = credentials['id_token']['email']
-            else:
-                flask.session['calendar_email'] = ''
-
-            if flask.session['client'] == 'app':
-                return '/render-redirect-to-app'
-            else:
-                return url_for('index')
-
-        return 'error'
+        return render_template('login.html')
 
 
 @app.route('/logout', methods=['POST'])
@@ -360,7 +330,6 @@ def oauth2callback():
 
     if flask.session['client'] == 'app':
         credentials = json.loads(credentials.to_json())
-        print(credentials)
 
         url = '{redirectUrl}/--/?calendarEmail={calendar_email}'.format(
             redirectUrl = flask.session['redirectUrl'],
@@ -375,7 +344,7 @@ def oauth2callback():
 def login_oauth_server_flow():
     flow = client.OAuth2WebServerFlow(client_id=CLIENT_ID,
                                       client_secret=CLIENT_SECRET,
-                                      scope='profile')
+                                      scope='profile email')
 
     flow.redirect_uri = url_for('login_oauth2callback', _external=True)
 
@@ -393,16 +362,30 @@ def login_oauth2callback():
     flow.redirect_uri = url_for('login_oauth2callback', _external=True)
 
     authorization_response = request.args.get('code')
-    credentials = flow.step2_exchange(authorization_response)
+    login_credentials = flow.step2_exchange(authorization_response)
+    token = json.loads(login_credentials.to_json())['id_token_jwt']
+    idinfo = get_idinfo(token)  # Get the permanent Google profile dictionary
 
-    print(credentials.to_json())
+    if idinfo:
+        flask.session['user_id'] = idinfo['sub']  # Get the permanent Google id
+        flask.session['user_name'] = idinfo['name']
+        flask.session['user_picture'] = idinfo['picture']
+        flask.session['user_email'] = idinfo['email']
 
-    return render_template('login.html')
+        user = get_or_create_user(db.session, User, idinfo['sub'])
+        credentials = user.credentials
+        if credentials:
+            credentials = json.loads(credentials)
+            flask.session['calendar_email'] = credentials['id_token']['email']
+        else:
+            flask.session['calendar_email'] = ''
 
+        if flask.session['client'] == 'app':
+            return redirect(url_for('redirect_to_app'))
+        else:
+            return redirect(url_for('index'))
 
-@app.route('/render-redirect-to-app')
-def render_redirect_to_app():
-    return render_template('open_app.html')
+    return 'Error logging in, please try again.'
 
 
 @app.route('/redirect-to-app')
