@@ -276,25 +276,36 @@ body > div.options_cirlce {
 }
 
 /*Sign in page styles*/
-.slogo{
+.slogo {
     padding-top: 100px;
     padding-bottom: 5px;
     margin: auto auto;
     text-align: center;
 }
-.gbutton{
-    width: 120px;
+.gbutton {
     margin: auto auto;
-    text-align: center; 
-    padding-top: 35px;
-    padding-bottom: 15px;
+    display: block;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin-top: 30px;
+    width: 200px;
+    height: 29px;
 }
-hr.style2{
+.gbutton:hover {
+    cursor: pointer;
+}
+.gbutton-image {
+    width: 200px;
+    height: auto;
+}
+hr.style2 {
     border: 0;
     height: 1px;
     background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(255, 255, 255, 0.75), rgba(0, 0, 0, 0));
     width:60%;
 }
+
 /*Sign in page styles end*/
 
 /*mobile designs*/
