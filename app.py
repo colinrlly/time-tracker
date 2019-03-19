@@ -384,7 +384,7 @@ def login_oauth2callback():
             else:
                 flask.session['calendar_email'] = ''
 
-                return redirect(url_for('redirect_to_app'))
+            return redirect(url_for('redirect_to_app'))
         else:
             return redirect(url_for('index'))
 
