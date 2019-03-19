@@ -380,9 +380,9 @@ def login_oauth2callback():
             if credentials:
                 credentials = json.loads(credentials)
 
-                flask.session['calendar_email'] = credentials['id_token']['email']
-            else:
-                flask.session['calendar_email'] = ''
+                temp = credentials.get('id_token', '').get('email', '')
+
+                flask.session['calendar_email'] = temp
 
             return redirect(url_for('redirect_to_app'))
         else:
