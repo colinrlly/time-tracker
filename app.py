@@ -15,7 +15,7 @@ from functools import wraps
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 import psycopg2
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 
 import google
 from google.oauth2 import credentials, id_token
@@ -33,7 +33,6 @@ from helpers import *
 # Set up Flask app
 app = Flask(__name__, instance_relative_config=True)
 cors = CORS(app)
-app.config['CORS_HEADERS'] = 'Content-Type'
 app.config.from_pyfile('development.py')
 db = SQLAlchemy(app)
 app.secret_key = os.environ['FLASK_SECRET_KEY']
@@ -266,7 +265,6 @@ def create_activity():
 
 @app.route('/api/get-current-activity', methods=['POST'])
 # @login_required
-@cross_origin()
 def get_current_activity():
     user_id = request.get_json()['user_id']
 
