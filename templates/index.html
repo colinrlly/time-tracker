@@ -1,105 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="google-signin-client_id" content="379069589012-e6278tvlf5qsj797mq2kuhkbhkgqmotm.apps.googleusercontent.com">
-        <title>Log Those Activities</title>
-        
-         <link rel="shortcut icon" type="image/png" href="../static/image/Favicon.png"/>
-        
-        <link rel="stylesheet" type="text/css" href="../static/css/styles.css">
-        
-        <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans:300,300i,400,400i,500,500i,700,700i,800,800i,900,900i" rel="stylesheet"> 
-    </head>
-    <body style="height: 100%">
-        <div class="overlayout" style='display:none'>
-            <div class='overlay' style='display:none'>
-                <div class=close2><button class='close'>+</button></div>
 
-                <p>Add a New Activity</p>
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-40077705-3"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
-                <input type="text" class="Activity_Names">
+        gtag('config', 'UA-40077705-3');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id"
+        content="379069589012-e6278tvlf5qsj797mq2kuhkbhkgqmotm.apps.googleusercontent.com">
+    <title>Log Those Activities</title>
 
-                <p>Event Color</p>
-                
-                <button class="color" style="background-color:#dc2127" name='11'></button>
-                <button class="color" style="background-color:#FF887c" name='4'></button>
-                <button class="color" style="background-color:#ffb878" name='6'></button>
-                <button class="color" style="background-color:#fbd75b" name='5'></button>
-                <button class="color" style="background-color:#51b749" name='10'></button>
-                <button class="color" style="background-color:#7ae7bf" name='2'></button>
-                <button class="color" style="background-color:#46d6db" name='7'></button>
-                <button class="color selectedcolor" style="background-color:#a4bdfc" name='1'></button>
-                <button class="color" style="background-color:#5484ed" name='9'></button>
-                <button class="color" style="background-color:#e1e1e1" name='8'></button>
-                <button class="color" style="background-color:#DBADFF" name='3'></button>
-                <br>
-                <button class="add">Add</button>
-            </div>
+    <link rel="shortcut icon" type="image/png" href="../static/image/Favicon.png" />
+
+    <link rel="stylesheet" type="text/css" href="../static/css/styles.css">
+
+    <link
+        href="https://fonts.googleapis.com/css?family=Alegreya+Sans:300,300i,400,400i,500,500i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+</head>
+
+<body style="height: 100%">
+    <div class="overlayout" style='display:none'>
+        <div class='overlay' style='display:none'>
+            <div class=close2><button class='close'>+</button></div>
+
+            <p>Add a New Activity</p>
+
+            <input type="text" class="Activity_Names">
+
+            <p>Event Color</p>
+
+            <button class="color" style="background-color:#dc2127" name='11'></button>
+            <button class="color" style="background-color:#FF887c" name='4'></button>
+            <button class="color" style="background-color:#ffb878" name='6'></button>
+            <button class="color" style="background-color:#fbd75b" name='5'></button>
+            <button class="color" style="background-color:#51b749" name='10'></button>
+            <button class="color" style="background-color:#7ae7bf" name='2'></button>
+            <button class="color" style="background-color:#46d6db" name='7'></button>
+            <button class="color selectedcolor" style="background-color:#a4bdfc" name='1'></button>
+            <button class="color" style="background-color:#5484ed" name='9'></button>
+            <button class="color" style="background-color:#e1e1e1" name='8'></button>
+            <button class="color" style="background-color:#DBADFF" name='3'></button>
+            <br>
+            <button class="add">Add</button>
         </div>
-        
-        <div>
-            <button class="plus">+</button>
-        </div>
+    </div>
 
-        <div class='g-signout'>
-            <span>Sign Out</span>
-        </div>
-        <!-- <div class='options' style='display: none;'>
+    <div>
+        <button class="plus">+</button>
+    </div>
+
+    <div class='g-signout'>
+        <span>Sign Out</span>
+    </div>
+    <!-- <div class='options' style='display: none;'>
             <button class='g-signout'>Sign out</button>
         </div> -->
-       
-        <div class="blur">
-            <div class="timebox">
-                {% if running_activity %}
-                    <span class="name">{{current_activity}}</span>
-                {% else %}
-                    <span class="name" style="display: none;"></span>
-                {% endif %}
-                <br>
-                <!--<hr class='style1'>-->
-                <span class="time">00:00:00</span>
-            </div>
-            
+
+    <div class="blur">
+        <div class="timebox">
             {% if running_activity %}
-            <div class="butt2">
-                <button class='stop'>STOP</button>
-                <button class='delete' style='display: none;'>DELETE</button>
-                <button class='save' style='display: none;'>SAVE</button>
-            </div>
-            <script>
-                var START_TIME = '{{start_time}}';
-                var NOW_TIME = '{{now_time}}'
-            </script>
+            <span class="name">{{current_activity}}</span>
             {% else %}
-            <div class="butt2">
-                <button class='stop' style='display: none;'>STOP</button>
-                <button class='delete' style='display: none;'>DELETE</button>
-                <button class='save' style='display: none;'>SAVE</button>
-            </div>
+            <span class="name" style="display: none;"></span>
             {% endif %}
-
-            <hr class="style1">
-
-            <div class="butt">
-                {% for activity in activities %}
-                    <button class='activity' data-activity-id='{{activity.id}}'>{{activity.name}}</button>
-                {% endfor %}
-            </div>
-            
-            <div class="logo">
-                <img src="../static/image/logo.png" alt="Log logo" style="width:100px;height:autopx;">
-            </div>
+            <br>
+            <!--<hr class='style1'>-->
+            <span class="time">00:00:00</span>
         </div>
-        <br>
+
+        {% if running_activity %}
+        <div class="butt2">
+            <button class='stop'>STOP</button>
+            <button class='delete' style='display: none;'>DELETE</button>
+            <button class='save' style='display: none;'>SAVE</button>
+        </div>
+        <script>
+            var START_TIME = '{{start_time}}';
+            var NOW_TIME = '{{now_time}}'
+        </script>
+        {% else %}
+        <div class="butt2">
+            <button class='stop' style='display: none;'>STOP</button>
+            <button class='delete' style='display: none;'>DELETE</button>
+            <button class='save' style='display: none;'>SAVE</button>
+        </div>
+        {% endif %}
+
+        <hr class="style1">
+
+        <div class="butt">
+            {% for activity in activities %}
+            <button class='activity' data-activity-id='{{activity.id}}'>{{activity.name}}</button>
+            {% endfor %}
+        </div>
+
+        <div class="logo">
+            <img src="../static/image/logo.png" alt="Log logo" style="width:100px;height:autopx;">
+        </div>
+    </div>
+    <br>
 
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://apis.google.com/js/platform.js?onload=start"></script>
-        <script src="../static/js/act_display.js"></script>
-        <script src="../static/js/moment.js"></script>
-        <script src="../static/js/timer.js"></script>
-        <script src="../static/js/main.js"></script>
-    </body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://apis.google.com/js/platform.js?onload=start"></script>
+    <script src="../static/js/act_display.js"></script>
+    <script src="../static/js/moment.js"></script>
+    <script src="../static/js/timer.js"></script>
+    <script src="../static/js/main.js"></script>
+</body>
+
 </html>
