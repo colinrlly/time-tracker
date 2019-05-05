@@ -18,8 +18,8 @@ import googleapiclient.discovery
 
 
 #  Google API credentials
-CLIENT_ID = client_id=os.environ['GOOGLE_CLIENT_ID']
-CLIENT_SECRET = client_secret=os.environ['GOOGLE_CLIENT_SECRET']
+CLIENT_ID = client_id = os.environ['GOOGLE_CLIENT_ID']
+CLIENT_SECRET = client_secret = os.environ['GOOGLE_CLIENT_SECRET']
 SCOPES = 'https://www.googleapis.com/auth/calendar'
 API_SERVICE_NAME = 'calendar'
 API_VERSION = 'v3'
@@ -58,6 +58,7 @@ def stop_users_activity(session, model, user):
 
     return 'stopped'
 
+
 def get_users_current_activity(session, Activity, user):
     """ Gets the users current activity """
 
@@ -69,18 +70,27 @@ def get_users_current_activity(session, Activity, user):
         name = activity.name
         color = activity.color
 
-        return {"success": True, "started_at": started_at, "stopped_at": stopped_at, "name": name, "color": color}
+        return {
+            "success": True,
+            "started_at": started_at,
+            "stopped_at": stopped_at,
+            "name": name,
+            "color": color
+        }
     else:
         return {"success": False}
+
 
 def get_all_users_activities(session, Activity, user_id):
     """ Gets a list of the users activities """
 
     activities = Activity.query.filter_by(user_id=user_id).all()
 
-    activities = list(map(lambda x: {'id': x.id, 'name': x.name, 'color': x.color}, activities))
+    activities = list(
+        map(lambda x: {'id': x.id, 'name': x.name, 'color': x.color}, activities))
 
     return activities
+
 
 def delete_users_activity(session, Activity, activity_id):
     """ Deletes an activity by id """
@@ -89,10 +99,11 @@ def delete_users_activity(session, Activity, activity_id):
     session.delete(activity)
     session.commit()
 
+
 def save_users_activity(User, Activity, user, calendar):
     """ Saves the @user's last stopped event
         to Google calendar 
-        
+
         Returns: URL to newly created Google Calendar event 
     """
     # Get the user's current activity
@@ -116,10 +127,11 @@ def save_users_activity(User, Activity, user, calendar):
     }
 
     print(event)
-    
+
     # Attempt to add the event to the calendar
     try:
-        event = calendar.events().insert(calendarId='primary', body=event).execute()  # Add the event to the calendar
+        event = calendar.events().insert(calendarId='primary',
+                                         body=event).execute()  # Add the event to the calendar
     except HttpAccessTokenRefreshError:  # Google credentials were revoked, need to authorize again
         return False
 
@@ -129,7 +141,8 @@ def save_users_activity(User, Activity, user, calendar):
 def get_idinfo(token):
     try:
         # Specify the CLIENT_ID of the app that accesses the backend:
-        idinfo = id_token.verify_oauth2_token(token, requests.Request(), CLIENT_ID)
+        idinfo = id_token.verify_oauth2_token(
+            token, requests.Request(), CLIENT_ID)
 
         if idinfo['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
             raise ValueError('Wrong issuer.')
@@ -144,9 +157,9 @@ def get_idinfo(token):
 
 
 def credentials_to_dict(credentials):
-  return {'token': credentials.token,
-          'refresh_token': credentials.refresh_token,
-          'token_uri': credentials.token_uri,
-          'client_id': credentials.client_id,
-          'client_secret': credentials.client_secret,
-          'scopes': credentials.scopes}
+    return {'token': credentials.token,
+            'refresh_token': credentials.refresh_token,
+            'token_uri': credentials.token_uri,
+            'client_id': credentials.client_id,
+            'client_secret': credentials.client_secret,
+            'scopes': credentials.scopes}
