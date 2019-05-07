@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, DateTime, String, ForeignKey, BigInteger
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.dialects.postgresql import JSON
 
-from app import db
+from settings import db
 
 class User(db.Model):
     """ Model to store a user. 
