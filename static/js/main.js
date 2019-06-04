@@ -36,7 +36,7 @@ $('button.add').click(function () {
     $.post('/api/create-activity', { 'activity': name, 'color': color }, function (json) {
         data = JSON.parse(json);
 
-        if (data['successfull'] == 'true') {
+        if (data['success'] == 'true') {
             $('div.butt').append(
                 '<button class="activity" data-activity-id=' + data['activity_id'] + '>' + name + '</button>'
             );
