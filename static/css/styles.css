@@ -31,7 +31,7 @@ body{
     color: #589992;
     font-size: 1.8em;
     font-family: 'Alegreya Sans regular', sans-serif; 
-     width: 50px;
+    width: 50px;
     height: 50px;   
 }
 .close:hover{
@@ -47,7 +47,6 @@ p{
     margin-top: 30px;
     margin-bottom: 9px;
 }
-
 .add{
     height: 60px;
     width: 150px;
@@ -105,15 +104,15 @@ input[type=text] {
     align-content: center;
     text-align: center;
     position: fixed;
-    top: 20%;
-    left: 25%;
+    top: 15%;
+    left: 15%;
    
 }
 .overlay{
     position:fixed;
     z-index: 10;
     height: 70%;
-    width: 50%;
+    width: 70%;
     background-color: rgb(240, 237, 227);
     text-align: center;
     font-size: 1.5em;
@@ -269,10 +268,6 @@ hr.style1{
     
 }
 
-body > div.options_cirlce {
-
-}
-
 /*Sign in page styles*/
 .slogo {
     padding-top: 100px;
@@ -307,20 +302,31 @@ hr.style2 {
 /*Sign in page styles end*/
 
 /*mobile designs*/
-    
 @media only screen and (max-width: 500px) {
     /* For mobile phones: */
     .time {
         font-size: 4.8em;
     }
-}
-
-@media only screen and (max-width: 500px) {
-    /* For mobile phones: */
     .activity {
         width: 97%;
         margin-left: 0;
         margin-right: 0;
     }
+    .overlayout{
+        top: 8%;
+        left: 5%;
+    }
+    .overlay {
+        height: 84%;
+        width: 90%;
+    }
+    .overlay p {
+        margin-top: 10px;
+        font-size: .9em;
+    }
+    .overlay .color {
+        height: 50px;
+        width: 50px;
+        margin: 10px 5px;
+    }
 }
-/*mobile designs*/
