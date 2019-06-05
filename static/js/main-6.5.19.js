@@ -27,8 +27,10 @@ $('button.plus').click(function () {
 
 $('button.add').click(function () {
     /* saves new activity, makes a button for it, and hides overlay */
-    $('div.overlay').hide();
     $('div.blur').removeClass('frost');
+    $('div.overlay').hide();
+    $('div.overlayout').hide();
+    $('button.activity').prop("disabled", true);
 
     var name = $('input.Activity_Names').val();
     var color = $('button.selectedcolor').attr('name');
