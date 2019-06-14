@@ -64,7 +64,12 @@ def get_users_current_activity(session, Activity, user):
     """ Gets the users current activity """
 
     activity_id = user.current_activity
+
+    if not activity_id:  # User has not added a current activity yet
+        return {"success": False}
+
     activity = Activity.query.get(activity_id)
+
     if activity:
         started_at = user.started_at.isoformat() + 'Z'
         stopped_at = user.stopped_at.isoformat() + 'Z'
@@ -103,9 +108,7 @@ def delete_users_activity(session, Activity, activity_id):
 
 def save_users_activity(User, Activity, user, calendar):
     """ Saves the @user's last stopped event
-        to Google calendar 
-
-        Returns: URL to newly created Google Calendar event 
+        to Google calendar.
     """
     # Get the user's current activity
     activity_id = user.current_activity
@@ -126,8 +129,6 @@ def save_users_activity(User, Activity, user, calendar):
             'useDefault': False},
         'colorId': color
     }
-
-    print(event)
 
     # Attempt to add the event to the calendar
     try:

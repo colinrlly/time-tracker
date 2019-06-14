@@ -504,6 +504,36 @@ def redirect_to_app():
     return redirect(url)
 
 
+@app.route('/exchange-auth-code', methods=['POST'])
+def exchange_auth_code():
+    """
+        Exchange auth code from from app for google calendar credentials.
+    """
+    # (Receive auth_code by HTTPS POST)
+    permanent_id = request.get_json()['permanent_id']
+    server_auth_code = request.get_json()['server_auth_code']
+
+    # TODO: We need to think about security...
+    # If this request does not have `X-Requested-With` header, this could be a CSRF
+    # if not request.headers.get('X-Requested-With'):
+    #     return 'Request blocked for possible CSRF'
+
+    # Exchange auth code for access token, refresh token, and ID token
+    credentials = client.credentials_from_code(
+        '274906250371-drutiad43iut8ctu257cmi3bip3c02ac.apps.googleusercontent.com',
+        '7ogPXOYKaVJZbFX_acNhem-8',
+        ['https://www.googleapis.com/auth/calendar'],
+        server_auth_code,
+        redirect_uri=url_for('exchange_auth_code', _external=True))
+
+    # Store credentials in the database.
+    user = get_or_create_user(db.session, User, permanent_id)
+    user.credentials = credentials.to_json()
+    db.session.add(user)
+    db.session.commit()
+
+    return 'success'
+
 if __name__ == '__main__':
     """ Starts the Flask development server. """
     # When running locally, disable OAuthlib's HTTPs verification.
