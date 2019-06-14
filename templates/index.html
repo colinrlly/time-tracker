@@ -11,7 +11,7 @@
 
         gtag('config', 'UA-40077705-3');
     </script>
-    
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-signin-client_id"
@@ -27,7 +27,7 @@
         rel="stylesheet">
 </head>
 
-<body style="height: 100%">
+<body>
     <div class="overlayout" style='display:none'>
         <div class='overlay' style='display:none'>
             <div class=close2><button class='close'>+</button></div>
@@ -54,61 +54,100 @@
         </div>
     </div>
 
-    <div>
-        <button class="plus">+</button>
+    <div class="container">
+        <header class="header">
+            <button class="plus">+</button>
+
+            <div class='g-signout'>
+                <span>Sign Out</span>
+            </div>
+        </header>
+
+        <div class="blur structure">
+            <div class="content">
+                <div class="timebox">
+                    {% if running_activity %}
+                    <span class="name">{{current_activity}}</span>
+                    {% else %}
+                    <span class="name" style="display: none;"></span>
+                    {% endif %}
+                    <br>
+                    <!--<hr class='style1'>-->
+                    <span class="time">00:00:00</span>
+                </div>
+
+                {% if running_activity %}
+                <div class="butt2">
+                    <button class='stop'>STOP</button>
+                    <button class='delete' style='display: none;'>DELETE</button>
+                    <button class='save' style='display: none;'>SAVE</button>
+                </div>
+                <script>
+                    var START_TIME = '{{start_time}}';
+                    var NOW_TIME = '{{now_time}}'
+                </script>
+                {% else %}
+                <div class="butt2">
+                    <button class='stop' style='display: none;'>STOP</button>
+                    <button class='delete' style='display: none;'>DELETE</button>
+                    <button class='save' style='display: none;'>SAVE</button>
+                </div>
+                {% endif %}
+
+                <hr class="style1">
+
+                <div class="butt">
+                    {% for activity in activities %}
+                    <button class='activity' data-activity-id='{{activity.id}}'>{{activity.name}}</button>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <footer class="footer">
+                <div class="spacer_footer"></div>
+
+                <div class="donation">
+                    <link href="https://fonts.googleapis.com/css?family=Cookie" rel="stylesheet">
+
+                    <a class="bmc-button" target="_blank" href="https://www.buymeacoffee.com/LogTheApp">
+                        <img src="https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg" alt="Buy me a coffee">
+                        <span style="margin-left:5px">Buy me a coffee</span>
+                    </a>
+                </div>
+
+                <div class="logo">
+                    <img class="" src="../static/image/logo.png" alt="Log logo" style="width:100px;height:autopx;">
+                </div>
+
+                <div class="social">
+                    <div class="social_icons">
+                            <a href="https://www.reddit.com/r/LogTheApp">
+                                <img class="reddit_icon social_icon" src="/static/image/reddit-icon.png" alt="Reddit Icon">
+                            </a>
+                        
+                            <a href="https://www.instagram.com/">
+                                <img class="insta_icon social_icon" src="/static/image/insta-icon.png" alt="Instagram Icon">
+                            </a>
+                        
+                            <a href="https://twitter.com/LogTheApp">
+                                <img class="twitter_icon social_icon" src="/static/image/twitter-icon.png" alt="Twitter Icon">
+                            </a>
+
+                            <a href="https://www.instagram.com/">
+                                <img class="facebook_icon social_icon" src="/static/image/facebook-icon.png" alt="Facebook Icon">
+                            </a>
+                    </div>
+                    
+                    <div class="email_container">
+                            <span class="email">hellologtime@gmail.com</span>
+                        </div>
+    
+                </div>
+
+                <div class="spacer_footer"></div>
+            </footer>
+        </div>
     </div>
-
-    <div class='g-signout'>
-        <span>Sign Out</span>
-    </div>
-    <!-- <div class='options' style='display: none;'>
-            <button class='g-signout'>Sign out</button>
-        </div> -->
-
-    <div class="blur">
-        <div class="timebox">
-            {% if running_activity %}
-            <span class="name">{{current_activity}}</span>
-            {% else %}
-            <span class="name" style="display: none;"></span>
-            {% endif %}
-            <br>
-            <!--<hr class='style1'>-->
-            <span class="time">00:00:00</span>
-        </div>
-
-        {% if running_activity %}
-        <div class="butt2">
-            <button class='stop'>STOP</button>
-            <button class='delete' style='display: none;'>DELETE</button>
-            <button class='save' style='display: none;'>SAVE</button>
-        </div>
-        <script>
-            var START_TIME = '{{start_time}}';
-            var NOW_TIME = '{{now_time}}'
-        </script>
-        {% else %}
-        <div class="butt2">
-            <button class='stop' style='display: none;'>STOP</button>
-            <button class='delete' style='display: none;'>DELETE</button>
-            <button class='save' style='display: none;'>SAVE</button>
-        </div>
-        {% endif %}
-
-        <hr class="style1">
-
-        <div class="butt">
-            {% for activity in activities %}
-            <button class='activity' data-activity-id='{{activity.id}}'>{{activity.name}}</button>
-            {% endfor %}
-        </div>
-
-        <div class="logo">
-            <img src="../static/image/logo.png" alt="Log logo" style="width:100px;height:autopx;">
-        </div>
-    </div>
-    <br>
-
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://apis.google.com/js/platform.js?onload=start"></script>
