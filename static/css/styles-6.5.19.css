@@ -1,3 +1,18 @@
+/****** FONTS *****/
+html {
+    font-family: 'Gotham Book', sans-serif;
+}
+
+button.add {
+    font-family: 'Gotham Book', sans-serif;
+}
+
+.time {
+    font-family: 'Roboto Mono', monospace;
+    font-weight: lighter;
+    letter-spacing: -.05em;
+}
+
 /****** MAIN ******/
 html {
     height: 100%;
@@ -73,7 +88,6 @@ hr.style2 {
     text-decoration:none;
     color: white;
     font-size: 2.2em;
-    font-family: 'Alegreya Sans bold', sans-serif; 
 }
 
 .plus:hover {
@@ -88,7 +102,6 @@ hr.style2 {
     text-decoration:none;
     color: #589992;
     font-size: 1.8em;
-    font-family: 'Alegreya Sans regular', sans-serif; 
     width: 50px;
     height: 50px;   
 }
@@ -119,11 +132,10 @@ p {
     text-decoration:none;
     display: inline-block;
     font-size: 1.2em;
-    font-family: 'Alegreya Sans light', sans-serif;
     margin: 20px 10px;
     border-radius: 12px;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-    align-content: center;   
+    align-content: center;
 }
 
 .add:hover {
@@ -162,7 +174,6 @@ input[type=text] {
 }
 
 .g-signout > span {
-    font-family: 'Alegreya Sans light', sans-serif; 
     font-size: 1em;
     color: whitesmoke;
     margin: auto;
@@ -189,7 +200,6 @@ input[type=text] {
     background-color: rgb(240, 237, 227);
     text-align: center;
     font-size: 1.5em;
-    font-family: 'Alegreya Sans light', sans-serif; 
     border-radius: 12px;
 }
 
@@ -203,6 +213,10 @@ input[type=text] {
     border-radius: 100%;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
     align-content: center;  
+}
+
+.color:hover {
+    cursor: pointer;
 }
 
 .selectedcolor {
@@ -221,7 +235,6 @@ input[type=text] {
     text-decoration:none;
     display: inline-block;
     font-size: 1.5em;
-    font-family: 'Alegreya Sans light', sans-serif;
     margin: 20px 10px;
     border-radius: 12px;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
@@ -242,7 +255,6 @@ input[type=text] {
 
 .name {
     font-size: 3em;
-    font-family: 'Alegreya Sans light', sans serif;
     color:white;
     
 }
@@ -251,7 +263,6 @@ input[type=text] {
 
 .time {
     font-size: 6em;
-    font-family: 'Alegreya Sans light', sans serif;
     color:#589992;
 }
 
@@ -278,7 +289,6 @@ input[type=text] {
     text-decoration:none;
     display: inline-block;
     font-size: 1.5em;
-    font-family: 'Alegreya Sans light', sans-serif;
     margin: 20px 10px;
     border-radius: 12px;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
@@ -310,7 +320,6 @@ input[type=text] {
     text-decoration:none;
     display: inline-block;
     font-size: 1.5em;
-    font-family: 'Alegreya Sans light', sans-serif;
     margin: 20px 10px;
     border-radius: 12px;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
@@ -327,7 +336,6 @@ input[type=text] {
     text-decoration:none;
     display: inline-block;
     font-size: 1.5em;
-    font-family: 'Alegreya Sans light', sans-serif;
     margin:20px 10px;
     border-radius: 12px;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
@@ -352,7 +360,7 @@ hr.style1 {
     flex-shrink: 0;
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .spacer_footer {
@@ -381,7 +389,6 @@ hr.style1 {
 .email {
     flex: 1 auto;
     font-size: .9em;
-    font-family: 'Alegreya Sans light', sans-serif;
 }
 
 .social_icon {
@@ -390,7 +397,8 @@ hr.style1 {
 }
 
 .bmc-button img {
-    width: 21.6px !important;
+    /* width: 21.6px !important; */
+    width: 27px !important;
     margin-bottom: 1px !important;
     box-shadow: none !important;
     border: none !important;
@@ -398,8 +406,12 @@ hr.style1 {
 }
 
 .bmc-button {
-    line-height: 28.8px !important;
-    height: 29.6px !important;
+    line-height: 36px !important;
+    height: 37px !important;
+    font-size: 22px !important;
+    /* line-height: 28.8px !important; */
+    /* height: 29.6px !important; */
+    /* font-size: 17.6px !important; */
     text-decoration: none !important;
     display: inline-flex !important;
     color: #000000 !important;
@@ -407,7 +419,6 @@ hr.style1 {
     border-radius: 3px !important;
     border: 1px solid transparent !important;
     padding: 1px 9px !important;
-    font-size: 17.6px !important;
     letter-spacing: 0.6px !important;
     /* box-shadow: 0px 1px 2px rgba(190, 190, 190, 0.5) !important; */
     /* -webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important; */
@@ -524,15 +535,5 @@ hr.style1 {
         line-height: 36px !important;
         height: 37px !important;
         font-size: 22px !important;
-    }
-
-    .bmc-button:hover,
-    .bmc-button:active,
-    .bmc-button:focus {
-        /* -webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important; */
-        text-decoration: none !important;
-        /* box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important; */
-        opacity: 0.85 !important;
-        color: #000000 !important;
     }
 }
