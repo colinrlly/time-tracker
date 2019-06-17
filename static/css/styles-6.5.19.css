@@ -8,9 +8,8 @@ button.add {
 }
 
 .time {
-    font-family: 'Roboto Mono', monospace;
+    font-family: 'Roboto', sans-serif;
     font-weight: lighter;
-    letter-spacing: -.05em;
 }
 
 /****** MAIN ******/
@@ -117,7 +116,7 @@ hr.style2 {
     height: 50px;
 }
 
-p {
+.overlay > .p {
     margin-top: 30px;
     margin-bottom: 9px;
 }
@@ -253,23 +252,26 @@ input[type=text] {
       background-color:#965a36;
 }
 
+/****** TIMER *******/
+
 .name {
     font-size: 3em;
     color:white;
-    
+    margin-top: 0;
+    margin-bottom: -10px;
+    /* margin-bottom: 10px; */
 }
 
-/****** TIMER *******/
-
 .time {
-    font-size: 6em;
+    font-size: 5.5em;
     color:#589992;
+    margin-top: 20px;
+    margin-bottom: 45px;
 }
 
 .timebox {
     align-items: center;
     text-align: center;
-    height: 150px;
 }
 
 .butt {
@@ -354,12 +356,18 @@ hr.style1 {
     background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(255, 255, 255, 0.75), rgba(0, 0, 0, 0));
 }
 
+.stop, .delete, .save {
+    margin-top: -23px;
+}
+
 /****** FOOTER *******/
 
 .footer {
     flex-shrink: 0;
     display: flex;
     align-items: center;
+    width: 560px;
+    margin: auto;
     margin-bottom: 20px;
 }
 
@@ -376,19 +384,26 @@ hr.style1 {
     text-align: center;
 }
 
+.email_container {
+    margin-bottom: 10px;
+}
+
+.email {
+    flex: 1 auto;
+    font-size: .9em;
+    color: #e5e5e5;
+}
+
 .social {
     flex: 1 200px;
     color: white;
     text-align: right;
 }
 
-.email_container {
-    margin-bottom: 5px;
-}
-
-.email {
-    flex: 1 auto;
-    font-size: .9em;
+.social_icons > a {
+    width: 25px;
+    height: 25px;
+    margin-right: 5px;
 }
 
 .social_icon {
@@ -397,8 +412,8 @@ hr.style1 {
 }
 
 .bmc-button img {
-    /* width: 21.6px !important; */
-    width: 27px !important;
+    width: 24.3px !important;
+    /* width: 27px !important; */
     margin-bottom: 1px !important;
     box-shadow: none !important;
     border: none !important;
@@ -406,22 +421,28 @@ hr.style1 {
 }
 
 .bmc-button {
-    line-height: 36px !important;
+    line-height: 32.4px !important;
+    height: 33.3px !important;
+    font-size: 19.8px !important;
+    /* line-height: 36px !important;
     height: 37px !important;
-    font-size: 22px !important;
-    /* line-height: 28.8px !important; */
-    /* height: 29.6px !important; */
-    /* font-size: 17.6px !important; */
+    font-size: 22px !important; */
     text-decoration: none !important;
     display: inline-flex !important;
-    color: #000000 !important;
-    background-color: #FFFFFF !important;
+    color: #ffffff !important;
+    /* color: #000000 !important; */
+    /* background-color: #FF813F !important; */
+    background-color: #b25a2c !important;
+    /* background-color: #BB5794 !important; */
+    /* background-color: #FFFFFF !important; */
+    /* background-color: #FFDD00 !important; */
+    /* background-color: #000000 !important; */
     border-radius: 3px !important;
     border: 1px solid transparent !important;
     padding: 1px 9px !important;
     letter-spacing: 0.6px !important;
-    /* box-shadow: 0px 1px 2px rgba(190, 190, 190, 0.5) !important; */
-    /* -webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important; */
+    /* box-shadow: 0px 1px 2px rgba(190, 190, 190, 0.5) !important;
+    -webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important; */
     margin: 0 auto !important;
     font-family: 'Cookie', cursive !important;
     -webkit-box-sizing: border-box !important;
@@ -436,11 +457,11 @@ hr.style1 {
 .bmc-button:hover,
 .bmc-button:active,
 .bmc-button:focus {
-    /* -webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important; */
+    -webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;
     text-decoration: none !important;
-    /* box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important; */
+    box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;
     opacity: 0.85 !important;
-    color: #000000 !important;
+    color: #ffffff !important;
 }
 
 /****** MEDIA QUERIES *******/

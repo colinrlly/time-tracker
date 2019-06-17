@@ -14,7 +14,7 @@ var start_timer = function(start_time) {
             var hours = ('0' + duration.hours()).substr(-2, 2);
             var t = hours + ':' + minutes + ':' + seconds;
 
-            $('span.time').html(t);
+            $('p.time').html(t);
             duration = moment.duration(duration + interval, 'milliseconds');
         }, interval);
     }
@@ -33,11 +33,11 @@ var stop_timer = function() {
 }
 
 var flash_timer = function() {
-    $('span.time').fadeOut().fadeIn().fadeOut().fadeIn();
+    $('p.time').fadeOut().fadeIn().fadeOut().fadeIn();
 }
 
 var reset_timer = function() {
-    $('span.time').html('00:00:00');
+    $('p.time').html('00:00:00');
 }
 
 function utc_now() {

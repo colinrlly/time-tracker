@@ -22,7 +22,7 @@
 
     <link rel="stylesheet" type="text/css" href="../static/css/styles-6.5.19.css">
     <link rel="stylesheet" type="text/css" href="../static/fonts/gotham-cufonfonts-webfont/style.css">
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:300,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -65,13 +65,11 @@
             <div class="content">
                 <div class="timebox">
                     {% if running_activity %}
-                    <span class="name">{{current_activity}}</span>
+                    <p class="name">{{current_activity}}</p>
                     {% else %}
-                    <span class="name" style="display: none;"></span>
+                    <p class="name" style="display: none;"></p>
                     {% endif %}
-                    <br>
-                    <!--<hr class='style1'>-->
-                    <span class="time">00:00:00</span>
+                    <p class="time">00:00:00</p>
                 </div>
 
                 {% if running_activity %}
@@ -118,6 +116,10 @@
                 </div>
 
                 <div class="social">
+                    <div class="email_container">
+                        <span class="email">hellologtime@gmail.com</span>
+                    </div>
+                    
                     <div class="social_icons">
                         <a href="https://www.reddit.com/r/LogTheApp">
                             <img class="reddit_icon social_icon" src="/static/image/reddit-icon.png" alt="Reddit Icon">
@@ -136,10 +138,6 @@
                             <img class="facebook_icon social_icon" src="/static/image/facebook-icon.png"
                                 alt="Facebook Icon">
                         </a>
-                    </div>
-
-                    <div class="email_container">
-                        <span class="email">hellologtime@gmail.com</span>
                     </div>
                 </div>
 
