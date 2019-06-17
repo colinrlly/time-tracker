@@ -431,8 +431,8 @@ hr.style1 {
     display: inline-flex !important;
     color: #ffffff !important;
     /* color: #000000 !important; */
-    /* background-color: #FF813F !important; */
-    background-color: #b25a2c !important;
+    background-color: #FF813F !important;
+    /* background-color: #b25a2c !important; */
     /* background-color: #BB5794 !important; */
     /* background-color: #FFFFFF !important; */
     /* background-color: #FFDD00 !important; */
@@ -498,11 +498,14 @@ hr.style1 {
         width: 50px;
         margin: 10px 5px;
     }
+}
 
+@media only screen and (max-width: 580px) {
     /* To change footer to column layout */
     .footer {
         flex-direction: column;
         justify-content: start;
+        width: auto;
     }
 
     .logo {
