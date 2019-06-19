@@ -385,7 +385,7 @@ hr.style1 {
 }
 
 .email_container {
-    margin-bottom: 10px;
+    margin-bottom: 0px;
 }
 
 .email {
@@ -521,10 +521,6 @@ hr.style1 {
         margin-bottom: 20px;
     }
 
-    .email_container {
-        margin-bottom: 7px;
-    }
-
     .email {
         font-size: 1em;
     }
@@ -537,7 +533,7 @@ hr.style1 {
 
     .social_icons {
         display: flex;
-        margin-bottom: 15px;
+        margin-bottom: 25px;
         flex: 1 auto;
         justify-content: space-between;
     }
