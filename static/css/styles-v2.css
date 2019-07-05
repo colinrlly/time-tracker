@@ -383,11 +383,7 @@ hr.style1 {
     /* flex: 1 auto; */
     color: #999999;
     font-size: .8em;
-}
-
-.footer > .footer_dot {
-    width: 25px;
-    text-align: center;
+    margin: 0 12.5px;
 }
 
 .buy_me_a_coffee {
@@ -438,7 +434,7 @@ hr.style1 {
     }
 }
 
-@media only screen and (max-width: 550px) {
+@media only screen and (max-width: 548px) {
     
     .footer {
         flex-flow: wrap;
@@ -446,8 +442,7 @@ hr.style1 {
         justify-content: center;
     }
 
-    .footer > .footer_dot {
-        flex: 1 25px;
-        max-width: 25px;
+    .footer > span, .footer > a {
+        height: 30px;
     }
 }
