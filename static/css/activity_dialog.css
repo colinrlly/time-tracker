@@ -1,0 +1,132 @@
+.overlay {
+    position: fixed;
+    z-index: 10;
+    width: 300px;
+    background-color: rgb(240, 237, 227);
+    border-radius: 12px;
+    left: calc(50% - 150px);
+    top: calc(50% - 200px);
+    padding-bottom: 30px;
+}
+
+.close_ac_dialog_container {
+    width: 100%;
+    height: 50px;
+}
+
+.close {
+    background-color:rgba(0, 0, 0, 0);
+    border: none;
+    text-align:center;
+    text-decoration:none;
+    color: #589992;
+    font-size: 2.7em;
+    width: 50px;
+    height: 50px;
+    transform: rotate(45deg);   
+}
+
+.close:hover {
+    color: #c2e0dd;
+    cursor: pointer;
+}
+
+.ac_dialog_content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+div.activity_input_container {
+    width: 240px;
+    height: 80px;
+    border-radius: 15px;
+    background-color: #ad8c76;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+input.activity_name {
+    background-color: rgba(102, 68, 44, 0.54);
+    border: none;
+    width: 180px;
+    height: 20px;
+    padding: 5px;
+    border-radius: 12.5px;
+    color: white;
+    font-size: 1.5em;
+    text-align: center;
+}
+
+input.activity_name::placeholder {
+    color: #d1c6bf;
+}
+
+.colors_container {
+    width: 250px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.color {
+    height: 40px;
+    width: 40px;
+    border: none;
+    text-decoration: none;
+    margin: 7px;
+    border-radius: 100%;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.color:hover {
+    cursor: pointer;
+}
+
+.selectedcolor {
+    box-shadow: inset 0 0 10px #000000;
+}
+
+.save_activity_edit_btn {
+    margin-bottom: 15px;
+}
+
+a.delete_activity {
+    color:#589992;
+    border-bottom: 1px solid #589992;
+    padding-bottom: 2px; 
+}
+
+a.delete_activity:hover {
+    cursor: pointer;
+    border-bottom: none;
+    padding-bottom: 3px;
+}
+
+.activity_dialog_btn {
+    height: 50px;
+    width: 125px;
+    border: none;
+    color: white;
+    background-color: #66442c;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1.5em;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.activity_dialog_btn:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    cursor: pointer;
+}
+
+.frost {
+    filter: blur(5px);
+    position: relative;
+}

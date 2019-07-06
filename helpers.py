@@ -98,6 +98,21 @@ def get_all_users_activities(session, Activity, user_id):
     return activities
 
 
+def edit_users_activity(session, Activity, activity_id, new_name, new_color):
+    """ Edits a users activity """
+
+    activity = Activity.query.get(activity_id)
+
+    if activity.name != new_name:
+        activity.name = new_name
+    if activity.color != new_color:
+        activity.color = new_color
+    
+    session.add(activity)
+    session.commit()
+    session.close()
+
+
 def delete_users_activity(session, Activity, activity_id):
     """ Deletes an activity by id """
 

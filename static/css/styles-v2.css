@@ -1,9 +1,5 @@
 /****** FONTS *****/
-html {
-    font-family: 'Gotham Book', sans-serif;
-}
-
-button.add {
+html, button.add_activity_btn, input.activity_name {
     font-family: 'Gotham Book', sans-serif;
 }
 
@@ -42,6 +38,38 @@ body {
     flex: 1 0 auto;
 }
 
+.timer_btn {
+    height: 60px;
+    width: 150px;
+    border: none;
+    color: white;
+    background-color: #66442c;
+    text-align: center;
+    text-decoration:none;
+    display: inline-block;
+    font-size: 1.5em;
+    margin: 20px 10px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    align-content: center;  
+}
+
+/****** Add Activity *******/
+
+.plus {
+    background-color:rgba(0, 0, 0, 0);
+    border: none;
+    text-align: center;
+    text-decoration:none;
+    color: white;
+    font-size: 2.2em;
+}
+
+.plus:hover {
+    color: #589992;
+    cursor: pointer;
+}
+
 /****** SIGN IN PAGE *******/
 
 .slogo {
@@ -78,84 +106,6 @@ hr.style2 {
     width:60%;
 }
 
-/****** NEW ACTIVITY ******/
-
-.plus {
-    background-color:rgba(0, 0, 0, 0);
-    border: none;
-    text-align: center;
-    text-decoration:none;
-    color: white;
-    font-size: 2.2em;
-}
-
-.plus:hover {
-    color: #589992;
-    cursor: pointer;
-}
-
-.close { 
-    background-color:rgba(0, 0, 0, 0);
-    border: none;
-    text-align:center;
-    text-decoration:none;
-    color: #589992;
-    font-size: 1.8em;
-    width: 50px;
-    height: 50px;   
-}
-
-.close:hover {
-    color: #c2e0dd;
-    cursor: pointer;
-}
-
-.close2 {
-    text-align: center; 
-    width: 50px;
-    height: 50px;
-}
-
-.overlay > .p {
-    margin-top: 30px;
-    margin-bottom: 9px;
-}
-
-.add {
-    height: 60px;
-    width: 150px;
-    border: none;
-    color: white;
-    background-color: #66442c;
-    text-align: center;
-    text-decoration:none;
-    display: inline-block;
-    font-size: 1.2em;
-    margin: 20px 10px;
-    border-radius: 12px;
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-    align-content: center;
-}
-
-.add:hover {
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
-    cursor: pointer;
-}
-
-input[type=text] {
-    background-color: rgba(102, 68, 44, 0.54);
-    border: none;
-    border-radius: 5px;
-    width: 200px;
-    height: 25px;   
-}
-
-.frost {
-    filter: blur(5px);
-    z-index: -1;
-    position: relative;
-}
-
 /****** SIGN OUT ******/
 
 .header {
@@ -179,64 +129,28 @@ input[type=text] {
     padding-right: 17px;
 }
 
-.overlayout {
-    margin: auto auto;  
-    width: 100%;
-    height: 100%; 
-    align-content: center;
-    text-align: center;
-    position: fixed;
-    top: 15%;
-    left: 15%;
-   
-}
-
-.overlay {
-    position:fixed;
-    z-index: 10;
-    height: 70%;
-    width: 70%;
-    background-color: rgb(240, 237, 227);
-    text-align: center;
-    font-size: 1.5em;
-    border-radius: 12px;
-}
-
-.color {
-    height: 50px;
-    width: 50px;
-    border: none;
-    text-decoration:none;
-    display: inline-block;
-    margin: 20px 10px;
-    border-radius: 100%;
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-    align-content: center;  
-}
-
-.color:hover {
-    cursor: pointer;
-}
-
-.selectedcolor {
-    box-shadow: inset 0 0 10px #000000;
-}
-
 /****** ACTIVITIES *******/
 
 .activity {
-    /* background-color: #ad8c76;*/
     height: 80px;
     width: 200px;
-    border: none;
     color: white;
-    text-align: center;
-    text-decoration:none;
-    display: inline-block;
+    display: inline-flex;
     font-size: 1.5em;
     margin: 20px 10px;
     border-radius: 12px;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    position: relative;
+}
+
+.activity > span {
+    margin: auto;
+    flex: 1 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; 
+    margin-right: 10px;
+    margin-left: 10px;
 }
 
 .activity:hover {
@@ -252,6 +166,34 @@ input[type=text] {
       background-color:#965a36;
 }
 
+.activity > button {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    border: none;
+    background-color: transparent;
+    display: none;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+}
+
+button.edit_activity_btn > img {
+    width: 17px;
+    height: 17px;
+    opacity: .5;
+    margin: auto;
+}
+
+.activity:hover > button {
+    display: flex;
+    cursor: pointer;
+}
+
+.activity > button:hover > img {
+    opacity: .9;
+}
+
 /****** TIMER *******/
 
 .name {
@@ -259,7 +201,6 @@ input[type=text] {
     color:white;
     margin-top: 0;
     margin-bottom: -10px;
-    /* margin-bottom: 10px; */
 }
 
 .time {
@@ -281,69 +222,6 @@ input[type=text] {
     width:90%;
 }
 
-.stop {
-    height: 60px;
-    width: 150px;
-    border: none;
-    color: white;
-    background-color: #66442c;
-    text-align: center;
-    text-decoration:none;
-    display: inline-block;
-    font-size: 1.5em;
-    margin: 20px 10px;
-    border-radius: 12px;
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-    align-content: center;   
-}
-
-.save:hover {
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
-    cursor: pointer;
-}
-
-.stop:hover {
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
-    cursor: pointer;
-}
-
-.delete:hover {
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
-    cursor: pointer;
-}
-
-.delete {
-    height: 60px;
-    width: 150px;
-    border: none;
-    color: white;
-    background-color: #773a30;
-    text-align: center;
-    text-decoration:none;
-    display: inline-block;
-    font-size: 1.5em;
-    margin: 20px 10px;
-    border-radius: 12px;
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-    align-content: center;    
-}
-
-.save {
-    height: 60px;
-    width: 150px;
-    border: none;
-    color: white;
-    background-color: #4d8262;
-    text-align: center;
-    text-decoration:none;
-    display: inline-block;
-    font-size: 1.5em;
-    margin:20px 10px;
-    border-radius: 12px;
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-    align-content: center; 
-}
-
 .butt2 {
     align-content: center;
     text-align: center;     
@@ -358,6 +236,18 @@ hr.style1 {
 
 .stop, .delete, .save {
     margin-top: -23px;
+}
+
+.stop:hover, .delete:hover, .save:hover {
+    cursor: pointer;
+}
+
+.delete {
+    background-color: #773a30;
+}
+
+.save {
+    background-color: #4d8262;
 }
 
 /****** FOOTER *******/
@@ -380,7 +270,6 @@ hr.style1 {
 }
 
 .footer > span, .footer > a {
-    /* flex: 1 auto; */
     color: #999999;
     font-size: .8em;
     margin: 0 12.5px;
@@ -402,27 +291,6 @@ hr.style1 {
         width: 97%;
         margin-left: 0;
         margin-right: 0;
-    }
-
-    .overlayout{
-        top: 8%;
-        left: 5%;
-    }
-
-    .overlay {
-        height: 84%;
-        width: 90%;
-    }
-
-    .overlay p {
-        margin-top: 10px;
-        font-size: .9em;
-    }
-
-    .overlay .color {
-        height: 50px;
-        width: 50px;
-        margin: 10px 5px;
     }
 
     .footer {

@@ -1,0 +1,25 @@
+|----------------|
+|-Ideal Workflow-|
+|----------------|
+---client---
+1. User clicks edit icon
+2. Edit dialog opens with correct name and color
+3. User edits name and color
+4. User clicks save
+5. Client sends information to server
+---client---
+---server---
+6. Server recieves request to edit information
+7. Both new color and new name are different than old values
+8. Server updates database to have new values
+9. Server responds by sending 'success' as json to the client
+---server---
+---client---
+10. Client recieves 'success' from server
+11. Client updates activity button to show change
+12. Client closes dialog
+---client---
+
+|----------------|
+|-Ideal Workflow-|
+|----------------|

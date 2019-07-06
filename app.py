@@ -75,7 +75,7 @@ def index():
     """
     # Get user's list of activities from the database.
     user = get_or_create_user(db.session, User, flask.session['user_id'])
-    activities = Activity.query.filter_by(user_id=user.id).all()
+    activities = Activity.query.filter_by(user_id=user.id).order_by(Activity.id).all()
 
     # Decide whether there is a currently running activity
     if not user.started_at or not user.stopped_at:
@@ -153,7 +153,7 @@ def login_oauth_server_flow():
 
 
 @app.route('/api/start-activity', methods=['POST'])
-# @login_required
+@login_required
 def update_activity():
     """
         Updates the server's records of which activity the user is currently doing.
@@ -182,7 +182,7 @@ def update_activity():
 
 
 @app.route('/api/stop-activity', methods=['POST'])
-# @login_required
+@login_required
 def stop_activity():
     """
         Stops the user's current activity.
@@ -206,7 +206,7 @@ def stop_activity():
 
 
 @app.route('/api/save-activity', methods=['GET', 'POST'])
-# @login_required
+@login_required
 def save_activity():
     """
         TODO: Lots of room for improvement. This function works for both the app and website but
@@ -286,7 +286,7 @@ def save_activity():
 
 
 @app.route('/api/create-activity', methods=['POST'])
-# @login_required
+@login_required
 def create_activity():
     """
         Gets new activity information either from flask sesion for website or request.get_json()
@@ -312,13 +312,52 @@ def create_activity():
     for x in activities:
         names.append(x.name)
 
+    if str.lstrip(name) == '':
+        return json.dumps({'code': 'empty'})
     if name in names:  # If new activity is a duplicate
-        return json.dumps({'success': 'false', 'activity_id': 'null'})
-    else:
-        activity = Activity(user_id=user_id, name=name, color=color)
-        db.session.add(activity)
-        db.session.commit()
-        return json.dumps({'success': 'true', 'activity_id': activity.id})
+        return json.dumps({'code': 'duplicate'})
+    
+    activity = Activity(user_id=user_id, name=name, color=color)
+    db.session.add(activity)
+    db.session.commit()
+    return json.dumps({'code': 'success', 'activity_id': activity.id})
+
+
+@app.route('/api/save-activity-edit', methods=['POST'])
+@login_required
+def save_activity_edit():
+    activity_id = request.form['activity_id']
+    new_color = request.form['new_color']
+    new_name = request.form['new_name']
+
+    activities = Activity.query.filter_by(user_id=flask.session['user_id']).all()
+
+    # convert list of objects to list of names
+    names = []
+    for x in activities:
+        names.append(x.name)
+
+    if str.lstrip(new_name) == '':
+        return json.dumps({'code': 'empty'})
+    if new_name in names:  # If new activity is a duplicate
+        return json.dumps({'code': 'duplicate'})
+
+    edit_users_activity(db.session, Activity, activity_id, new_name, new_color)
+    return json.dumps({'code': 'success'});
+
+
+@app.route('/api/delete-activity', methods=['POST'])
+def delete_activity():
+    """
+        Deletes a user's activity.
+
+        TODO: What happens if the activity we try to delete doesn't exist?
+    """
+    activity_id = request.form['activity_id']
+
+    delete_users_activity(db.session, Activity, activity_id)
+
+    return json.dumps('success')
 
 
 @app.route('/authorize')
@@ -469,20 +508,6 @@ def get_all_acitivities():
     activities = get_all_users_activities(db.session, Activity, user_id)
 
     return json.dumps(activities)
-
-
-@app.route('/api/delete-activity', methods=['POST'])
-def delete_activity():
-    """
-        Deletes a user's activity.
-
-        TODO: What happens if the activity we try to delete doesn't exist?
-    """
-    activity_id = request.get_json()['activity_id']
-
-    delete_users_activity(db.session, Activity, activity_id)
-
-    return json.dumps('success')
 
 
 @app.route('/redirect-to-app')

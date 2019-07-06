@@ -1,0 +1,29 @@
+<div class='overlay {% block class %}{% endblock %}' style="display: none;">
+    <div class="close_ac_dialog_container">
+        <button class='close'>+</button>
+    </div>
+
+    <div class="ac_dialog_content">
+        <div class="activity_input_container">
+            <input type="text" class="activity_name" placeholder="Add Title">
+        </div>
+
+        <div class="colors_container">
+            <button class="color" style="background-color:#D50000" name='11'></button>
+            <button class="color" style="background-color:#F4511E" name='6'></button>
+            <button class="color" style="background-color:#FF8A80" name='4'></button>
+            <button class="color" style="background-color:#FFC526" name='5'></button>
+            <button class="color" style="background-color:#0B8043" name='10'></button>
+            <button class="color" style="background-color:#33B679" name='2'></button>
+            <button class="color" style="background-color:#039BE5" name='7'></button>
+            <button class="color selectedcolor" style="background-color:#7986CB" name='1'></button>
+            <button class="color" style="background-color:#3F51B5" name='9'></button>
+            <button class="color" style="background-color:#616161" name='8'></button>
+            <button class="color" style="background-color:#8D24AA" name='3'></button>
+        </div>
+
+        {% block button %}{% endblock %}
+
+        {% block button2 %}{% endblock %}
+    </div>
+</div>

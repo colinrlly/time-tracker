@@ -6,7 +6,10 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-40077705-3"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
         gtag('js', new Date());
 
         gtag('config', 'UA-40077705-3');
@@ -20,48 +23,25 @@
 
     <link rel="shortcut icon" type="image/png" href="../static/image/Favicon.png" />
 
+    <link rel="stylesheet" type="text/css" href="../static/css/activity_dialog.css">
     <link rel="stylesheet" type="text/css" href="../static/css/styles-v2.css">
     <link rel="stylesheet" type="text/css" href="../static/fonts/gotham/style.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <div class="overlayout" style='display:none'>
-        <div class='overlay' style='display:none'>
-            <div class=close2><button class='close'>+</button></div>
-
-            <p>Add a New Activity</p>
-
-            <input type="text" class="Activity_Names">
-
-            <p>Event Color</p>
-
-            <button class="color" style="background-color:#dc2127" name='11'></button>
-            <button class="color" style="background-color:#FF887c" name='4'></button>
-            <button class="color" style="background-color:#ffb878" name='6'></button>
-            <button class="color" style="background-color:#fbd75b" name='5'></button>
-            <button class="color" style="background-color:#51b749" name='10'></button>
-            <button class="color" style="background-color:#7ae7bf" name='2'></button>
-            <button class="color" style="background-color:#46d6db" name='7'></button>
-            <button class="color selectedcolor" style="background-color:#a4bdfc" name='1'></button>
-            <button class="color" style="background-color:#5484ed" name='9'></button>
-            <button class="color" style="background-color:#e1e1e1" name='8'></button>
-            <button class="color" style="background-color:#DBADFF" name='3'></button>
-            <br>
-            <button class="add">ADD</button>
-        </div>
-    </div>
+    {% include 'included/edit_activity_dialog/index.html' %}
+    {% include 'included/add_activity_dialog/index.html' %}
 
     <div class="container">
-        <header class="header">
-            <button class="plus">+</button>
-
-            <div class='g-signout'>
-                <span>Sign Out</span>
-            </div>
-        </header>
-
         <div class="blur structure">
+            <header class="header">
+                <button class="plus">+</button>
+                <div class='g-signout'>
+                    <span>Sign Out</span>
+                </div>
+            </header>
+
             <div class="content">
                 <div class="timebox">
                     {% if running_activity %}
@@ -74,9 +54,9 @@
 
                 {% if running_activity %}
                 <div class="butt2">
-                    <button class='stop'>STOP</button>
-                    <button class='delete' style='display: none;'>DELETE</button>
-                    <button class='save' style='display: none;'>SAVE</button>
+                    <button class='stop timer_btn'>STOP</button>
+                    <button class='delete timer_btn' style='display: none;'>DELETE</button>
+                    <button class='save timer_btn' style='display: none;'>SAVE</button>
                 </div>
                 <script>
                     var START_TIME = '{{start_time}}';
@@ -84,9 +64,9 @@
                 </script>
                 {% else %}
                 <div class="butt2">
-                    <button class='stop' style='display: none;'>STOP</button>
-                    <button class='delete' style='display: none;'>DELETE</button>
-                    <button class='save' style='display: none;'>SAVE</button>
+                    <button class='stop timer_btn' style='display: none;'>STOP</button>
+                    <button class='delete timer_btn' style='display: none;'>DELETE</button>
+                    <button class='save timer_btn' style='display: none;'>SAVE</button>
                 </div>
                 {% endif %}
 
@@ -94,7 +74,12 @@
 
                 <div class="butt">
                     {% for activity in activities %}
-                    <button class='activity' data-activity-id='{{activity.id}}'>{{activity.name}}</button>
+                    <a class='activity' id='{{activity.id}}' data-color='{{activity.color}}'>
+                        <span>{{activity.name}}</span>
+                        <button class="edit_activity_btn">
+                            <img src="../static/image/edit-icon.png">
+                        </button>
+                    </a>
                     {% endfor %}
                 </div>
             </div>
@@ -115,6 +100,7 @@
     <script src="../static/js/moment.js"></script>
     <script src="../static/js/timer-v0.js"></script>
     <script src="../static/js/main-v1.js"></script>
+    <script src="../static/js/activity_dialog.js"></script>
 </body>
 
 </html>

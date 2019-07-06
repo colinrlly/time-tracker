@@ -1,77 +1,19 @@
-$('.butt').on('click', 'button.activity', function () {
+$('.butt').on('click', '.activity', function () {
     /* Sends the updated activity to the server and shows the stop button */
     if (!timer_is_running()) {
         $.post('/api/start-activity',
             {
-                'activity_id': $(this).data('activity-id')
+                'activity_id': $(this).attr('id')
             });
 
         $('button.stop').show();
-        var act = $(this).html();
+        var act = $(this).find('span').html();
         act_name(act);
         start_timer(moment(utc_now()));
 
         // Hide all the buttons when timer is running
-        $('button.activity').hide();
+        $('.activity').hide();
     }
-});
-
-$('button.plus').click(function () {
-    /* show the add activity overlay */
-
-    $('div.blur').addClass('frost');
-    $('div.overlay').show();
-    $('div.overlayout').show();
-    $('button.activity').prop("disabled", true);
-});
-
-$('button.add').click(function () {
-    /* saves new activity, makes a button for it, and hides overlay */
-    $('div.blur').removeClass('frost');
-    $('div.overlay').hide();
-    $('div.overlayout').hide();
-    $('button.activity').prop("disabled", true);
-
-    var name = $('input.Activity_Names').val();
-    var color = $('button.selectedcolor').attr('name');
-
-    $.post('/api/create-activity', { 'activity': name, 'color': color }, function (json) {
-        data = JSON.parse(json);
-
-        if (data['success'] == 'true') {
-            $('div.butt').append(
-                '<button class="activity" data-activity-id=' + data['activity_id'] + '>' + name + '</button>'
-            );
-        } else {
-            window.alert('New activity cannot be a duplicate');
-        }
-    });
-});
-
-// Get the modal
-var overlay = $('.overlay');
-var overlayout = $('.overlayout');
-var plus = document.querySelector('.plus');
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function (event) {
-    if ($(event.target).parent().get(0) != overlay.get(0) && event.target != plus && $(event.target).get(0) != overlay.get(0)) {
-        overlay.hide();
-        overlayout.hide();
-        $('div.blur').removeClass('frost');
-        $('button.activity').prop("disabled", false);
-    }
-}
-
-$('button.color').click(function () {
-    $('button.selectedcolor').removeClass('selectedcolor');
-    $(this).addClass('selectedcolor');
-});
-
-$('button.close').click(function () {
-    /* Closes add activity dialog. */
-    $('div.overlay').hide();
-    $('div.blur').removeClass('frost');
 });
 
 $('button.stop').click(function () {
@@ -96,7 +38,7 @@ $('button.delete').click(function () {
     act_hide();
 
     // Show all the buttons
-    $('button.activity').show();
+    $('a.activity').show();
 });
 
 $('button.save').click(function () {
@@ -108,7 +50,7 @@ $('button.save').click(function () {
     window.location.replace('/api/save-activity');
 
     // Show all the buttons
-    $('button.activity').show();
+    $('a.activity').show();
 });
 
 $('.g-signout').click(function () {
