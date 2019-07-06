@@ -331,11 +331,13 @@ def save_activity_edit():
     new_name = request.form['new_name']
 
     activities = Activity.query.filter_by(user_id=flask.session['user_id']).all()
+    activity = Activity.query.get(activity_id)
 
     # convert list of objects to list of names
     names = []
     for x in activities:
-        names.append(x.name)
+        if x.name != activity.name:
+            names.append(x.name)
 
     if str.lstrip(new_name) == '':
         return json.dumps({'code': 'empty'})
