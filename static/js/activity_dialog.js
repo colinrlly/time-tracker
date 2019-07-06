@@ -1,3 +1,11 @@
+function closeOverlay() {
+    $('.overlay').hide();
+    $('div.blur').removeClass('frost');
+    $('a.activity').prop("disabled", false);
+    $('button.plus').prop("disabled", false);
+    $('button.edit_activity_btn').prop("disabled", false);
+}
+
 $('button.plus').click(function (event) {
     /* show the add activity overlay */
     $('div.blur').addClass('frost');
@@ -24,10 +32,7 @@ $('button.add_activity_btn').click(function () {
                 + '</a>'
             );
 
-            $('div.blur').removeClass('frost');
-            $('div.add_activity_dialog').hide();
-            $('a.activity').prop("disabled", false);
-            $('button.plus').prop('disabled', false);
+            closeOverlay();
         } else if (data['code'] == 'duplicate') {
             window.alert('New activity cannot be a duplicate.');
         } else if (data['code'] == 'empty') {
@@ -56,11 +61,7 @@ window.onclick = function (event) {
         && great_grand_parent != add_activity_dialog.get(0)
         && great_grand_parent != edit_activity_dialog.get(0)) {
 
-        $('.overlay').hide();
-        $('div.blur').removeClass('frost');
-        $('a.activity').prop("disabled", false);
-        $('button.plus').prop("disabled", false);
-        $('button.edit_activity_btn').prop("disabled", false);
+        closeOverlay();
     }
 }
 
@@ -71,9 +72,7 @@ $('button.color').click(function () {
 
 $('button.close').click(function () {
     /* Closes add activity dialog. */
-    $('a.activity').prop("disabled", false);
-    $('div.overlay').hide();
-    $('div.blur').removeClass('frost');
+    closeOverlay();
 });
 
 $('.butt').on('click', '.activity > button.edit_activity_btn', function (event) {
@@ -123,9 +122,7 @@ $('.save_activity_edit_btn').click(function () {
             $('.activity#' + activity_id).data('color', activity_color);
             $('.activity#' + activity_id).attr('data-color', activity_color);
 
-            $('a.activity').prop("disabled", false);
-            $('div.overlay').hide();
-            $('div.blur').removeClass('frost');
+            closeOverlay();
         } else if (res['code'] == 'empty') {
             alert('Activity name cannot be empty.')
         } else if (res['code'] == 'duplicate') {
@@ -143,9 +140,7 @@ $('.delete_activity').click(function () {
         if (JSON.parse(json) === "success") {
             $('.activity#' + activity_id).remove();
 
-            $('a.activity').prop("disabled", false);
-            $('div.overlay').hide();
-            $('div.blur').removeClass('frost');
+            closeOverlay();
         } else {
             alert('Something went wrong on our side, sorry.');
         }
