@@ -3,10 +3,6 @@ html, button.add_activity_btn, input.activity_name {
     font-family: 'roboto', sans-serif;
 }
 
-p.name, .activity, input.activity_name, button.add_activity_btn {
-    letter-spacing: .03em;
-}
-
 p.name {
     font-weight: 300;
 }
