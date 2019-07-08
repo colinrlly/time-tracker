@@ -74,7 +74,7 @@ def index():
         renders the template with this information.
     """
     # Get user's list of activities from the database.
-    flask.session['user_id'] = '116572533512869667239'
+    # flask.session['user_id'] = '116572533512869667239'
     user = get_or_create_user(db.session, User, flask.session['user_id'])
     activities = Activity.query.filter_by(user_id=user.id).order_by(Activity.id).all()
 
