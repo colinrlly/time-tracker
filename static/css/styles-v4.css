@@ -1,6 +1,10 @@
 /****** FONTS *****/
 html, button.add_activity_btn, input.activity_name {
-    font-family: 'Gotham Book', sans-serif;
+    font-family: 'roboto', sans-serif;
+}
+
+p.name {
+    font-weight: 300;
 }
 
 .time {
