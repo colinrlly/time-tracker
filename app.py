@@ -67,7 +67,7 @@ def login_required(f):
 
 
 @app.route('/')
-# @login_required
+@login_required
 def index():
     """
         Main page of the website. Gets user's current activity and list of activities, then
