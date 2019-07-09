@@ -27,8 +27,11 @@ $('button.add_activity_btn').click(function () {
 
         if (data['code'] == 'success') {
             $('div.butt').append(
-                '<a class="activity" id=' + data['activity_id'] + '>'
-                + '<span>' + name + '</span>'
+                '<a class="activity" id="' + data['activity_id'] + '"data-color="' + color + '">'
+                    + '<span>' + name + '</span>'
+                    + '<button class="edit_activity_btn">'
+                        + '<img src="../static/image/edit-icon.png">'
+                    + '</button>'
                 + '</a>'
             );
 
