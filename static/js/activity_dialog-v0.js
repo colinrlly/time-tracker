@@ -115,7 +115,7 @@ $('.save_activity_edit_btn').click(function () {
     var activity_name = $('div.edit_activity_dialog').find('input.activity_name').val();
     var activity_color = $('div.edit_activity_dialog').find('button.selectedcolor').attr('name');
 
-    $.post('/api/save-activity-edit', {
+    $.post('/api/edit-activity', {
         activity_id,
         new_name: activity_name,
         new_color: activity_color,
