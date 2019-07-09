@@ -1,4 +1,10 @@
-function closeOverlay() {
+function closeOverlay(clearContents) {
+    if (clearContents) {
+        $('.overlay').find('input').val('');
+        $('.overlay').find('.selectedcolor').removeClass('selectedcolor');
+        $('.overlay').find('.color[name="1"]').addClass('selectedcolor');
+    }
+
     $('.overlay').hide();
     $('div.blur').removeClass('frost');
     $('a.activity').prop("disabled", false);
@@ -35,7 +41,7 @@ $('button.add_activity_btn').click(function () {
                 + '</a>'
             );
 
-            closeOverlay();
+            closeOverlay(true);
         } else if (data['code'] == 'duplicate') {
             window.alert('New activity cannot be a duplicate.');
         } else if (data['code'] == 'empty') {
