@@ -67,6 +67,8 @@ body {
     text-decoration:none;
     color: white;
     font-size: 2.2em;
+    margin-left: 9px;
+    padding: 0;
 }
 
 .plus:hover {
