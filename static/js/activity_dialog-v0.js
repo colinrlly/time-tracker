@@ -1,3 +1,7 @@
+/**
+ * Closes both the add activity and edit activity dialog. Removes the background blur and enables
+ * all buttons on the page.
+ */
 function closeOverlay() {
     $('.overlay').hide();
     $('div.blur').removeClass('frost');
@@ -6,6 +10,9 @@ function closeOverlay() {
     $('button.edit_activity_btn').prop("disabled", false);
 }
 
+/**
+ * Opens the add activity dialog, blurs the background, and dissables buttons on the page.
+ */
 $('button.plus').click(function (event) {
     /* show the add activity overlay */
     $('div.blur').addClass('frost');
@@ -17,8 +24,15 @@ $('button.plus').click(function (event) {
     event.stopPropagation();
 });
 
+/**
+ * Saves new activity, makes a button for it, and hides overlay.
+ * 
+ * Shows an alert if the activity is a duplicate or empty.
+ * 
+ * TODO: Artificially added activity button needs edit activity button in it.
+ */
 $('button.add_activity_btn').click(function () {
-    /* saves new activity, makes a button for it, and hides overlay */
+    
     var name = $('.add_activity_dialog').find('input.activity_name').val();
     var color = $('.add_activity_dialog').find('button.selectedcolor').attr('name');
 
@@ -41,12 +55,14 @@ $('button.add_activity_btn').click(function () {
     });
 });
 
+/**
+ * The next few blocks deal with closing the overlays when the user clicks outside of them.
+ */
 // Get the modal
 var add_activity_dialog = $('.add_activity_dialog');
 var edit_activity_dialog = $('.edit_activity_dialog');
-
-// When the user clicks anywhere outside of the modal, close it
 window.onclick = function (event) {
+    // When the user clicks anywhere outside of the modal, close it
     var target = event.target;
     var parent = $(event.target).parent().get(0);
     var grand_parent = $(event.target).parent().parent().get(0);
@@ -65,16 +81,30 @@ window.onclick = function (event) {
     }
 }
 
+/**
+ * Changes the selected color for an activity.
+ * 
+ * TODO: I'm pretty sure this will modify both the selected color in add activity dialog
+ * and edit activity dialog.
+ */
 $('button.color').click(function () {
     $('button.selectedcolor').removeClass('selectedcolor');
     $(this).addClass('selectedcolor');
 });
 
+/**
+ * Closes an activity dialog.
+ */
 $('button.close').click(function () {
-    /* Closes add activity dialog. */
     closeOverlay();
 });
 
+/**
+ * Opens the edit activity dialog.
+ * 
+ * Performs a few things to set up the edit activity dialog, most importantly getting the
+ * clicked acitivty name, color, and id.
+ */
 $('.butt').on('click', '.activity > button.edit_activity_btn', function (event) {
     // Add clicked activity name to edit activity dialog.
     var activity_name = $(this).parent().find('span').html();
@@ -89,7 +119,6 @@ $('.butt').on('click', '.activity > button.edit_activity_btn', function (event) 
 
     $('div.edit_activity_dialog').show();
     $('div.blur').addClass('frost');
-    
     $('a.activity').prop("disabled", true);
     $('button.plus').prop("disabled", true);
     $('button.edit_activity_btn').prop("disabled", true);
@@ -101,6 +130,9 @@ $('.butt').on('click', '.activity > button.edit_activity_btn', function (event) 
     event.stopPropagation();
 });
 
+/**
+ * 
+ */
 $('.save_activity_edit_btn').click(function () {
     var activity_id = $('.edit_activity_dialog').data('edited_activity_id');
     var activity_name = $('div.edit_activity_dialog').find('input.activity_name').val();

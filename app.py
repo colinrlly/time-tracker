@@ -327,10 +327,19 @@ def create_activity():
 @app.route('/api/save-activity-edit', methods=['POST'])
 @login_required
 def save_activity_edit():
+    """
+        Edits a user's activity.
+
+        Return:
+        {'code': 'empty'} if new activity name is empty  
+        {'code': 'duplicate'} if new activity name is a duplicate
+        {'code': 'success'} if activity was succesfully edited
+    """
     activity_id = request.form['activity_id']
     new_color = request.form['new_color']
     new_name = request.form['new_name']
 
+    # Get user's activities
     activities = Activity.query.filter_by(user_id=flask.session['user_id']).all()
     activity = Activity.query.get(activity_id)
 
@@ -340,9 +349,10 @@ def save_activity_edit():
         if x.name != activity.name:
             names.append(x.name)
 
+    # Check if duplicate or empty name
     if str.lstrip(new_name) == '':
         return json.dumps({'code': 'empty'})
-    if new_name in names:  # If new activity is a duplicate
+    if new_name in names:
         return json.dumps({'code': 'duplicate'})
 
     edit_users_activity(db.session, Activity, activity_id, new_name, new_color)
