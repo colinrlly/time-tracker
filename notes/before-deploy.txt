@@ -1,0 +1,34 @@
+Things that need to be checked before we push to Heroku production.
+-------------------------------------------------------------------
+
+1. Login works
+    1a. Logging in as a new user works
+    1b. Logging in as a returning user works
+2. Signout works
+3. Links to donation and social media work
+4. Adding an activity works
+    4a. The input name is correct after saving
+    4b. The color is correct after saving
+    4c. The site doesn't allow activity duplication
+    4d. The site doesn't allow empty name
+    4e. The activity dialog is cleared after saving
+    4f. The activity dialog is not cleared after exiting dialog
+    4g. The new activity is clickable
+    4h. The new activity has an edit button that is clickable
+5. Editing an activity works
+    5a. The activity name is properly populated
+    5b. The actiivy color is properly populated
+    5c. Changing the name works
+    5d. Changing the color works
+    5e. Changing the name to a duplicate causes an error
+    5f. Changing the name to empty causes an error
+    5g. The newly edited name and color are changed on the client
+    5h. The newly edited name and color are changed in the database
+    5i. Starting an activity, editing it, then stopping and saving the activity works as expected
+6. Deleting an activity works
+    6a. The actiivy is removed from the client
+    6b. The activity is removed from the database
+    6c. Starting an activity, deleting it, then stopping and saving the activity works as expected
+7. Saving an activity works as expected
+    6a. Saving an activity when you haven't given calendar permissions works
+    6b. Saving an acitivty when you have given calendar permissions works
