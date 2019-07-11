@@ -1,5 +1,12 @@
+// Global varialbe to store the timer time.
 var timer;
 
+/**
+ * Starts the timer interval. Uses javascript setInterval() to update the timer
+ * every second.
+ * 
+ * @param {String} start_time Time to start the timer at.
+ */
 var start_timer = function(start_time) {
     if (!timer) {
         var now = moment(utc_now());
@@ -20,26 +27,42 @@ var start_timer = function(start_time) {
     }
 }
 
+/**
+ * Signals if there timer is running or not.
+ */
 var timer_is_running = function() {
-    if (timer) 
+    if (timer) {
         return true;
-    else
+    } else {
         return false;
+    }
 }
 
+/**
+ * Stops the timer by clearing the interval and setting global timer variable to null.
+ */
 var stop_timer = function() {
     clearInterval(timer);
     timer = null;
 }
 
+/**
+ * Fades the timer in and out twice.
+ */
 var flash_timer = function() {
     $('p.time').fadeOut().fadeIn().fadeOut().fadeIn();
 }
 
+/**
+ * Sets the p tag representing the timer to 00:00:00.
+ */
 var reset_timer = function() {
     $('p.time').html('00:00:00');
 }
 
+/**
+ * Returns a Javascript date object representing 'now' in UTC time.
+ */
 function utc_now() {
     var d = new Date();
 

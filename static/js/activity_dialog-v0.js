@@ -86,6 +86,8 @@ window.onclick = function (event) {
  * 
  * TODO: I'm pretty sure this will modify both the selected color in add activity dialog
  * and edit activity dialog.
+ * 
+ * UPDATE: It does.
  */
 $('button.color').click(function () {
     $('button.selectedcolor').removeClass('selectedcolor');
@@ -131,7 +133,10 @@ $('.butt').on('click', '.activity > button.edit_activity_btn', function (event) 
 });
 
 /**
+ * Submits the new name and color of an activity to the server.
  * 
+ * Has cases to handle when the activity name is a duplicate and when the
+ * activity name is empty.
  */
 $('.save_activity_edit_btn').click(function () {
     var activity_id = $('.edit_activity_dialog').data('edited_activity_id');
@@ -143,7 +148,6 @@ $('.save_activity_edit_btn').click(function () {
         new_name: activity_name,
         new_color: activity_color,
     }, function (json) {
-
         var res = JSON.parse(json);
 
         if (res['code'] === "success") {
@@ -165,6 +169,10 @@ $('.save_activity_edit_btn').click(function () {
     });
 });
 
+/**
+ * Deletes an activity. After the server says everything was successful removes
+ * the activity from the client.
+ */
 $('.delete_activity').click(function () {
     var activity_id = $('.edit_activity_dialog').data('edited_activity_id');
 
@@ -174,7 +182,7 @@ $('.delete_activity').click(function () {
 
             closeOverlay();
         } else {
-            alert('Something went wrong on our side, sorry.');
+            alert('Something went wrong deleting your activity.');
         }
     });
 });
