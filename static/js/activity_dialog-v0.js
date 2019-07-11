@@ -91,11 +91,6 @@ window.onclick = function (event) {
 
 /**
  * Changes the selected color for an activity.
- * 
- * TODO: I'm pretty sure this will modify both the selected color in add activity dialog
- * and edit activity dialog.
- * 
- * UPDATE: It does.
  */
 $('button.color').click(function () {
     $(this).parent().find('button.selectedcolor').removeClass('selectedcolor');
