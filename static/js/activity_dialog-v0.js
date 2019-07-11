@@ -98,7 +98,7 @@ window.onclick = function (event) {
  * UPDATE: It does.
  */
 $('button.color').click(function () {
-    $('button.selectedcolor').removeClass('selectedcolor');
+    $(this).parent().find('button.selectedcolor').removeClass('selectedcolor');
     $(this).addClass('selectedcolor');
 });
 
