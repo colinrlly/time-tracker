@@ -19,14 +19,20 @@ $('.butt').on('click', '.activity', function () {
 $('button.stop').click(function () {
     /* Sends the stop-activity command to the server 
         and hides the stop button, and shows the save/delete buttons */
-    $.post('/api/stop-activity');
+    $.post('/api/stop-activity', {}, function (json) {
+        var res = JSON.parse(json);
 
-    $('button.stop').hide();
-    $('button.delete').show();
-    $('button.save').show();
-
-    stop_timer();
-    flash_timer();
+        if (res['code'] === 'success') {
+            $('button.stop').hide();
+            $('button.delete').show();
+            $('button.save').show();
+        
+            stop_timer();
+            flash_timer();
+        } else {
+            window.alert('There was a problem stopping your activity.');
+        }
+    });
 });
 
 $('button.delete').click(function () {
@@ -47,7 +53,18 @@ $('button.save').click(function () {
     $('button.delete').hide();
     $('button.save').hide();
 
-    window.location.replace('/api/save-activity');
+    $.post('/api/save-activity', {}, function (json) {
+        var res = JSON.parse(json);
+
+        if (res.code === 'success') {
+            window.location.replace(res.auth_url);
+            // Cool, it worked
+        } else if (res.code === 'need_authorization') {
+            window.location.replace(res.auth_url);
+        } else {
+            window.alert('There was a problem saving your activity.');
+        }
+    });
 
     // Show all the buttons
     $('a.activity').show();
