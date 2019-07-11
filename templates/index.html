@@ -72,14 +72,16 @@
                 <hr class="style1">
 
                 <div class="butt">
-                    {% for activity in activities %}
-                    <a class='activity' id='{{activity.id}}' data-color='{{activity.color}}'>
-                        <span>{{activity.name}}</span>
-                        <button class="edit_activity_btn">
-                            <img src="../static/image/edit-icon.png">
-                        </button>
-                    </a>
-                    {% endfor %}
+                    {% if not running_activity %}
+                        {% for activity in activities %}
+                        <a class='activity' id='{{activity.id}}' data-color='{{activity.color}}'>
+                            <span>{{activity.name}}</span>
+                            <button class="edit_activity_btn">
+                                <img src="../static/image/edit-icon.png">
+                            </button>
+                        </a>
+                        {% endfor %}
+                    {% endif %}
                 </div>
             </div>
 
