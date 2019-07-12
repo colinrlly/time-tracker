@@ -215,36 +215,61 @@ def save_activity():
     """
     user = get_or_create_user(db.session, User, flask.session['user_id'])
 
-    if not user.credentials:
-        return {'code': 'need_authorization', 'auth_url': url_for('authorize')}
+    return json.dumps(save_users_activity(db.session, User, Activity, user))
 
-    try:
-        # Load credentials from the database.
-        credentials = client.OAuth2Credentials.from_json(user.credentials)
 
-        if credentials.access_token_expired:
-            credentials.refresh(Http())
-    except HttpAccessTokenRefreshError:  # Google credentials were revoked, need to authorize again
-        return {'code': 'need_authorization', 'auth_url': url_for('authorize')}
+@app.route('/authorize')
+@login_required
+def authorize():
+    """
+        Redirects the user to a page to select a Google profile.
 
-    calendar = googleapiclient.discovery.build(
-        API_SERVICE_NAME, API_VERSION, credentials=credentials)
+        Note: Opens a new window. This is called
+        Google oauth "web flow", as opposed to "server flow".
+
+        TODO: More thought needs to be put into these google flows once the app
+        google flows are finalized.
+    """
+    # Create flow instance to manage the OAuth 2.0 Authorization Grant Flow steps.
+    flow = client.OAuth2WebServerFlow(client_id=CLIENT_ID,
+                                      client_secret=CLIENT_SECRET,
+                                      scope=SCOPES,
+                                      access_type='offline',
+                                      prompt='consent')
+
+    flow.redirect_uri = url_for('oauth2callback', _external=True)
+
+    authorization_url = flow.step1_get_authorize_url()
+
+    return redirect(authorization_url)
+
+
+@app.route('/oauth2callback')
+@login_required
+def oauth2callback():
+    """
+        TODO: More thought needs to be put into these google flows once the app
+        google flows are finalized.
+    """
+    flow = client.OAuth2WebServerFlow(client_id=CLIENT_ID,
+                                      client_secret=CLIENT_SECRET,
+                                      scope=SCOPES)
+
+    flow.redirect_uri = url_for('oauth2callback', _external=True)
+
+    # Use the authorization server's response to fetch the OAuth 2.0 tokens.
+    authorization_response = request.args.get('code')
+    credentials = flow.step2_exchange(authorization_response)
 
     # Store credentials in the database.
+    user = get_or_create_user(db.session, User, flask.session['user_id'])
     user.credentials = credentials.to_json()
     db.session.add(user)
     db.session.commit()
 
-    successful = save_users_activity(
-        User,
-        Activity,
-        user,
-        calendar)
+    save_users_activity(db.session, User, Activity, user)
 
-    if not successful:  # The Google credentials were revoked
-        return {'code': 'need_authorization', 'auth_url': url_for('authorize')}
-
-    return {'code': 'success', 'auth_url': url_for('authorize')}
+    return redirect(url_for('index'))
 
 
 @app.route('/api/create-activity', methods=['POST'])
@@ -326,67 +351,6 @@ def delete_activity():
     delete_users_activity(db.session, Activity, activity_id)
 
     return json.dumps('success')
-
-
-@app.route('/authorize')
-@login_required
-def authorize():
-    """
-        Redirects the user to a page to select a Google profile.
-
-        Note: Opens a new window. This is called
-        Google oauth "web flow", as opposed to "server flow".
-
-        TODO: More thought needs to be put into these google flows once the app
-        google flows are finalized.
-    """
-    # Create flow instance to manage the OAuth 2.0 Authorization Grant Flow steps.
-    flow = client.OAuth2WebServerFlow(client_id=CLIENT_ID,
-                                      client_secret=CLIENT_SECRET,
-                                      scope=SCOPES,
-                                      access_type='offline',
-                                      prompt='consent')
-
-    flow.redirect_uri = url_for('oauth2callback', _external=True)
-
-    authorization_url = flow.step1_get_authorize_url()
-
-    return redirect(authorization_url)
-
-
-@app.route('/oauth2callback')
-@login_required
-def oauth2callback():
-    """
-        TODO: More thought needs to be put into these google flows once the app
-        google flows are finalized.
-    """
-    flow = client.OAuth2WebServerFlow(client_id=CLIENT_ID,
-                                      client_secret=CLIENT_SECRET,
-                                      scope=SCOPES)
-
-    flow.redirect_uri = url_for('oauth2callback', _external=True)
-
-    # Use the authorization server's response to fetch the OAuth 2.0 tokens.
-    authorization_response = request.args.get('code')
-    credentials = flow.step2_exchange(authorization_response)
-
-    # Store credentials in the database.
-    user = get_or_create_user(db.session, User, flask.session['user_id'])
-    user.credentials = credentials.to_json()
-    db.session.add(user)
-    db.session.commit()
-
-    if flask.session['client'] == 'app':
-        credentials = json.loads(credentials.to_json())
-
-        url = '{redirectUrl}/--/?calendarEmail={calendar_email}'.format(
-            redirectUrl=flask.session['redirectUrl'],
-            calendar_email=credentials['id_token']['email'])
-
-        return redirect(url)
-    else:
-        return redirect(url_for('save_activity'))
 
 
 if __name__ == '__main__':

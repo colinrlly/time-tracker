@@ -72,24 +72,22 @@ $('button.delete').click(function () {
  * stopped acitivty.
  */
 $('button.save').click(function () {
-    $('button.delete').hide();
-    $('button.save').hide();
-
     $.post('/api/save-activity', {}, function (json) {
         var res = JSON.parse(json);
 
-        if (res.code === 'success') {
-            window.location.replace(res.auth_url);
-            // Cool, it worked
-        } else if (res.code === 'need_authorization') {
-            window.location.replace(res.auth_url);
+        if (res['code'] === 'success') {
+            $('button.delete').hide();
+            $('button.save').hide();
+            $('a.activity').show();
+            reset_timer();
+            act_hide();
+        } else if (res['code'] === 'need_authorization') {
+            console.log(res);
+            window.location.replace(res['auth_url']);
         } else {
             window.alert('There was a problem saving your activity.');
         }
     });
-
-    // Show all the buttons
-    $('a.activity').show();
 });
 
 /**

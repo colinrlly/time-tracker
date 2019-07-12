@@ -98,11 +98,36 @@ def delete_users_activity(session, Activity, activity_id):
     session.commit()
 
 
-def save_users_activity(User, Activity, user, calendar):
+def save_users_activity(session, User, Activity, user):
     """
         Saves the @user's last stopped event to Google calendar.
     """
-    # Get the user's current activity
+    # Check if the user doesn't have any credentials at all.
+    if not user.credentials:
+        return {'code': 'need_authorization', 'auth_url': url_for('authorize')}
+
+    # Check if the credentials are invalid.
+    try:
+        credentials = client.OAuth2Credentials.from_json(user.credentials)
+
+        # Credentials expired, just refresh them.
+        if credentials.access_token_expired:
+            credentials.refresh(Http())
+    # Token could not be refreshed, need to auth again.
+    except HttpAccessTokenRefreshError:
+        return {'code': 'need_authorization', 'auth_url': url_for('authorize')}
+
+    # By this point we know the credentials are valid.
+    # Build the Google Calendar object.
+    calendar = googleapiclient.discovery.build(
+        API_SERVICE_NAME, API_VERSION, credentials=credentials)
+
+    # Store credentials in the database.
+    user.credentials = credentials.to_json()
+    session.add(user)
+    session.commit()
+
+    # Get the user's current activity.
     activity_id = user.current_activity
     activity = Activity.query.get(activity_id)
     name = activity.name
@@ -124,12 +149,13 @@ def save_users_activity(User, Activity, user, calendar):
 
     # Attempt to add the event to the calendar
     try:
-        event = calendar.events().insert(calendarId='primary',
-                                         body=event).execute()  # Add the event to the calendar
-    except HttpAccessTokenRefreshError:  # Google credentials were revoked, need to authorize again
-        return False
+        # Add the event to the calendar
+        event = calendar.events().insert(calendarId='primary', body=event).execute()
+    # Google credentials were revoked, need to authorize again
+    except HttpAccessTokenRefreshError:
+        return {'code': 'need_authorization', 'auth_url': url_for('authorize')}
 
-    return True
+    return {'code': 'success'}
 
 
 def get_idinfo(token):

@@ -7,3 +7,4 @@ Topics
     * Work on next feature in paralell so we can make progress while still refining what we already have
 * What is Mag going to work on?
 * Kind of want a logo so we can make MERCH
+* What should we do about the stop button pause?
