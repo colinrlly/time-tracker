@@ -1,0 +1,9 @@
+Topics
+======
+* Removed all app code from app.py
+* My next move is going to be
+    * Continue to fix bugs and refine main activity logging feel
+    * Make list of all features users have asked for and decide which is the next most important
+    * Work on next feature in paralell so we can make progress while still refining what we already have
+* What is Mag going to work on?
+* Kind of want a logo so we can make MERCH
