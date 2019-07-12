@@ -26,6 +26,9 @@ API_VERSION = 'v3'
 
 
 def get_or_create_user(session, model, user_id):
+    """
+        Returns user with id == user_id, if there is no user with that id creates a new user.
+    """
     instance = model.query.filter_by(id=user_id).first()
 
     if instance:
@@ -39,7 +42,11 @@ def get_or_create_user(session, model, user_id):
 
 
 def set_users_activity(session, model, user, activity_id):
-    """ In the database @session, sets @user's current @activity """
+    """
+        Sets @user's current @activity in the database @session.
+
+        Sets user.started_at to utc now and updates user's current activity_id.
+    """
     user.current_activity = activity_id
     user.started_at = datetime.utcnow()
     session.add(user)
@@ -50,7 +57,11 @@ def set_users_activity(session, model, user, activity_id):
 
 
 def stop_users_activity(session, model, user):
-    """ In the database @session, stops @user's current activity """
+    """
+        stops @user's current activity in the database @session.
+
+        Sets user.stopped at to utc now.
+    """
 
     user.stopped_at = datetime.utcnow()
     session.add(user)
@@ -61,7 +72,9 @@ def stop_users_activity(session, model, user):
 
 
 def edit_users_activity(session, Activity, activity_id, new_name, new_color):
-    """ Edits a users activity """
+    """
+        Edits a users activity.
+    """
 
     activity = Activity.query.get(activity_id)
 
@@ -76,7 +89,9 @@ def edit_users_activity(session, Activity, activity_id, new_name, new_color):
 
 
 def delete_users_activity(session, Activity, activity_id):
-    """ Deletes an activity by id """
+    """
+        Deletes an activity by id.
+    """
 
     activity = Activity.query.get(activity_id)
     session.delete(activity)
@@ -84,8 +99,8 @@ def delete_users_activity(session, Activity, activity_id):
 
 
 def save_users_activity(User, Activity, user, calendar):
-    """ Saves the @user's last stopped event
-        to Google calendar.
+    """
+        Saves the @user's last stopped event to Google calendar.
     """
     # Get the user's current activity
     activity_id = user.current_activity

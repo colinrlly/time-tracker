@@ -1,3 +1,7 @@
+/**
+ * Closes both the add activity and edit activity dialog. Removes the background blur and enables
+ * all buttons on the page.
+ */
 function closeOverlay(clearContents) {
     if (clearContents) {
         $('.overlay').find('input').val('');
@@ -12,6 +16,9 @@ function closeOverlay(clearContents) {
     $('button.edit_activity_btn').prop("disabled", false);
 }
 
+/**
+ * Opens the add activity dialog, blurs the background, and dissables buttons on the page.
+ */
 $('button.plus').click(function (event) {
     /* show the add activity overlay */
     $('div.blur').addClass('frost');
@@ -23,8 +30,15 @@ $('button.plus').click(function (event) {
     event.stopPropagation();
 });
 
+/**
+ * Saves new activity, makes a button for it, and hides overlay.
+ * 
+ * Shows an alert if the activity is a duplicate or empty.
+ * 
+ * TODO: Artificially added activity button needs edit activity button in it.
+ */
 $('button.add_activity_btn').click(function () {
-    /* saves new activity, makes a button for it, and hides overlay */
+    
     var name = $('.add_activity_dialog').find('input.activity_name').val();
     var color = $('.add_activity_dialog').find('button.selectedcolor').attr('name');
 
@@ -50,12 +64,13 @@ $('button.add_activity_btn').click(function () {
     });
 });
 
-// Get the modal
+/**
+ * The next few blocks deal with closing the overlays when the user clicks outside of them.
+ */
 var add_activity_dialog = $('.add_activity_dialog');
 var edit_activity_dialog = $('.edit_activity_dialog');
-
-// When the user clicks anywhere outside of the modal, close it
 window.onclick = function (event) {
+    // When the user clicks anywhere outside of the modal, close it
     var target = event.target;
     var parent = $(event.target).parent().get(0);
     var grand_parent = $(event.target).parent().parent().get(0);
@@ -74,16 +89,27 @@ window.onclick = function (event) {
     }
 }
 
+/**
+ * Changes the selected color for an activity.
+ */
 $('button.color').click(function () {
-    $('button.selectedcolor').removeClass('selectedcolor');
+    $(this).parent().find('button.selectedcolor').removeClass('selectedcolor');
     $(this).addClass('selectedcolor');
 });
 
+/**
+ * Closes an activity dialog.
+ */
 $('button.close').click(function () {
-    /* Closes add activity dialog. */
     closeOverlay();
 });
 
+/**
+ * Opens the edit activity dialog.
+ * 
+ * Performs a few things to set up the edit activity dialog, most importantly getting the
+ * clicked acitivty name, color, and id.
+ */
 $('.butt').on('click', '.activity > button.edit_activity_btn', function (event) {
     // Add clicked activity name to edit activity dialog.
     var activity_name = $(this).parent().find('span').html();
@@ -98,7 +124,6 @@ $('.butt').on('click', '.activity > button.edit_activity_btn', function (event) 
 
     $('div.edit_activity_dialog').show();
     $('div.blur').addClass('frost');
-    
     $('a.activity').prop("disabled", true);
     $('button.plus').prop("disabled", true);
     $('button.edit_activity_btn').prop("disabled", true);
@@ -110,6 +135,12 @@ $('.butt').on('click', '.activity > button.edit_activity_btn', function (event) 
     event.stopPropagation();
 });
 
+/**
+ * Submits the new name and color of an activity to the server.
+ * 
+ * Has cases to handle when the activity name is a duplicate and when the
+ * activity name is empty.
+ */
 $('.save_activity_edit_btn').click(function () {
     var activity_id = $('.edit_activity_dialog').data('edited_activity_id');
     var activity_name = $('div.edit_activity_dialog').find('input.activity_name').val();
@@ -120,7 +151,6 @@ $('.save_activity_edit_btn').click(function () {
         new_name: activity_name,
         new_color: activity_color,
     }, function (json) {
-
         var res = JSON.parse(json);
 
         if (res['code'] === "success") {
@@ -142,6 +172,10 @@ $('.save_activity_edit_btn').click(function () {
     });
 });
 
+/**
+ * Deletes an activity. After the server says everything was successful removes
+ * the activity from the client.
+ */
 $('.delete_activity').click(function () {
     var activity_id = $('.edit_activity_dialog').data('edited_activity_id');
 
@@ -151,7 +185,7 @@ $('.delete_activity').click(function () {
 
             closeOverlay();
         } else {
-            alert('Something went wrong on our side, sorry.');
+            alert('Something went wrong deleting your activity.');
         }
     });
 });
