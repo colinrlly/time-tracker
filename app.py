@@ -352,6 +352,18 @@ def delete_activity():
     return json.dumps('success')
 
 
+@app.route('/api/list_events', methods=['POST'])
+def list_events():
+    user = get_or_create_user(db.session, User, flask.session['user_id'])
+
+    return json.dumps(list_users_events(db.session, User, user))
+
+
+@app.route('/data', methods=['GET'])
+def data():
+    return render_template("data.html")
+
+
 if __name__ == '__main__':
     """ Starts the Flask development server. """
     # When running locally, disable OAuthlib's HTTPs verification.

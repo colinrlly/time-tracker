@@ -183,3 +183,59 @@ def credentials_to_dict(credentials):
             'client_id': credentials.client_id,
             'client_secret': credentials.client_secret,
             'scopes': credentials.scopes}
+
+
+def list_users_events(session, User, user):
+        # Check if the user doesn't have any credentials at all.
+    if not user.credentials:
+        return {'code': 'need_authorization', 'auth_url': url_for('authorize')}
+
+    # Check if the credentials are invalid.
+    try:
+        credentials = client.OAuth2Credentials.from_json(user.credentials)
+
+        # Credentials expired, just refresh them.
+        if credentials.access_token_expired:
+            credentials.refresh(Http())
+    # Token could not be refreshed, need to auth again.
+    except HttpAccessTokenRefreshError:
+        return {'code': 'need_authorization', 'auth_url': url_for('authorize')}
+
+    # By this point we know the credentials are valid.
+    # Build the Google Calendar object.
+    calendar = googleapiclient.discovery.build(
+        API_SERVICE_NAME, API_VERSION, credentials=credentials)
+
+    # Store credentials in the database.
+    user.credentials = credentials.to_json()
+    session.add(user)
+    session.commit()
+
+    # Make the event
+    query = {
+        "calendarId": "primary",
+        "timeMax": "2019-07-13T10:31:28+00:00",
+        "timeMin": "2019-07-07T10:00:00Z"
+    }
+
+    # Attempt to add the event to the calendar
+    try:
+        # Add the event to the calendar
+        events_list = calendar.events().list(
+            calendarId='primary',
+            timeMax="2019-07-13T10:31:28+00:00",
+            timeMin="2019-07-07T10:00:00Z").execute()
+    # Google credentials were revoked, need to authorize again
+    except HttpAccessTokenRefreshError:
+        return {'code': 'need_authorization', 'auth_url': url_for('authorize')}
+
+    print(type(events_list))
+    trimmed_list = []
+    for x in events_list['items']:
+        trimmed_list.append({
+            'end': x['end'],
+            'start': x['start'],
+            'summary': x['summary'],
+        })
+
+    return {'code': 'success', 'list': trimmed_list }
