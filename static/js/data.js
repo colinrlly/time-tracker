@@ -28,7 +28,17 @@ $(document).ready(function () {
             type: 'doughnut',
             data: {
                 datasets: [{
-                    data: agg_events_array.map(function (x) { return x.duration; })
+                    data: agg_events_array.map(function (x) { return x.duration; }),
+                    backgroundColor: [
+                        '#ff6384',
+                        '#36a2eb',
+                        '#cc65fe',
+                        '#ffce56',
+                        '#ff6384',
+                        '#36a2eb',
+                        '#cc65fe',
+                        '#ffce56'
+                    ]
                 }],
 
                 // These labels appear in the legend and in the tooltips when hovering different arcs

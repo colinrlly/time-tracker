@@ -211,13 +211,6 @@ def list_users_events(session, User, user):
     session.add(user)
     session.commit()
 
-    # Make the event
-    query = {
-        "calendarId": "primary",
-        "timeMax": "2019-07-13T10:31:28+00:00",
-        "timeMin": "2019-07-07T10:00:00Z"
-    }
-
     # Attempt to add the event to the calendar
     try:
         # Add the event to the calendar
@@ -229,13 +222,13 @@ def list_users_events(session, User, user):
     except HttpAccessTokenRefreshError:
         return {'code': 'need_authorization', 'auth_url': url_for('authorize')}
 
-    print(type(events_list))
     trimmed_list = []
     for x in events_list['items']:
-        trimmed_list.append({
-            'end': x['end'],
-            'start': x['start'],
-            'summary': x['summary'],
-        })
+        if (('end' in x) and ('start' in x) and ('summary' in x)):
+            trimmed_list.append({
+                'end': x['end'],
+                'start': x['start'],
+                'summary': x['summary'],
+            })
 
     return {'code': 'success', 'list': trimmed_list }
