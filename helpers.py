@@ -216,19 +216,20 @@ def list_users_events(session, User, user):
         # Add the event to the calendar
         events_list = calendar.events().list(
             calendarId='primary',
-            timeMax="2019-07-13T10:31:28+00:00",
-            timeMin="2019-07-07T10:00:00Z").execute()
+            timeMax="2018-10-27T00:00:00Z",
+            timeMin="2018-10-21T00:31:28Z").execute()
     # Google credentials were revoked, need to authorize again
     except HttpAccessTokenRefreshError:
         return {'code': 'need_authorization', 'auth_url': url_for('authorize')}
 
     trimmed_list = []
     for x in events_list['items']:
-        if (('end' in x) and ('start' in x) and ('summary' in x)):
+        if (('end' in x) and ('start' in x) and ('summary' in x) and ('colorId' in x)):
             trimmed_list.append({
                 'end': x['end'],
                 'start': x['start'],
                 'summary': x['summary'],
+                'colorId': x['colorId'],
             })
 
     return {'code': 'success', 'list': trimmed_list }
