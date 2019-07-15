@@ -1,7 +1,4 @@
-$(document).ready(function () {
-    $.post('/api/list_events', {}, function (json) {
-        var res = JSON.parse(json);
-
+function format_events(res) {
         var events = res.list.map(function (x) {
             var end = moment(x.end.dateTime);
             var start = moment(x.start.dateTime);
@@ -33,6 +30,15 @@ $(document).ready(function () {
                 'colorId': agg_events[event]['colorId']
             });
         }
+
+        return agg_events_array;
+}
+
+$(document).ready(function () {
+    $.post('/api/list_events', {}, function (json) {
+        var res = JSON.parse(json);
+
+        var agg_events_array = format_events(res);
 
         var ctx = document.getElementById('myChart').getContext('2d');
         var myChart = new Chart(ctx, {

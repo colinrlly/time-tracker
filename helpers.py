@@ -186,7 +186,10 @@ def credentials_to_dict(credentials):
 
 
 def list_users_events(session, User, user):
-        # Check if the user doesn't have any credentials at all.
+    timeMax = "2019-02-06T23:00:00Z"
+    timeMin = "2019-01-01T00:00:00Z"
+
+    # Check if the user doesn't have any credentials at all.
     if not user.credentials:
         return {'code': 'need_authorization', 'auth_url': url_for('authorize')}
 
@@ -211,25 +214,40 @@ def list_users_events(session, User, user):
     session.add(user)
     session.commit()
 
-    # Attempt to add the event to the calendar
-    try:
-        # Add the event to the calendar
-        events_list = calendar.events().list(
-            calendarId='primary',
-            timeMax="2018-10-27T00:00:00Z",
-            timeMin="2018-10-21T00:31:28Z").execute()
-    # Google credentials were revoked, need to authorize again
-    except HttpAccessTokenRefreshError:
-        return {'code': 'need_authorization', 'auth_url': url_for('authorize')}
-
+    # Get and format the users Google Calendar events
+    page_token = None  # Used to get the next 'page' of results
     trimmed_list = []
-    for x in events_list['items']:
-        if (('end' in x) and ('start' in x) and ('summary' in x) and ('colorId' in x)):
-            trimmed_list.append({
-                'end': x['end'],
-                'start': x['start'],
-                'summary': x['summary'],
-                'colorId': x['colorId'],
-            })
+
+    while True:
+        try:
+            # Add the event to the calendar
+            events_list = calendar.events().list(
+                calendarId='primary',
+                timeMax=timeMax,
+                timeMin=timeMin,
+                singleEvents=True,  # Expand recurring events
+                pageToken=page_token).execute()
+        # Google credentials were revoked, need to authorize again
+        except HttpAccessTokenRefreshError:
+            return {'code': 'need_authorization', 'auth_url': url_for('authorize')}
+
+        # Loop through the retrieved events and trim the results
+        for x in events_list['items']:
+            if (
+                ('end' in x)
+                and ('start' in x)
+                and ('summary' in x)
+                and ('colorId' in x)
+            ):
+                trimmed_list.append({
+                    'end': x['end'],
+                    'start': x['start'],
+                    'summary': x['summary'],
+                    'colorId': x['colorId'],
+                })
+        
+        page_token = events_list.get('nextPageToken')
+        if not page_token:
+            break
 
     return {'code': 'success', 'list': trimmed_list }
