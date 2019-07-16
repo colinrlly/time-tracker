@@ -59,11 +59,21 @@ $(document).ready(function () {
         });
     });
 
-    // Fill date range with now and 1 week ago
-    var startRange = moment().subtract(7, 'd').format('MM/DD/YYYY') +
-        ' - ' + moment().format('MM/DD/YYYY');
+    // Initialize date range picker
+    $('input[name="daterange"]').daterangepicker({
+        opens: 'left',
+        startDate: moment().subtract(7, 'd').format('MM/DD/YYYY'),
+        endDate: moment().format('MM/DD/YYYY')
+    }, function(start, end, label) {
+        console.log('A new date selection was made: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+
+        $('input[name="daterange"]').data('start', start);
+        $('input[name="daterange"]').data('end', end);
+    })
     
-    $('input[name="daterange"]').val(startRange);
+    $('input[name="daterange"]').data('start', moment().subtract(7, 'd'));
+    $('input[name="daterange"]').data('end', moment());
+    $('input[name="daterange"]').data('rangeSize', 7);
 })
 
 $('.rangeTypeBtn').click(function () {
@@ -79,11 +89,66 @@ window.onclick = function(event) {
 }
 
 $('.rangeTypeDropdownContent button').click(function (event) {
-    $('.rangeTypeBtn').html($(this).html());
+    var selection = $(this).html();
+
+    $('.rangeTypeBtn').html(selection);
+
+    switch(selection) {
+        case 'Today':
+            setRange(getEndOfRange(), 0);
+            $('input[name="daterange"]').data('rangeSize', 0);
+            break;
+        case 'Week':
+            setRange(getEndOfRange(), 7);
+            $('input[name="daterange"]').data('rangeSize', 7);
+            break;
+        case 'Month':
+            setRange(getEndOfRange(), 30);
+            $('input[name="daterange"]').data('rangeSize', 30);
+            break;
+        case '180 Days':
+            setRange(getEndOfRange(), 180);
+            $('input[name="daterange"]').data('rangeSize', 180);
+            break;
+        case 'Year':
+            setRange(getEndOfRange(), 365);
+            $('input[name="daterange"]').data('rangeSize', 365);
+            break;
+        // case 'All Time':
+        //     setRange(moment(), 0);
+        //     break;
+        default:
+            alert('Invalid Time Range');
+    }
 })
 
-$('input[name="daterange"]').daterangepicker({
-    opens: 'left'
-}, function(start, end, label) {
-    console.log('A new date selection was made: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+function setRange(endOfRange, rangeSize) {
+    var startOfRange = moment(endOfRange).subtract(rangeSize, 'd');
+
+    $('input[name="daterange"]').data('start', startOfRange);
+    $('input[name="daterange"]').data('end', endOfRange);
+
+    $('input[name="daterange"]').val(startOfRange.format('MM/DD/YYYY') + ' - ' + endOfRange.format('MM/DD/YYYY'));
+}
+
+function getStartOfRange() {
+    return $('input[name="daterange"]').data('start');
+}
+
+function getEndOfRange() {
+    return $('input[name="daterange"]').data('end');
+}
+
+function getRangeSize() {
+    return $('input[name="daterange"]').data('rangeSize');
+}
+
+$('.rangeBackwardBtn').click(function () {
+    setRange(getStartOfRange(), getRangeSize());
+})
+
+$('.rangeForwardBtn').click(function () {
+    var rangeSize = getRangeSize();
+
+    setRange(moment(getEndOfRange()).add(rangeSize, 'd'), rangeSize);
 })
