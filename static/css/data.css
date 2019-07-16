@@ -1,0 +1,26 @@
+.rangeTypeBtn {
+    background-color: #3498DB;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.rangeTypeBtn:hover, .rangeTypeBtn:focus {
+    background-color: #2980B9;
+}
+
+.rangeTypeDropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.rangeTypeDropdownContent {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}

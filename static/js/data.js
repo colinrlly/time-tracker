@@ -58,3 +58,25 @@ $(document).ready(function () {
         });
     });
 })
+
+$('.rangeTypeBtn').click(function () {
+    $('.rangeTypeDropdownContent').show();
+})
+
+// Close the dropdown menu if the user clicks outside of it
+window.onclick = function(event) {
+    if (!event.target.matches('.rangeTypeBtn')
+        && $('.rangeTypeBtn').is(':visible')) {
+            $('.rangeTypeDropdownContent').hide();
+    }
+}
+
+$('.rangeTypeDropdownContent button').click(function (event) {
+    $('.rangeTypeBtn').html($(this).html());
+})
+
+$('input[name="daterange"]').daterangepicker({
+    opens: 'left'
+}, function(start, end, label) {
+    console.log('A new date selection was made: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+})

@@ -16,14 +16,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Log Those Activities</title>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/data.css">
 </head>
 
 <body>
-    <canvas id="myChart" width="400" height="400"></canvas>
+    <div class="rangeTypeDropdown">
+        <button class="rangeTypeBtn">Week</button>
+        <div class="rangeTypeDropdownContent">
+            <button>Day</button>
+            <button>Week</button>
+            <button>Month</button>
+            <button>Half Year</button>
+            <button>Year</button>
+            <button>All Time</button>
+        </div>
+    </div>
+    <input type="text" name="daterange" value="01/01/2018 - 01/15/2018" />
+    <!-- <canvas id="myChart" width="400" height="400"></canvas> -->
+
     <script src="../static/js/jquery-compressed.js"></script>
     <script src="../static/js/moment.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
     <script src="../static/js/google_colors.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script src="../static/js/data.js"></script>
 </body>
 
