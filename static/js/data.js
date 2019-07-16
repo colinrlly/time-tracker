@@ -35,6 +35,7 @@ function format_events(res) {
 }
 
 $(document).ready(function () {
+    // Populate pie chart
     $.post('/api/list_events', {}, function (json) {
         var res = JSON.parse(json);
 
@@ -57,6 +58,12 @@ $(document).ready(function () {
             options: {}
         });
     });
+
+    // Fill date range with now and 1 week ago
+    var startRange = moment().subtract(7, 'd').format('MM/DD/YYYY') +
+        ' - ' + moment().format('MM/DD/YYYY');
+    
+    $('input[name="daterange"]').val(startRange);
 })
 
 $('.rangeTypeBtn').click(function () {
