@@ -185,10 +185,7 @@ def credentials_to_dict(credentials):
             'scopes': credentials.scopes}
 
 
-def list_users_events(session, User, user):
-    timeMax = "2019-02-06T23:00:00Z"
-    timeMin = "2019-01-01T00:00:00Z"
-
+def list_users_events(session, User, user, startOfRange, endOfRange):
     # Check if the user doesn't have any credentials at all.
     if not user.credentials:
         return {'code': 'need_authorization', 'auth_url': url_for('authorize')}
@@ -223,10 +220,12 @@ def list_users_events(session, User, user):
             # Add the event to the calendar
             events_list = calendar.events().list(
                 calendarId='primary',
-                timeMax=timeMax,
-                timeMin=timeMin,
+                timeMax=endOfRange,
+                timeMin=startOfRange,
                 singleEvents=True,  # Expand recurring events
                 pageToken=page_token).execute()
+
+            calendars = calendar.calendarList().list().execute()
         # Google credentials were revoked, need to authorize again
         except HttpAccessTokenRefreshError:
             return {'code': 'need_authorization', 'auth_url': url_for('authorize')}
@@ -237,17 +236,23 @@ def list_users_events(session, User, user):
                 ('end' in x)
                 and ('start' in x)
                 and ('summary' in x)
-                and ('colorId' in x)
             ):
+                if not ('colorId' in x):
+                    colorId = '1'
+                else:
+                    colorId = x['colorId']
+
                 trimmed_list.append({
                     'end': x['end'],
                     'start': x['start'],
                     'summary': x['summary'],
-                    'colorId': x['colorId'],
+                    'colorId': colorId,
                 })
         
         page_token = events_list.get('nextPageToken')
         if not page_token:
             break
 
+    # return calendars
+    # return {'code': 'success', 'list': events_list }
     return {'code': 'success', 'list': trimmed_list }
