@@ -1,4 +1,5 @@
 var pieChart;
+var date_ranges = [];
 
 function format_events(res) {
         var events = res.list.map(function (x) {
@@ -88,38 +89,46 @@ $(document).ready(function () {
 function updateChart() {
     pieChart.destroy();
 
-    console.log('updating chart');
+    // console.log('updating chart');
+
+    date_ranges.push({'start': getStartOfRange().toISOString(), 'end': getEndOfRange().toISOString()});
+    console.log(date_ranges);
 
     $.post('/api/list_events', {
         'startOfRange': getStartOfRange().toISOString(),
         'endOfRange': getEndOfRange().toISOString(),
     }, function (json) {
-        console.log('recieved data');
+        // console.log('recieved data');
 
         var res = JSON.parse(json);
 
         console.log(res);
-       
-        var agg_events_array = format_events(res);
 
-        var ctx = document.getElementById('myChart').getContext('2d');
-        pieChart = new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                datasets: [{
-                    data: agg_events_array.map(function (x) { return x.duration; }),
-                    backgroundColor: agg_events_array.map(function (x) {
-                        return google_colors[x.colorId];
-                    })
-                }],
+        if (res['start'] === date_ranges[date_ranges.length - 1]['start']
+            && res['end'] === date_ranges[date_ranges.length - 1]['end']) {
 
-                // These labels appear in the legend and in the tooltips when hovering different arcs
-                labels: agg_events_array.map(function (x) { return x.name; })
-            },
-            options: {}
-        });
+            var agg_events_array = format_events(res);
 
-        console.log('done updating chart');
+            var ctx = document.getElementById('myChart').getContext('2d');
+            pieChart.destroy();
+            pieChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: agg_events_array.map(function (x) { return x.duration; }),
+                        backgroundColor: agg_events_array.map(function (x) {
+                            return google_colors[x.colorId];
+                        })
+                    }],
+
+                    // These labels appear in the legend and in the tooltips when hovering different arcs
+                    labels: agg_events_array.map(function (x) { return x.name; })
+                },
+                options: {}
+            });
+        }
+
+        // console.log('done updating chart');
     });
 }
 

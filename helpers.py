@@ -255,4 +255,4 @@ def list_users_events(session, User, user, startOfRange, endOfRange):
 
     # return calendars
     # return {'code': 'success', 'list': events_list }
-    return {'code': 'success', 'list': trimmed_list }
+    return {'code': 'success', 'start': startOfRange, 'end': endOfRange, 'list': trimmed_list }
