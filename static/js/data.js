@@ -34,6 +34,8 @@ function format_events(res) {
             });
         }
 
+        agg_events_array.sort(function(a, b) { return b['duration'] - a['duration'] });
+
         return agg_events_array;
 }
 
