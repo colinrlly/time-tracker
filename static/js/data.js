@@ -1,7 +1,9 @@
 var pieChart;
 var date_ranges = [];
 
+// Aggregates and formats a list of activity records which usually comes from the server
 function format_events(res) {
+        // Get the duration of each event.
         var events = res.list.map(function (x) {
             var end = moment(x.end.dateTime);
             var start = moment(x.start.dateTime);
@@ -13,6 +15,7 @@ function format_events(res) {
             };
         });
 
+        // Aggregate the events together grouped by name.
         var agg_events = events.reduce(function (acc, curr) {
             var curr_name = curr['name'];
 
@@ -25,6 +28,7 @@ function format_events(res) {
             return acc;
         }, {});
 
+        // Turn the dictionary of aggregated events into an array.
         var agg_events_array = [];
         for (var event in agg_events) {
             agg_events_array.push({
@@ -34,17 +38,20 @@ function format_events(res) {
             });
         }
 
+        // Sort the array so the events show up in order of increasing duration.
         agg_events_array.sort(function(a, b) { return b['duration'] - a['duration'] });
 
         return agg_events_array;
 }
 
+// Function to run when a custom date range is selected.
 function setCustomRange() {
     $('.rangeTypeBtn').html('Custom');
     $('.rangeBackwardBtn').hide();
     $('.rangeForwardBtn').hide();
 }
 
+// Function to run when a custom date range is de-selected.
 function removeCustomRange() {
     $('.rangeBackwardBtn').show();
     $('.rangeForwardBtn').show();
@@ -98,24 +105,22 @@ $(document).ready(function () {
     });
 })
 
+// Updates the pie chart to show new data.
 function updateChart() {
-    pieChart.destroy();
-
-    // console.log('updating chart');
-
+    // Add the new date range to the date_ranges array.
+    // This array is used to keep track of the last selected date range,
+    // so if the data returns from the server out of order this array is used to
+    // update using only the most recent date range.
     date_ranges.push({'start': getStartOfRange().toISOString(), 'end': getEndOfRange().toISOString()});
-    console.log(date_ranges);
 
+    // Ask the server for the events in a specified date range.
     $.post('/api/list_events', {
         'startOfRange': getStartOfRange().toISOString(),
         'endOfRange': getEndOfRange().toISOString(),
     }, function (json) {
-        // console.log('recieved data');
-
         var res = JSON.parse(json);
 
-        console.log(res);
-
+        // If the incomming data is for the most recently selected date range.
         if (res['start'] === date_ranges[date_ranges.length - 1]['start']
             && res['end'] === date_ranges[date_ranges.length - 1]['end']) {
 
@@ -139,11 +144,10 @@ function updateChart() {
                 options: {}
             });
         }
-
-        // console.log('done updating chart');
     });
 }
 
+// Shows the range type dropdown.
 $('.rangeTypeBtn').click(function () {
     $('.rangeTypeDropdownContent').show();
 })
@@ -156,6 +160,7 @@ window.onclick = function(event) {
     }
 }
 
+// Handles when the user chooses a new date range type from the dropdown.
 $('.rangeTypeDropdownContent button').click(function (event) {
     var selection = $(this).html();
 
@@ -187,6 +192,7 @@ $('.rangeTypeDropdownContent button').click(function (event) {
             $('input[name="daterange"]').data('rangeSize', 365);
             removeCustomRange();
             break;
+        // Not sure how to define all time yet.
         // case 'All Time':
         //     setRange(moment(), 0);
         //     break;
@@ -195,6 +201,7 @@ $('.rangeTypeDropdownContent button').click(function (event) {
     }
 })
 
+// Executes the flow for a newly selected date range.
 function setRange(endOfRange, rangeSize) {
     var startOfRange = moment(endOfRange).subtract(rangeSize, 'd');
 
@@ -207,22 +214,27 @@ function setRange(endOfRange, rangeSize) {
     updateChart();
 }
 
+// Returns the start of the current date range.
 function getStartOfRange() {
     return $('input[name="daterange"]').data('start');
 }
 
+// Returns the end of the current date range.
 function getEndOfRange() {
     return $('input[name="daterange"]').data('end');
 }
 
+// Returns the size of the current date range i.e. week, month, etc.
 function getRangeSize() {
     return $('input[name="daterange"]').data('rangeSize');
 }
 
+// Handles clicking the range backwards button.
 $('.rangeBackwardBtn').click(function () {
     setRange(getStartOfRange(), getRangeSize());
 })
 
+// Handles clicking the range forwards button.
 $('.rangeForwardBtn').click(function () {
     var rangeSize = getRangeSize();
     setRange(moment(getEndOfRange()).add(rangeSize, 'd'), rangeSize);
