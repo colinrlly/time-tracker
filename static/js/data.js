@@ -33,7 +33,7 @@ function format_events(res) {
         for (var event in agg_events) {
             agg_events_array.push({
                 'name': event,
-                'duration': agg_events[event]['duration'],
+                'duration': (agg_events[event]['duration'] / 60).toFixed(2),
                 'colorId': agg_events[event]['colorId']
             });
         }
