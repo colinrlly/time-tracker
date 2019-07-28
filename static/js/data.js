@@ -39,6 +39,17 @@ function format_events(res) {
         return agg_events_array;
 }
 
+function setCustomRange() {
+    $('.rangeTypeBtn').html('Custom');
+    $('.rangeBackwardBtn').hide();
+    $('.rangeForwardBtn').hide();
+}
+
+function removeCustomRange() {
+    $('.rangeBackwardBtn').show();
+    $('.rangeForwardBtn').show();
+}
+
 $(document).ready(function () {
     // Initialize date range picker
     $('input[name="daterange"]').daterangepicker({
@@ -46,14 +57,15 @@ $(document).ready(function () {
         startDate: moment().subtract(7, 'd').format('MM/DD/YYYY'),
         endDate: moment().format('MM/DD/YYYY')
     }, function(start, end, label) {
-        console.log('A new date selection was made: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-
         $('input[name="daterange"]').data('start', start);
         $('input[name="daterange"]').data('end', end);
+
+        setCustomRange();
 
         updateChart();
     })
     
+    // Set initial date range data
     $('input[name="daterange"]').data('start', moment().subtract(7, 'd'));
     $('input[name="daterange"]').data('end', moment());
     $('input[name="daterange"]').data('rangeSize', 7);
@@ -64,8 +76,6 @@ $(document).ready(function () {
         'endOfRange': getEndOfRange().toISOString(),
     }, function (json) {
         var res = JSON.parse(json);
-
-        console.log(res);
 
         var agg_events_array = format_events(res);
 
@@ -155,22 +165,27 @@ $('.rangeTypeDropdownContent button').click(function (event) {
         case 'Day':
             setRange(getEndOfRange(), 1);
             $('input[name="daterange"]').data('rangeSize', 1);
+            removeCustomRange();
             break;
         case 'Week':
             setRange(getEndOfRange(), 7);
             $('input[name="daterange"]').data('rangeSize', 7);
+            removeCustomRange();
             break;
         case 'Month':
             setRange(getEndOfRange(), 30);
             $('input[name="daterange"]').data('rangeSize', 30);
+            removeCustomRange();
             break;
         case '180 Days':
             setRange(getEndOfRange(), 180);
             $('input[name="daterange"]').data('rangeSize', 180);
+            removeCustomRange();
             break;
         case 'Year':
             setRange(getEndOfRange(), 365);
             $('input[name="daterange"]').data('rangeSize', 365);
+            removeCustomRange();
             break;
         // case 'All Time':
         //     setRange(moment(), 0);
@@ -186,7 +201,8 @@ function setRange(endOfRange, rangeSize) {
     $('input[name="daterange"]').data('start', startOfRange);
     $('input[name="daterange"]').data('end', endOfRange);
 
-    $('input[name="daterange"]').val(startOfRange.format('MM/DD/YYYY') + ' - ' + endOfRange.format('MM/DD/YYYY'));
+    $('input[name="daterange"]').data('daterangepicker').setStartDate(startOfRange.format('MM/DD/YYYY'));
+    $('input[name="daterange"]').data('daterangepicker').setEndDate(endOfRange.format('MM/DD/YYYY'));
 
     updateChart();
 }
