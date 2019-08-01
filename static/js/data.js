@@ -87,6 +87,21 @@ $(document).ready(function () {
     updateChart();
 })
 
+
+// Show / hide data slice on label click
+function handleLabelClick(event, index) {
+    if (pieChart.getDatasetMeta(0).data[index].hidden) {
+        pieChart.getDatasetMeta(0).data[index].hidden = false;
+        $(event.target).css('text-decoration', 'none');
+    } else {
+        pieChart.getDatasetMeta(0).data[index].hidden = true;
+        $(event.target).css('text-decoration', 'line-through');
+    }
+
+    // We hid a dataset ... rerender the chart
+    pieChart.update();
+}
+
 // Updates the pie chart to show new data.
 function updateChart() {
     // Add the new date range to the date_ranges array.
@@ -111,9 +126,7 @@ function updateChart() {
             var agg_events_array = format_events(res);
 
             var ctx = document.getElementById('myChart').getContext('2d');
-            if (pieChart) {
-                pieChart.destroy();
-            }
+            if (pieChart) { pieChart.destroy(); }
             pieChart = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
@@ -137,7 +150,12 @@ function updateChart() {
 
                         for (var i = 0; i < item.data.length; i++) {
                             legendHtml.push('<li>');
-                            legendHtml.push('<span class="chartLegendLabel" style="background-color:' + item.backgroundColor[i] + '">' + item.data[i] + ' hours - ' + chart.data.labels[i] + '</span>');
+                            legendHtml.push('<span'
+                                + ' class="chartLegendLabel"'
+                                + ' onClick="handleLabelClick(event, ' + i + ')"'
+                                + ' style="background-color:' + item.backgroundColor[i] + '">'
+                                + item.data[i] + ' hours - ' + chart.data.labels[i]
+                                + '</span>');
                             legendHtml.push('</li>');
                         }
 
@@ -147,22 +165,6 @@ function updateChart() {
                     }
                 }
             });
-
-            // Show / hide data slice on label click
-            $(".chartLegend").on('click', "li", function () {
-                var index = $(this).index();
-
-                if (pieChart.getDatasetMeta(0).data[index].hidden) {
-                    pieChart.getDatasetMeta(0).data[index].hidden = false;
-                    $(this).css('text-decoration', 'none');
-                } else {
-                    pieChart.getDatasetMeta(0).data[index].hidden = true;
-                    $(this).css('text-decoration', 'line-through');
-                }
-
-                // We hid a dataset ... rerender the chart
-                pieChart.update();
-            })
 
             $('.chartLegend').html(pieChart.generateLegend());  // Call this to generate our own legend
         }
