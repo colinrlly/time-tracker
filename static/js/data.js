@@ -141,24 +141,42 @@ function updateChart() {
                     labels: agg_events_array.map(function (x) { return x.name; })
                 },
                 options: {
-                    legend: false,  // Don't show the default legend
-                    legendCallback: function (chart) {  // Instead create our own custom legend
+                    legend: false,  // Don't show the default legend...
+                    legendCallback: function (chart) {  // ...Instead create our own custom legend
                         var legendHtml = [];
+
+                        // Log activities ul
+                        legendHtml.push('<h3>Log Activities</h3>')
                         legendHtml.push('<ul class="chartLegend">');
-
-                        var item = chart.data.datasets[0];
-
-                        for (var i = 0; i < item.data.length; i++) {
-                            legendHtml.push('<li>');
-                            legendHtml.push('<span'
-                                + ' class="chartLegendLabel"'
-                                + ' onClick="handleLabelClick(event, ' + i + ')"'
-                                + ' style="background-color:' + item.backgroundColor[i] + '">'
-                                + item.data[i] + ' hours - ' + chart.data.labels[i]
-                                + '</span>');
-                            legendHtml.push('</li>');
+                        for (var i = 0; i < agg_events_array.length; i++) {
+                            if (agg_events_array[i].inActivities) {
+                                legendHtml.push('<li>');
+                                legendHtml.push('<span'
+                                    + ' class="chartLegendLabel"'
+                                    + ' onClick="handleLabelClick(event, ' + i + ')"'
+                                    + ' style="background-color:' + google_colors[agg_events_array[i].colorId] + '">'
+                                        + agg_events_array[i].name + ' hours - ' + agg_events_array[i].duration
+                                    + '</span>');
+                                legendHtml.push('</li>');
+                            }
                         }
+                        legendHtml.push('</ul>');                        
 
+                        // Other Google Calendar activities ul
+                        legendHtml.push('<h3>Other Google Calendar Activities</h3>')
+                        legendHtml.push('<ul class="chartLegend">');
+                        for (var i = 0; i < agg_events_array.length; i++) {
+                            if (!agg_events_array[i].inActivities) {
+                                legendHtml.push('<li>');
+                                legendHtml.push('<span'
+                                    + ' class="chartLegendLabel"'
+                                    + ' onClick="handleLabelClick(event, ' + i + ')"'
+                                    + ' style="background-color:' + google_colors[agg_events_array[i].colorId] + '">'
+                                        + agg_events_array[i].name + ' hours - ' + agg_events_array[i].duration
+                                    + '</span>');
+                                legendHtml.push('</li>');
+                            }
+                        }
                         legendHtml.push('</ul>');
 
                         return legendHtml.join("");
