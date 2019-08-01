@@ -83,70 +83,8 @@ $(document).ready(function () {
     $('input[name="daterange"]').data('end', moment());
     $('input[name="daterange"]').data('rangeSize', 7);
 
-    // Populate pie chart
-    $.post('/api/list_events', {
-        'startOfRange': getStartOfRange().toISOString(),
-        'endOfRange': getEndOfRange().toISOString(),
-    }, function (json) {
-        var res = JSON.parse(json);
-
-        // console.log(res)
-
-        var agg_events_array = format_events(res);
-
-        var ctx = document.getElementById('myChart').getContext('2d');
-        pieChart = new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                datasets: [{
-                    data: agg_events_array.map(function (x) { return x.duration; }),
-                    backgroundColor: agg_events_array.map(function (x) {
-                        return google_colors[x.colorId];
-                    })
-                }],
-
-                // These labels appear in the legend and in the tooltips when hovering different arcs
-                labels: agg_events_array.map(function (x) { return x.name; })
-            },
-            options: {
-                legend: false,  // Don't show the default legend
-                legendCallback: function (chart) {  // Instead create our own custom legend
-                    var legendHtml = [];
-                    legendHtml.push('<ul class="chartLegend">');
-
-                    var item = chart.data.datasets[0];
-
-                    for (var i = 0; i < item.data.length; i++) {
-                        legendHtml.push('<li>');
-                        legendHtml.push('<span class="chartLegendLabel" style="background-color:' + item.backgroundColor[i] + '">' + item.data[i] + ' hours - ' + chart.data.labels[i] + '</span>');
-                        legendHtml.push('</li>');
-                    }
-
-                    legendHtml.push('</ul>');
-
-                    return legendHtml.join("");
-                }
-            }
-        });
-
-        // Show / hide data slice on label click
-        $(".chartLegend").on('click', "li", function() {
-            var index = $(this).index();
-
-            if (pieChart.getDatasetMeta(0).data[index].hidden) {
-                pieChart.getDatasetMeta(0).data[index].hidden = false;
-                $(this).css('text-decoration', 'none');
-            } else {
-                pieChart.getDatasetMeta(0).data[index].hidden = true;
-                $(this).css('text-decoration', 'line-through');
-            }
-                            
-            // We hid a dataset ... rerender the chart
-            pieChart.update();
-        })
-
-        $('.chartLegend').html(pieChart.generateLegend());  // Call this to generate our own legend
-    });
+    // Populate pie chart with initial data
+    updateChart();
 })
 
 // Updates the pie chart to show new data.
@@ -164,6 +102,8 @@ function updateChart() {
     }, function (json) {
         var res = JSON.parse(json);
 
+        // console.log(res)
+
         // If the incomming data is for the most recently selected date range.
         if (res['start'] === date_ranges[date_ranges.length - 1]['start']
             && res['end'] === date_ranges[date_ranges.length - 1]['end']) {
@@ -171,7 +111,9 @@ function updateChart() {
             var agg_events_array = format_events(res);
 
             var ctx = document.getElementById('myChart').getContext('2d');
-            pieChart.destroy();
+            if (pieChart) {
+                pieChart.destroy();
+            }
             pieChart = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
@@ -185,8 +127,44 @@ function updateChart() {
                     // These labels appear in the legend and in the tooltips when hovering different arcs
                     labels: agg_events_array.map(function (x) { return x.name; })
                 },
-                options: {}
+                options: {
+                    legend: false,  // Don't show the default legend
+                    legendCallback: function (chart) {  // Instead create our own custom legend
+                        var legendHtml = [];
+                        legendHtml.push('<ul class="chartLegend">');
+
+                        var item = chart.data.datasets[0];
+
+                        for (var i = 0; i < item.data.length; i++) {
+                            legendHtml.push('<li>');
+                            legendHtml.push('<span class="chartLegendLabel" style="background-color:' + item.backgroundColor[i] + '">' + item.data[i] + ' hours - ' + chart.data.labels[i] + '</span>');
+                            legendHtml.push('</li>');
+                        }
+
+                        legendHtml.push('</ul>');
+
+                        return legendHtml.join("");
+                    }
+                }
             });
+
+            // Show / hide data slice on label click
+            $(".chartLegend").on('click', "li", function () {
+                var index = $(this).index();
+
+                if (pieChart.getDatasetMeta(0).data[index].hidden) {
+                    pieChart.getDatasetMeta(0).data[index].hidden = false;
+                    $(this).css('text-decoration', 'none');
+                } else {
+                    pieChart.getDatasetMeta(0).data[index].hidden = true;
+                    $(this).css('text-decoration', 'line-through');
+                }
+
+                // We hid a dataset ... rerender the chart
+                pieChart.update();
+            })
+
+            $('.chartLegend').html(pieChart.generateLegend());  // Call this to generate our own legend
         }
     });
 }
