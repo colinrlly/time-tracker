@@ -155,24 +155,24 @@ function updateChart() {
                                     + ' class="chartLegendLabel"'
                                     + ' onClick="handleLabelClick(event, ' + i + ')"'
                                     + ' style="background-color:' + google_colors[agg_events_array[i].colorId] + '">'
-                                        + agg_events_array[i].name + ' hours - ' + agg_events_array[i].duration
+                                    + agg_events_array[i].name + ' hours - ' + agg_events_array[i].duration
                                     + '</span>');
                                 legendHtml.push('</li>');
                             }
                         }
-                        legendHtml.push('</ul>');                        
+                        legendHtml.push('</ul>');
 
                         // Other Google Calendar activities ul
                         legendHtml.push('<h3>Other Google Calendar Activities</h3>')
                         legendHtml.push('<ul class="chartLegend">');
                         for (var i = 0; i < agg_events_array.length; i++) {
                             if (!agg_events_array[i].inActivities) {
-                                legendHtml.push('<li>');
+                                legendHtml.push('<li class="otherGCActivtyLabel">');
                                 legendHtml.push('<span'
                                     + ' class="chartLegendLabel"'
                                     + ' onClick="handleLabelClick(event, ' + i + ')"'
                                     + ' style="background-color:' + google_colors[agg_events_array[i].colorId] + '">'
-                                        + agg_events_array[i].name + ' hours - ' + agg_events_array[i].duration
+                                    + agg_events_array[i].name + ' hours - ' + agg_events_array[i].duration
                                     + '</span>');
                                 legendHtml.push('</li>');
                             }
@@ -185,6 +185,17 @@ function updateChart() {
             });
 
             $('.chartLegend').html(pieChart.generateLegend());  // Call this to generate our own legend
+
+            // Hide and line-through all other Google Calendar activities.
+            for (var i = 0; i < agg_events_array.length; i++) {
+                if (!agg_events_array[i].inActivities) {
+                    pieChart.getDatasetMeta(0).data[i].hidden = true;
+                    $('.otherGCActivtyLabel span').css('text-decoration', 'line-through');
+                }
+            }
+
+            // Update pieChart after we hide all other Google Calendar Activities.
+            pieChart.update();
         }
     });
 }
