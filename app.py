@@ -323,6 +323,7 @@ def save_activity_edit():
     activity = Activity.query.get(activity_id)
 
     # convert list of objects to list of names
+    # list of names is used to check if new name is duplicate
     names = []
     for x in activities:
         if x.name != activity.name:
@@ -335,7 +336,7 @@ def save_activity_edit():
         return json.dumps({'code': 'duplicate'})
 
     edit_users_activity(db.session, Activity, activity_id, new_name, new_color)
-    return json.dumps({'code': 'success'});
+    return json.dumps({'code': 'success'})
 
 
 @app.route('/api/delete-activity', methods=['POST'])
@@ -359,7 +360,7 @@ def list_events():
 
     user = get_or_create_user(db.session, User, flask.session['user_id'])
 
-    return json.dumps(list_users_events(db.session, User, user, startOfRange, endOfRange))
+    return json.dumps(list_users_events(db.session, User, Activity, user, startOfRange, endOfRange))
 
 
 @app.route('/data', methods=['GET'])

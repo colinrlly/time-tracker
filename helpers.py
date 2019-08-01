@@ -185,7 +185,7 @@ def credentials_to_dict(credentials):
             'scopes': credentials.scopes}
 
 
-def list_users_events(session, User, user, startOfRange, endOfRange):
+def list_users_events(session, User, Activity, user, startOfRange, endOfRange):
     # Check if the user doesn't have any credentials at all.
     if not user.credentials:
         return {'code': 'need_authorization', 'auth_url': url_for('authorize')}
@@ -211,13 +211,16 @@ def list_users_events(session, User, user, startOfRange, endOfRange):
     session.add(user)
     session.commit()
 
+    # Get the user's activities
+    activities = Activity.query.filter_by(user_id=user.id).all()
+
     # Get and format the users Google Calendar events
     page_token = None  # Used to get the next 'page' of results
     trimmed_list = []
 
     while True:
         try:
-            # Add the event to the calendar
+            # Get list of users events from Google Calendar
             events_list = calendar.events().list(
                 calendarId='primary',
                 timeMax=endOfRange,
@@ -225,18 +228,14 @@ def list_users_events(session, User, user, startOfRange, endOfRange):
                 singleEvents=True,  # Expand recurring events
                 pageToken=page_token).execute()
 
-            calendars = calendar.calendarList().list().execute()
+            # calendars = calendar.calendarList().list().execute()
         # Google credentials were revoked, need to authorize again
         except HttpAccessTokenRefreshError:
             return {'code': 'need_authorization', 'auth_url': url_for('authorize')}
 
         # Loop through the retrieved events and trim the results
         for x in events_list['items']:
-            if (
-                ('end' in x)
-                and ('start' in x)
-                and ('summary' in x)
-            ):
+            if (('end' in x) and ('start' in x) and ('summary' in x)):
                 if not ('colorId' in x):
                     colorId = '1'
                 else:
@@ -247,6 +246,7 @@ def list_users_events(session, User, user, startOfRange, endOfRange):
                     'start': x['start'],
                     'summary': x['summary'],
                     'colorId': colorId,
+                    'inActivities': (x['summary'] in [activity.name for activity in activities])
                 })
         
         page_token = events_list.get('nextPageToken')

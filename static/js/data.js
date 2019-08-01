@@ -11,7 +11,8 @@ function format_events(res) {
             return {
                 'duration': end.diff(start, 'minutes'),
                 'name': x['summary'],
-                'colorId': x['colorId']
+                'colorId': x['colorId'],
+                'inActivities': x['inActivities']
             };
         });
 
@@ -20,7 +21,10 @@ function format_events(res) {
             var curr_name = curr['name'];
 
             if (!acc[curr_name]) {
-                acc[curr_name] = {'duration': 0, 'colorId': curr['colorId']};
+                acc[curr_name] = {
+                    'duration': 0,
+                    'colorId': curr['colorId'],
+                    'inActivities': curr['inActivities']};
             }
 
             acc[curr_name]['duration'] += curr['duration'];
@@ -34,7 +38,8 @@ function format_events(res) {
             agg_events_array.push({
                 'name': event,
                 'duration': (agg_events[event]['duration'] / 60).toFixed(2),
-                'colorId': agg_events[event]['colorId']
+                'colorId': agg_events[event]['colorId'],
+                'inActivities': agg_events[event]['inActivities']
             });
         }
 
@@ -83,6 +88,8 @@ $(document).ready(function () {
         'endOfRange': getEndOfRange().toISOString(),
     }, function (json) {
         var res = JSON.parse(json);
+
+        // console.log(res)
 
         var agg_events_array = format_events(res);
 
