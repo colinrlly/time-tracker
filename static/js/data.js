@@ -36,12 +36,14 @@ function format_events(res) {
     // Turn the dictionary of aggregated events into an array.
     var agg_events_array = [];
     for (var event in agg_events) {
-        agg_events_array.push({
-            'name': event,
-            'duration': (agg_events[event]['duration'] / 60).toFixed(2),
-            'colorId': agg_events[event]['colorId'],
-            'inActivities': agg_events[event]['inActivities']
-        });
+        if (agg_events[event]['duration'] !== 0) {  // Get rid of events with 0 duration (all-day)
+            agg_events_array.push({
+                'name': event,
+                'duration': (agg_events[event]['duration'] / 60).toFixed(2),
+                'colorId': agg_events[event]['colorId'],
+                'inActivities': agg_events[event]['inActivities']
+            });
+        }
     }
 
     // Sort the array so the events show up in order of increasing duration.
