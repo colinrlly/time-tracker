@@ -85,10 +85,18 @@ $(document).ready(function () {
     $('input[name="daterange"]').data('end', moment());
     $('input[name="daterange"]').data('rangeSize', 7);
 
+    $('input[name="timerange"]').daterangepicker({
+        timePicker: true,
+        locale: {
+            format: 'hh:mm A'
+        }
+    }).on('show.daterangepicker', function (ev, picker) {
+        picker.container.find(".calendar-table").hide();
+    });
+
     // Populate pie chart with initial data
     updateChart();
 })
-
 
 // Show / hide data slice on label click
 function handleLabelClick(event, index) {
