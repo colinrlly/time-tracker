@@ -3,11 +3,13 @@ var date_ranges = [];
 
 // Filter events by time range
 function filter_events(start_date, end_date, start_time, end_time, events) {
-    console.log(start_date);
-    console.log(end_date);
-    console.log(start_time);
-    console.log(end_time);
-    
+    console.log(start_date.format('YYYY-MM-DD') + 'T' + start_time.format('HH:mm:ss') + start_date.format('Z'));
+    console.log();
+
+    // for (var i = 0; i < events.list.length; i++) {
+    //     console.log(moment(events.list[3].end.dateTime));
+    // }
+
     return events;
 }
 
@@ -110,8 +112,8 @@ $(document).ready(function () {
     });
 
     // Set initial time range
-    $('input[name="timerange"]').data('start', moment().endOf('day'));
-    $('input[name="timerange"]').data('end', moment().startOf('day'));    
+    $('input[name="timerange"]').data('start', moment().startOf('day'));
+    $('input[name="timerange"]').data('end', moment().endOf('day'));    
 
     // Populate pie chart with initial data
     updateChart();
@@ -153,8 +155,6 @@ function updateChart() {
             && res['end'] === date_ranges[date_ranges.length - 1]['end']) {
 
             var events_in_timerange = filter_events(getStartOfRange(), getEndOfRange(), getStartOfTimeRange(), getEndOfTimeRange(), res);
-
-            console.log(events_in_timerange);
 
             var agg_events_array = format_events(events_in_timerange);
 
