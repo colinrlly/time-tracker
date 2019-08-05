@@ -1,6 +1,16 @@
 var pieChart;
 var date_ranges = [];
 
+// Filter events by time range
+function filter_events(start_date, end_date, start_time, end_time, events) {
+    console.log(start_date);
+    console.log(end_date);
+    console.log(start_time);
+    console.log(end_time);
+    
+    return events;
+}
+
 // Aggregates and formats a list of activity records which usually comes from the server
 function format_events(res) {
     // Get the duration of each event.
@@ -90,9 +100,18 @@ $(document).ready(function () {
         locale: {
             format: 'hh:mm A'
         }
+    }, function (start, end, label) {
+        $('input[name="timerange"]').data('start', start);
+        $('input[name="timerange"]').data('end', end);
+
+        updateChart();
     }).on('show.daterangepicker', function (ev, picker) {
         picker.container.find(".calendar-table").hide();
     });
+
+    // Set initial time range
+    $('input[name="timerange"]').data('start', moment().endOf('day'));
+    $('input[name="timerange"]').data('end', moment().startOf('day'));    
 
     // Populate pie chart with initial data
     updateChart();
@@ -133,8 +152,13 @@ function updateChart() {
         if (res['start'] === date_ranges[date_ranges.length - 1]['start']
             && res['end'] === date_ranges[date_ranges.length - 1]['end']) {
 
-            var agg_events_array = format_events(res);
+            var events_in_timerange = filter_events(getStartOfRange(), getEndOfRange(), getStartOfTimeRange(), getEndOfTimeRange(), res);
 
+            console.log(events_in_timerange);
+
+            var agg_events_array = format_events(events_in_timerange);
+
+            // Create pie chart
             var ctx = document.getElementById('myChart').getContext('2d');
             if (pieChart) { pieChart.destroy(); }
             pieChart = new Chart(ctx, {
@@ -194,7 +218,8 @@ function updateChart() {
                 }
             });
 
-            $('.chartLegend').html(pieChart.generateLegend());  // Call this to generate our own legend
+            // Call this to generate our own legend
+            $('.chartLegend').html(pieChart.generateLegend());
 
             // Hide and line-through all other Google Calendar activities.
             for (var i = 0; i < agg_events_array.length; i++) {
@@ -275,6 +300,16 @@ function setRange(endOfRange, rangeSize) {
     $('input[name="daterange"]').data('daterangepicker').setEndDate(endOfRange.format('MM/DD/YYYY'));
 
     updateChart();
+}
+
+// Returns the start of the current time range.
+function getStartOfTimeRange() {
+    return $('input[name="timerange"]').data('start');
+}
+
+// Returns the end of the current time range.
+function getEndOfTimeRange() {
+    return $('input[name="timerange"]').data('end');
 }
 
 // Returns the start of the current date range.
