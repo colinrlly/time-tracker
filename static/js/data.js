@@ -1,14 +1,38 @@
 var pieChart;
 var date_ranges = [];
 
-// Filter events by time range
-function filter_events(start_date, end_date, start_time, end_time, events) {
-    console.log(start_date.format('YYYY-MM-DD') + 'T' + start_time.format('HH:mm:ss') + start_date.format('Z'));
-    console.log();
+function minutes_of_day(m) {
+    return m.minutes() + m.hours() * 60;
+}
 
-    // for (var i = 0; i < events.list.length; i++) {
-    //     console.log(moment(events.list[3].end.dateTime));
-    // }
+// Filter events by time range
+function filter_events(start_time, end_time, events) {
+    for (var i = 0; i < events.list.length; i++) {
+        var esm = minutes_of_day(moment(events.list[i].start.dateTime)); // event start minutes
+        var eem = minutes_of_day(moment(events.list[i].end.dateTime)); // event end minutes
+        var sm = minutes_of_day(start_time); // start time minutes
+        var em = minutes_of_day(end_time); // end time minutes
+
+        console.log(events.list[i]);
+        console.log('event start: ' + events.list[i].start.dateTime + ' ' + esm);
+        console.log('event end  : ' + events.list[i].end.dateTime + ' ' + eem);
+        console.log('start time : ' + start_time.toISOString() + ' ' + sm);
+        console.log('end time   : ' + end_time.toISOString() + ' ' + em);
+
+        if (esm < sm && eem < sm) { // Both before time range
+            console.log('Both before time range');
+        } else if (esm < sm && eem > sm & eem < em) { // Start before time range, end in time range
+            console.log('Start before time range, end in time range');
+        } else if (esm < sm && eem > em) { // Start before time range, end after time range
+            console.log('Start before time range, end after time range');
+        } else if (esm > sm && esm < em && eem > em) { // Start in time range, end after time range
+            console.log('Start in time range, end after time range');
+        } else if (esm > em && eem > em) { // Both after time range
+            console.log('Both after time range');
+        } else if (esm > sm && esm < em && eem > sm && eem < em) { // Both in time range
+            console.log('Both in time range');
+        }
+    }
 
     return events;
 }
@@ -154,7 +178,7 @@ function updateChart() {
         if (res['start'] === date_ranges[date_ranges.length - 1]['start']
             && res['end'] === date_ranges[date_ranges.length - 1]['end']) {
 
-            var events_in_timerange = filter_events(getStartOfRange(), getEndOfRange(), getStartOfTimeRange(), getEndOfTimeRange(), res);
+            var events_in_timerange = filter_events(getStartOfTimeRange(), getEndOfTimeRange(), res);
 
             var agg_events_array = format_events(events_in_timerange);
 
