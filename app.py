@@ -364,6 +364,7 @@ def list_events():
 
 
 @app.route('/data', methods=['GET'])
+@login_required
 def data():
     return render_template("data.html")
 
