@@ -17,7 +17,7 @@ function get_durations(res) {
     });
 }
 
-// Aggregates and formats a list of activity records which usually comes from the server
+// Aggregates and formats a list of activity records.
 function format_events(events) {
     var events_w_duration = get_durations(events);
 
@@ -228,11 +228,11 @@ function updateChart() {
                         })
                     }],
 
-                    // These labels appear in the legend and in the tooltips when hovering different arcs
+                    // These labels appear in the legend and in the tooltips when hovering different bars
                     labels: agg_events_array.map(function (x) { return x.name; })
                 },
                 options: {
-                    // legend: false,  // Don't show the default legend
+                    legend: false,  // Don't show the default legend
                     scales: {
                         xAxes: [{
                             stacked: true,
