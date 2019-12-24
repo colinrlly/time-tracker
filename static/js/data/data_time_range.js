@@ -69,3 +69,29 @@ function getStartOfTimeRange() {
 function getEndOfTimeRange() {
     return $('input[name="timerange"]').data('end');
 }
+
+// Intitializes the time range picker and sets the initial time range.
+function initialize_time_range_picker() {
+    // Intialize time range picker
+    $('input[name="timerange"]').daterangepicker({
+        timePicker: true,
+        locale: {
+            format: 'hh:mm A'
+        }
+    }, function (start, end, label) {
+        $('input[name="timerange"]').data('start', start);
+        $('input[name="timerange"]').data('end', end);
+
+        updateChart();
+    }).on('show.daterangepicker', function (ev, picker) {
+        picker.container.find(".calendar-table").hide();
+    });
+
+    // Set initial time range
+    $('input[name="timerange"]').data('start', moment().startOf('day'));
+    $('input[name="timerange"]').data('end', moment().endOf('day'));    
+}
+
+$(document).ready(function () {
+    initialize_time_range_picker();
+})

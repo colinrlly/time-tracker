@@ -103,3 +103,29 @@ $('.rangeForwardBtn').click(function () {
     var rangeSize = getRangeSize();
     setRange(moment(getEndOfRange()).add(rangeSize, 'd'), rangeSize);
 })
+
+// Intitializes the date range picker and sets the initial date range.
+function initialize_date_range_picker() {
+    // Initialize date range picker
+    $('input[name="daterange"]').daterangepicker({
+        opens: 'left',
+        startDate: moment().subtract(7, 'd').format('MM/DD/YYYY'),
+        endDate: moment().format('MM/DD/YYYY')
+    }, function (start, end, label) {
+        $('input[name="daterange"]').data('start', start);
+        $('input[name="daterange"]').data('end', end);
+
+        setCustomRange();
+
+        updateChart();
+    })
+
+    // Set initial date range data
+    $('input[name="daterange"]').data('start', moment().subtract(7, 'd'));
+    $('input[name="daterange"]').data('end', moment());
+    $('input[name="daterange"]').data('rangeSize', 7);
+}
+
+$(document).ready(function () {
+    initialize_date_range_picker();
+})

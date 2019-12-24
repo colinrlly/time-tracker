@@ -57,55 +57,7 @@ function format_events(events) {
     return agg_events_array;
 }
 
-// Intitializes the date range picker and sets the initial date range.
-function initialize_date_range_picker() {
-    // Initialize date range picker
-    $('input[name="daterange"]').daterangepicker({
-        opens: 'left',
-        startDate: moment().subtract(7, 'd').format('MM/DD/YYYY'),
-        endDate: moment().format('MM/DD/YYYY')
-    }, function (start, end, label) {
-        $('input[name="daterange"]').data('start', start);
-        $('input[name="daterange"]').data('end', end);
-
-        setCustomRange();
-
-        updateChart();
-    })
-
-    // Set initial date range data
-    $('input[name="daterange"]').data('start', moment().subtract(7, 'd'));
-    $('input[name="daterange"]').data('end', moment());
-    $('input[name="daterange"]').data('rangeSize', 7);
-}
-
-// Intitializes the time range picker and sets the initial time range.
-function initialize_time_range_picker() {
-    // Intialize time range picker
-    $('input[name="timerange"]').daterangepicker({
-        timePicker: true,
-        locale: {
-            format: 'hh:mm A'
-        }
-    }, function (start, end, label) {
-        $('input[name="timerange"]').data('start', start);
-        $('input[name="timerange"]').data('end', end);
-
-        updateChart();
-    }).on('show.daterangepicker', function (ev, picker) {
-        picker.container.find(".calendar-table").hide();
-    });
-
-    // Set initial time range
-    $('input[name="timerange"]').data('start', moment().startOf('day'));
-    $('input[name="timerange"]').data('end', moment().endOf('day'));    
-}
-
 $(document).ready(function () {
-    // Initialize range pickers
-    initialize_date_range_picker();
-    initialize_time_range_picker();
-
     // Populate pie chart with initial data
     updateChart();
 })
