@@ -366,7 +366,8 @@ def list_events():
 @app.route('/data', methods=['GET'])
 @login_required
 def data():
-    return render_template("data.html")
+    # return render_template("data.html")
+    return render_template("fancy_data.html")
 
 
 if __name__ == '__main__':
