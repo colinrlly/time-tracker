@@ -2,7 +2,7 @@
   "name": "time-turnip",
   "version": "1.0.0",
   "description": "A time tracking application.",
-  "main": "../../../templates/fancy_data.jsx",
+  "main": "/templates/fancy_data.jsx",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack -p --progress --config webpack.config.js",
