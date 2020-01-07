@@ -4,8 +4,10 @@
     Main Flask server file. An app to log how long a user performs 
     a certain activity and then record the activity in Google Calendar.
 """
+import sys
+sys.path.append('./src/server')
 
-from models import *
+from src.server.models import *
 
 import os
 import flask
@@ -28,8 +30,8 @@ from oauth2client.client import credentials_from_code, AccessTokenCredentials, H
 
 import json
 
-from helpers import *
-from settings import app, db
+from src.server.helpers import *
+from src.server.settings import app, db
 
 
 # Set up Google Constants
