@@ -1,5 +1,8 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import routes from "../../routes";
-
-ReactDOM.render(routes, document.getElementById("content"));
+import React, { Component } from 'react';
+export default class Home extends Component {
+    render() {
+        return (
+            <h1>Hello World!</h1>
+        )
+    }
+}
