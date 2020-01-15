@@ -24,7 +24,9 @@
     "webpack-cli": "^3.3.10"
   },
   "dependencies": {
+    "d3": "^5.15.0",
     "history": "^4.10.1",
+    "node-sass": "^4.13.0",
     "react-router-dom": "^5.1.2"
   }
 }
