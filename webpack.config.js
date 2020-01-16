@@ -4,7 +4,7 @@ const config = {
     devtool: 'eval-source-map',
     entry: __dirname + '/src/index.jsx',
     output: {
-        path: resolve('./static/build'),
+        path: resolve('./src/static/build'),
         filename: 'bundle.js',
         publicPath: resolve('./build`')
     },
