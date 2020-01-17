@@ -89,10 +89,10 @@ function updateChart() {
     date_ranges.push({ 'start': getStartOfRange().toISOString(), 'end': getEndOfRange().toISOString() });
 
     // Ask the server for the events in a specified date range.
-    $.post('/api/list_events', {
+    $.post('/api/list_events', JSON.stringify({
         'startOfRange': getStartOfRange().toISOString(),
         'endOfRange': getEndOfRange().toISOString(),
-    }, function (json) {
+    }), function (json) {
         var res = JSON.parse(json);
 
         console.log(res)

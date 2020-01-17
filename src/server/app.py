@@ -5,9 +5,9 @@
     a certain activity and then record the activity in Google Calendar.
 """
 import sys
-sys.path.append('./src/server')
+# sys.path.append('./src/server')
 
-from src.server.models import *
+from models import *
 
 import os
 import flask
@@ -30,8 +30,8 @@ from oauth2client.client import credentials_from_code, AccessTokenCredentials, H
 
 import json
 
-from src.server.helpers import *
-from src.server.settings import app, db
+from helpers import *
+from settings import app, db
 
 
 # Set up Google Constants
@@ -357,8 +357,10 @@ def delete_activity():
 
 @app.route('/api/list_events', methods=['POST'])
 def list_events():
-    startOfRange = request.form['startOfRange']
-    endOfRange = request.form['endOfRange']
+    print('getting events')
+    data = request.get_json()
+    startOfRange = data['startOfRange']
+    endOfRange = data['endOfRange']
 
     user = get_or_create_user(db.session, User, flask.session['user_id'])
 
