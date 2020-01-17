@@ -208,14 +208,12 @@ def list_users_events(session, User, Activity, user, startOfRange, endOfRange):
 
     # Store credentials in the database.
     user.credentials = credentials.to_json()
-    print("changed credentials")
     session.add(user)
     session.commit()
     # session.close()
 
     # Get the user's activities
     activities = Activity.query.filter_by(user_id=user.id).all()
-    print("queried activities")
     # Get and format the users Google Calendar events
     page_token = None  # Used to get the next 'page' of results
     trimmed_list = []
@@ -229,8 +227,6 @@ def list_users_events(session, User, Activity, user, startOfRange, endOfRange):
                 timeMin=startOfRange,
                 singleEvents=True,  # Expand recurring events
                 pageToken=page_token).execute()
-
-            print(events_list)
 
             # calendars = calendar.calendarList().list().execute()
         # Google credentials were revoked, need to authorize again
@@ -257,8 +253,6 @@ def list_users_events(session, User, Activity, user, startOfRange, endOfRange):
         if not page_token:
             break
 
-    print(trimmed_list)
     # return calendars
     # return {'code': 'success', 'list': events_list }
-    print("returning list")
     return {'code': 'success', 'start': startOfRange, 'end': endOfRange, 'list': trimmed_list }
