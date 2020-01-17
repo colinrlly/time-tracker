@@ -3,14 +3,10 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import {
     setRange,
-    addActivityRecord
+    addActivityRecord,
 } from '../../redux/actions/actions';
 
 class Data extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     componentDidMount() {
         this.props.setRange('2020-01-10T16:09:00.070Z', '2020-01-17T16:09:00.070Z');
         // this.props.setRangeStart('snoop dog');
@@ -31,20 +27,18 @@ class Data extends Component {
 
         return (
             <h1>Hello World!</h1>
-        )
+        );
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        range: state.range,
-        list: state.list
-    }
-}
+const mapStateToProps = (state) => ({
+    range: state.range,
+    list: state.list,
+});
 
 const mapDispatchToProps = {
-    setRange: setRange,
-    addActivityRecord: addActivityRecord
-}
+    setRange,
+    addActivityRecord,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Data);

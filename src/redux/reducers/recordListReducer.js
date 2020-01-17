@@ -11,13 +11,13 @@ function recordsListReducer(state = [], action) {
                     end: action.end,
                     start: action.start,
                     summary: action.summary,
-                    colorId: action.colorId
-                }
-            ]
+                    colorId: action.colorId,
+                },
+            ];
 
         default:
             return state;
-    };
+    }
 }
 
 export default recordsListReducer;

@@ -1,11 +1,11 @@
 import {
-    SET_RANGE
+    SET_RANGE,
 } from '../actions/actions';
 
 const initialState = {
     startOfRange: '',
-    endOfRange: ''
-}
+    endOfRange: '',
+};
 
 function recordsRangeReducer(state = initialState, action) {
     switch (action.type) {
@@ -13,11 +13,11 @@ function recordsRangeReducer(state = initialState, action) {
             return {
                 startOfRange: action.startOfRange,
                 endOfRange: action.endOfRange,
-            }
+            };
 
         default:
             return state;
-    };
+    }
 }
 
 export default recordsRangeReducer;

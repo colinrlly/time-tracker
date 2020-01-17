@@ -1,10 +1,11 @@
+import { combineReducers } from 'redux';
 import recordsRangeReducer from './recordsRangeReducer';
 import recordListReducer from './recordListReducer';
-import { combineReducers } from 'redux';
+
 
 const reducers = combineReducers({
     range: recordsRangeReducer,
-    list: recordListReducer
+    list: recordListReducer,
 });
 
 export default reducers;
