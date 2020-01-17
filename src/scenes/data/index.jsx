@@ -18,8 +18,8 @@ class Data extends Component {
         console.log(notes);
 
         axios.post('/api/list_events', {
-            startOfRange: '2019-10-16T18:48:32Z',
-            endOfRange: '2019-10-16T18:48:32Z'
+            startOfRange: '2020-01-10T16:09:00.070Z',
+            endOfRange: '2020-01-17T16:09:00.070Z'
         }).then(function (response) {
             console.log(response);
         }).catch(function (error) {

@@ -362,6 +362,13 @@ def list_events():
     startOfRange = data['startOfRange']
     endOfRange = data['endOfRange']
 
+    print(startOfRange)
+    print(endOfRange)
+
+    # startOfRange = request.form['startOfRange']
+    # endOfRange = request.form['endOfRange']
+
+
     user = get_or_create_user(db.session, User, flask.session['user_id'])
 
     return json.dumps(list_users_events(db.session, User, Activity, user, startOfRange, endOfRange))

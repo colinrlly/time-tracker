@@ -88,11 +88,14 @@ function updateChart() {
     // update using only the most recent date range.
     date_ranges.push({ 'start': getStartOfRange().toISOString(), 'end': getEndOfRange().toISOString() });
 
+    console.log(getStartOfRange().toISOString())
+    console.log(getEndOfRange().toISOString())
+
     // Ask the server for the events in a specified date range.
-    $.post('/api/list_events', JSON.stringify({
+    $.post('/api/list_events', {
         'startOfRange': getStartOfRange().toISOString(),
         'endOfRange': getEndOfRange().toISOString(),
-    }), function (json) {
+    }, function (json) {
         var res = JSON.parse(json);
 
         console.log(res)

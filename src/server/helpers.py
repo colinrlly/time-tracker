@@ -230,6 +230,8 @@ def list_users_events(session, User, Activity, user, startOfRange, endOfRange):
                 singleEvents=True,  # Expand recurring events
                 pageToken=page_token).execute()
 
+            print(events_list)
+
             # calendars = calendar.calendarList().list().execute()
         # Google credentials were revoked, need to authorize again
         except HttpAccessTokenRefreshError:
@@ -255,6 +257,7 @@ def list_users_events(session, User, Activity, user, startOfRange, endOfRange):
         if not page_token:
             break
 
+    print(trimmed_list)
     # return calendars
     # return {'code': 'success', 'list': events_list }
     print("returning list")
