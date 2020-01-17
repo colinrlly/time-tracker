@@ -11,4 +11,10 @@ class PropsDisplay extends Component {
     }
 }
 
-export default connect((state) => ({ list: state.list }), null)(PropsDisplay);
+export default connect(
+    (state) => ({
+        list: state.list,
+        range: state.range,
+    }),
+    null,
+)(PropsDisplay);

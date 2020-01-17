@@ -8,8 +8,8 @@ function recordsListReducer(state = [], action) {
             return [
                 ...state,
                 {
-                    end: action.record.end,
-                    start: action.record.start,
+                    end: action.record.end.dateTime,
+                    start: action.record.start.dateTime,
                     summary: action.record.summary,
                     colorId: action.record.colorId,
                 }];

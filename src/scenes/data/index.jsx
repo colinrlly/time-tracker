@@ -7,47 +7,35 @@ import {
 } from '../../redux/actions/actions';
 import PropsDisplay from './components/propsDisplay';
 
+/**
+ * Component to fetch the initial list of activity records form the server,
+ * then save those records to the redux store.
+ */
 class Data extends Component {
     componentDidMount() {
-        this.props.setRange('2020-01-10T16:09:00.070Z', '2020-01-17T16:09:00.070Z');
+        // Fetch the user's list of activity records from the server.
+        axios.post('/api/list_events', {
+            startOfRange: '2020-01-10T16:09:00.070Z',
+            endOfRange: '2020-01-17T16:09:00.070Z',
+        }).then((response) => {
+            // Submit the range to the redux store.
+            this.props.setRange(response.data.start, response.data.end);
 
-        this.props.addActivityRecord({
-            end: '2020-01-17T16:09:00.070Z',
-            start: '2020-01-10T16:09:00.070Z',
-            summary: 'test',
-            colorId: 5,
+            // Submit each activity record to the redux store.
+            response.data.list.forEach((record) => {
+                this.props.addActivityRecord(record);
+            });
+        }).catch((error) => {
+            console.log(error);
         });
-
-        this.props.addActivityRecord({
-            end: '2020-01-17T16:09:00.070Z',
-            start: '2020-01-10T16:09:00.070Z',
-            summary: 'test',
-            colorId: 5,
-        });
-
-        // axios.post('/api/list_events', {
-        //     startOfRange: '2020-01-10T16:09:00.070Z',
-        //     endOfRange: '2020-01-17T16:09:00.070Z',
-        // }).then((response) => {
-        //     console.log(response);
-        // }).catch((error) => {
-        //     console.log(error);
-        // });
     }
 
     render() {
-        console.log(this.props);
-
         return (
             <PropsDisplay />
         );
     }
 }
-
-// const mapStateToProps = (state) => ({
-//     range: state.range,
-//     list: state.list,
-// });
 
 const mapDispatchToProps = {
     setRange,
