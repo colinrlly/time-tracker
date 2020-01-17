@@ -1,10 +1,15 @@
-export const ADD_NOTE = 'ADD_NOTE';
-export const REMOVE_NOTE = 'REMOVE_NOTE';
+export const CHANGE_RANGE_START = 'CHANGE_RANGE_START';
+export const CHANGE_RANGE_END = 'CHANGE_RANGE_START';
+export const ADD_ACTIVITY_RECORD = 'ADD_ACTIVITY_RECORD';
 
-export function addNote(title, content) {
-    return { type: ADD_NOTE, title: title, content: content };
+export function changeRangeStart(startOfRange) {
+    return { type: CHANGE_RANGE_START, startOfRange: startOfRange };
 }
 
-export function removeNote(id) {
-    return { type: REMOVE_NOTE, id: id };
+export function changeRangeEnd(endOfRange) {
+    return { type: CHANGE_RANGE_END, endOfRange: endOfRange };
+}
+
+export function addActivityRecord(record) {
+    return record;
 }

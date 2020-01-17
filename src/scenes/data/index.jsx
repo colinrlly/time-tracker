@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
-import { addNote, removeNote } from '../../redux/actions/actions';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import {
+    changeRangeStart,
+    changeRangeEnd,
+    addActivityRecord
+} from '../../redux/actions/actions';
 
 class Data extends Component {
     constructor(props) {
@@ -13,18 +17,16 @@ class Data extends Component {
     // }
 
     render() {
-        const notes = this.props.notes;
+        console.log(this.props);
 
-        console.log(notes);
-
-        axios.post('/api/list_events', {
-            startOfRange: '2020-01-10T16:09:00.070Z',
-            endOfRange: '2020-01-17T16:09:00.070Z'
-        }).then(function (response) {
-            console.log(response);
-        }).catch(function (error) {
-            console.log(error);
-        });
+        // axios.post('/api/list_events', {
+        //     startOfRange: '2020-01-10T16:09:00.070Z',
+        //     endOfRange: '2020-01-17T16:09:00.070Z'
+        // }).then(function (response) {
+        //     console.log(response);
+        // }).catch(function (error) {
+        //     console.log(error);
+        // });
 
         return (
             <h1>Hello World!</h1>
@@ -32,15 +34,17 @@ class Data extends Component {
     }
 }
 
+const mapDispatchToProps = {
+    changeRangeStart: changeRangeStart,
+    changeRangeEnd: changeRangeEnd,
+    addActivityRecord: addActivityRecord
+}
+
 const mapStateToProps = state => {
     return {
-        notes: state.notes
-    };
-};
-
-const mapDispatchToProps = {
-    addNote: addNote,
-    removeNote: removeNote
+        range: state.range,
+        list: state.list
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Data);
