@@ -2,11 +2,11 @@ import {
     ADD_ACTIVITY_RECORD,
 } from '../actions/actions';
 
-function recordsListReducer(list = [], action) {
+function recordsListReducer(state = [], action) {
     switch (action.type) {
         case ADD_ACTIVITY_RECORD:
             return [
-                ...list,
+                ...state,
                 {
                     end: action.end,
                     start: action.start,
@@ -16,7 +16,7 @@ function recordsListReducer(list = [], action) {
             ]
 
         default:
-            return list;
+            return state;
     };
 }
 

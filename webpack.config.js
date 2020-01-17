@@ -18,7 +18,7 @@ const config = {
                 loader: 'babel-loader',
                 exclude: /node_modules/,
                 query: {
-                    presets: ['react', 'es2015']
+                    presets: ['@babel/preset-react', "@babel/preset-env"]
                 }
             },
             {

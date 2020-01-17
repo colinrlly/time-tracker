@@ -1,6 +1,5 @@
 import {
-    CHANGE_RANGE_START,
-    CHANGE_RANGE_END,
+    SET_RANGE
 } from '../actions/actions';
 
 const initialState = {
@@ -8,22 +7,16 @@ const initialState = {
     endOfRange: ''
 }
 
-function recordsRangeReducer(range = initialState, action) {
+function recordsRangeReducer(state = initialState, action) {
     switch (action.type) {
-        case CHANGE_RANGE_START:
+        case SET_RANGE:
             return {
                 startOfRange: action.startOfRange,
-                endOfRange: range.endOfRange
-            }
-
-        case CHANGE_RANGE_END:
-            return {
-                startOfRange: range.startOfRange,
-                endOfRange: action.startOfRange
+                endOfRange: action.endOfRange,
             }
 
         default:
-            return range;
+            return state;
     };
 }
 

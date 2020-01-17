@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import {
-    changeRangeStart,
-    changeRangeEnd,
+    setRange,
     addActivityRecord
 } from '../../redux/actions/actions';
 
@@ -12,9 +11,11 @@ class Data extends Component {
         super(props);
     }
 
-    // componentDidMount() {
-    //     this.props.addNote('One', 'One content');
-    // }
+    componentDidMount() {
+        this.props.setRange('2020-01-10T16:09:00.070Z', '2020-01-17T16:09:00.070Z');
+        // this.props.setRangeStart('snoop dog');
+        // this.props.setRangeEnd('2020-01-17T16:09:00.070Z');
+    }
 
     render() {
         console.log(this.props);
@@ -34,17 +35,16 @@ class Data extends Component {
     }
 }
 
-const mapDispatchToProps = {
-    changeRangeStart: changeRangeStart,
-    changeRangeEnd: changeRangeEnd,
-    addActivityRecord: addActivityRecord
-}
-
 const mapStateToProps = state => {
     return {
         range: state.range,
         list: state.list
     }
+}
+
+const mapDispatchToProps = {
+    setRange: setRange,
+    addActivityRecord: addActivityRecord
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Data);
