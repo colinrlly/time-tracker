@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import {
@@ -6,6 +7,7 @@ import {
     addActivityRecord,
 } from '../../redux/actions/actions';
 import PropsDisplay from './components/propsDisplay';
+import Picker from './components/picker';
 
 /**
  * Component to fetch the initial list of activity records form the server,
@@ -32,7 +34,7 @@ class Data extends Component {
 
     render() {
         return (
-            <PropsDisplay />
+            <Picker />
         );
     }
 }
@@ -40,6 +42,11 @@ class Data extends Component {
 const mapDispatchToProps = {
     setRange,
     addActivityRecord,
+};
+
+Data.propTypes = {
+    setRange: PropTypes.func,
+    addActivityRecord: PropTypes.func,
 };
 
 export default connect(null, mapDispatchToProps)(Data);

@@ -18,12 +18,12 @@ const config = {
                 loader: 'babel-loader',
                 exclude: /node_modules/,
                 query: {
-                    presets: ['@babel/preset-react', "@babel/preset-env"]
+                    presets: ['@babel/preset-react', '@babel/preset-env']
                 }
             },
             {
                 test: /\.css$/,
-                loader: 'style-loader!css-loader?modules'
+                use: ['style-loader', 'css-loader'],
             }]
     }
 };

@@ -89,7 +89,7 @@ function initialize_time_range_picker() {
 
     // Set initial time range
     $('input[name="timerange"]').data('start', moment().startOf('day'));
-    $('input[name="timerange"]').data('end', moment().endOf('day'));    
+    $('input[name="timerange"]').data('end', moment().endOf('day'));
 }
 
 $(document).ready(function () {
