@@ -22,8 +22,8 @@ class Picker extends Component {
 
         switch (direction) {
             case 'backward': {
-                const newEnd = endDateTime.subtract(durationAsDays, 'days');
-                const newStart = startDateTime.subtract(durationAsDays, 'days');
+                const newEnd = moment(endDateTime.subtract(durationAsDays, 'days'));
+                const newStart = moment(startDateTime.subtract(durationAsDays, 'days'));
 
                 this.props.setRange(newStart, newEnd);
 
@@ -31,8 +31,8 @@ class Picker extends Component {
             }
 
             case 'forward': {
-                const newEnd = endDateTime.add(durationAsDays, 'days');
-                const newStart = startDateTime.add(durationAsDays, 'days');
+                const newEnd = moment(endDateTime.add(durationAsDays, 'days'));
+                const newStart = moment(startDateTime.add(durationAsDays, 'days'));
 
                 this.props.setRange(newStart, newEnd);
                 break;

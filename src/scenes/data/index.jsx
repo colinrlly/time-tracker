@@ -15,7 +15,7 @@ import moment from 'moment';
  * then save those records to the redux store.
  */
 class Data extends Component {
-    componentDidMount() {
+    fetchList() {
         const {
             startDateTime,
             endDateTime,
@@ -33,6 +33,14 @@ class Data extends Component {
         }).catch((error) => {
             console.log(error);
         });
+    }
+
+    componentDidMount() {
+        this.fetchList();
+    }
+
+    componentDidUpdate() {
+        this.fetchList();
     }
 
     render() {

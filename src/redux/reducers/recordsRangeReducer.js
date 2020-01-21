@@ -9,8 +9,6 @@ const initialState = {
 };
 
 function recordsRangeReducer(state = initialState, action) {
-    console.log(action);
-
     switch (action.type) {
         case SET_RANGE:
             return {
