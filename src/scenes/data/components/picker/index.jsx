@@ -9,11 +9,32 @@ import {
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-daterangepicker/daterangepicker.css';
 
+/**
+ * Component to render the date time range picker for the Data page.
+ *
+ * Renders react-bootstrap-daterangepicker component as well as the backwards and forwards buttons.
+ *
+ * On a new date time range selection this component dispatches a redux action to update
+ * the range in the redux store.
+ */
 class Picker extends Component {
+    /**
+     * Method to handle a new selection in the react-bootstrap-daterangepicker. Dispatches a 
+     * redux action to update the date-time-range in the redux store.
+     *
+     * @param {Object} picker - react-bootstrap-daterangepicker object.
+     */
     handleApplyEvent(picker) {
         this.props.setRange(picker.startDate, picker.endDate);
     }
 
+    /**
+     * Method to handle when the forwards/backwards buttons are clicked. Increments the range
+     * backwards or forwards a number of days based on the currently selected range. Then
+     * dispatches a redux action to update the date-time-range in the redux store.
+     *
+     * @param {String} direction - Direction to increment the date-time-range.
+     */
     handleRangeDirectionButton(direction) {
         const { startDateTime, endDateTime } = this.props;
 
@@ -91,9 +112,9 @@ const mapDispatchToProps = {
 };
 
 Picker.propTypes = {
-    startDateTime: PropTypes.object,
-    endDateTime: PropTypes.object,
-    setRange: PropTypes.func,
+    startDateTime: PropTypes.object.isRequired,
+    endDateTime: PropTypes.object.isRequired,
+    setRange: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Picker);

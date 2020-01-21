@@ -3,12 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import {
-    setRange,
     addActivityRecord,
 } from '../../redux/actions/actions';
-import PropsDisplay from './components/propsDisplay';
 import Picker from './components/picker';
-import moment from 'moment';
 
 /**
  * Component to fetch the initial list of activity records form the server,
@@ -26,7 +23,6 @@ class Data extends Component {
             startDateTime: startDateTime.format(),
             endDateTime: endDateTime.format(),
         }).then((response) => {
-            // Submit each activity record to the redux store.
             response.data.list.forEach((record) => {
                 this.props.addActivityRecord(record);
             });
@@ -46,7 +42,6 @@ class Data extends Component {
     render() {
         return (
             <div>
-                {/* <PropsDisplay /> */}
                 <Picker />
             </div>
         );
@@ -63,9 +58,9 @@ const mapDispatchToProps = {
 };
 
 Data.propTypes = {
-    startDateTime: PropTypes.object,
-    endDateTime: PropTypes.object,
-    addActivityRecord: PropTypes.func,
+    startDateTime: PropTypes.object.isRequired,
+    endDateTime: PropTypes.object.isRequired,
+    addActivityRecord: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Data);
