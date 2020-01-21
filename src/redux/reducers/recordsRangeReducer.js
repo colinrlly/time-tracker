@@ -1,18 +1,21 @@
+import moment from 'moment';
 import {
     SET_RANGE,
 } from '../actions/actions';
 
 const initialState = {
-    startOfRange: '',
-    endOfRange: '',
+    startDateTime: moment().subtract(6, 'days'),
+    endDateTime: moment(),
 };
 
 function recordsRangeReducer(state = initialState, action) {
+    console.log(action);
+
     switch (action.type) {
         case SET_RANGE:
             return {
-                startOfRange: action.startOfRange,
-                endOfRange: action.endOfRange,
+                startDateTime: action.startDateTime,
+                endDateTime: action.endDateTime,
             };
 
         default:

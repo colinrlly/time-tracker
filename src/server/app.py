@@ -358,15 +358,12 @@ def delete_activity():
 @app.route('/api/list_events', methods=['POST'])
 def list_events():
     data = request.get_json()
-    startOfRange = data['startOfRange']
-    endOfRange = data['endOfRange']
-
-    # startOfRange = request.form['startOfRange']
-    # endOfRange = request.form['endOfRange']
+    startDateTime = data['startDateTime']
+    endDateTime = data['endDateTime']
 
     user = get_or_create_user(db.session, User, flask.session['user_id'])
 
-    return json.dumps(list_users_events(db.session, User, Activity, user, startOfRange, endOfRange))
+    return json.dumps(list_users_events(db.session, User, Activity, user, startDateTime, endDateTime))
 
 
 @app.route('/data', methods=['GET'])

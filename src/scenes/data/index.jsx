@@ -8,6 +8,7 @@ import {
 } from '../../redux/actions/actions';
 import PropsDisplay from './components/propsDisplay';
 import Picker from './components/picker';
+import moment from 'moment';
 
 /**
  * Component to fetch the initial list of activity records form the server,
@@ -15,14 +16,16 @@ import Picker from './components/picker';
  */
 class Data extends Component {
     componentDidMount() {
+        const {
+            startDateTime,
+            endDateTime,
+        } = this.props;
+
         // Fetch the user's list of activity records from the server.
         axios.post('/api/list_events', {
-            startOfRange: '2020-01-10T16:09:00.070Z',
-            endOfRange: '2020-01-17T16:09:00.070Z',
+            startDateTime: startDateTime.format(),
+            endDateTime: endDateTime.format(),
         }).then((response) => {
-            // Submit the range to the redux store.
-            this.props.setRange(response.data.start, response.data.end);
-
             // Submit each activity record to the redux store.
             response.data.list.forEach((record) => {
                 this.props.addActivityRecord(record);
@@ -34,19 +37,27 @@ class Data extends Component {
 
     render() {
         return (
-            <Picker />
+            <div>
+                {/* <PropsDisplay /> */}
+                <Picker />
+            </div>
         );
     }
 }
 
+const mapStateToProps = (state) => ({
+    startDateTime: state.range.startDateTime,
+    endDateTime: state.range.endDateTime,
+});
+
 const mapDispatchToProps = {
-    setRange,
     addActivityRecord,
 };
 
 Data.propTypes = {
-    setRange: PropTypes.func,
+    startDateTime: PropTypes.object,
+    endDateTime: PropTypes.object,
     addActivityRecord: PropTypes.func,
 };
 
-export default connect(null, mapDispatchToProps)(Data);
+export default connect(mapStateToProps, mapDispatchToProps)(Data);
