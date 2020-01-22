@@ -19,7 +19,7 @@ import 'bootstrap-daterangepicker/daterangepicker.css';
  */
 class Picker extends Component {
     /**
-     * Method to handle a new selection in the react-bootstrap-daterangepicker. Dispatches a 
+     * Method to handle a new selection in the react-bootstrap-daterangepicker. Dispatches a
      * redux action to update the date-time-range in the redux store.
      *
      * @param {Object} picker - react-bootstrap-daterangepicker object.
