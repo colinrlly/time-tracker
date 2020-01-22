@@ -1,5 +1,5 @@
 import {
-    ADD_ACTIVITY_RECORD,
+    SET_ACTIVITY_RECORDS,
 } from '../actions/actions';
 
 /**
@@ -10,15 +10,10 @@ import {
  */
 function recordsListReducer(state = [], action) {
     switch (action.type) {
-        case ADD_ACTIVITY_RECORD:
+        case SET_ACTIVITY_RECORDS:
             return [
-                ...state,
-                {
-                    end: action.record.end.moment,
-                    start: action.record.start.moment,
-                    summary: action.record.summary,
-                    colorId: action.record.colorId,
-                }];
+                ...action.records,
+            ];
 
         default:
             return state;

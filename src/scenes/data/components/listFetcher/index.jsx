@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import {
-    addActivityRecord,
+    setActivityRecords,
 } from '../../../../redux/actions/actions';
 import { TimeRangeFilter } from './helpers';
 
@@ -20,9 +20,10 @@ function ListFetcher(props) {
     }).then((response) => {
         const filteredEvents = TimeRangeFilter(startDateTime, endDateTime, response.data.list);
 
-        filteredEvents.forEach((record) => {
-            props.addActivityRecord(record);
-        });
+        props.setActivityRecords(filteredEvents);
+        // filteredEvents.forEach((record) => {
+        //     props.addActivityRecord(record);
+        // });
     }).catch((error) => {
         console.log(error);
     });
@@ -36,13 +37,13 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-    addActivityRecord,
+    setActivityRecords,
 };
 
 ListFetcher.propTypes = {
     startDateTime: PropTypes.object.isRequired,
     endDateTime: PropTypes.object.isRequired,
-    addActivityRecord: PropTypes.func.isRequired,
+    setActivityRecord: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ListFetcher);
