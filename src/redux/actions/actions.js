@@ -1,5 +1,6 @@
 export const SET_RANGE = 'SET_RANGE';
 export const ADD_ACTIVITY_RECORD = 'ADD_ACTIVITY_RECORD';
+export const ADD_ACTIVITY_NAME = 'ADD_ACTIVITY_NAME';
 
 /**
  * Updates the range specifying which activity records to request from the server.
@@ -22,4 +23,8 @@ export function setRange(startDateTime, endDateTime) {
  */
 export function addActivityRecord(record) {
     return { type: ADD_ACTIVITY_RECORD, record };
+}
+
+export function addActivityName(name) {
+    return { type: ADD_ACTIVITY_NAME, name };
 }

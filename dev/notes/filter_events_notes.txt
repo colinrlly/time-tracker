@@ -1,0 +1,20 @@
+So what needs to happen to filter the events...
+
+Fetch list from server based on the selected range ->
+Server returns the events array to the client ->
+Client filters the events based on the time range ->
+Client submits the list to the redux store ->
+|
+|->   Aggregation component gets updated with the new list in the redux store->
+|     Aggregation component aggregates the list into the required formats for each graph->
+|     Aggregation component submits the new aggregated lists to the redux store->
+|     |
+|     |-> Each graph is updated when the specific aggregation it cares about is updated->
+|         Each graph updates itself and displays the new information->
+|
+|->   Activity list loader gets notified that a new list is in the redux store->
+|     Activity list loader generates the list of activity names->
+|     Activity list loader submits the new list of activity names to the redux store->
+|     |
+|     |-> Activity list is notified that a new list of activity names is in the redux store->
+|         Activity list updates itself with the new activities->

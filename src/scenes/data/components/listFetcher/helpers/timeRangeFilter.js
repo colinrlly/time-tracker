@@ -60,7 +60,6 @@ function timeRangeFilter(startTime, endTime, events) {
         eventsCpy.splice(indexesToRemove[i], 1);
     }
 
-    console.log(eventsCpy);
     return eventsCpy;
 }
 
