@@ -11,9 +11,7 @@ import {
 function recordsListReducer(state = [], action) {
     switch (action.type) {
         case SET_ACTIVITY_RECORDS:
-            return [
-                ...action.records,
-            ];
+            return action.records;
 
         default:
             return state;

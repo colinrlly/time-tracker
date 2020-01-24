@@ -1,5 +1,5 @@
 import {
-    ADD_ACTIVITY_NAME,
+    SET_ACTIVITY_NAMES,
 } from '../actions/actions';
 
 /**
@@ -10,14 +10,8 @@ import {
  */
 function ActivityNamesReducer(state = [], action) {
     switch (action.type) {
-        case ADD_ACTIVITY_NAME:
-            return [
-                ...state,
-                {
-                    name: action.name.name,
-                    inActivities: action.name.inActivities,
-                    selected: action.name.selected,
-                }];
+        case SET_ACTIVITY_NAMES:
+            return action.names;
 
         default:
             return state;

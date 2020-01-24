@@ -2,14 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
-    addActivityName,
+    setActivityNames,
 } from '../../../../redux/actions/actions';
 import { generateActivityNames } from './helpers';
 
 const ActivityListGenerator = (props) => {
     const { list } = props;
 
-    generateActivityNames(list);
+    const activityNames = generateActivityNames(list);
+
+    props.setActivityNames(activityNames);
 
     return (null);
 };
@@ -19,13 +21,11 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-    addActivityName,
+    setActivityNames,
 };
 
 ActivityListGenerator.propTypes = {
-    startDateTime: PropTypes.object.isRequired,
-    endDateTime: PropTypes.object.isRequired,
-    addActivityRecord: PropTypes.func.isRequired,
+    setActivityNames: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ActivityListGenerator);
