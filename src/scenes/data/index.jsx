@@ -12,6 +12,7 @@ const Data = () => (
         <ListFetcher />
         <ActivityListGenerator />
         <Picker />
+        <ActivityList />
     </div>
 );
 
