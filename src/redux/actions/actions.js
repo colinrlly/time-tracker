@@ -1,6 +1,7 @@
 export const SET_RANGE = 'SET_RANGE';
 export const SET_ACTIVITY_RECORDS = 'SET_ACTIVITY_RECORDS';
 export const SET_ACTIVITY_NAMES = 'SET_ACTIVITY_NAMES';
+export const SET_AGG_TOTALS = 'SET_AGG_TOTALS';
 
 /**
  * Updates the range specifying which activity records to request from the server.
@@ -27,4 +28,8 @@ export function setActivityRecords(records) {
 
 export function setActivityNames(names) {
     return { type: SET_ACTIVITY_NAMES, names };
+}
+
+export function setAggTotals(totals) {
+    return { type: SET_AGG_TOTALS, totals };
 }

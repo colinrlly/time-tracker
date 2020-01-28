@@ -21,4 +21,3 @@ ActivityList.propTypes = {
 };
 
 export default connect(mapStateToProps, null)(ActivityList);
-
