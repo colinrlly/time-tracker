@@ -21,9 +21,6 @@ function ListFetcher(props) {
         const filteredEvents = TimeRangeFilter(startDateTime, endDateTime, response.data.list);
 
         props.setActivityRecords(filteredEvents);
-        // filteredEvents.forEach((record) => {
-        //     props.addActivityRecord(record);
-        // });
     }).catch((error) => {
         console.log(error);
     });

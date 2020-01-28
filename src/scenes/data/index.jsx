@@ -3,6 +3,7 @@ import Picker from './components/picker';
 import ListFetcher from './components/listFetcher';
 import ActivityListGenerator from './components/activityListGenerator';
 import ActivityList from './components/activityList';
+import BarChart from './components/barChart';
 
 /**
  * Data page entry point.
@@ -13,6 +14,7 @@ const Data = () => (
         <ActivityListGenerator />
         <Picker />
         <ActivityList />
+        <BarChart />
     </div>
 );
 

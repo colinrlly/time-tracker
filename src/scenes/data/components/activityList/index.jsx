@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-const ActivityList = function(props) {
+function ActivityList(props) {
     const list = props.names.map((name, i) => <li key={i}>{name.name}</li>);
 
     return (
