@@ -2,9 +2,14 @@ import { connect } from 'react-redux';
 import {
     setAggTotals,
 } from '../../../../redux/actions/actions';
+import {
+    totalsAggregator,
+} from './helpers';
 
 function Aggregator(props) {
-    props.setAggTotals({ hello: 'hello' });
+    const totals = totalsAggregator(props.list);
+
+    props.setAggTotals(totals);
 
     return null;
 }
