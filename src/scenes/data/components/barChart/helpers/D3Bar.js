@@ -2,59 +2,6 @@ import * as d3 from 'd3';
 
 const D3Bar = {};
 
-const sample = [
-    {
-        language: 'Rust',
-        value: 78.9,
-        color: '#000000',
-    },
-    {
-        language: 'Kotlin',
-        value: 75.1,
-        color: '#00a2ee',
-    },
-    {
-        language: 'Python',
-        value: 68.0,
-        color: '#fbcb39',
-    },
-    {
-        language: 'TypeScript',
-        value: 67.0,
-        color: '#007bc8',
-    },
-    {
-        language: 'Go',
-        value: 65.6,
-        color: '#65cedb',
-    },
-    {
-        language: 'Swift',
-        value: 65.1,
-        color: '#ff6e52',
-    },
-    {
-        language: 'JavaScript',
-        value: 61.9,
-        color: '#f9de3f',
-    },
-    {
-        language: 'C#',
-        value: 60.4,
-        color: '#5d2f8e',
-    },
-    {
-        language: 'F#',
-        value: 59.6,
-        color: '#008fc9',
-    },
-    {
-        language: 'Clojure',
-        value: 59.6,
-        color: '#507dca',
-    },
-];
-
 D3Bar.create = function create(svgNode, data, configuration) {
     // D3 code to create the bar chart
     const svg = d3.select(svgNode);
@@ -68,8 +15,8 @@ D3Bar.create = function create(svgNode, data, configuration) {
 
     const xScale = d3.scaleBand()
         .range([0, width])
-        .domain(sample.map((s) => s.language))
-        .padding(0.4)
+        .domain(data.map((s) => s.name))
+        .padding(0.4);
 
     const yScale = d3.scaleLinear()
         .range([height, 0])
@@ -105,25 +52,25 @@ D3Bar.create = function create(svgNode, data, configuration) {
             .tickFormat(''));
 
     const barGroups = chart.selectAll()
-        .data(sample)
+        .data(data)
         .enter()
         .append('g');
 
     barGroups
         .append('rect')
         .attr('class', 'bar')
-        .attr('x', (g) => xScale(g.language))
-        .attr('y', (g) => yScale(g.value))
-        .attr('height', (g) => height - yScale(g.value))
+        .attr('x', (g) => xScale(g.name))
+        .attr('y', (g) => yScale(g.duration))
+        .attr('height', (g) => height - yScale(g.duration))
         .attr('width', xScale.bandwidth());
 
     barGroups
         .append('text')
-        .attr('class', 'value')
-        .attr('x', (a) => xScale(a.language) + xScale.bandwidth() / 2)
-        .attr('y', (a) => yScale(a.value) + 30)
+        .attr('class', 'duration')
+        .attr('x', (a) => xScale(a.name) + xScale.bandwidth() / 2)
+        .attr('y', (a) => yScale(a.duration) + 30)
         .attr('text-anchor', 'middle')
-        .text((a) => `${a.value}%`);
+        .text((a) => `${a.duration}%`);
 
     svg
         .append('text')
@@ -139,14 +86,14 @@ D3Bar.create = function create(svgNode, data, configuration) {
         .attr('x', width / 2 + margin)
         .attr('y', height + margin * 1.7)
         .attr('text-anchor', 'middle')
-        .text('Languages');
+        .text('names');
 
     svg.append('text')
         .attr('class', 'title')
         .attr('x', width / 2 + margin)
         .attr('y', 40)
         .attr('text-anchor', 'middle')
-        .text('Most loved programming languages in 2018');
+        .text('Most loved programming names in 2018');
 
     svg.append('text')
         .attr('class', 'source')

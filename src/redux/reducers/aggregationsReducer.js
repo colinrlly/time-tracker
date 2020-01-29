@@ -7,13 +7,13 @@ const initialState = {
 };
 
 function aggregationsReducer(state = initialState, action) {
-    const stateCpy = JSON.parse(JSON.stringify(state));
+    const newState = {};
 
     switch (action.type) {
         case SET_AGG_TOTALS:
-            stateCpy.totals = action.totals;
+            newState.totals = action.totals;
 
-            return stateCpy;
+            return newState;
 
         default:
             return state;

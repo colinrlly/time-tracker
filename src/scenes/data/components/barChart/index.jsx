@@ -3,22 +3,22 @@ import { connect } from 'react-redux';
 import { D3Bar } from './helpers';
 
 class BarChart extends Component {
-    componentDidMount() {
-        // D3 cod eto create the chart
-        this.chart = D3Bar.create(
-            this.refs.svgNode,
-            this.props.data,
-            this.props.config,
-        );
-    }
+    // componentDidMount() {
+    //     // D3 cod eto create the chart
+    //     this.chart = D3Bar.create(
+    //         this.refs.svgNode,
+    //         this.props.data,
+    //         this.props.config,
+    //     );
+    // }
 
     componentDidUpdate() {
         // D3 code to update the chart
-        D3Bar.update(
-            this.svgNode,
+        D3Bar.create(
+            this.refs.svgNode,
             this.props.data,
             this.props.config,
-            this.chart,
+            // this.chart,
         );
     }
 
@@ -45,7 +45,7 @@ class BarChart extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    list: state.list,
+    data: state.aggregations.totals,
 });
 
 export default connect(mapStateToProps, null)(BarChart);
