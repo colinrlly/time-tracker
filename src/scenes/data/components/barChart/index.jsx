@@ -9,8 +9,8 @@ class BarChart extends Component {
 
         this.configuration = {
             margin,
-            width: 1000 - 2 * margin,
-            height: 600 - 2 * margin,
+            width: 500,
+            height: 300,
         };
 
         // D3 code to create the chart
@@ -27,14 +27,14 @@ class BarChart extends Component {
 
     componentDidUpdate() {
         // D3 code to update the chart
-        D3Bar.update(
-            this.refs.svgNode,
-            this.props.data,
-            this.configuration,
-            this.chart,
-            this.xScale,
-            this.yScale,
-        );
+        // D3Bar.update(
+        //     this.refs.svgNode,
+        //     this.props.data,
+        //     this.configuration,
+        //     this.chart,
+        //     this.xScale,
+        //     this.yScale,
+        // );
     }
 
     componentWillUnmount() {
@@ -48,7 +48,7 @@ class BarChart extends Component {
     render() {
         this;
 
-        const containerStyles = { width: 1000, height: 600 };
+        const containerStyles = { width: 500, height: 300, padding: 0 };
         const svgStyles = { width: '100%', height: '100%' };
 
         return (
