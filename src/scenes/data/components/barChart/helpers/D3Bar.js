@@ -52,6 +52,17 @@ D3Bar.update = function update(newData, configuration, chart) {
         .attr('height', (d) => newYScale(d.duration));
 
     oldRects.exit().remove();
+
+    // Add labels
+    chart.selectAll('text')
+        .data(newData, (d) => d.name)
+        .enter()
+        .append('text')
+        .attr('x', (d) => newXScale(d.name))
+        .attr('y', configuration.height)
+        .attr('width', newXScale.bandwidth())
+        .attr('fill', 'red')
+        .text('hi');
 };
 
 D3Bar.destroy = function destroy() {
