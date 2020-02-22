@@ -8,32 +8,14 @@ const myData = [
     { name: 'roger', duration: 4.98 },
 ];
 
-D3Bar.create = function create(svgNode, data, configuration) {
-    const names = myData.map((d) => d.name);
-
-    console.log(names);
-
+D3Bar.create = function create(svgNode, configuration) {
     const xScale = d3.scaleBand()
-        .domain(names)
+        .domain(myData.map((d) => d.name))
         .range([0, configuration.width]);
 
-    console.log(xScale('games'));
-    console.log(xScale('mag'));
-    console.log(xScale('roger'));
-    console.log(xScale.bandwidth());
-
-    const durations = myData.map((d) => d.duration);
-
-    console.log(`durations: ${JSON.stringify(durations)}`);
-    console.log(`height: ${configuration.height}`);
-
     const yScale = d3.scaleLinear()
-        .domain([0, d3.max(durations)])
+        .domain([0, d3.max(myData.map((d) => d.duration))])
         .range([0, configuration.height]);
-
-    console.log(`yScale(23.03): ${yScale(23.03)}`);
-    console.log(`yScale(12.05): ${yScale(12.05)}`);
-    console.log(`yScale(4.98): ${yScale(4.98)}`);
 
     const chart = d3.select(svgNode);
 
@@ -46,36 +28,30 @@ D3Bar.create = function create(svgNode, data, configuration) {
         .attr('width', xScale.bandwidth())
         .attr('height', (d) => yScale(d.duration));
 
-    return {
-        chart,
-        xScale,
-        yScale,
-    };
+    return chart;
 };
 
-D3Bar.update = function update(element, newData, configuration, chart, xScale, yScale) {
-    const newXScale = d3.scaleOrdinal()
-        .domain(myData.map((d, i) => d.name))
+D3Bar.update = function update(newData, configuration, chart) {
+    const newXScale = d3.scaleBand()
+        .domain(newData.map((d) => d.name))
         .range([0, configuration.width]);
 
-    const durations = newData.map((x) => x.duration);
-
     const newYScale = d3.scaleLinear()
-        .domain([0, d3.max(durations)])
-        .range([configuration.height, 0]);
+        .domain([0, d3.max(newData.map((d) => d.duration))])
+        .range([0, configuration.height]);
 
-    const rects = chart.selectAll('rect')
-        .data(newData, (d, i) => d.name);
+    const oldRects = chart.selectAll('rect')
+        .data(newData, (d) => d.name);
 
-    const enterRects = rects.enter()
+    oldRects.enter()
         .append('rect')
-        .attr('x', (d, i) => newXScale(d.name))
+        .merge(oldRects)
+        .attr('x', (d) => newXScale(d.name))
         .attr('y', (d) => configuration.height - newYScale(d.duration))
-        .attr('width', xScale.rangeBands())
+        .attr('width', newXScale.bandwidth())
         .attr('height', (d) => newYScale(d.duration));
 
-    enterRects.exit()
-        .remove();
+    oldRects.exit().remove();
 };
 
 D3Bar.destroy = function destroy() {

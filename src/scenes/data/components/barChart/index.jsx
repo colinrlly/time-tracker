@@ -14,27 +14,21 @@ class BarChart extends Component {
         };
 
         // D3 code to create the chart
-        const { chart, xScale, yScale } = D3Bar.create(
+        const chart = D3Bar.create(
             this.refs.svgNode,
-            this.props.data,
             this.configuration,
         );
 
         this.chart = chart;
-        this.xScale = xScale;
-        this.yScale = yScale;
     }
 
     componentDidUpdate() {
         // D3 code to update the chart
-        // D3Bar.update(
-        //     this.refs.svgNode,
-        //     this.props.data,
-        //     this.configuration,
-        //     this.chart,
-        //     this.xScale,
-        //     this.yScale,
-        // );
+        D3Bar.update(
+            this.props.data,
+            this.configuration,
+            this.chart,
+        );
     }
 
     componentWillUnmount() {
