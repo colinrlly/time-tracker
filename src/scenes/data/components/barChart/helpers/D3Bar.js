@@ -66,12 +66,13 @@ D3Bar.update = function update(newData, configuration, chart) {
 
     const newXScale = d3.scaleBand()
         .domain(newData.map((d) => d.name))
-        .range([0, configuration.width])
+        .range([0, configuration.width - axisMarginLeft])
         .padding(0.4);
 
     const newYScale = d3.scaleLinear()
         .domain([0, d3.max(newData.map((d) => d.duration))])
-        .range([configuration.height - axisMarginBottom * 2, 0]);
+        .range([configuration.height - axisMarginBottom * 2, 0])
+        .nice();
 
     const oldRects = chart.selectAll('rect')
         .data(newData, (d) => d.name);
@@ -85,17 +86,6 @@ D3Bar.update = function update(newData, configuration, chart) {
         .attr('height', (d) => configuration.height - newYScale(d.duration) - axisMarginBottom * 2);
 
     oldRects.exit().remove();
-
-    // Add labels
-    // chart.selectAll('text')
-    //     .data(newData, (d) => d.name)
-    //     .enter()
-    //     .append('text')
-    //     .attr('x', (d) => newXScale(d.name))
-    //     .attr('y', configuration.height)
-    //     .attr('width', newXScale.bandwidth())
-    //     .attr('fill', 'red')
-    //     .text('hi');
 
     // Add scales to axis
     const oldXAxis = chart.select('#xAxis');

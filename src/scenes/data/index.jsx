@@ -15,7 +15,7 @@ const Data = () => (
         <ActivityListGenerator />
         <Aggregator />
         <Picker />
-        <ActivityList />
+        {/* <ActivityList /> */}
         <BarChart />
     </div>
 );

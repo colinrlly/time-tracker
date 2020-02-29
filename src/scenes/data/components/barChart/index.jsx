@@ -25,7 +25,10 @@ class BarChart extends Component {
     componentDidUpdate() {
         // D3 code to update the chart
         D3Bar.update(
-            this.props.data,
+            this.props.data.map((x) => ({
+                name: x.name.substring(0, 6),
+                duration: x.duration,
+            })),
             this.configuration,
             this.chart,
         );
