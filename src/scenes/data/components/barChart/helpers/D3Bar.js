@@ -45,6 +45,7 @@ D3Bar.create = function create(configuration) {
     const xAxisTranslate = configuration.height - axisMarginBottom;
 
     chart.append('g')
+        .attr('id', 'xAxis')
         .attr('transform', `translate(${axisMarginLeft}, ${xAxisTranslate})`)
         .call(xAxis);
 
@@ -52,6 +53,7 @@ D3Bar.create = function create(configuration) {
         .scale(yScale);
 
     chart.append('g')
+        .attr('id', 'yAxis')
         .attr('transform', `translate(${axisMarginLeft}, ${axisMarginBottom})`)
         .call(yAxis);
 
@@ -59,13 +61,17 @@ D3Bar.create = function create(configuration) {
 };
 
 D3Bar.update = function update(newData, configuration, chart) {
+    const axisMarginBottom = 20;
+    const axisMarginLeft = 30;
+
     const newXScale = d3.scaleBand()
         .domain(newData.map((d) => d.name))
-        .range([0, configuration.width]);
+        .range([0, configuration.width])
+        .padding(0.4);
 
     const newYScale = d3.scaleLinear()
         .domain([0, d3.max(newData.map((d) => d.duration))])
-        .range([0, configuration.height]);
+        .range([configuration.height - axisMarginBottom * 2, 0]);
 
     const oldRects = chart.selectAll('rect')
         .data(newData, (d) => d.name);
@@ -73,39 +79,41 @@ D3Bar.update = function update(newData, configuration, chart) {
     oldRects.enter()
         .append('rect')
         .merge(oldRects)
-        .attr('x', (d) => newXScale(d.name))
-        .attr('y', (d) => configuration.height - newYScale(d.duration))
+        .attr('x', (d) => newXScale(d.name) + axisMarginLeft)
+        .attr('y', (d) => newYScale(d.duration) + axisMarginBottom)
         .attr('width', newXScale.bandwidth())
-        .attr('height', (d) => newYScale(d.duration));
+        .attr('height', (d) => configuration.height - newYScale(d.duration) - axisMarginBottom * 2);
 
     oldRects.exit().remove();
 
     // Add labels
-    chart.selectAll('text')
-        .data(newData, (d) => d.name)
-        .enter()
-        .append('text')
-        .attr('x', (d) => newXScale(d.name))
-        .attr('y', configuration.height)
-        .attr('width', newXScale.bandwidth())
-        .attr('fill', 'red')
-        .text('hi');
+    // chart.selectAll('text')
+    //     .data(newData, (d) => d.name)
+    //     .enter()
+    //     .append('text')
+    //     .attr('x', (d) => newXScale(d.name))
+    //     .attr('y', configuration.height)
+    //     .attr('width', newXScale.bandwidth())
+    //     .attr('fill', 'red')
+    //     .text('hi');
 
     // Add scales to axis
-    const xAxis = d3.axisBottom()
+    const oldXAxis = chart.select('#xAxis');
+    const oldYAxis = chart.select('#yAxis');
+
+    const newXAxis = d3.axisBottom()
         .scale(newXScale);
 
-    // Append group and insert axis
-    chart.append('g')
-        .attr('transform', `translate(0, ${configuration.height - 100})`)
-        .call(xAxis);
+    oldXAxis.transition()
+        .duration(500)
+        .call(newXAxis);
 
-    const yAxis = d3.axisLeft()
+    const newYAxis = d3.axisLeft()
         .scale(newYScale);
 
-    chart.append('g')
-        .attr('transform', 'translate(50, 0)')
-        .call(yAxis);
+    oldYAxis.transition()
+        .duration(500)
+        .call(newYAxis);
 };
 
 D3Bar.destroy = function destroy() {

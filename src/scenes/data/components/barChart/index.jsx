@@ -24,11 +24,11 @@ class BarChart extends Component {
 
     componentDidUpdate() {
         // D3 code to update the chart
-        // D3Bar.update(
-        //     this.props.data,
-        //     this.configuration,
-        //     this.chart,
-        // );
+        D3Bar.update(
+            this.props.data,
+            this.configuration,
+            this.chart,
+        );
     }
 
     componentWillUnmount() {
