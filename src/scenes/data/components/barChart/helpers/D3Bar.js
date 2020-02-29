@@ -77,15 +77,20 @@ D3Bar.update = function update(newData, configuration, chart) {
     const oldRects = chart.selectAll('rect')
         .data(newData, (d) => d.name);
 
+    oldRects.exit()
+        .remove();
+
     oldRects.enter()
         .append('rect')
         .merge(oldRects)
         .attr('x', (d) => newXScale(d.name) + axisMarginLeft)
-        .attr('y', (d) => newYScale(d.duration) + axisMarginBottom)
         .attr('width', newXScale.bandwidth())
+        .attr('y', () => newYScale(0) + axisMarginBottom)
+        .attr('height', 0)
+        .transition()
+        .duration(500)
+        .attr('y', (d) => newYScale(d.duration) + axisMarginBottom)
         .attr('height', (d) => configuration.height - newYScale(d.duration) - axisMarginBottom * 2);
-
-    oldRects.exit().remove();
 
     // Add scales to axis
     const oldXAxis = chart.select('#xAxis');
