@@ -8,25 +8,49 @@ const myData = [
     { name: 'roger', duration: 4.98 },
 ];
 
-D3Bar.create = function create(svgNode, configuration) {
+D3Bar.create = function create(configuration) {
+    const chart = d3.select('.container')
+        .append('svg')
+        .attr('width', configuration.width)
+        .attr('height', configuration.height);
+
+    const axisMarginBottom = 20;
+    const axisMarginLeft = 30;
+
     const xScale = d3.scaleBand()
         .domain(myData.map((d) => d.name))
-        .range([0, configuration.width]);
+        .range([0, configuration.width - axisMarginLeft]);
 
     const yScale = d3.scaleLinear()
         .domain([0, d3.max(myData.map((d) => d.duration))])
-        .range([0, configuration.height]);
+        .range([configuration.height - axisMarginBottom * 2, 0]);
 
-    const chart = d3.select(svgNode);
+    // chart.selectAll('rect')
+    //     .data(myData, (d) => d.name)
+    //     .enter()
+    //     .append('rect')
+    //     .attr('x', (d) => xScale(d.name))
+    //     .attr('y', (d) => configuration.height - yScale(d.duration))
+    //     .attr('width', xScale.bandwidth())
+    //     .attr('height', (d) => yScale(d.duration));
 
-    chart.selectAll('rect')
-        .data(myData, (d) => d.name)
-        .enter()
-        .append('rect')
-        .attr('x', (d) => xScale(d.name))
-        .attr('y', (d) => configuration.height - yScale(d.duration))
-        .attr('width', xScale.bandwidth())
-        .attr('height', (d) => yScale(d.duration));
+    // Add scales to axis
+    const xAxis = d3.axisBottom()
+        .scale(xScale);
+
+    // Append group and insert axis
+    const xAxisTranslate = configuration.height - axisMarginBottom;
+
+    chart.append('g')
+        .attr('transform', `translate(${axisMarginLeft}, ${xAxisTranslate})`)
+        .call(xAxis);
+
+    const yAxis = d3.axisLeft()
+        .scale(yScale);
+
+    chart.append('g')
+        .attr('transform', `translate(${axisMarginLeft}, ${axisMarginBottom})`)
+        .call(yAxis);
 
     return chart;
 };
@@ -63,6 +87,22 @@ D3Bar.update = function update(newData, configuration, chart) {
         .attr('width', newXScale.bandwidth())
         .attr('fill', 'red')
         .text('hi');
+
+    // Add scales to axis
+    const xAxis = d3.axisBottom()
+        .scale(newXScale);
+
+    // Append group and insert axis
+    chart.append('g')
+        .attr('transform', `translate(0, ${configuration.height - 100})`)
+        .call(xAxis);
+
+    const yAxis = d3.axisLeft()
+        .scale(newYScale);
+
+    chart.append('g')
+        .attr('transform', 'translate(50, 0)')
+        .call(yAxis);
 };
 
 D3Bar.destroy = function destroy() {

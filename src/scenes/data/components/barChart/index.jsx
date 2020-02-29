@@ -15,7 +15,7 @@ class BarChart extends Component {
 
         // D3 code to create the chart
         const chart = D3Bar.create(
-            this.refs.svgNode,
+            // this.refs.svgNode,
             this.configuration,
         );
 
@@ -24,11 +24,11 @@ class BarChart extends Component {
 
     componentDidUpdate() {
         // D3 code to update the chart
-        D3Bar.update(
-            this.props.data,
-            this.configuration,
-            this.chart,
-        );
+        // D3Bar.update(
+        //     this.props.data,
+        //     this.configuration,
+        //     this.chart,
+        // );
     }
 
     componentWillUnmount() {
@@ -42,12 +42,17 @@ class BarChart extends Component {
     render() {
         this;
 
-        const containerStyles = { width: 500, height: 300, padding: 0 };
+        const containerStyles = {
+            // width: 500,
+            // height: 300,
+            padding: 0,
+            border: '1px solid red',
+        };
         const svgStyles = { width: '100%', height: '100%' };
 
         return (
             <div className="container" style={containerStyles}>
-                <svg className="bar-container" style={svgStyles} ref='svgNode' />
+                {/* <svg className="bar-container" style={svgStyles} ref='svgNode' /> */}
             </div>
         );
     }
