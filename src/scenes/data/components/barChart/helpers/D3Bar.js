@@ -3,9 +3,11 @@ import * as d3 from 'd3';
 const D3Bar = {};
 
 const myData = [
-    { name: 'games', duration: 23.03 },
-    { name: 'mag', duration: 12.05 },
-    { name: 'roger', duration: 4.98 },
+    { name: 'games', duration: 200.03 },
+    { name: 'mag', duration: 50.05 },
+    { name: 'roger', duration: 123.98 },
+    { name: 'rogers', duration: 23.98 },
+    { name: 'rog', duration: 153.98 },
 ];
 
 D3Bar.create = function create(configuration) {
@@ -19,20 +21,21 @@ D3Bar.create = function create(configuration) {
 
     const xScale = d3.scaleBand()
         .domain(myData.map((d) => d.name))
-        .range([0, configuration.width - axisMarginLeft]);
+        .range([0, configuration.width - axisMarginLeft])
+        .padding(0.4);
 
     const yScale = d3.scaleLinear()
         .domain([0, d3.max(myData.map((d) => d.duration))])
         .range([configuration.height - axisMarginBottom * 2, 0]);
 
-    // chart.selectAll('rect')
-    //     .data(myData, (d) => d.name)
-    //     .enter()
-    //     .append('rect')
-    //     .attr('x', (d) => xScale(d.name))
-    //     .attr('y', (d) => configuration.height - yScale(d.duration))
-    //     .attr('width', xScale.bandwidth())
-    //     .attr('height', (d) => yScale(d.duration));
+    chart.selectAll('rect')
+        .data(myData, (d) => d.name)
+        .enter()
+        .append('rect')
+        .attr('x', (d) => xScale(d.name) + axisMarginLeft)
+        .attr('y', (d) => yScale(d.duration) + axisMarginBottom)
+        .attr('width', xScale.bandwidth())
+        .attr('height', (d) => configuration.height - yScale(d.duration) - axisMarginBottom * 2);
 
     // Add scales to axis
     const xAxis = d3.axisBottom()
