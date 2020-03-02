@@ -3,7 +3,7 @@ import {
 } from '../actions/actions';
 
 /**
- * Adds an activity name to the redux store.
+ * Sets the activity names list.
  *
  * @param {Object} state - Previous state.
  * @param {Object} action - Redux action, here holding an activity name belonging to a user.

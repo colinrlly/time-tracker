@@ -3,12 +3,27 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 function ActivityList(props) {
-    const list = Object.keys(props.names).map((name, i) => <li key={i}>{name}</li>);
+    const inActivitiesNames = Object.keys(props.names).filter(
+        (name) => props.names[name].inActivities,
+    );
+
+    const notInActivitiesNames = Object.keys(props.names).filter(
+        (name) => !props.names[name].inActivities,
+    );
+
+    const inActivitiesList = inActivitiesNames.map((name, i) => <li key={i}>{name}</li>);
+    const notInActivitiesList = notInActivitiesNames.map((name, i) => <li key={i}>{name}</li>);
 
     return (
-        <ul>
-            {list}
-        </ul>
+        <div>
+            <ul>
+                {inActivitiesList}
+            </ul>
+            <br></br>
+            <ul>
+                {notInActivitiesList}
+            </ul>
+        </div>
     );
 }
 
