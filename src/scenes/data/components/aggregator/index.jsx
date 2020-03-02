@@ -4,10 +4,13 @@ import {
 } from '../../../../redux/actions/actions';
 import {
     totalsAggregator,
+    listFilter,
 } from './helpers';
 
 function Aggregator(props) {
-    const totals = totalsAggregator(props.list);
+    const list = listFilter(props.list, props.names);
+
+    const totals = totalsAggregator(list);
 
     props.setAggTotals(totals);
 
@@ -16,6 +19,7 @@ function Aggregator(props) {
 
 const mapStateToProps = (state) => ({
     list: state.list,
+    names: state.names,
 });
 
 const mapDispatchToProps = {

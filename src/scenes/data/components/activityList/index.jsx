@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 function ActivityList(props) {
-    const list = props.names.map((name, i) => <li key={i}>{name.name}</li>);
+    const list = Object.keys(props.names).map((name, i) => <li key={i}>{name}</li>);
 
     return (
         <ul>

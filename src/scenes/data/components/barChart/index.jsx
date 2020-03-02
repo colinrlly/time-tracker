@@ -5,7 +5,10 @@ import { D3Bar } from './helpers';
 class BarChart extends Component {
     componentDidMount() {
         // Define size parameters.
-        const margin = 80;
+        const margin = {
+            left: 30,
+            bottom: 20,
+        };
 
         this.configuration = {
             margin,
@@ -15,7 +18,6 @@ class BarChart extends Component {
 
         // D3 code to create the chart
         const chart = D3Bar.create(
-            // this.refs.svgNode,
             this.configuration,
         );
 
@@ -38,25 +40,16 @@ class BarChart extends Component {
         D3Bar.destroy(this.svgNode);
     }
 
-    setSVGRef(svgNode) {
-        this.svgNode = svgNode;
-    }
-
     render() {
         this;
 
         const containerStyles = {
-            // width: 500,
-            // height: 300,
             padding: 0,
             border: '1px solid red',
         };
-        const svgStyles = { width: '100%', height: '100%' };
 
         return (
-            <div className="container" style={containerStyles}>
-                {/* <svg className="bar-container" style={svgStyles} ref='svgNode' /> */}
-            </div>
+            <div className="container" style={containerStyles}></div>
         );
     }
 }

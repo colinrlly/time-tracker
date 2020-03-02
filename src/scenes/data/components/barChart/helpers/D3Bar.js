@@ -16,37 +16,34 @@ D3Bar.create = function create(configuration) {
         .attr('width', configuration.width)
         .attr('height', configuration.height);
 
-    const axisMarginBottom = 20;
-    const axisMarginLeft = 30;
-
     const xScale = d3.scaleBand()
         .domain(myData.map((d) => d.name))
-        .range([0, configuration.width - axisMarginLeft])
-        .padding(0.4);
+        .range([0, configuration.width - configuration.margin.left])
+        .padding(0.3);
 
     const yScale = d3.scaleLinear()
         .domain([0, d3.max(myData.map((d) => d.duration))])
-        .range([configuration.height - axisMarginBottom * 2, 0]);
+        .range([configuration.height - configuration.margin.bottom * 2, 0]);
 
     chart.selectAll('rect')
         .data(myData, (d) => d.name)
         .enter()
         .append('rect')
-        .attr('x', (d) => xScale(d.name) + axisMarginLeft)
-        .attr('y', (d) => yScale(d.duration) + axisMarginBottom)
+        .attr('x', (d) => xScale(d.name) + configuration.margin.left)
+        .attr('y', (d) => yScale(d.duration) + configuration.margin.bottom)
         .attr('width', xScale.bandwidth())
-        .attr('height', (d) => configuration.height - yScale(d.duration) - axisMarginBottom * 2);
+        .attr('height', (d) => configuration.height - yScale(d.duration) - configuration.margin.bottom * 2);
 
     // Add scales to axis
     const xAxis = d3.axisBottom()
         .scale(xScale);
 
     // Append group and insert axis
-    const xAxisTranslate = configuration.height - axisMarginBottom;
+    const xAxisTranslate = configuration.height - configuration.margin.bottom;
 
     chart.append('g')
         .attr('id', 'xAxis')
-        .attr('transform', `translate(${axisMarginLeft}, ${xAxisTranslate})`)
+        .attr('transform', `translate(${configuration.margin.left}, ${xAxisTranslate})`)
         .call(xAxis);
 
     const yAxis = d3.axisLeft()
@@ -54,24 +51,21 @@ D3Bar.create = function create(configuration) {
 
     chart.append('g')
         .attr('id', 'yAxis')
-        .attr('transform', `translate(${axisMarginLeft}, ${axisMarginBottom})`)
+        .attr('transform', `translate(${configuration.margin.left}, ${configuration.margin.bottom})`)
         .call(yAxis);
 
     return chart;
 };
 
 D3Bar.update = function update(newData, configuration, chart) {
-    const axisMarginBottom = 20;
-    const axisMarginLeft = 30;
-
     const newXScale = d3.scaleBand()
         .domain(newData.map((d) => d.name))
-        .range([0, configuration.width - axisMarginLeft])
+        .range([0, configuration.width - configuration.margin.left])
         .padding(0.4);
 
     const newYScale = d3.scaleLinear()
         .domain([0, d3.max(newData.map((d) => d.duration))])
-        .range([configuration.height - axisMarginBottom * 2, 0])
+        .range([configuration.height - configuration.margin.bottom * 2, 0])
         .nice();
 
     const oldRects = chart.selectAll('rect')
@@ -83,14 +77,14 @@ D3Bar.update = function update(newData, configuration, chart) {
     oldRects.enter()
         .append('rect')
         .merge(oldRects)
-        .attr('x', (d) => newXScale(d.name) + axisMarginLeft)
+        .attr('x', (d) => newXScale(d.name) + configuration.margin.left)
         .attr('width', newXScale.bandwidth())
-        .attr('y', () => newYScale(0) + axisMarginBottom)
+        .attr('y', () => newYScale(0) + configuration.margin.bottom)
         .attr('height', 0)
         .transition()
         .duration(500)
-        .attr('y', (d) => newYScale(d.duration) + axisMarginBottom)
-        .attr('height', (d) => configuration.height - newYScale(d.duration) - axisMarginBottom * 2);
+        .attr('y', (d) => newYScale(d.duration) + configuration.margin.bottom)
+        .attr('height', (d) => configuration.height - newYScale(d.duration) - configuration.margin.bottom * 2);
 
     // Add scales to axis
     const oldXAxis = chart.select('#xAxis');

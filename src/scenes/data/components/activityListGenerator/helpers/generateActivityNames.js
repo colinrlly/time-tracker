@@ -1,29 +1,20 @@
-function containsObject(obj, list) {
-    let i;
-
-    for (i = 0; i < list.length; i += 1) {
-        if (list[i].name === obj.name) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
 function generateActivityNames(list) {
-    const activityNames = [];
+    // const activityNames = [];
+    const activityNames = {};
     let newActivity = {};
+    let name = '';
 
     for (let i = 0; i < list.length; i += 1) {
+        name = list[i].summary;
+
         newActivity = {
-            name: list[i].summary,
             inActivities: list[i].inActivities,
             colorId: list[i].colorId,
             selected: list[i].inActivities,
         };
 
-        if (!containsObject(newActivity, activityNames)) {
-            activityNames.push(newActivity);
+        if (!(name in activityNames)) {
+            activityNames[name] = newActivity;
         }
     }
 

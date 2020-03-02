@@ -17,7 +17,7 @@ function getDurations(events) {
 function totalsAggregator(events) {
     const eventsWithDuration = getDurations(events);
 
-    // the e =>vents together grouped by name.
+    // the events together grouped by name.
     const aggEvents = eventsWithDuration.reduce((acc, curr) => {
         const currentName = curr.name;
 
