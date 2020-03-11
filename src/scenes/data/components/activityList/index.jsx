@@ -66,7 +66,8 @@ const mapDispatchToProps = {
 };
 
 ActivityList.propTypes = {
-    prop: PropTypes,
+    names: PropTypes.object.isRequired,
+    setActivityNames: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ActivityList);

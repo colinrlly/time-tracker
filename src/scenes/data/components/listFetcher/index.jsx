@@ -40,7 +40,7 @@ const mapDispatchToProps = {
 ListFetcher.propTypes = {
     startDateTime: PropTypes.object.isRequired,
     endDateTime: PropTypes.object.isRequired,
-    setActivityRecord: PropTypes.func.isRequired,
+    setActivityRecords: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ListFetcher);
