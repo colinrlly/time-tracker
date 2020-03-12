@@ -1,22 +1,5 @@
-// Get the duration of each event.
-function getDurations(events) {
-    return events.map((x) => {
-        const end = x.end.moment;
-        const start = x.start.moment;
-
-        return {
-            name: x.summary,
-            duration: end.diff(start, 'minutes'),
-            colorId: x.colorId,
-            inActivities: x.inActivities,
-        };
-    });
-}
-
 // Aggregates and formats a list of activity records.
-function totalsAggregator(events) {
-    const eventsWithDuration = getDurations(events);
-
+function totalsAggregator(eventsWithDuration) {
     // the events together grouped by name.
     const aggEvents = eventsWithDuration.reduce((acc, curr) => {
         const currentName = curr.name;

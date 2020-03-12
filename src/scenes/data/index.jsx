@@ -6,6 +6,7 @@ import ActivityListGenerator from './components/activityListGenerator';
 import ActivityList from './components/activityList';
 import BarChart from './components/barChart';
 import Aggregator from './components/aggregator';
+import TotalTime from './components/totalTime';
 import './style/slideout.css';
 
 /**
@@ -39,18 +40,16 @@ class Data extends Component {
                 <ListFetcher />
                 <ActivityListGenerator />
                 <Aggregator />
+
                 <nav id='menu'>
-                    <header>
-                        <Picker />
-                        <ActivityList />
-                    </header>
+                    <Picker />
+                    <ActivityList />
+                    <TotalTime />
                 </nav>
+
                 <main id='panel'>
                     <button onClick={this.toggleButtonHandler}>menu</button>
                     <BarChart />
-                    <header>
-                        <h2>Panel</h2>
-                    </header>
                 </main>
             </div>
         );
