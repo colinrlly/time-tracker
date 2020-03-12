@@ -35,7 +35,7 @@ const mapDispatchToProps = {
 
 Aggregator.propTypes = {
     list: PropTypes.array.isRequired,
-    names: PropTypes.array.isRequired,
+    names: PropTypes.object.isRequired,
     setAggTotals: PropTypes.func.isRequired,
     setAggTotalTime: PropTypes.func.isRequired,
 };
