@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import {
     setAggTotals,
     setAggTotalTime,
@@ -30,6 +31,13 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
     setAggTotals,
     setAggTotalTime,
+};
+
+Aggregator.propTypes = {
+    list: PropTypes.array.isRequired,
+    names: PropTypes.array.isRequired,
+    setAggTotals: PropTypes.func.isRequired,
+    setAggTotalTime: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Aggregator);

@@ -25,6 +25,7 @@ const mapDispatchToProps = {
 };
 
 ActivityListGenerator.propTypes = {
+    list: PropTypes.array.isRequired,
     setActivityNames: PropTypes.func.isRequired,
 };
 

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { D3Bar } from './helpers';
 
 class BarChart extends Component {
@@ -57,5 +58,9 @@ class BarChart extends Component {
 const mapStateToProps = (state) => ({
     data: state.aggregations.totals,
 });
+
+BarChart.propTypes = {
+    data: PropTypes.array.isRequired,
+};
 
 export default connect(mapStateToProps, null)(BarChart);
