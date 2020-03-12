@@ -1,5 +1,4 @@
 function generateActivityNames(list) {
-    // const activityNames = [];
     const activityNames = {};
     let newActivity = {};
     let name = '';
