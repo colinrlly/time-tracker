@@ -10,8 +10,8 @@ const myData = [
     { name: 'rog', duration: 153.98 },
 ];
 
-D3Bar.create = function create(configuration) {
-    const chart = d3.select('.container')
+D3Bar.create = function create(barChartContainer, configuration) {
+    const chart = d3.select(barChartContainer)
         .append('svg')
         .attr('width', configuration.width)
         .attr('height', configuration.height);
@@ -58,10 +58,13 @@ D3Bar.create = function create(configuration) {
 };
 
 D3Bar.update = function update(newData, configuration, chart) {
+    chart.attr('width', configuration.width)
+        .attr('height', configuration.height);
+
     const newXScale = d3.scaleBand()
         .domain(newData.map((d) => d.name))
         .range([0, configuration.width - configuration.margin.left])
-        .padding(0.4);
+        .padding(0.1);
 
     const newYScale = d3.scaleLinear()
         .domain([0, d3.max(newData.map((d) => d.duration))])

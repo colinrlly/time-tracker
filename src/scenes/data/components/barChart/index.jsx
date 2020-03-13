@@ -3,7 +3,15 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { D3Bar } from './helpers';
 
+import { container } from './style/styles.module.scss';
+
 class BarChart extends Component {
+    constructor(props) {
+        super(props);
+
+        this.barChartContainerRef = React.createRef();
+    }
+
     componentDidMount() {
         // Define size parameters.
         const margin = {
@@ -13,16 +21,35 @@ class BarChart extends Component {
 
         this.configuration = {
             margin,
-            width: 500,
+            width: this.barChartContainerRef.current.clientWidth - 30,
             height: 300,
         };
 
         // D3 code to create the chart
         const chart = D3Bar.create(
+            this.barChartContainerRef.current,
             this.configuration,
         );
 
         this.chart = chart;
+
+        // Resize chart on window resize.
+        window.addEventListener('resize', () => {
+            const newConfiguration = {
+                margin,
+                width: this.barChartContainerRef.current.clientWidth - 30,
+                height: 300,
+            };
+
+            D3Bar.update(
+                this.props.data.map((x) => ({
+                    name: x.name.substring(0, 6),
+                    duration: x.duration,
+                })),
+                newConfiguration,
+                this.chart,
+            );
+        });
     }
 
     componentDidUpdate() {
@@ -44,13 +71,8 @@ class BarChart extends Component {
     render() {
         this;
 
-        const containerStyles = {
-            padding: 0,
-            border: '1px solid red',
-        };
-
         return (
-            <div className="container" style={containerStyles}></div>
+            <div className={container} ref={this.barChartContainerRef}></div>
         );
     }
 }
