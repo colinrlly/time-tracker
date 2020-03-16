@@ -92,7 +92,9 @@ D3Bar.update = function update(newData, configuration, chart) {
 
     oldXAxis.transition()
         .duration(500)
-        .call(newXAxis);
+        .call(newXAxis
+            .tickSize(0)
+            .tickPadding(10));
 
     const newYAxis = d3.axisLeft()
         .scale(newYScale);
@@ -101,7 +103,7 @@ D3Bar.update = function update(newData, configuration, chart) {
         .duration(500)
         .call(newYAxis
             .tickSize(-configuration.width)
-            .tickSizeOuter(0));
+            .tickSizeOuter(0)); // Get rid of permanent end tick
 };
 
 D3Bar.destroy = function destroy() {

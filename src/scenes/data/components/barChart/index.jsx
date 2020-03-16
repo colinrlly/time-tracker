@@ -16,8 +16,8 @@ class BarChart extends Component {
     componentDidMount() {
         // Define size parameters.
         const margin = {
-            left: 30,
-            bottom: 20,
+            left: 25,
+            bottom: 25,
         };
 
         this.configuration = {
