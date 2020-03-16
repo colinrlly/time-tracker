@@ -2,13 +2,7 @@ import * as d3 from 'd3';
 
 const D3Bar = {};
 
-const myData = [
-    { name: 'games', duration: 200.03 },
-    { name: 'mag', duration: 50.05 },
-    { name: 'roger', duration: 123.98 },
-    { name: 'rogers', duration: 23.98 },
-    { name: 'rog', duration: 153.98 },
-];
+const myData = [];
 
 D3Bar.create = function create(barChartContainer, configuration) {
     const chart = d3.select(barChartContainer)
@@ -87,7 +81,7 @@ D3Bar.update = function update(newData, configuration, chart) {
         .transition()
         .duration(500)
         .attr('y', (d) => newYScale(d.duration) + configuration.margin.bottom)
-        .attr('height', (d) => configuration.height - newYScale(d.duration) - configuration.margin.bottom * 2);
+        .attr('height', (d) => configuration.height - newYScale(d.duration) - configuration.margin.bottom * 2)
 
     // Add scales to axis
     const oldXAxis = chart.select('#xAxis');
@@ -105,7 +99,9 @@ D3Bar.update = function update(newData, configuration, chart) {
 
     oldYAxis.transition()
         .duration(500)
-        .call(newYAxis);
+        .call(newYAxis
+            .tickSize(-configuration.width)
+            .tickSizeOuter(0));
 };
 
 D3Bar.destroy = function destroy() {

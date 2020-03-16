@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { D3Bar } from './helpers';
 
 import { container } from './style/styles.module.scss';
+import './style/chart.css';
 
 class BarChart extends Component {
     constructor(props) {
