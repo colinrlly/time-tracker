@@ -58,7 +58,8 @@ D3Bar.update = function update(newData, configuration, chart) {
     const newXScale = d3.scaleBand()
         .domain(newData.map((d) => d.name))
         .range([0, configuration.width - configuration.margin.left])
-        .padding(0.1);
+        .padding(0.15)
+        .paddingOuter(0.75);
 
     const newYScale = d3.scaleLinear()
         .domain([0, d3.max(newData.map((d) => d.duration))])
