@@ -14,6 +14,11 @@ function mapData(x) {
     };
 }
 
+const MARGIN = {
+    left: 25,
+    bottom: 25,
+};
+
 class BarChart extends Component {
     constructor(props) {
         super(props);
@@ -23,14 +28,9 @@ class BarChart extends Component {
 
     componentDidMount() {
         // Define size parameters.
-        const margin = {
-            left: 25,
-            bottom: 25,
-        };
-
         this.configuration = {
-            margin,
-            width: this.barChartContainerRef.current.clientWidth - margin.left - 5,
+            margin: MARGIN,
+            width: this.barChartContainerRef.current.clientWidth - MARGIN.left - 5,
             height: 300,
         };
 
@@ -45,8 +45,8 @@ class BarChart extends Component {
         // Resize chart on window resize.
         window.addEventListener('resize', () => {
             const newConfiguration = {
-                margin,
-                width: this.barChartContainerRef.current.clientWidth - margin.left - 5,
+                margin: MARGIN,
+                width: this.barChartContainerRef.current.clientWidth - MARGIN.left - 5,
                 height: 300,
             };
 
@@ -60,9 +60,15 @@ class BarChart extends Component {
 
     componentDidUpdate() {
         // D3 code to update the chart
+        const newConfiguration = {
+            margin: MARGIN,
+            width: this.barChartContainerRef.current.clientWidth - MARGIN.left - 5,
+            height: 300,
+        };
+
         D3Bar.update(
             this.props.data.map(mapData),
-            this.configuration,
+            newConfiguration,
             this.chart,
         );
     }
