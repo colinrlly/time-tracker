@@ -1,4 +1,5 @@
 import * as d3 from 'd3';
+import googleColors from '../../../../../static/js/google_colors';
 
 const D3Bar = {};
 
@@ -18,15 +19,6 @@ D3Bar.create = function create(barChartContainer, configuration) {
     const yScale = d3.scaleLinear()
         .domain([0, d3.max(myData.map((d) => d.duration))])
         .range([configuration.height - configuration.margin.bottom * 2, 0]);
-
-    chart.selectAll('rect')
-        .data(myData, (d) => d.name)
-        .enter()
-        .append('rect')
-        .attr('x', (d) => xScale(d.name) + configuration.margin.left)
-        .attr('y', (d) => yScale(d.duration) + configuration.margin.bottom)
-        .attr('width', xScale.bandwidth())
-        .attr('height', (d) => configuration.height - yScale(d.duration) - configuration.margin.bottom * 2);
 
     // Add scales to axis
     const xAxis = d3.axisBottom()
@@ -83,6 +75,7 @@ D3Bar.update = function update(newData, configuration, chart) {
         .duration(500)
         .attr('y', (d) => newYScale(d.duration) + configuration.margin.bottom)
         .attr('height', (d) => configuration.height - newYScale(d.duration) - configuration.margin.bottom * 2)
+        .attr('fill', (d) => googleColors[d.colorId]);
 
     // Add scales to axis
     const oldXAxis = chart.select('#xAxis');

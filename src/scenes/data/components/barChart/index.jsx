@@ -6,6 +6,14 @@ import { D3Bar } from './helpers';
 import { container } from './style/styles.module.scss';
 import './style/chart.css';
 
+function mapData(x) {
+    return {
+        name: x.name.substring(0, 6),
+        duration: x.duration,
+        colorId: x.colorId,
+    };
+}
+
 class BarChart extends Component {
     constructor(props) {
         super(props);
@@ -22,7 +30,7 @@ class BarChart extends Component {
 
         this.configuration = {
             margin,
-            width: this.barChartContainerRef.current.clientWidth - 30,
+            width: this.barChartContainerRef.current.clientWidth - margin.left - 5,
             height: 300,
         };
 
@@ -38,15 +46,12 @@ class BarChart extends Component {
         window.addEventListener('resize', () => {
             const newConfiguration = {
                 margin,
-                width: this.barChartContainerRef.current.clientWidth - 30,
+                width: this.barChartContainerRef.current.clientWidth - margin.left - 5,
                 height: 300,
             };
 
             D3Bar.update(
-                this.props.data.map((x) => ({
-                    name: x.name.substring(0, 6),
-                    duration: x.duration,
-                })),
+                this.props.data.map(mapData),
                 newConfiguration,
                 this.chart,
             );
@@ -56,10 +61,7 @@ class BarChart extends Component {
     componentDidUpdate() {
         // D3 code to update the chart
         D3Bar.update(
-            this.props.data.map((x) => ({
-                name: x.name.substring(0, 6),
-                duration: x.duration,
-            })),
+            this.props.data.map(mapData),
             this.configuration,
             this.chart,
         );
