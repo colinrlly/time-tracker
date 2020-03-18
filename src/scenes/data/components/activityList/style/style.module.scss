@@ -1,0 +1,57 @@
+.activityListContainer {
+    margin-top: 25px;
+    padding: 20px;
+
+    .activitiesHeader {
+        font-family: 'Work Sans', sans-serif;
+        font-style: normal;
+    }
+
+    .activitiesList {
+        list-style: none;
+        display: grid;
+        grid-template-columns: 50% 50%;
+        row-gap: 15px;
+        padding: 0;
+    }
+
+    .activityListItem {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .activityListButton {
+        background-color: transparent;
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        display: flex;
+        width: 100%;
+    }
+
+    .colorCircle {
+        border-radius: 30px;
+        height: 30px;
+        display: inline-block;
+        flex: 0 0 30px;
+        border-style: solid;
+    }
+
+    .activityName {
+        flex: 1 1 auto;
+        text-align: left;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: .8em;
+        font-family: 'Work Sans', sans-serif;
+        font-style: normal;
+        box-sizing: border-box;
+        padding-left: 7px;
+    }
+
+    .selected {
+        // border: 1px solid red;
+    }
+}

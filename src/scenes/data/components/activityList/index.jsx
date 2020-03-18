@@ -4,15 +4,20 @@ import { connect } from 'react-redux';
 import {
     setActivityNames,
 } from '../../../../redux/actions/actions';
+import googleColors from '../../../../static/js/google_colors';
+
+import {
+    selected,
+    activityListContainer,
+    colorCircle,
+    activitiesList,
+    activityListButton,
+    activityName,
+    activityListItem,
+    activitiesHeader,
+} from './style/style.module.scss';
 
 function ActivityList(props) {
-    const inActivitiesNames = Object.keys(props.names).filter(
-        (name) => props.names[name].inActivities,
-    );
-    const notInActivitiesNames = Object.keys(props.names).filter(
-        (name) => !props.names[name].inActivities,
-    );
-
     function handleNameClick(name) {
         const newNames = JSON.parse(JSON.stringify(props.names));
 
@@ -21,38 +26,61 @@ function ActivityList(props) {
         props.setActivityNames(newNames);
     }
 
-    const selectedStyle = {
-        border: '1px solid red',
-    };
+    function mapActivityNames(activity, i) {
+        return (
+            <li className={activityListItem} key={i}>
+                <button
+                    onClick={() => handleNameClick(activity.name)}
+                    className={
+                        `${props.names[activity.name].selected ? selected : ''}
+                        ${activityListButton}`
+                    }>
+                    <div
+                        className={colorCircle}
+                        style={{
+                            backgroundColor: (
+                                activity.selected ? googleColors[activity.colorId] : 'white'
+                            ),
+                            borderColor: googleColors[activity.colorId],
+                            borderWidth: (activity.selected ? 0 : 3),
+                        }} />
+                    <div className={activityName}>{activity.name}</div>
+                </button>
+            </li>
+        );
+    }
 
-    const inActivitiesList = inActivitiesNames.map(
-        (name, i) => <li key={i}>
-            <button
-                onClick={() => handleNameClick(name)}
-                style={props.names[name].selected ? selectedStyle : null}>
-                {name}
-            </button>
-        </li>,
-    );
-    const notInActivitiesList = notInActivitiesNames.map(
-        (name, i) => <li key={i}>
-            <button
-                onClick={() => handleNameClick(name)}
-                style={props.names[name].selected ? selectedStyle : null}>
-                {name}
-            </button>
-        </li>,
-    );
+    let activityWithName;
+    const activities = Object.keys(props.names).reduce((acc, name) => {
+        activityWithName = {
+            ...props.names[name],
+            name,
+        };
+
+        if (props.names[name].inActivities) {
+            acc.inActivities.push(activityWithName);
+        } else {
+            acc.notInActivities.push(activityWithName);
+        }
+
+        return acc;
+    }, {
+        inActivities: [],
+        notInActivities: [],
+    });
+
+    const inActivitiesList = activities.inActivities.map(mapActivityNames);
+    const notInActivitiesList = activities.notInActivities.map(mapActivityNames);
 
     return (
-        <div>
-            <ul>
+        <div className={activityListContainer}>
+            <h4 className={activitiesHeader}>ACTIVITIES</h4>
+            <ul className={activitiesList}>
                 {inActivitiesList}
             </ul>
-            <br></br>
-            <ul>
+            {/* <ul className={activitiesList}>
                 {notInActivitiesList}
-            </ul>
+            </ul> */}
         </div>
     );
 }
