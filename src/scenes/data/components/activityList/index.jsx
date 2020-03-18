@@ -1,10 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
     setActivityNames,
 } from '../../../../redux/actions/actions';
 import googleColors from '../../../../static/js/google_colors';
+
+import { H5 } from '../../../../components';
 
 import {
     selected,
@@ -14,7 +16,6 @@ import {
     activityListButton,
     activityName,
     activityListItem,
-    activitiesHeader,
 } from './style/style.module.scss';
 
 function ActivityList(props) {
@@ -74,13 +75,13 @@ function ActivityList(props) {
 
     return (
         <div className={activityListContainer}>
-            <h4 className={activitiesHeader}>ACTIVITIES</h4>
+            <H5>ACTIVITIES</H5>
             <ul className={activitiesList}>
                 {inActivitiesList}
             </ul>
-            {/* <ul className={activitiesList}>
+            <ul className={activitiesList}>
                 {notInActivitiesList}
-            </ul> */}
+            </ul>
         </div>
     );
 }

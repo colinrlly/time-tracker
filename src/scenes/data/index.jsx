@@ -6,7 +6,10 @@ import ActivityList from './components/activityList';
 import BarChart from './components/barChart';
 import Aggregator from './components/aggregator';
 import TotalTime from './components/totalTime';
-import { NavBar } from '../../components';
+import {
+    NavBar,
+    H5,
+} from '../../components';
 
 import {
     controls,
@@ -29,6 +32,7 @@ class Data extends Component {
                 <NavBar />
 
                 <nav className={controls}>
+                    <H5>DATA SETTINGS</H5>
                     <Picker />
                     <ActivityList />
                     <TotalTime />
