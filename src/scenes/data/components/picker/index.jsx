@@ -6,8 +6,15 @@ import moment from 'moment';
 import {
     setRange,
 } from '../../../../redux/actions/actions';
+
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-daterangepicker/daterangepicker.css';
+
+import {
+    pickerButton,
+    pickerContainer,
+    rangeDirectionButton,
+} from './style/style.module.scss';
 
 /**
  * Component to render the date time range picker for the Data page.
@@ -67,7 +74,8 @@ class Picker extends Component {
     render() {
         const { startDateTime, endDateTime } = this.props;
 
-        const buttonText = `${startDateTime.format('M/D/YY hh:mm a')} ${endDateTime.format('M/D/YY hh:mm a')}`;
+        // const buttonText = `${startDateTime.format('M/D/YY hh:mm a')} ${endDateTime.format('M/D/YY hh:mm a')}`;
+        const buttonText = `${startDateTime.format('M/D/YY')} ${endDateTime.format('M/D/YY')}`;
         const ranges = {
             Today: [moment(), moment()],
             Yesterday: [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
@@ -81,8 +89,12 @@ class Picker extends Component {
         };
 
         return (
-            <div>
-                <button onClick={() => this.handleRangeDirectionButton('backward')}>{'<'}</button>
+            <div className={pickerContainer}>
+                <button
+                    onClick={() => this.handleRangeDirectionButton('backward')}
+                    className={rangeDirectionButton}>
+                    {'<'}
+                </button>
 
                 <DateRangePicker
                     startDate={startDateTime}
@@ -93,10 +105,14 @@ class Picker extends Component {
                     onApply={(event, picker) => this.handleApplyEvent(picker)}
                     alwaysShowCalendars={true}
                 >
-                    <button>{buttonText}</button>
+                    <button className={pickerButton}>{buttonText}</button>
                 </DateRangePicker>
 
-                <button onClick={() => this.handleRangeDirectionButton('forward')}>{'>'}</button>
+                <button
+                    onClick={() => this.handleRangeDirectionButton('forward')}
+                    className={rangeDirectionButton}>
+                    {'>'}
+                </button>
             </div >
         );
     }

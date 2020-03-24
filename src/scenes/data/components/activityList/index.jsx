@@ -9,7 +9,6 @@ import googleColors from '../../../../static/js/google_colors';
 import { H5 } from '../../../../components';
 
 import {
-    selected,
     activityListContainer,
     colorCircle,
     activitiesList,
@@ -32,15 +31,12 @@ function ActivityList(props) {
             <li className={activityListItem} key={i}>
                 <button
                     onClick={() => handleNameClick(activity.name)}
-                    className={
-                        `${props.names[activity.name].selected ? selected : ''}
-                        ${activityListButton}`
-                    }>
+                    className={activityListButton}>
                     <div
                         className={colorCircle}
                         style={{
                             backgroundColor: (
-                                activity.selected ? googleColors[activity.colorId] : 'white'
+                                activity.selected ? googleColors[activity.colorId] : 'transparent'
                             ),
                             borderColor: googleColors[activity.colorId],
                             borderWidth: (activity.selected ? 0 : 3),

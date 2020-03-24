@@ -1,0 +1,17 @@
+.pickerButton {
+    background-color: transparent;
+    border: none;
+}
+
+.pickerContainer {
+    display: grid;
+    grid-template-columns: 30px auto 30px;
+    border: 2px solid black;
+    justify-content: space-between;
+    margin-bottom: 40px;
+}
+
+.rangeDirectionButton {
+    background-color: transparent;
+    border: none;
+}
