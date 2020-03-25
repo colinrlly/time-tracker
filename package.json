@@ -45,6 +45,7 @@
     "axios": "^0.19.1",
     "bootstrap": "^4.4.1",
     "bootstrap-daterangepicker": "^3.0.5",
+    "classnames": "^2.2.6",
     "d3": "^5.15.0",
     "history": "^4.10.1",
     "jquery": "^3.4.1",

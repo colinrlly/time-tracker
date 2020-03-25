@@ -33,18 +33,26 @@
 
     .activityButtonTextContainer {
         flex: 1 1 auto;
-        border: 1px solid black;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
         text-align: left;
         margin-left: 7px;
+        display: grid;
+        grid-template-rows: 15px 15px;
+    }
+
+    .activityText {
+        font-size: .875em;
+        line-height: 15px;
+        font-family: 'Work Sans', sans-serif;
+        font-style: normal;
     }
 
     .activityName {
-        font-size: .875em;
-        font-family: 'Work Sans', sans-serif;
-        font-style: normal;
-        font-weight: 500;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .activityTime {
+        color: rgba(0, 0, 0, 0.5);
     }
 }

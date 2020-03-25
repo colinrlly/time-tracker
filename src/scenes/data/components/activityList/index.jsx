@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import cx from 'classnames';
+
 import {
     setActivityNames,
 } from '../../../../redux/actions/actions';
@@ -16,6 +18,8 @@ import {
     activityName,
     activityListItem,
     activityButtonTextContainer,
+    activityText,
+    activityTime,
 } from './style/style.module.scss';
 
 function ActivityList(props) {
@@ -45,9 +49,11 @@ function ActivityList(props) {
                         }} />
 
                     <div className={activityButtonTextContainer}>
-                        <span className={activityName}>{activity.name}</span>
-                        <span className={activityName}>
-                            {props.totals.find((el) => el.name === activity.name).duration}
+                        <span className={cx(activityText, activityName)}>{activity.name}</span>
+                        <span className={cx(activityText, activityTime)}>
+                            {props.totals.find(
+                                (el) => el.name === activity.name,
+                            ).duration.toFixed(2)}
                         </span>
                     </div>
                 </button>
