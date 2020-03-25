@@ -20,6 +20,8 @@ import {
     container,
 } from './style/structure.module.scss';
 
+import './style/fonts.scss';
+
 /**
  * Data page entry point.
  */
