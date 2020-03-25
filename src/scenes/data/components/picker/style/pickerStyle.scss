@@ -1,0 +1,27 @@
+.daterangepicker .ranges ul li.active {
+    background-color: black;
+    color: white;
+}
+
+.daterangepicker tr td.in-range.available {
+    background: #BDBDBD;
+    color: black;
+}
+
+.daterangepicker tr td.start-date.available,
+.daterangepicker tr td.end-date.available {
+    background: black;
+    color: white;
+}
+
+button.applyBtn.btn.btn-sm.btn-primary {
+    background: black;
+    color: white;
+}
+
+.daterangepicker select.hourselect select:hover,
+.daterangepicker select.minuteselect select:hover,
+.daterangepicker select.secondselect select:hover,
+.daterangepicker select.ampmselect select:hover {
+    background: black;
+}

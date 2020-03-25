@@ -16,6 +16,8 @@ import {
     rangeDirectionButton,
 } from './style/style.module.scss';
 
+import './style/pickerStyle.scss';
+
 /**
  * Component to render the date time range picker for the Data page.
  *
