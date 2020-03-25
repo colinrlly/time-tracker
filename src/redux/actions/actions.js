@@ -2,6 +2,7 @@ export const SET_RANGE = 'SET_RANGE';
 export const SET_ACTIVITY_RECORDS = 'SET_ACTIVITY_RECORDS';
 export const SET_ACTIVITY_NAMES = 'SET_ACTIVITY_NAMES';
 export const SET_AGG_TOTALS = 'SET_AGG_TOTALS';
+export const SET_AGG_FILTERED_TOTALS = 'SET_AGG_FILTERED_TOTALS';
 export const SET_AGG_TOTAL_TIME = 'SET_AGG_TOTAL_TIME';
 
 /**
@@ -33,6 +34,10 @@ export function setActivityNames(names) {
 
 export function setAggTotals(totals) {
     return { type: SET_AGG_TOTALS, totals };
+}
+
+export function setAggFilteredTotals(filteredTotals) {
+    return { type: SET_AGG_FILTERED_TOTALS, filteredTotals };
 }
 
 export function setAggTotalTime(totalTime) {

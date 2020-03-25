@@ -87,7 +87,7 @@ class BarChart extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    data: state.aggregations.totals,
+    data: state.aggregations.filteredTotals,
 });
 
 BarChart.propTypes = {

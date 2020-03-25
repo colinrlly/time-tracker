@@ -15,6 +15,7 @@ import {
     activityListButton,
     activityName,
     activityListItem,
+    activityButtonTextContainer,
 } from './style/style.module.scss';
 
 function ActivityList(props) {
@@ -32,6 +33,7 @@ function ActivityList(props) {
                 <button
                     onClick={() => handleNameClick(activity.name)}
                     className={activityListButton}>
+
                     <div
                         className={colorCircle}
                         style={{
@@ -41,7 +43,13 @@ function ActivityList(props) {
                             borderColor: googleColors[activity.colorId],
                             borderWidth: (activity.selected ? 0 : 3),
                         }} />
-                    <div className={activityName}>{activity.name}</div>
+
+                    <div className={activityButtonTextContainer}>
+                        <span className={activityName}>{activity.name}</span>
+                        <span className={activityName}>
+                            {props.totals.find((el) => el.name === activity.name).duration}
+                        </span>
+                    </div>
                 </button>
             </li>
         );
@@ -84,6 +92,7 @@ function ActivityList(props) {
 
 const mapStateToProps = (state) => ({
     names: state.names,
+    totals: state.aggregations.totals,
 });
 
 const mapDispatchToProps = {

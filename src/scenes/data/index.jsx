@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import Picker from './components/picker';
 import ListFetcher from './components/listFetcher';
-import ActivityListGenerator from './components/activityListGenerator';
 import ActivityList from './components/activityList';
 import BarChart from './components/barChart';
-import Aggregator from './components/aggregator';
+import TotalsAggregator from './components/aggregators/totalsAggregator';
+import ActivityListAggregator from './components/aggregators/activityListAggregator';
+import FilteredTotalsAggregator from './components/aggregators/filteredTotalsAggregator';
+import TotalTimeAggregator from './components/aggregators/totalTimeAggregator';
+
 import TotalTime from './components/totalTime';
 import {
     NavBar,
@@ -27,8 +30,10 @@ class Data extends Component {
         return (
             <div className={container}>
                 <ListFetcher />
-                <ActivityListGenerator />
-                <Aggregator />
+                <TotalsAggregator />
+                <ActivityListAggregator />
+                <FilteredTotalsAggregator />
+                <TotalTimeAggregator />
                 <NavBar />
 
                 <nav className={controls}>
