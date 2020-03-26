@@ -6,19 +6,23 @@ import {
 import {
     aggregateStackedTotals,
 } from './helpers';
-import {
-    getDurations,
-} from '../helpers';
 
 function StackedTotalsAggregator(props) {
-    const eventsWithDuration = getDurations(props.list);
-    const totals = aggregateStackedTotals(eventsWithDuration, props.startDateTime, props.endDateTime);
+    if (Object.keys(props.names).length !== 0 && props.names.constructor === Object) {
+        const totals = aggregateStackedTotals(
+            props.list,
+            props.startDateTime,
+            props.endDateTime,
+            props.names,
+        );
+    }
 
     return null;
 }
 
 const mapStateToProps = (state) => ({
     list: state.list,
+    names: state.names,
     startDateTime: state.range.startDateTime,
     endDateTime: state.range.endDateTime,
 });
@@ -29,6 +33,7 @@ const mapDispatchToProps = {
 
 StackedTotalsAggregator.propTypes = {
     list: PropTypes.array.isRequired,
+    names: PropTypes.object.isRequired,
     startDateTime: PropTypes.object.isRequired,
     endDateTime: PropTypes.object.isRequired,
     setAggTotals: PropTypes.func.isRequired,

@@ -21,14 +21,12 @@ function totalsAggregator(eventsWithDuration) {
     const aggregatedEventsArray = [];
 
     Object.keys(aggEvents).forEach((event) => {
-        if (aggEvents[event].duration !== 0) { // Get rid of events with 0 duration (all-day)
-            aggregatedEventsArray.push({
-                name: event,
-                duration: (parseInt(aggEvents[event].duration, 10) / 60),
-                colorId: aggEvents[event].colorId,
-                inActivities: aggEvents[event].inActivities,
-            });
-        }
+        aggregatedEventsArray.push({
+            name: event,
+            duration: (parseInt(aggEvents[event].duration, 10) / 60),
+            colorId: aggEvents[event].colorId,
+            inActivities: aggEvents[event].inActivities,
+        });
     });
 
     // Sort the array so the events show up in order of increasing duration.

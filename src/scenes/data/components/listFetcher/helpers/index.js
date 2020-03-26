@@ -1,1 +1,1 @@
-export { default as TimeRangeFilter } from './timeRangeFilter';
+export { default as timeRangeFilter } from './timeRangeFilter';

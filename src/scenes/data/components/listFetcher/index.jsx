@@ -5,7 +5,9 @@ import { connect } from 'react-redux';
 import {
     setActivityRecords,
 } from '../../../../redux/actions/actions';
-import { TimeRangeFilter } from './helpers';
+import {
+    timeRangeFilter,
+} from './helpers';
 
 function ListFetcher(props) {
     const {
@@ -18,9 +20,10 @@ function ListFetcher(props) {
         startDateTime: startDateTime.format(),
         endDateTime: endDateTime.format(),
     }).then((response) => {
-        const filteredEvents = TimeRangeFilter(startDateTime, endDateTime, response.data.list);
+        const filteredByTime = timeRangeFilter(startDateTime, endDateTime, response.data.list);
+        const filteredByTimeAndAllDay = filteredByTime.filter((x) => !x.start.date);
 
-        props.setActivityRecords(filteredEvents);
+        props.setActivityRecords(filteredByTimeAndAllDay);
     }).catch((error) => {
         console.log(error);
     });

@@ -5,10 +5,8 @@ import {
 } from '../../../../../redux/actions/actions';
 import {
     totalsAggregator,
-} from './helpers';
-import {
     getDurations,
-} from '../helpers';
+} from './helpers';
 
 function TotalsAggregator(props) {
     const eventsWithDuration = getDurations(props.list);
