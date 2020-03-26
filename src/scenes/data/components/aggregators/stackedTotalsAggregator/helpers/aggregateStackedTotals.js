@@ -6,7 +6,7 @@ const moment = extendMoment(Moment);
 function rangeToStacks(interval, count, start, end) {
     const range = moment.range(start, end);
 
-    const days = Array.from(range.by('day'));
+    const days = Array.from(range.by(interval));
 
     return days.map((m) => ({
         range: moment.rangeFromInterval(interval, count, m),
@@ -51,8 +51,8 @@ function populateStacks(events, stacks, names) {
     return stacks;
 }
 
-function aggregateStackedTotals(events, startDateTime, endDateTime, names) {
-    const stacks = rangeToStacks('day', 1, startDateTime, endDateTime);
+function aggregateStackedTotals(events, startDateTime, endDateTime, names, interval, numIntervals) {
+    const stacks = rangeToStacks(interval, numIntervals, startDateTime, endDateTime);
 
     const populatedStacks = populateStacks(events, stacks, names);
 
