@@ -35,8 +35,8 @@ class Data extends Component {
             <div className={container}>
                 <ListFetcher />
                 <TotalsAggregator />
-                <StackedTotalsAggregator />
                 <ActivityListAggregator />
+                <StackedTotalsAggregator />
                 <FilteredTotalsAggregator />
                 <TotalTimeAggregator />
                 <NavBar />
@@ -50,7 +50,7 @@ class Data extends Component {
 
                 <main className={content}>
                     <BarChart />
-                    <StackedBarChart />
+                    {/* <StackedBarChart /> */}
                 </main>
             </div>
         );
