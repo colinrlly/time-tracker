@@ -1,0 +1,52 @@
+< 14 days
+- 1 per day up to 14 bars
+
+30 days - 6 months
+- 1 week per bar up to ~25 bars
+
+6 months - 2 years
+- 1 month per bar up to 24 bars
+
+2 years - on
+- 1 quarter per bar makes 4 bars for each year
+
+How do we break this up?
+First we need to identify which time frame this fits into.
+We will calculate total hours in time range then use a structure
+like the one below to determine which method we should use to 
+break up the data.
+{
+    24: hour,
+    48: 2 hour,
+    720: 1 day,
+    4380: 1 week,
+    17520: 1 month,
+    0: 3 months,
+}
+
+Next we need to break the time range up into the previously decided
+blocks.
+What if the time range cannot be evenly broken into the blocks?
+
+Wait it will always be divisible because we do time differently here
+
+So the algorithm is get total hours in range
+i.e. 3/23 - 3/26
+
+3 days - 72 hours
+72 hours is above 48 and below 720 so will use 1 day intervals
+
+use moment iteration to iterate over the time range using the determine interval
+not sure how moment-range iteration deals with remainders
+
+Then in each interval we will create a new range that represnts the block.
+
+We will then use the filter by time range algorithm to retrieve the totals for that block.
+Some optimazion will have to be done here to make sure we are doing this part as 
+efficiently as possible.
+
+Then after all this we will have an array of arrays representing the totals for each block.
+
+Then we have to figure out how to code the chart in d3...
+
+SOLID

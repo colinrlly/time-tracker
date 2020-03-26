@@ -3,10 +3,12 @@ import Picker from './components/picker';
 import ListFetcher from './components/listFetcher';
 import ActivityList from './components/activityList';
 import BarChart from './components/barChart';
+import StackedBarChart from './components/stackedBarChart';
 import TotalsAggregator from './components/aggregators/totalsAggregator';
 import ActivityListAggregator from './components/aggregators/activityListAggregator';
 import FilteredTotalsAggregator from './components/aggregators/filteredTotalsAggregator';
 import TotalTimeAggregator from './components/aggregators/totalTimeAggregator';
+import StackedTotalsAggregator from './components/aggregators/StackedTotalsAggregator';
 
 import TotalTime from './components/totalTime';
 import {
@@ -33,6 +35,7 @@ class Data extends Component {
             <div className={container}>
                 <ListFetcher />
                 <TotalsAggregator />
+                <StackedTotalsAggregator />
                 <ActivityListAggregator />
                 <FilteredTotalsAggregator />
                 <TotalTimeAggregator />
@@ -47,6 +50,7 @@ class Data extends Component {
 
                 <main className={content}>
                     <BarChart />
+                    <StackedBarChart />
                 </main>
             </div>
         );

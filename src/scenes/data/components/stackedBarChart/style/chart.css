@@ -1,0 +1,7 @@
+.domain {
+    opacity: 0;
+}
+
+.tick line {
+    opacity: .1;
+}
