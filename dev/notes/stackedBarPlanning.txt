@@ -36,7 +36,7 @@ i.e. 3/23 - 3/26
 3 days - 72 hours
 72 hours is above 48 and below 720 so will use 1 day intervals
 
-use moment iteration to iterate over the time range using the determine interval
+use moment iteration to iterate over the time range using the determined interval
 not sure how moment-range iteration deals with remainders
 
 Then in each interval we will create a new range that represnts the block.
