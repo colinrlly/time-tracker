@@ -65,6 +65,17 @@ D3StackedBar.update = function update(newData, configuration, chart, filteredTot
         });
     });
 
+    const tooltip = d3.select('body')
+        .append('div')
+        .style('position', 'absolute')
+        .style('z-index', '10')
+        .style('visibility', 'hidden')
+        .style('background', 'white')
+        .style('color', 'black')
+        .style('border-radius', '3px')
+        .style('padding', '10px')
+        .style('box-shadow', '0px 4px 4px rgba(0, 0, 0, 0.2)');
+
     chart.attr('width', configuration.width)
         .attr('height', configuration.height);
 
@@ -90,9 +101,18 @@ D3StackedBar.update = function update(newData, configuration, chart, filteredTot
         .merge(oldRects)
         .attr('x', (d) => newXScale(d.rangeBeginning) + configuration.margin.left)
         .attr('y', (d) => newYScale(d.y2) + configuration.margin.bottom + configuration.barSpacing)
-        .attr('height', (d) => newYScale(d.y1) - newYScale(d.y2) - configuration.barSpacing)
+        .attr('height', (d) => newYScale(d.y1)
+            - newYScale(d.y2)
+            - (((d.y1 - d.y2) !== 0) ? configuration.barSpacing : 0))
         .attr('width', newXScale.bandwidth())
-        .attr('fill', (d) => googleColors[names[d.name].colorId]);
+        .attr('fill', (d) => googleColors[names[d.name].colorId])
+        .on('mouseover', (d) => {
+            tooltip.text(`${d.name} ${(d.y2 - d.y1).toFixed(2)}h`);
+            tooltip.style('visibility', 'visible');
+        })
+        .on('mousemove', () => tooltip.style('top',
+            `${d3.event.pageY - 10}px`).style('left', `${d3.event.pageX + 10}px`))
+        .on('mouseout', () => tooltip.style('visibility', 'hidden'));
 
     // Add scales to axis
     const oldXAxis = chart.select('#xAxis');
