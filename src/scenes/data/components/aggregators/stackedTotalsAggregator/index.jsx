@@ -14,7 +14,9 @@ function StackedTotalsAggregator(props) {
         const rangeDuration = props.endDateTime.diff(props.startDateTime);
         let interval = '';
 
-        if (rangeDuration < moment.duration(2, 'weeks')) {
+        if (rangeDuration < moment.duration(1, 'days')) {
+            interval = 'hour';
+        } else if (rangeDuration < moment.duration(2, 'weeks')) {
             interval = 'day';
         } else if (rangeDuration < moment.duration(4, 'months')) {
             interval = 'week';

@@ -44,32 +44,43 @@ D3StackedBar.create = function create(barChartContainer, configuration) {
     return chart;
 };
 
-D3StackedBar.update = function update(newData, configuration, chart, filteredTotals) {
+D3StackedBar.update = function update(newData, configuration, chart, filteredTotals, names) {
     const stack = d3.stack()
         .keys(filteredTotals.map((total) => total.name))
         .order(d3.stackOrderNone)
         .offset(d3.stackOffsetNone);
 
-    console.log(newData);
-
     const series = stack(newData);
+
+    const stackedData = [];
+
+    series.forEach((layer) => {
+        layer.forEach((d, i) => {
+            stackedData.push({
+                name: layer.key,
+                y1: d[0],
+                y2: d[1],
+                rangeBeginning: newData[i].rangeBeginning,
+            });
+        });
+    });
 
     chart.attr('width', configuration.width)
         .attr('height', configuration.height);
 
     const newXScale = d3.scaleBand()
-        .domain(newData.map((d) => d.name))
+        .domain(stackedData.map((d) => d.rangeBeginning))
         .range([0, configuration.width - configuration.margin.left])
         .padding(0.15)
         .paddingOuter(0.75);
 
     const newYScale = d3.scaleLinear()
-        .domain([0, d3.max(newData.map((d) => d.duration))])
+        .domain([0, d3.max(stackedData.map((d) => d.y2))])
         .range([configuration.height - configuration.margin.bottom * 2, 0])
         .nice();
 
     const oldRects = chart.selectAll('rect')
-        .data(newData, (d) => d.name);
+        .data(stackedData, (d) => d.rangeBeginning);
 
     oldRects.exit()
         .remove();
@@ -77,15 +88,11 @@ D3StackedBar.update = function update(newData, configuration, chart, filteredTot
     oldRects.enter()
         .append('rect')
         .merge(oldRects)
-        .attr('x', (d) => newXScale(d.name) + configuration.margin.left)
+        .attr('x', (d) => newXScale(d.rangeBeginning) + configuration.margin.left)
+        .attr('y', (d) => newYScale(d.y2) + configuration.margin.bottom)
+        .attr('height', (d) => newYScale(d.y1) - newYScale(d.y2))
         .attr('width', newXScale.bandwidth())
-        .attr('y', () => newYScale(0) + configuration.margin.bottom)
-        .attr('height', 0)
-        .transition()
-        .duration(500)
-        .attr('y', (d) => newYScale(d.duration) + configuration.margin.bottom)
-        .attr('height', (d) => configuration.height - newYScale(d.duration) - configuration.margin.bottom * 2)
-        .attr('fill', (d) => googleColors[d.colorId]);
+        .attr('fill', (d) => googleColors[names[d.name].colorId]);
 
     // Add scales to axis
     const oldXAxis = chart.select('#xAxis');

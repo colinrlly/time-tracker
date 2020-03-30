@@ -53,7 +53,7 @@ function formatStacks(stacks) {
 
     for (let i = 0; i < stacks.length; i += 1) {
         formattedStacks.push({
-            begins: stacks[i].range.start.format('MM/DD'),
+            rangeBeginning: stacks[i].range.start.format('MM/DD H'),
             ...stacks[i].totals,
         });
     }
