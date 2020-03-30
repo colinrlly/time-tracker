@@ -4,6 +4,7 @@ export const SET_ACTIVITY_NAMES = 'SET_ACTIVITY_NAMES';
 export const SET_AGG_TOTALS = 'SET_AGG_TOTALS';
 export const SET_AGG_FILTERED_TOTALS = 'SET_AGG_FILTERED_TOTALS';
 export const SET_AGG_TOTAL_TIME = 'SET_AGG_TOTAL_TIME';
+export const SET_AGG_STACKED_TOTALS = 'SET_AGG_STACKED_TOTALS';
 
 /**
  * Updates the range specifying which activity records to request from the server.
@@ -42,4 +43,8 @@ export function setAggFilteredTotals(filteredTotals) {
 
 export function setAggTotalTime(totalTime) {
     return { type: SET_AGG_TOTAL_TIME, totalTime };
+}
+
+export function setAggStackedTotals(stackedTotals) {
+    return { type: SET_AGG_STACKED_TOTALS, stackedTotals };
 }

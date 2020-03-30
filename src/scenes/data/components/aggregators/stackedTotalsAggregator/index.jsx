@@ -1,12 +1,13 @@
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import moment from 'moment';
+
 import {
-    setAggTotals,
+    setAggStackedTotals,
 } from '../../../../../redux/actions/actions';
 import {
     aggregateStackedTotals,
 } from './helpers';
-import moment from 'moment';
 
 function StackedTotalsAggregator(props) {
     if (Object.keys(props.names).length !== 0 && props.names.constructor === Object) {
@@ -14,24 +15,16 @@ function StackedTotalsAggregator(props) {
         let interval = '';
 
         if (rangeDuration < moment.duration(2, 'weeks')) {
-            // 1 day per bar
-            console.log('1 day per bar');
             interval = 'day';
         } else if (rangeDuration < moment.duration(4, 'months')) {
-            // 1 Week per bar
-            console.log('1 week per bar');
             interval = 'week';
         } else if (rangeDuration < moment.duration(2, 'years')) {
-            // 1 month per bar
-            console.log('1 month per bar');
             interval = 'month';
         } else {
-            // 1 year per bar
-            console.log('1 year per bar');
             interval = 'year';
         }
 
-        const totals = aggregateStackedTotals(
+        const stackedTotals = aggregateStackedTotals(
             props.list,
             props.startDateTime,
             props.endDateTime,
@@ -40,7 +33,7 @@ function StackedTotalsAggregator(props) {
             1,
         );
 
-        console.log(totals);
+        props.setAggStackedTotals(stackedTotals);
     }
 
     return null;
@@ -54,7 +47,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-    setAggTotals,
+    setAggStackedTotals,
 };
 
 StackedTotalsAggregator.propTypes = {
@@ -62,7 +55,7 @@ StackedTotalsAggregator.propTypes = {
     names: PropTypes.object.isRequired,
     startDateTime: PropTypes.object.isRequired,
     endDateTime: PropTypes.object.isRequired,
-    setAggTotals: PropTypes.func.isRequired,
+    setAggStackedTotals: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(StackedTotalsAggregator);
