@@ -14,6 +14,10 @@ const MARGIN = {
     bottom: 25,
 };
 
+const HEIGHT = 300;
+
+const BAR_SPACING = 2;
+
 class StackedBarChart extends Component {
     constructor(props) {
         super(props);
@@ -26,7 +30,7 @@ class StackedBarChart extends Component {
         this.configuration = {
             margin: MARGIN,
             width: this.stackedBarChartContainerRef.current.clientWidth - MARGIN.left - 5,
-            height: 300,
+            height: HEIGHT,
         };
 
         // D3 code to create the chart
@@ -42,7 +46,8 @@ class StackedBarChart extends Component {
             const newConfiguration = {
                 margin: MARGIN,
                 width: this.stackedBarChartContainerRef.current.clientWidth - MARGIN.left - 5,
-                height: 300,
+                height: HEIGHT,
+                barSpacing: BAR_SPACING,
             };
 
             D3StackedBar.update(
@@ -60,7 +65,8 @@ class StackedBarChart extends Component {
         const newConfiguration = {
             margin: MARGIN,
             width: this.stackedBarChartContainerRef.current.clientWidth - MARGIN.left - 5,
-            height: 300,
+            height: HEIGHT,
+            barSpacing: BAR_SPACING,
         };
 
         D3StackedBar.update(

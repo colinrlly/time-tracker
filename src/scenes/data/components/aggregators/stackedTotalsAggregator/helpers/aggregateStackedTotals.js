@@ -37,7 +37,7 @@ function populateStacks(events, stacks, names) {
                 }
 
                 if (intersectedRange) {
-                    additionalDuration = intersectedRange.end.diff(intersectedRange.start, 'minutes');
+                    additionalDuration = intersectedRange.end.diff(intersectedRange.start, 'minutes') / 60;
 
                     stack.totals[event.summary] += additionalDuration;
                 }

@@ -89,8 +89,8 @@ D3StackedBar.update = function update(newData, configuration, chart, filteredTot
         .append('rect')
         .merge(oldRects)
         .attr('x', (d) => newXScale(d.rangeBeginning) + configuration.margin.left)
-        .attr('y', (d) => newYScale(d.y2) + configuration.margin.bottom)
-        .attr('height', (d) => newYScale(d.y1) - newYScale(d.y2))
+        .attr('y', (d) => newYScale(d.y2) + configuration.margin.bottom + configuration.barSpacing)
+        .attr('height', (d) => newYScale(d.y1) - newYScale(d.y2) - configuration.barSpacing)
         .attr('width', newXScale.bandwidth())
         .attr('fill', (d) => googleColors[names[d.name].colorId]);
 
