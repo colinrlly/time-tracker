@@ -9,37 +9,29 @@ import {
 
 import './style/chart.css';
 
-function mapData(x) {
-    return {
-        name: x.name.substring(0, 6),
-        duration: x.duration,
-        colorId: x.colorId,
-    };
-}
-
 const MARGIN = {
     left: 25,
     bottom: 25,
 };
 
-class BarChart extends Component {
+class StackedBarChart extends Component {
     constructor(props) {
         super(props);
 
-        this.barChartContainerRef = React.createRef();
+        this.stackedBarChartContainerRef = React.createRef();
     }
 
     componentDidMount() {
         // Define size parameters.
         this.configuration = {
             margin: MARGIN,
-            width: this.barChartContainerRef.current.clientWidth - MARGIN.left - 5,
+            width: this.stackedBarChartContainerRef.current.clientWidth - MARGIN.left - 5,
             height: 300,
         };
 
         // D3 code to create the chart
         const chart = D3StackedBar.create(
-            this.barChartContainerRef.current,
+            this.stackedBarChartContainerRef.current,
             this.configuration,
         );
 
@@ -49,12 +41,12 @@ class BarChart extends Component {
         window.addEventListener('resize', () => {
             const newConfiguration = {
                 margin: MARGIN,
-                width: this.barChartContainerRef.current.clientWidth - MARGIN.left - 5,
+                width: this.stackedBarChartContainerRef.current.clientWidth - MARGIN.left - 5,
                 height: 300,
             };
 
             D3StackedBar.update(
-                this.props.data.map(mapData),
+                this.props.data,
                 newConfiguration,
                 this.chart,
             );
@@ -65,12 +57,12 @@ class BarChart extends Component {
         // D3 code to update the chart
         const newConfiguration = {
             margin: MARGIN,
-            width: this.barChartContainerRef.current.clientWidth - MARGIN.left - 5,
+            width: this.stackedBarChartContainerRef.current.clientWidth - MARGIN.left - 5,
             height: 300,
         };
 
         D3StackedBar.update(
-            this.props.data.map(mapData),
+            this.props.data,
             newConfiguration,
             this.chart,
         );
@@ -84,17 +76,18 @@ class BarChart extends Component {
         this;
 
         return (
-            <div className={container} ref={this.barChartContainerRef}></div>
+            <div className={container} ref={this.stackedBarChartContainerRef}></div>
         );
     }
 }
 
 const mapStateToProps = (state) => ({
-    data: state.aggregations.filteredTotals,
+    data: state.aggregations.stackedTotals,
+    totals: state.aggregations.totals,
 });
 
-BarChart.propTypes = {
+StackedBarChart.propTypes = {
     data: PropTypes.array.isRequired,
 };
 
-export default connect(mapStateToProps, null)(BarChart);
+export default connect(mapStateToProps, null)(StackedBarChart);

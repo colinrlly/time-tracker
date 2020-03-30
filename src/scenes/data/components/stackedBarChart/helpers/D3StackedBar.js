@@ -44,6 +44,13 @@ D3StackedBar.create = function create(barChartContainer, configuration) {
 };
 
 D3StackedBar.update = function update(newData, configuration, chart) {
+    // Transpose the data into layers
+    // const dataset = d3.layout.stack()(["redDelicious", "mcintosh", "oranges", "pears"].map(function (fruit) {
+    //     return data.map(function (d) {
+    //         return { x: parse(d.year), y: +d[fruit] };
+    //     });
+    // }));
+
     chart.attr('width', configuration.width)
         .attr('height', configuration.height);
 
