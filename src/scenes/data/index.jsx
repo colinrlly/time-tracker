@@ -50,7 +50,7 @@ class Data extends Component {
 
                 <main className={content}>
                     <BarChart />
-                    {/* <StackedBarChart /> */}
+                    <StackedBarChart />
                 </main>
             </div>
         );

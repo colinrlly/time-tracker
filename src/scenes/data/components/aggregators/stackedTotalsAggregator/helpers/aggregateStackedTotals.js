@@ -32,17 +32,14 @@ function populateStacks(events, stacks, names) {
             if (names[event.summary].selected) {
                 intersectedRange = stack.range.intersect(eventRange);
 
-                if (intersectedRange) {
-                    if (!stack.totals[event.summary]) {
-                        stack.totals[event.summary] = {
-                            duration: 0,
-                            colorId: event.colorId,
-                        };
-                    }
+                if (!stack.totals[event.summary]) {
+                    stack.totals[event.summary] = 0;
+                }
 
+                if (intersectedRange) {
                     additionalDuration = intersectedRange.end.diff(intersectedRange.start, 'minutes');
 
-                    stack.totals[event.summary].duration += additionalDuration;
+                    stack.totals[event.summary] += additionalDuration;
                 }
             }
         }
@@ -51,33 +48,17 @@ function populateStacks(events, stacks, names) {
     return stacks;
 }
 
-function stackTotalsToArray(stacks) {
-    const stacksCpy = JSON.parse(JSON.stringify(stacks));
-
-    let arrayTotals;
-    let keys;
-    let totals;
-    let total;
+function formatStacks(stacks) {
+    const formattedStacks = [];
 
     for (let i = 0; i < stacks.length; i += 1) {
-        arrayTotals = [];
-        keys = Object.keys(stacks[i].totals);
-        totals = stacks[i].totals;
-
-        for (let j = 0; j < keys.length; j += 1) {
-            total = totals[keys[j]];
-
-            arrayTotals.push({
-                name: keys[j],
-                duration: total.duration,
-                colorId: total.colorId,
-            });
-        }
-
-        stacksCpy[i].totals = arrayTotals;
+        formattedStacks.push({
+            begins: stacks[i].range.start.format('MM/DD'),
+            ...stacks[i].totals,
+        });
     }
 
-    return stacksCpy;
+    return formattedStacks;
 }
 
 function aggregateStackedTotals(events, startDateTime, endDateTime, names, interval, numIntervals) {
@@ -85,9 +66,9 @@ function aggregateStackedTotals(events, startDateTime, endDateTime, names, inter
 
     const populatedStacks = populateStacks(events, stacks, names);
 
-    const stacksWithArrayTotals = stackTotalsToArray(populatedStacks);
+    const formattedStacks = formatStacks(populatedStacks);
 
-    return stacksWithArrayTotals;
+    return formattedStacks;
 }
 
 export default aggregateStackedTotals;

@@ -1,4 +1,5 @@
 import * as d3 from 'd3';
+
 import googleColors from '../../../../../static/js/google_colors';
 
 const D3StackedBar = {};
@@ -43,13 +44,15 @@ D3StackedBar.create = function create(barChartContainer, configuration) {
     return chart;
 };
 
-D3StackedBar.update = function update(newData, configuration, chart) {
-    // Transpose the data into layers
-    // const dataset = d3.layout.stack()(["redDelicious", "mcintosh", "oranges", "pears"].map(function (fruit) {
-    //     return data.map(function (d) {
-    //         return { x: parse(d.year), y: +d[fruit] };
-    //     });
-    // }));
+D3StackedBar.update = function update(newData, configuration, chart, filteredTotals) {
+    const stack = d3.stack()
+        .keys(filteredTotals.map((total) => total.name))
+        .order(d3.stackOrderNone)
+        .offset(d3.stackOffsetNone);
+
+    console.log(newData);
+
+    const series = stack(newData);
 
     chart.attr('width', configuration.width)
         .attr('height', configuration.height);

@@ -49,6 +49,7 @@ class StackedBarChart extends Component {
                 this.props.data,
                 newConfiguration,
                 this.chart,
+                this.props.filteredTotals,
             );
         });
     }
@@ -65,6 +66,7 @@ class StackedBarChart extends Component {
             this.props.data,
             newConfiguration,
             this.chart,
+            this.props.filteredTotals,
         );
     }
 
@@ -83,11 +85,12 @@ class StackedBarChart extends Component {
 
 const mapStateToProps = (state) => ({
     data: state.aggregations.stackedTotals,
-    totals: state.aggregations.totals,
+    filteredTotals: state.aggregations.filteredTotals,
 });
 
 StackedBarChart.propTypes = {
     data: PropTypes.array.isRequired,
+    filteredTotals: PropTypes.array.isRequired,
 };
 
 export default connect(mapStateToProps, null)(StackedBarChart);
