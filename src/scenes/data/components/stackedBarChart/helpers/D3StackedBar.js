@@ -67,7 +67,7 @@ D3StackedBar.update = function update(newData, configuration, chart, filteredTot
         });
     });
 
-    const tooltip = d3.select('body')
+    const tooltip = d3.select('.tooltipHook')
         .append('div')
         .style('position', 'absolute')
         .style('z-index', '10')
