@@ -56,12 +56,14 @@ D3StackedBar.update = function update(newData, configuration, chart, filteredTot
 
     series.forEach((layer) => {
         layer.forEach((d, i) => {
-            stackedData.push({
-                name: layer.key,
-                y1: d[0],
-                y2: d[1],
-                rangeBeginning: newData[i].rangeBeginning,
-            });
+            if (d[0] !== d[1]) {
+                stackedData.push({
+                    name: layer.key,
+                    y1: d[0],
+                    y2: d[1],
+                    rangeBeginning: newData[i].rangeBeginning,
+                });
+            }
         });
     });
 
@@ -103,7 +105,8 @@ D3StackedBar.update = function update(newData, configuration, chart, filteredTot
         .attr('y', (d) => newYScale(d.y2) + configuration.margin.bottom + configuration.barSpacing)
         .attr('height', (d) => newYScale(d.y1)
             - newYScale(d.y2)
-            - (((d.y1 - d.y2) !== 0) ? configuration.barSpacing : 0))
+            - (((newYScale(d.y1) - newYScale(d.y2) - configuration.barSpacing) > 0)
+                ? configuration.barSpacing : 0))
         .attr('width', newXScale.bandwidth())
         .attr('fill', (d) => googleColors[names[d.name].colorId])
         .on('mouseover', (d) => {
