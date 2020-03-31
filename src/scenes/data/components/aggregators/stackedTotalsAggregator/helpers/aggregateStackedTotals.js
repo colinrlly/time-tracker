@@ -48,17 +48,40 @@ function populateStacks(events, stacks, names) {
     return stacks;
 }
 
-function formatStacks(stacks) {
-    const formattedStacks = [];
+function formatStacks(stacks, interval) {
+    let range;
 
-    for (let i = 0; i < stacks.length; i += 1) {
-        formattedStacks.push({
-            rangeBeginning: stacks[i].range.start.format('MM/DD H'),
-            ...stacks[i].totals,
-        });
-    }
+    return stacks.map((stack) => {
+        switch (interval) {
+            case 'hour':
+                range = stack.range.start.format('Ha');
+                break;
 
-    return formattedStacks;
+            case 'day':
+                range = stack.range.start.format('MM/DD');
+                break;
+
+            case 'week':
+                range = stack.range.start.format('MM/DD');
+                break;
+
+            case 'month':
+                range = stack.range.start.format('MM/YYYY');
+                break;
+
+            case 'year':
+                range = stack.range.start.format('YYYY');
+                break;
+
+            default:
+                range = 'RANGE ERROR';
+        }
+
+        return {
+            rangeBeginning: range,
+            ...stack.totals,
+        };
+    });
 }
 
 function aggregateStackedTotals(events, startDateTime, endDateTime, names, interval, numIntervals) {
@@ -66,7 +89,7 @@ function aggregateStackedTotals(events, startDateTime, endDateTime, names, inter
 
     const populatedStacks = populateStacks(events, stacks, names);
 
-    const formattedStacks = formatStacks(populatedStacks);
+    const formattedStacks = formatStacks(populatedStacks, interval);
 
     return formattedStacks;
 }

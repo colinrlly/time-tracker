@@ -8,14 +8,6 @@ import {
 } from './style/styles.module.scss';
 import './style/chart.css';
 
-function mapData(x) {
-    return {
-        name: x.name.substring(0, 6),
-        duration: x.duration,
-        colorId: x.colorId,
-    };
-}
-
 const MARGIN = {
     left: 25,
     bottom: 25,
@@ -53,7 +45,7 @@ class BarChart extends Component {
             };
 
             D3Bar.update(
-                this.props.data.map(mapData),
+                this.props.data,
                 newConfiguration,
                 this.chart,
             );
@@ -69,7 +61,7 @@ class BarChart extends Component {
         };
 
         D3Bar.update(
-            this.props.data.map(mapData),
+            this.props.data,
             newConfiguration,
             this.chart,
         );

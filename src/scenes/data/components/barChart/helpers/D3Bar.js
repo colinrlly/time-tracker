@@ -1,5 +1,6 @@
 import * as d3 from 'd3';
 import googleColors from '../../../../../static/js/google_colors';
+import formatLabels from './formatLabels';
 
 const D3Bar = {};
 
@@ -47,19 +48,25 @@ D3Bar.update = function update(newData, configuration, chart) {
     chart.attr('width', configuration.width)
         .attr('height', configuration.height);
 
-    const newXScale = d3.scaleBand()
+    let newXScale = d3.scaleBand()
         .domain(newData.map((d) => d.name))
         .range([0, configuration.width - configuration.margin.left])
         .padding(0.15)
         .paddingOuter(0.75);
 
+    // Format the labels based on the bandwidth then reset the x domain.
+    const formattedData = formatLabels(newData, newXScale.bandwidth());
+
+    newXScale = newXScale
+        .domain(formattedData.map((d) => d.name));
+
     const newYScale = d3.scaleLinear()
-        .domain([0, d3.max(newData.map((d) => d.duration))])
+        .domain([0, d3.max(formattedData.map((d) => d.duration))])
         .range([configuration.height - configuration.margin.bottom * 2, 0])
         .nice();
 
     const oldRects = chart.selectAll('rect')
-        .data(newData, (d) => d.name);
+        .data(formattedData, (d) => d.name);
 
     oldRects.exit()
         .remove();
