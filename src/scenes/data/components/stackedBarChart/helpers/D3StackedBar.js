@@ -59,6 +59,7 @@ D3StackedBar.update = function update(newData, configuration, chart, filteredTot
             if (d[0] !== d[1]) {
                 stackedData.push({
                     name: layer.key,
+                    fullName: layer.key, // Here to mirror the bar chart attribute.
                     y1: d[0],
                     y2: d[1],
                     rangeBeginning: newData[i].rangeBeginning,
@@ -103,10 +104,23 @@ D3StackedBar.update = function update(newData, configuration, chart, filteredTot
         .on('mouseover', (d) => {
             tooltip.text(`${d.name} ${(d.y2 - d.y1).toFixed(2)}h`);
             tooltip.style('visibility', 'visible');
+
+            d3.selectAll('rect')
+                .attr('fill-opacity', (d2) => {
+                    if (d.fullName !== d2.fullName) {
+                        return 0.3;
+                    }
+
+                    return 1;
+                });
         })
         .on('mousemove', () => tooltip.style('top',
             `${d3.event.pageY - 10}px`).style('left', `${d3.event.pageX + 10}px`))
-        .on('mouseout', () => tooltip.style('visibility', 'hidden'));
+        .on('mouseout', () => {
+            tooltip.style('visibility', 'hidden');
+
+            d3.selectAll('rect').attr('fill-opacity', 1);
+        });
 
     // Add scales to axis
     const oldXAxis = chart.select('#xAxis');

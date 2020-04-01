@@ -90,11 +90,23 @@ D3Bar.update = function update(newData, configuration, chart) {
     rects.on('mouseover', (d) => {
         tooltip.text(`${d.fullName} ${d.duration.toFixed(2)}h`);
         tooltip.style('visibility', 'visible');
+
+        d3.selectAll('rect')
+            .attr('fill-opacity', (d2) => {
+                if (d.fullName !== d2.fullName) {
+                    return 0.3;
+                }
+
+                return 1;
+            });
     })
         .on('mousemove', () => tooltip.style('top',
             `${d3.event.pageY - 10}px`).style('left', `${d3.event.pageX + 10}px`))
-        .on('mouseout', () => tooltip.style('visibility', 'hidden'));
+        .on('mouseout', () => {
+            tooltip.style('visibility', 'hidden');
 
+            d3.selectAll('rect').attr('fill-opacity', 1);
+        });
 
     // Add scales to axis
     const oldXAxis = chart.select('#xAxis');
