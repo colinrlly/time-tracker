@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { D3Bar } from './helpers';
+import { H6 } from '../../../../components';
 
 import {
     container,
@@ -10,7 +11,7 @@ import './style/chart.css';
 
 const MARGIN = {
     left: 25,
-    bottom: 25,
+    bottom: 20,
 };
 
 class BarChart extends Component {
@@ -75,7 +76,9 @@ class BarChart extends Component {
         this;
 
         return (
-            <div className={container} ref={this.barChartContainerRef}></div>
+            <div className={container} ref={this.barChartContainerRef}>
+                <H6 marginLeft={MARGIN.left}>Total Hours</H6>
+            </div >
         );
     }
 }

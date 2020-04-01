@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { D3StackedBar } from './helpers';
+import { H6 } from '../../../../components';
 
 import {
     container,
@@ -11,7 +12,7 @@ import './style/chart.css';
 
 const MARGIN = {
     left: 25,
-    bottom: 25,
+    bottom: 20,
 };
 
 const HEIGHT = 300;
@@ -86,7 +87,9 @@ class StackedBarChart extends Component {
         this;
 
         return (
-            <div className={container} ref={this.stackedBarChartContainerRef}></div>
+            <div className={container} ref={this.stackedBarChartContainerRef}>
+                <H6 marginLeft={MARGIN.left}>Total Hours Per Day</H6>
+            </div>
         );
     }
 }
