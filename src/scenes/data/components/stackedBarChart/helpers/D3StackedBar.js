@@ -67,16 +67,7 @@ D3StackedBar.update = function update(newData, configuration, chart, filteredTot
         });
     });
 
-    const tooltip = d3.select('.tooltipHook')
-        .append('div')
-        .style('position', 'absolute')
-        .style('z-index', '10')
-        .style('visibility', 'hidden')
-        .style('background', 'white')
-        .style('color', 'black')
-        .style('border-radius', '3px')
-        .style('padding', '10px')
-        .style('box-shadow', '0px 4px 4px rgba(0, 0, 0, 0.2)');
+    const tooltip = d3.select('.tooltipHook');
 
     chart.attr('width', configuration.width)
         .attr('height', configuration.height);

@@ -5,6 +5,7 @@ function formatLabels(data, barWidth) {
 
     return data.map((x) => ({
         name: `${x.name.substring(0, numLetters)}${x.name.length <= numLetters ? '' : '.'}`,
+        fullName: x.name,
         duration: x.duration,
         colorId: x.colorId,
     }));

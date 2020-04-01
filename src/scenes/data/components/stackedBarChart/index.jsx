@@ -86,9 +86,7 @@ class StackedBarChart extends Component {
         this;
 
         return (
-            <div className="tooltipHook">
-                <div className={container} ref={this.stackedBarChartContainerRef}></div>
-            </div>
+            <div className={container} ref={this.stackedBarChartContainerRef}></div>
         );
     }
 }

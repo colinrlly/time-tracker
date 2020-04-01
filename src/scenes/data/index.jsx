@@ -9,6 +9,7 @@ import ActivityListAggregator from './components/aggregators/activityListAggrega
 import FilteredTotalsAggregator from './components/aggregators/filteredTotalsAggregator';
 import TotalTimeAggregator from './components/aggregators/totalTimeAggregator';
 import StackedTotalsAggregator from './components/aggregators/StackedTotalsAggregator';
+import Tooltip from './components/tooltip';
 
 import TotalTime from './components/totalTime';
 import {
@@ -49,6 +50,7 @@ class Data extends Component {
                 </nav>
 
                 <main className={content}>
+                    <Tooltip />
                     <BarChart />
                     <StackedBarChart />
                 </main>

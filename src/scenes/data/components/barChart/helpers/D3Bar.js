@@ -45,6 +45,8 @@ D3Bar.create = function create(barChartContainer, configuration) {
 };
 
 D3Bar.update = function update(newData, configuration, chart) {
+    const tooltip = d3.select('.tooltipHook');
+
     chart.attr('width', configuration.width)
         .attr('height', configuration.height);
 
@@ -71,18 +73,28 @@ D3Bar.update = function update(newData, configuration, chart) {
     oldRects.exit()
         .remove();
 
-    oldRects.enter()
+    const rects = oldRects.enter()
         .append('rect')
         .merge(oldRects)
         .attr('x', (d) => newXScale(d.name) + configuration.margin.left)
         .attr('width', newXScale.bandwidth())
         .attr('y', () => newYScale(0) + configuration.margin.bottom)
-        .attr('height', 0)
-        .transition()
+        .attr('height', 0);
+
+    rects.transition()
         .duration(500)
-        .attr('y', (d) => newYScale(d.duration) + configuration.margin.bottom)
         .attr('height', (d) => configuration.height - newYScale(d.duration) - configuration.margin.bottom * 2)
+        .attr('y', (d) => newYScale(d.duration) + configuration.margin.bottom)
         .attr('fill', (d) => googleColors[d.colorId]);
+
+    rects.on('mouseover', (d) => {
+        tooltip.text(`${d.fullName} ${d.duration.toFixed(2)}h`);
+        tooltip.style('visibility', 'visible');
+    })
+        .on('mousemove', () => tooltip.style('top',
+            `${d3.event.pageY - 10}px`).style('left', `${d3.event.pageX + 10}px`))
+        .on('mouseout', () => tooltip.style('visibility', 'hidden'));
+
 
     // Add scales to axis
     const oldXAxis = chart.select('#xAxis');
