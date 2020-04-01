@@ -54,15 +54,15 @@ function formatStacks(stacks, interval) {
     return stacks.map((stack) => {
         switch (interval) {
             case 'hour':
-                range = stack.range.start.format('Ha');
+                range = stack.range.start.format('H');
                 break;
 
             case 'day':
-                range = stack.range.start.format('MM/DD');
+                range = stack.range.start.format('D');
                 break;
 
             case 'week':
-                range = stack.range.start.format('MM/DD');
+                range = stack.range.start.format('M/D');
                 break;
 
             case 'month':

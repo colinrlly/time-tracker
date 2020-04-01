@@ -82,7 +82,7 @@ D3StackedBar.update = function update(newData, configuration, chart, filteredTot
         .attr('height', configuration.height);
 
     const newXScale = d3.scaleBand()
-        .domain(stackedData.map((d) => d.rangeBeginning))
+        .domain(newData.map((d) => d.rangeBeginning))
         .range([0, configuration.width - configuration.margin.left])
         .padding(0.15)
         .paddingOuter(0.75);
