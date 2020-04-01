@@ -3,7 +3,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 # from flask_cors import CORS
 
-instance_location = os.path.join(os.path.abspath(__file__), '../instance')
+instance_location = os.path.abspath('instance')
 template_location = os.path.join(os.path.abspath(__file__), '../../templates')
 static_location = os.path.join(os.path.abspath(__file__), '../../static')
 app = Flask(__name__, 
