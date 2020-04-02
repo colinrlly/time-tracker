@@ -78,28 +78,16 @@ class Picker extends Component {
 
         const buttonText = `${startDateTime.format('M/D/YY')} ${endDateTime.format('M/D/YY')}`;
         const ranges = {
-            Today: [moment(), moment()],
-            Yesterday: [
-                moment().subtract(1, 'days')
-                    .second(0)
-                    .minute(0)
-                    .hour(0),
-                moment().subtract(1, 'days')
-                    .second(59)
-                    .minute(59)
-                    .hour(23),
-            ],
-            'Last 7 Days': [
-                moment().subtract(6, 'days')
-                    .second(0)
+            Today: [
+                moment().second(0)
                     .minute(0)
                     .hour(0),
                 moment().second(59)
                     .minute(59)
                     .hour(23),
             ],
-            'Last 30 Days': [
-                moment().subtract(29, 'days')
+            'This Week': [
+                moment().startOf('isoWeek')
                     .second(0)
                     .minute(0)
                     .hour(0),
@@ -113,6 +101,26 @@ class Picker extends Component {
                     .minute(0)
                     .hour(0),
                 moment().endOf('month')
+                    .second(59)
+                    .minute(59)
+                    .hour(23),
+            ],
+            Yesterday: [
+                moment().subtract(1, 'days')
+                    .second(0)
+                    .minute(0)
+                    .hour(0),
+                moment().subtract(1, 'days')
+                    .second(59)
+                    .minute(59)
+                    .hour(23),
+            ],
+            'Last Week': [
+                moment().subtract(1, 'week').startOf('isoWeek')
+                    .second(0)
+                    .minute(0)
+                    .hour(0),
+                moment().subtract(1, 'week').endOf('isoWeek')
                     .second(59)
                     .minute(59)
                     .hour(23),
