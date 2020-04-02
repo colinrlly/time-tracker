@@ -76,15 +76,57 @@ class Picker extends Component {
     render() {
         const { startDateTime, endDateTime } = this.props;
 
-        // const buttonText = `${startDateTime.format('M/D/YY hh:mm a')} ${endDateTime.format('M/D/YY hh:mm a')}`;
         const buttonText = `${startDateTime.format('M/D/YY')} ${endDateTime.format('M/D/YY')}`;
         const ranges = {
             Today: [moment(), moment()],
-            Yesterday: [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-            'This Month': [moment().startOf('month'), moment().endOf('month')],
-            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+            Yesterday: [
+                moment().subtract(1, 'days')
+                    .second(0)
+                    .minute(0)
+                    .hour(0),
+                moment().subtract(1, 'days')
+                    .second(59)
+                    .minute(59)
+                    .hour(23),
+            ],
+            'Last 7 Days': [
+                moment().subtract(6, 'days')
+                    .second(0)
+                    .minute(0)
+                    .hour(0),
+                moment().second(59)
+                    .minute(59)
+                    .hour(23),
+            ],
+            'Last 30 Days': [
+                moment().subtract(29, 'days')
+                    .second(0)
+                    .minute(0)
+                    .hour(0),
+                moment().second(59)
+                    .minute(59)
+                    .hour(23),
+            ],
+            'This Month': [
+                moment().startOf('month')
+                    .second(0)
+                    .minute(0)
+                    .hour(0),
+                moment().endOf('month')
+                    .second(59)
+                    .minute(59)
+                    .hour(23),
+            ],
+            'Last Month': [
+                moment().subtract(1, 'month').startOf('month')
+                    .second(0)
+                    .minute(0)
+                    .hour(0),
+                moment().subtract(1, 'month').endOf('month')
+                    .second(59)
+                    .minute(59)
+                    .hour(23),
+            ],
         };
         const locale = {
             format: 'M/DD hh:mm A',
