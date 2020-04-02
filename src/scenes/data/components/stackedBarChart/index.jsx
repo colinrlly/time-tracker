@@ -7,6 +7,9 @@ import { H6 } from '../../../../components';
 import {
     container,
 } from './style/styles.module.scss';
+import {
+    getIntervalFromRange,
+} from '../../helpers';
 
 import './style/chart.css';
 
@@ -18,6 +21,10 @@ const MARGIN = {
 const HEIGHT = 300;
 
 const BAR_SPACING = 2;
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 class StackedBarChart extends Component {
     constructor(props) {
@@ -84,11 +91,13 @@ class StackedBarChart extends Component {
     }
 
     render() {
-        this;
+        const interval = capitalizeFirstLetter(getIntervalFromRange(this.props.range));
 
         return (
             <div className={container} ref={this.stackedBarChartContainerRef}>
-                <H6 marginLeft={MARGIN.left}>Total Hours Per Day</H6>
+                <H6 marginLeft={MARGIN.left}>
+                    {`Total Hours Per ${interval}`}
+                </H6>
             </div>
         );
     }
@@ -98,12 +107,14 @@ const mapStateToProps = (state) => ({
     data: state.aggregations.stackedTotals,
     filteredTotals: state.aggregations.filteredTotals,
     names: state.names,
+    range: state.range,
 });
 
 StackedBarChart.propTypes = {
     data: PropTypes.array.isRequired,
     filteredTotals: PropTypes.array.isRequired,
     names: PropTypes.object.isRequired,
+    range: PropTypes.object.isRequired,
 };
 
 export default connect(mapStateToProps, null)(StackedBarChart);
