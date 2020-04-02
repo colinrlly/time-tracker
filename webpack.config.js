@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const resolve = require('path').resolve;
 const autoprefixer = require('autoprefixer');
+const path = require('path');
 
 const CSSModuleLoader = {
     loader: 'css-loader',
@@ -33,11 +34,11 @@ const postCSSLoader = {
 
 const config = {
     devtool: 'eval-source-map',
-    entry: __dirname + '/src/index.jsx',
+    entry: path.join(__dirname, '/src/index.jsx'),
     output: {
         path: resolve('./src/static/build'),
         filename: 'bundle.js',
-        publicPath: resolve('./build`'),
+        publicPath: resolve('./build'),
     },
     resolve: {
         extensions: ['.js', '.jsx', '.css'],

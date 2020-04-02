@@ -18,6 +18,9 @@ import {
 
 import './style/pickerStyle.scss';
 
+import leftArrow from './images/leftArrow.png';
+import rightArrow from './images/rightArrow.png';
+
 /**
  * Component to render the date time range picker for the Data page.
  *
@@ -145,7 +148,7 @@ class Picker extends Component {
                 <button
                     onClick={() => this.handleRangeDirectionButton('backward')}
                     className={rangeDirectionButton}>
-                    {'<'}
+                    <img src={leftArrow} />
                 </button>
 
                 <DateRangePicker
@@ -163,7 +166,7 @@ class Picker extends Component {
                 <button
                     onClick={() => this.handleRangeDirectionButton('forward')}
                     className={rangeDirectionButton}>
-                    {'>'}
+                    <img src={rightArrow} />
                 </button>
             </div >
         );

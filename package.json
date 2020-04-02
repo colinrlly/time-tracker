@@ -29,6 +29,7 @@
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-react": "^7.18.0",
+    "file-loader": "^6.0.0",
     "graphviz": "0.0.9",
     "jest": "^24.9.0",
     "madge": "^3.7.0",
@@ -38,6 +39,7 @@
     "react-dom": "^16.12.0",
     "sass-loader": "^8.0.2",
     "style-loader": "^1.1.2",
+    "url-loader": "^4.0.0",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10"
   },
