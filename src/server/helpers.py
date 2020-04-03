@@ -214,6 +214,9 @@ def list_users_events(session, User, Activity, user, startOfRange, endOfRange):
 
     # Get the user's activities
     activities = Activity.query.filter_by(user_id=user.id).all()
+    names = [activity.name for activity in activities]
+    colors = { a.name: a.color for a in activities}
+    
     # Get and format the users Google Calendar events
     page_token = None  # Used to get the next 'page' of results
     trimmed_list = []
@@ -238,6 +241,8 @@ def list_users_events(session, User, Activity, user, startOfRange, endOfRange):
             if (('end' in x) and ('start' in x) and ('summary' in x)):
                 if not ('colorId' in x):
                     colorId = '1'
+                elif x['summary'] in colors:
+                    colorId = colors[x['summary']]
                 else:
                     colorId = x['colorId']
 
@@ -246,7 +251,7 @@ def list_users_events(session, User, Activity, user, startOfRange, endOfRange):
                     'start': x['start'],
                     'summary': x['summary'],
                     'colorId': colorId,
-                    'inActivities': (x['summary'] in [activity.name for activity in activities])
+                    'inActivities': (x['summary'] in names)
                 })
         
         page_token = events_list.get('nextPageToken')
