@@ -10,9 +10,20 @@
         background-color: white;
         padding: 20px;
         box-shadow: 4px 0px 4px rgba(0, 0, 0, 0.15);
+        margin-left: 0px;
+        transition: margin .5s;
+    }
+
+    .closedControls {
+        margin-left: -300px;
     }
     
     .content {
         margin-left: 300px;
+        transition: margin .5s;
+    }
+
+    .fullWidthContent {
+        margin-left: 0;
     }
 }

@@ -129,20 +129,16 @@ D3StackedBar.update = function update(newData, configuration, chart, filteredTot
     const newXAxis = d3.axisBottom()
         .scale(newXScale);
 
-    oldXAxis.transition()
-        .duration(500)
-        .call(newXAxis
-            .tickSize(0)
-            .tickPadding(10));
+    oldXAxis.call(newXAxis
+        .tickSize(0)
+        .tickPadding(10));
 
     const newYAxis = d3.axisLeft()
         .scale(newYScale);
 
-    oldYAxis.transition()
-        .duration(500)
-        .call(newYAxis
-            .tickSize(-configuration.width)
-            .tickSizeOuter(0)); // Get rid of permanent end tick
+    oldYAxis.call(newYAxis
+        .tickSize(-configuration.width)
+        .tickSizeOuter(0)); // Get rid of permanent end tick
 };
 
 D3StackedBar.destroy = function destroy() {

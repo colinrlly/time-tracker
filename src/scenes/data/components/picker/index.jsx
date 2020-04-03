@@ -18,8 +18,8 @@ import {
 
 import './style/pickerStyle.scss';
 
-import leftArrow from './images/leftArrow.png';
-import rightArrow from './images/rightArrow.png';
+import leftArrow from '../../images/leftArrow.png';
+import rightArrow from '../../images/rightArrow.png';
 
 /**
  * Component to render the date time range picker for the Data page.

@@ -77,15 +77,10 @@ D3Bar.update = function update(newData, configuration, chart) {
         .append('rect')
         .merge(oldRects)
         .attr('x', (d) => newXScale(d.name) + configuration.margin.left)
-        .attr('width', newXScale.bandwidth())
-        .attr('y', () => newYScale(0) + configuration.margin.bottom)
-        .attr('height', 0);
-
-    rects.transition()
-        .duration(500)
         .attr('height', (d) => configuration.height - newYScale(d.duration) - configuration.margin.bottom * 2)
         .attr('y', (d) => newYScale(d.duration) + configuration.margin.bottom)
-        .attr('fill', (d) => googleColors[d.colorId]);
+        .attr('fill', (d) => googleColors[d.colorId])
+        .attr('width', newXScale.bandwidth());
 
     rects.on('mouseover', (d) => {
         tooltip.text(`${d.fullName} ${d.duration.toFixed(2)}h`);
@@ -115,20 +110,16 @@ D3Bar.update = function update(newData, configuration, chart) {
     const newXAxis = d3.axisBottom()
         .scale(newXScale);
 
-    oldXAxis.transition()
-        .duration(500)
-        .call(newXAxis
-            .tickSize(0)
-            .tickPadding(10));
+    oldXAxis.call(newXAxis
+        .tickSize(0)
+        .tickPadding(10));
 
     const newYAxis = d3.axisLeft()
         .scale(newYScale);
 
-    oldYAxis.transition()
-        .duration(500)
-        .call(newYAxis
-            .tickSize(-configuration.width)
-            .tickSizeOuter(0)); // Get rid of permanent end tick
+    oldYAxis.call(newYAxis
+        .tickSize(-configuration.width)
+        .tickSizeOuter(0)); // Get rid of permanent end tick
 };
 
 D3Bar.destroy = function destroy() {
