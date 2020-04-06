@@ -13,6 +13,11 @@
         margin-left: 0px;
         transition: margin .5s;
         overflow-y: scroll;
+        -ms-overflow-style: none;
+    }
+
+    .controls::-webkit-scrollbar {
+        display: none;
     }
 
     .closedControls {
