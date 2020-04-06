@@ -5,6 +5,15 @@
     width: 30px;
     height: 40px;
     float: left;
-    position: relative;
+    position: absolute;
     z-index: 2;
+    transition: left .5s;
+}
+
+.controlsClosed {
+    left: 0;
+}
+
+.controlsOpen {
+    left: 300px;
 }

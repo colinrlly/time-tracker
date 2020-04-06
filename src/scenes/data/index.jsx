@@ -26,12 +26,15 @@ import {
     container,
     closedControls,
     fullWidthContent,
+    openControls,
 } from './style/structure.module.scss';
 
 import './style/fonts.scss';
 
 const TWEEN_LENGTH = 250; // Animate for 250 increments.
 const TWEEN_INCREMENT = 2; // Each increment is activated every 2 miliseconds.
+
+const CONTROLS_BREAKPOINT = 900;
 
 /**
  * Data page entry point.
@@ -41,9 +44,39 @@ class Data extends Component {
         super(props);
 
         this.state = {
-            controlsClosed: false,
+            controlsClosed: window.innerWidth < CONTROLS_BREAKPOINT,
             tweenStatus: true,
+            screenSize: window.innerWidth,
         };
+
+        this.handleResize = this.handleResize.bind(this);
+    }
+
+    handleResize() {
+        const { screenSize } = this.state;
+
+        // If the window width passes over the controls breakpoint.
+        if (
+            (screenSize > CONTROLS_BREAKPOINT && window.innerWidth <= CONTROLS_BREAKPOINT)
+            || (screenSize <= CONTROLS_BREAKPOINT && window.innerWidth > CONTROLS_BREAKPOINT)
+        ) {
+            this.setState({
+                tweenStatus: 0, // Begin the animation
+                screenSize: window.innerWidth,
+            });
+        } else {
+            this.setState({
+                screenSize: window.innerWidth,
+            });
+        }
+    }
+
+    componentDidMount() {
+        window.addEventListener('resize', this.handleResize);
+    }
+
+    static componentWillUnmount() {
+        window.addEventListener('resize', this.handleResize);
     }
 
     handleControlsBtnClick() {
@@ -83,7 +116,7 @@ class Data extends Component {
                 <TotalTimeAggregator />
                 <NavBar />
 
-                <nav className={cx(controls, controlsClosed ? closedControls : null)}>
+                <nav className={cx(controls, controlsClosed ? closedControls : openControls)}>
                     <H5>DATA SETTINGS</H5>
                     <Picker />
                     <ActivityList />
