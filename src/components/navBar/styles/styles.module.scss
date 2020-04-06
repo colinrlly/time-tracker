@@ -8,19 +8,40 @@
     background-color: white;
     position: relative;
     z-index: 3;
+}
 
-    .pageLink {
-        color: black;
-        letter-spacing: .07em;
-        font-weight: normal;
-        padding-right: 25px;
+.pageLink {
+    color: black;
+    letter-spacing: .07em;
+    font-weight: normal;
+    padding-right: 25px;
+}
+
+.logo {
+    justify-self: start;
+    padding-left: 25px;
+    color: black;
+    letter-spacing: .07em;
+    font-weight: normal;
+}
+
+.hamburger {
+    background: none;
+    border: none;
+    height: 65px;
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .navigation {
+        grid-template-columns: 1fr 80px;
     }
 
-    .logo {
-        justify-self: start;
-        padding-left: 25px;
-        color: black;
-        letter-spacing: .07em;
-        font-weight: normal;
+    .navPageLink {
+        display: none;
+    }
+
+    .hamburger {
+        display: block;
     }
 }
