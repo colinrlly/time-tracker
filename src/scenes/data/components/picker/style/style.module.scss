@@ -1,11 +1,12 @@
 .pickerButton {
     background-color: transparent;
     border: none;
+    width: 100%;
 }
 
 .pickerContainer {
     display: grid;
-    grid-template-columns: 30px auto 30px;
+    grid-template-columns: 30px 1fr 30px;
     border: 2px solid black;
     justify-content: space-between;
     margin-bottom: 40px;

@@ -62,11 +62,11 @@ export class NavBar extends Component {
         return (
             <nav className={navigation} ref={this.setContainerRef}>
                 <a className={logo} href='/'>TURNIP</a>
-                <a className={cx(pageLink, navPageLink)} href='/'>TIMER</a>
-                <a className={cx(pageLink, navPageLink)} href='/data'>DATA</a>
-                <a className={cx(pageLink, navPageLink)} href='https://calendar.google.com/'>CALENDAR</a>
-                <a className={cx(pageLink, navPageLink)} href='https://www.buymeacoffee.com/LogTheApp'>DONATE</a>
-                <a className={cx(pageLink, navPageLink)} href='/'>SIGN OUT</a>
+                <a className={cx(pageLink, navPageLink)} href='/'>Timer</a>
+                <a className={cx(pageLink, navPageLink)} href='/data'>Data</a>
+                <a className={cx(pageLink, navPageLink)} href='https://calendar.google.com/'>Calendar</a>
+                <a className={cx(pageLink, navPageLink)} href='https://www.buymeacoffee.com/LogTheApp'>Donate</a>
+                <a className={cx(pageLink, navPageLink)} href='/'>Sign Out</a>
 
                 <button className={hamburger} onClick={this.handleHamburgerClick}>
                     <img src={hamburgerImage} />

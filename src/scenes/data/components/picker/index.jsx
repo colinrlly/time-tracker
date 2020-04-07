@@ -140,7 +140,7 @@ class Picker extends Component {
             ],
         };
         const locale = {
-            format: 'M/DD hh:mm A',
+            format: 'M/DD/YY',
         };
 
         return (
@@ -155,7 +155,6 @@ class Picker extends Component {
                     startDate={startDateTime}
                     endDate={endDateTime}
                     ranges={ranges}
-                    timePicker={true}
                     locale={locale}
                     onApply={(event, picker) => this.handleApplyEvent(picker)}
                     alwaysShowCalendars={true}
