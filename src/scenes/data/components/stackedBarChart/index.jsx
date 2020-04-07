@@ -6,7 +6,7 @@ import { H6 } from '../../../../components';
 
 import {
     container,
-} from './style/styles.module.scss';
+} from './style/style.module.scss';
 import {
     getIntervalFromRange,
 } from '../../helpers';

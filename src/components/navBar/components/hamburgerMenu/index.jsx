@@ -3,7 +3,7 @@ import cx from 'classnames';
 
 import {
     pageLink,
-} from '../../styles/styles.module.scss';
+} from '../../styles/style.module.scss';
 
 import {
     container,

@@ -11,7 +11,7 @@ import {
     logo,
     hamburger,
     navPageLink,
-} from './styles/styles.module.scss';
+} from './styles/style.module.scss';
 
 import hamburgerImage from './images/hamburger.png';
 
