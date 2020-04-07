@@ -39,8 +39,20 @@ const config = {
     entry: path.join(__dirname, '/src/index.jsx'),
     output: {
         path: resolve('./src/static/build'),
-        filename: 'bundle.[hash].js',
+        filename: '[name].[hash].js',
         publicPath: '../static/build',
+    },
+    optimization: {
+        runtimeChunk: 'single',
+        splitChunks: {
+            cacheGroups: {
+                vendor: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendors',
+                    chunks: 'all',
+                },
+            },
+        },
     },
     resolve: {
         extensions: ['.js', '.jsx', '.css'],
