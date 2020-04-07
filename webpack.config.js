@@ -49,7 +49,7 @@ const config = {
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             title: 'Log Those Activities',
-            filename: '../../templates/fancy_data.html',
+            filename: '../../templates/data.html',
             template: './src/templates/extended/data/webpack_template.html',
         }),
     ],

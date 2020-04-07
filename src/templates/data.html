@@ -1,71 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-40077705-3"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-
-        gtag('config', 'UA-40077705-3');
-    </script>
-    <!-- /Google Analytics -->
-
-    <meta charset="UTF-8">
+    <title>Analyze Those Activities</title>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Log Those Activities</title>
-    
-    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-    <link rel="stylesheet" type="text/css" href="../static/css/data.css">
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <div class="rangeTypeDropdown">
-        <button class="rangeTypeBtn">Week</button>
-        <div class="rangeTypeDropdownContent">
-            <button>Day</button>
-            <button>Week</button>
-            <button>Month</button>
-            <button>180 Days</button>
-            <button>Year</button>
-            <!-- <button>All Time</button> -->
-        </div>
-    </div>
-    <div>
-        <button class="rangeBackwardBtn"><</button> 
-        <input type="text" name="daterange" value="" />
-        <button class="rangeForwardBtn">></button>
-    </div>
-    <div>
-        <input type="text" name="timerange" value="" />
-    <!-- </div>
-    <div class="chartLegend"></div>
-    <canvas id="barChart" width="400" height="400"></canvas>
-    <canvas id="pieChart" width="400" height="400"></canvas> -->
-
-    <br>
-
-    <svg class="bar_chart"></svg>
-
-    <script src="../static/js/jquery-compressed.js"></script>
-    <script src="../static/js/moment.js"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script> -->
-    
-    <script src="../static/js/data/d3.min.js"></script>
-    <script src="../static/js/data/data_time_range.js"></script>
-    <script src="../static/js/data/data_date_range.js"></script>
-    <script src="../static/js/data/data_manipulation.js"></script>
-    <script src="../static/js/data/data_manager.js"></script>
-    <script src="../static/js/data/bar_chart.js"></script>
-    <script src="../static/js/data.js"></script>
-
-    <script src="../static/js/google_colors.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <!-- <script src="../static/js/data.js"></script> -->
-</body>
+    <div id="content"></div>
+<script src="../static/build/bundle.0458767bd0a4596c479e.js"></script></body>
 
 </html>

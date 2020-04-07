@@ -370,7 +370,7 @@ def list_events():
 @login_required
 def data():
     # return render_template("data.html")
-    return render_template("fancy_data.html")
+    return render_template("data.html")
 
 
 if __name__ == '__main__':

@@ -104,7 +104,7 @@ class Data extends Component {
             tweenStatus,
         } = this.state;
 
-        this.tweenCharts(); // Will animate the charts while tweenStatus is less than TWEEN_LENGTH.
+        // this.tweenCharts(); // Will animate the charts while tweenStatus is less than TWEEN_LENGTH.
 
         return (
             <div className={container}>
