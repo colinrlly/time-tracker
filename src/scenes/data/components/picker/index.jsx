@@ -79,7 +79,7 @@ class Picker extends Component {
     render() {
         const { startDateTime, endDateTime } = this.props;
 
-        const buttonText = `${startDateTime.format('M/D/YY')} ${endDateTime.format('M/D/YY')}`;
+        const buttonText = `${startDateTime.format('M/D/YY')} - ${endDateTime.format('M/D/YY')}`;
         const ranges = {
             Today: [
                 moment().second(0)
