@@ -1,7 +1,9 @@
 const webpack = require('webpack');
-const resolve = require('path').resolve;
+const { resolve } = require('path');
 const autoprefixer = require('autoprefixer');
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const CSSModuleLoader = {
     loader: 'css-loader',
@@ -37,12 +39,20 @@ const config = {
     entry: path.join(__dirname, '/src/index.jsx'),
     output: {
         path: resolve('./src/static/build'),
-        filename: 'bundle.js',
-        publicPath: resolve('./build'),
+        filename: 'bundle.[hash].js',
+        publicPath: '../static/build',
     },
     resolve: {
         extensions: ['.js', '.jsx', '.css'],
     },
+    plugins: [
+        new CleanWebpackPlugin(),
+        new HtmlWebpackPlugin({
+            title: 'Log Those Activities',
+            filename: '../../templates/fancy_data.html',
+            template: './src/templates/extended/data/webpack_template.html',
+        }),
+    ],
     module: {
         rules: [
             {
