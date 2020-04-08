@@ -63,40 +63,7 @@ def login_required(f):
     return decorated_function
 
 
-# @app.route('/')
-# @login_required
-# def index():
-#     """
-#         Main page of the website. Gets user's current activity and list of activities, then
-#         renders the template with this information.
-#     """
-#     # Get user's list of activities from the database.
-#     user = get_or_create_user(db.session, User, flask.session['user_id'])
-#     activities = Activity.query.filter_by(user_id=user.id).order_by(Activity.id).all()
 
-#     # Decide whether there is a currently running activity
-#     if not user.started_at or not user.stopped_at:
-#         running = False
-#     else:
-#         running = user.stopped_at < user.started_at
-
-#     started_at = user.started_at
-#     current_activity_id = user.current_activity
-#     current_activity = Activity.query.filter_by(id=current_activity_id).first()
-
-#     current_activity = current_activity.name if current_activity else ''
-    
-#     now = datetime.utcnow()
-
-#     # return render_template(
-#     #     "index.html",
-#     #     activities=activities,
-#     #     running_activity=running,
-#     #     start_time=started_at,
-#     #     now_time=str(now),
-#     #     current_activity=current_activity)
-
-#     return render_template('data.html')
 
 
 # @app.route('/data', methods=['GET'])
@@ -157,7 +124,7 @@ def login_oauth2callback():
 
         user = get_or_create_user(db.session, User, idinfo['sub'])
 
-        return redirect(url_for('index'))
+        return redirect('/')
 
     return 'Error logging in, please try again.'
 
@@ -278,7 +245,7 @@ def oauth2callback():
 
     save_users_activity(db.session, User, Activity, user)
 
-    return redirect(url_for('index'))
+    return redirect('/')
 
 
 @app.route('/api/create-activity', methods=['POST'])
@@ -374,8 +341,43 @@ def list_events():
     return json.dumps(list_users_events(db.session, User, Activity, user, startDateTime, endDateTime))
 
 
+# @app.route('/')
+# @login_required
+# def index():
+#     """
+#         Main page of the website. Gets user's current activity and list of activities, then
+#         renders the template with this information.
+#     """
+#     # Get user's list of activities from the database.
+#     user = get_or_create_user(db.session, User, flask.session['user_id'])
+#     activities = Activity.query.filter_by(user_id=user.id).order_by(Activity.id).all()
+
+#     # Decide whether there is a currently running activity
+#     if not user.started_at or not user.stopped_at:
+#         running = False
+#     else:
+#         running = user.stopped_at < user.started_at
+
+#     started_at = user.started_at
+#     current_activity_id = user.current_activity
+#     current_activity = Activity.query.filter_by(id=current_activity_id).first()
+
+#     current_activity = current_activity.name if current_activity else ''
+    
+#     now = datetime.utcnow()
+
+#     return render_template(
+#         "index.html",
+#         activities=activities,
+#         running_activity=running,
+#         start_time=started_at,
+#         now_time=str(now),
+#         current_activity=current_activity)
+
+
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
+@login_required
 def catch_all(path):
     return render_template('data.html')
 
