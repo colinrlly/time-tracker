@@ -6,29 +6,33 @@ const ONE_DAY = moment.duration(1, 'day');
 
 function TimerText(props) {
     const [displayedTime, setDisplayedTime] = useState(null);
-    const [timerIntervalId, setTimerIntervalId] = useState(null);
 
     function displayTime(duration) {
-        setDisplayedTime(
-            moment.utc(duration.asMilliseconds())
-                .format(`${duration > ONE_DAY ? 'DD' : ''} HH:mm:ss`));
+        const seconds = (`0${duration.seconds()}`).substr(-2, 2);
+        const minutes = (`0${duration.minutes()}`).substr(-2, 2);
+        const hours = (`0${duration.hours()}`).substr(-2, 2);
+        const days = (`0${duration.days()}`).substr(-2, 2);
+
+        setDisplayedTime(`${duration > ONE_DAY ? `${days}:` : ''}${hours}:${minutes}:${seconds}`);
     }
 
     useEffect(() => {
-        if (props.runningActivity) {
-            clearInterval(timerIntervalId);
+        let intervalId = null;
 
+        if (props.runningActivity) {
             const diff = moment.utc() - props.lastActivityStartTime;
             const duration = moment.duration(diff, 'milliseconds');
 
             displayTime(duration);
-            setTimerIntervalId(setInterval(() => {
+            intervalId = setInterval(() => {
                 duration.add(1, 'second');
                 displayTime(duration);
-            }, 1000));
+            }, 1000);
         } else {
             setDisplayedTime('00:00:00');
         }
+
+        return (() => clearInterval(intervalId));
     }, [props.lastActivityStartTime, props.runningActivity]);
 
     return (
