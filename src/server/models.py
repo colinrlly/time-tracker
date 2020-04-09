@@ -46,3 +46,10 @@ class Activity(db.Model):
     user_id = Column(String(30), ForeignKey("user.id"), nullable=False)
     name = Column(String(255), nullable=False)
     color = Column(Integer, nullable=False)
+
+    @property
+    def serialize(self):
+        return {
+            'name': self.name,
+            'color': self.color,
+        }

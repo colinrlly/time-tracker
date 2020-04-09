@@ -63,15 +63,6 @@ def login_required(f):
     return decorated_function
 
 
-
-
-
-# @app.route('/data', methods=['GET'])
-# @login_required
-# def data():
-#     return render_template("data.html")
-
-
 @app.route('/login', methods=['GET'])
 def login():
     """
@@ -339,6 +330,39 @@ def list_events():
     user = get_or_create_user(db.session, User, flask.session['user_id'])
 
     return json.dumps(list_users_events(db.session, User, Activity, user, startDateTime, endDateTime))
+
+
+@app.route('/api/timer_startup_payload', methods=['POST'])
+def timer_startup_paytload():
+    # Get user's list of activities from the database.
+    user = get_or_create_user(db.session, User, flask.session['user_id'])
+    activities = Activity.query.filter_by(user_id=user.id).order_by(Activity.id).all()
+
+    # Decide whether there is a currently running activity
+    if not user.started_at or not user.stopped_at:
+        running = False
+    else:
+        running = user.stopped_at < user.started_at
+
+    started_at = user.started_at
+    current_activity_id = user.current_activity
+    current_activity = Activity.query.filter_by(id=current_activity_id).first()
+
+    current_activity = current_activity if current_activity else None
+    
+    now = datetime.utcnow()
+
+    serialized_activities = [ a.serialize for a in activities]
+
+    payload = {
+        'activities': serialized_activities,
+        'running_activity': running,
+        'start_time': str(started_at),
+        'now_time': str(now),
+        'current_activity': current_activity.serialize
+    }
+
+    return json.dumps(payload)
 
 
 # @app.route('/')
