@@ -3,7 +3,7 @@ import {
     SET_AGG_FILTERED_TOTALS,
     SET_AGG_TOTAL_TIME,
     SET_AGG_STACKED_TOTALS,
-} from '../../actions/dataActions';
+} from '../../actions';
 
 const initialState = {
     totals: [],

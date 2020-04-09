@@ -1,6 +1,6 @@
 import {
     SET_ACTIVITY_NAMES,
-} from '../../actions/dataActions';
+} from '../../actions';
 
 /**
  * Sets the activity names list.

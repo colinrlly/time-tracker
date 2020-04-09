@@ -6,12 +6,6 @@ export const SET_AGG_FILTERED_TOTALS = 'SET_AGG_FILTERED_TOTALS';
 export const SET_AGG_TOTAL_TIME = 'SET_AGG_TOTAL_TIME';
 export const SET_AGG_STACKED_TOTALS = 'SET_AGG_STACKED_TOTALS';
 
-/**
- * Updates the range specifying which activity records to request from the server.
- *
- * @param {Moment Object} startDateTime - Start of the range to get a user's activity records for. 
- * @param {Moment Object} endDateTime - End of the range to get a user's activity records for.
- */
 export function setRange(startDateTime, endDateTime) {
     return {
         type: SET_RANGE,
@@ -20,11 +14,6 @@ export function setRange(startDateTime, endDateTime) {
     };
 }
 
-/**
- * Adds a user's activity record which is usually recieved from the server.
- *
- * @param {Object} record - An activity record from the server.
- */
 export function setActivityRecords(records) {
     return { type: SET_ACTIVITY_RECORDS, records };
 }

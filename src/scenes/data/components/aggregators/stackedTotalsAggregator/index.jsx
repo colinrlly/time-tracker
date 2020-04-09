@@ -6,7 +6,7 @@ import {
 } from '../../../helpers';
 import {
     setAggStackedTotals,
-} from '../../../../../redux/actions/dataActions';
+} from '../../../../../redux/actions';
 import {
     aggregateStackedTotals,
 } from './helpers';

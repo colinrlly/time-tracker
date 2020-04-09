@@ -1,7 +1,7 @@
 import moment from 'moment';
 import {
     SET_RANGE,
-} from '../../actions/dataActions';
+} from '../../actions';
 
 // We initialize the range as the last 7 days.
 const initialState = {

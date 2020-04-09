@@ -1,6 +1,6 @@
 import {
     SET_ACTIVITY_RECORDS,
-} from '../../actions/dataActions';
+} from '../../actions';
 
 /**
  * Adds an activity record to the redux store.

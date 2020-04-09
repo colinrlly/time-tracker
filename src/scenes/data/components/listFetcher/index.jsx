@@ -4,7 +4,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import {
     setActivityRecords,
-} from '../../../../redux/actions/dataActions';
+} from '../../../../redux/actions';
 import {
     timeRangeFilter,
 } from './helpers';
