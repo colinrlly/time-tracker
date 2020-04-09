@@ -43,16 +43,16 @@ describe('TimerText', () => {
     it('Displays days if the diff is larger than 24 hours.', () => {
         const { container } = render(
             <TimerText
-                lastActivityStartTime={moment().subtract(1, 'day')}
+                lastActivityStartTime={moment().subtract(1, 'day').subtract(1, 'hour')}
                 runningActivity={true} />,
         );
 
-        expect(container.textContent).toBe('01:00:00:00');
+        expect(container.textContent).toBe('01:01:00:00');
 
         act(() => {
             jest.advanceTimersByTime(1000);
         });
 
-        expect(container.textContent).toBe('01:00:00:01');
+        expect(container.textContent).toBe('01:01:00:01');
     });
 });
