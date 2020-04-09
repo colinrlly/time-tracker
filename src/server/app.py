@@ -349,8 +349,7 @@ def timer_startup_paytload():
     current_activity = Activity.query.filter_by(id=current_activity_id).first()
 
     current_activity = current_activity if current_activity else None
-    
-    now = datetime.utcnow()
+
 
     serialized_activities = [ a.serialize for a in activities]
 
@@ -358,7 +357,6 @@ def timer_startup_paytload():
         'activities': serialized_activities,
         'running_activity': running,
         'start_time': str(started_at),
-        'now_time': str(now),
         'current_activity': current_activity.serialize
     }
 

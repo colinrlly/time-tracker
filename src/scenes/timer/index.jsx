@@ -11,60 +11,46 @@ import {
 } from './components';
 
 function Timer() {
+    const [activities, setActivities] = useState([]);
+    const [currentActivity, setCurrentActivity] = useState({});
+    const [runningActivity, setRunningActivity] = useState(false);
+    const [lastActivityStartTime, setLastActivityStartTime] = useState(moment());
+    const [displayedTime, setDisplayedTime] = useState(null);
+    const [timerIntervalId, setTimerIntervalId] = useState(null);
+
     useEffect(() => {
         // Fetch the user's "startup payload" from the server.
         axios.post('/api/timer_startup_payload').then((response) => {
-            console.log(response.data);
+            setActivities(response.data.activities);
+            setCurrentActivity(response.data.current_activity);
+            setRunningActivity(response.data.running_activity);
+            setLastActivityStartTime(moment(response.data.start_time));
         }).catch((error) => {
             console.log(error);
         });
     }, []);
 
-    // const [time, setTime] = useState(0);
-    // const [intervalId, setIntervalId] = useState(null);
+    useEffect(() => {
+        if (runningActivity) {
+            clearInterval(timerIntervalId);
 
-    // const startTimer = (startTime) => {
-    //     if (!timer) {
-    //         const now = moment(utcNow());
-    //         startTime = moment(startTime)
-    //         let diff = now - startTime;
-    //         let interval = 1000;
-    //         let duration = moment.duration(diff, 'milliseconds');
+            const diff = moment.utc() - lastActivityStartTime;
+            const duration = moment.duration(diff, 'milliseconds');
+            setDisplayedTime(moment.utc(duration.asMilliseconds()).format('HH:mm:ss'));
 
-    //         const timer = setInterval(() => {
-    //             const seconds = ('0' + duration.seconds()).substr(-2, 2);
-    //             const minutes = ('0' + duration.minutes()).substr(-2, 2);
-    //             const hours = ('0' + duration.hours()).substr(-2, 2);
-    //             const t = hours + ':' + minutes + ':' + seconds;
-
-    //             $('p.time').html(t);
-    //             duration = moment.duration(duration + interval, 'milliseconds');
-    //         }, interval);
-    //     }
-    // };
-
-    // function utcNow() {
-    //     const d = new Date();
-
-    //     return new Date(
-    //         d.getUTCFullYear(),
-    //         d.getUTCMonth(),
-    //         d.getUTCDate(),
-    //         d.getUTCHours(),
-    //         d.getUTCMinutes(),
-    //         d.getUTCSeconds(),
-    //     );
-    // }
-
-    // useEffect(() => {
-    //     const now = moment().utc();
-
-    // }, []);
+            setTimerIntervalId(setInterval(() => {
+                duration.add(1, 'second');
+                setDisplayedTime(moment.utc(duration.asMilliseconds()).format('HH:mm:ss'));
+            }, 1000));
+        } else {
+            setDisplayedTime('00:00:00');
+        }
+    }, [currentActivity, lastActivityStartTime]);
 
     return (
         <div>
             <NavBar />
-            {/* <TimerText time={time} /> */}
+            <TimerText time={displayedTime} />
         </div >
     );
 }
