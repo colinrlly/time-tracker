@@ -5,7 +5,7 @@ import cx from 'classnames';
 
 import {
     setActivityNames,
-} from '../../../../redux/actions/actions';
+} from '../../../../redux/actions/dataActions';
 import googleColors from '../../../../static/js/google_colors';
 
 import { H5 } from '../../../../components';

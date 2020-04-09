@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
     setActivityNames,
-} from '../../../../redux/actions/actions';
+} from '../../../../redux/actions/dataActions';
 import { generateActivityNames } from './helpers';
 
 const ActivityListGenerator = (props) => {

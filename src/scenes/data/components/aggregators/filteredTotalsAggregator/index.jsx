@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
     setAggFilteredTotals,
-} from '../../../../../redux/actions/actions';
+} from '../../../../../redux/actions/dataActions';
 
 function FilteredTotalsAggregator(props) {
     const filteredTotals = props.totals.filter(

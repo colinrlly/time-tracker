@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import {
     setRange,
-} from '../../../../redux/actions/actions';
+} from '../../../../redux/actions/dataActions';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-daterangepicker/daterangepicker.css';

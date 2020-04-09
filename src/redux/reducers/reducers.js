@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import recordsRangeReducer from './recordsRangeReducer';
-import recordsListReducer from './recordsListReducer';
-import activityNamesReducer from './activityNamesReducer';
-import aggregationsReducer from './aggregationsReducer';
+import recordsRangeReducer from './data/recordsRangeReducer';
+import recordsListReducer from './data/recordsListReducer';
+import activityNamesReducer from './data/activityNamesReducer';
+import aggregationsReducer from './data/aggregationsReducer';
 
 /**
  * Combines all the app's reducers into a single reducer.

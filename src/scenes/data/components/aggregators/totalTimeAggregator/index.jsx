@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
     setAggTotalTime,
-} from '../../../../../redux/actions/actions';
+} from '../../../../../redux/actions/dataActions';
 import {
     totalTimeAggregator,
 } from './helpers';

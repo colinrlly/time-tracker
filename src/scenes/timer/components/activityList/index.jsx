@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function ActivityList(props) {
-    const activityComponents = props.activities.map((x, i) => <li key={i}>
-        <button>{x.name}</button>
-    </li>);
+    const activityComponents = props.activities.map((x, i) => (
+        <li key={i}>
+            <button>{x.name}</button>
+        </li>));
 
     return (
         <ul>
