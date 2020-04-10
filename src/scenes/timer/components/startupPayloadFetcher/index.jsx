@@ -1,9 +1,13 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
+import moment from 'moment';
 
 import {
     setAllActivitiesList,
+    setCurrentActivity,
+    setActivityIsRunning,
+    setLastActivityStartTime,
 } from '../../../../redux/actions';
 
 function StartupPayloadFetcher() {
@@ -13,6 +17,9 @@ function StartupPayloadFetcher() {
         // Fetch the user's "startup payload" from the server.
         axios.post('/api/timer_startup_payload').then((response) => {
             dispatch(setAllActivitiesList(response.data.activities));
+            dispatch(setCurrentActivity(response.data.current_activity));
+            dispatch(setActivityIsRunning(response.data.running_activity));
+            dispatch(setLastActivityStartTime(moment(response.data.start_time)));
         }).catch((error) => {
             console.log(error);
         });
