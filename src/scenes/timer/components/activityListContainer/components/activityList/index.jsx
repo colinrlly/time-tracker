@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 function ActivityList(props) {
     const activityComponents = props.activities.map((x, i) => (
         <li key={i}>
-            <button>{x.name}</button>
+            <button onClick={() => props.handleActivityClick(x)}>{x.name}</button>
         </li>));
 
     return (
@@ -21,6 +21,7 @@ ActivityList.propTypes = {
             color: PropTypes.number,
         }),
     ).isRequired,
+    handleActivityClick: PropTypes.func.isRequired,
 };
 
 export default ActivityList;

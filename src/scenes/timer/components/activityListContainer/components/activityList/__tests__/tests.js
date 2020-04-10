@@ -1,5 +1,8 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import {
+    render,
+    fireEvent,
+} from '@testing-library/react';
 import ActivityList from '../index.jsx';
 
 const ACTIVITY_LIST = [
@@ -21,7 +24,8 @@ describe('ActivityList', () => {
     it('Renders a button for each activity.', () => {
         const { getByText } = render(
             <ActivityList
-                activities={ACTIVITY_LIST} />,
+                activities={ACTIVITY_LIST}
+                handleActivityClick={() => {}} />,
         );
 
         expect(getByText(ACTIVITY_LIST[0].name)).toBeTruthy();
@@ -29,7 +33,23 @@ describe('ActivityList', () => {
         expect(getByText(ACTIVITY_LIST[2].name)).toBeTruthy();
     });
 
-    xit('Calls the click handler when an activity is clicked.', () => {
+    it('Calls the click handler when an activity is clicked.', () => {
+        const mockCallback = jest.fn();
 
+        const { getByText } = render(
+            <ActivityList
+                activities={ACTIVITY_LIST}
+                handleActivityClick={mockCallback} />,
+        );
+
+        fireEvent.click(getByText(ACTIVITY_LIST[0].name));
+        fireEvent.click(getByText(ACTIVITY_LIST[1].name));
+        fireEvent.click(getByText(ACTIVITY_LIST[2].name));
+
+        expect(mockCallback.mock.calls.length).toBe(3);
+
+        expect(mockCallback.mock.calls[0][0]).toBe(ACTIVITY_LIST[0]);
+        expect(mockCallback.mock.calls[1][0]).toBe(ACTIVITY_LIST[1]);
+        expect(mockCallback.mock.calls[2][0]).toBe(ACTIVITY_LIST[2]);
     });
 });
