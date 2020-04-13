@@ -9,7 +9,7 @@ function ActivityList(props) {
 
     return (
         <ul>
-            {activityComponents}
+            {props.activityIsRunning ? null : activityComponents}
         </ul>
     );
 }
@@ -22,6 +22,7 @@ ActivityList.propTypes = {
         }),
     ).isRequired,
     handleActivityClick: PropTypes.func.isRequired,
+    activityIsRunning: PropTypes.bool.isRequired,
 };
 
 export default ActivityList;

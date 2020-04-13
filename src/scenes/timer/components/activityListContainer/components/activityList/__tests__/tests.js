@@ -26,7 +26,8 @@ describe('ActivityList', () => {
         const { getByText } = render(
             <ActivityList
                 activities={ACTIVITY_LIST}
-                handleActivityClick={() => {}} />,
+                handleActivityClick={() => {}}
+                activityIsRunning={false} />,
         );
 
         expect(getByText(ACTIVITY_LIST[0].name)).toBeTruthy();
@@ -40,7 +41,8 @@ describe('ActivityList', () => {
         const { getByText } = render(
             <ActivityList
                 activities={ACTIVITY_LIST}
-                handleActivityClick={mockCallback} />,
+                handleActivityClick={mockCallback}
+                activityIsRunning={false} />,
         );
 
         fireEvent.click(getByText(ACTIVITY_LIST[0].name));

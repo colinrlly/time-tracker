@@ -26,7 +26,8 @@ function ActivityListContainer() {
     return (
         <ActivityList
             activities={allActivitiesList}
-            handleActivityClick={handleActivityClick} />
+            handleActivityClick={handleActivityClick}
+            activityIsRunning={activityIsRunning} />
     );
 }
 
