@@ -16,7 +16,7 @@ import ActivityListContainer from '../index.jsx';
 
 const mockStore = configureStore([]);
 
-describe('ActivityNameContainer', () => {
+describe('ActivityListContainer', () => {
     const allActivitiesList = [
         {
             name: 'Log',
