@@ -8,6 +8,7 @@ import {
     TimerTextContainer,
     ActivityListContainer,
     StartupPayloadFetcher,
+    ActivityNameContainer,
 } from './components';
 
 function Timer() {
@@ -15,6 +16,7 @@ function Timer() {
         <div>
             <StartupPayloadFetcher />
             <NavBar />
+            <ActivityNameContainer />
             <TimerTextContainer />
             <ActivityListContainer />
         </div >
