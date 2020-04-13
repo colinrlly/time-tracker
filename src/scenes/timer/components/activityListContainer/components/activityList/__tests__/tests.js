@@ -3,6 +3,7 @@ import {
     render,
     fireEvent,
 } from '@testing-library/react';
+
 import ActivityList from '../index.jsx';
 
 const ACTIVITY_LIST = [
