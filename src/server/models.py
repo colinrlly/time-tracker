@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, DateTime, String, ForeignKey, BigInteger
+from sqlalchemy import Column, Integer, DateTime, String, ForeignKey, BigInteger, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.dialects.postgresql import JSON
 
@@ -17,20 +17,15 @@ class User(db.Model):
     __tablename__ = 'user'
 
     id = Column(String(30), primary_key=True, nullable=False, unique=True)
-    email = Column(String(255), nullable=True)
-    name = Column(String(255), nullable=True)
-    picture = Column(String(2000), nullable=True)  # 2000 characters is max URL length
-    given_name = Column(String(255), nullable=True)
-    family_name = Column(String(255), nullable=True)
-    locale = Column(String(10), nullable=True)
 
     # related to activity
     current_activity = Column(Integer, nullable=True)  # Should be FK but I don't want to deal with that
     started_at = Column(DateTime, nullable=True)
     stopped_at = Column(DateTime, nullable=True)
+    has_unsaved_activity_record = Column(Boolean, server_default="False", nullable=False)
+    activity_is_running = Column(Boolean, server_default="False", nullable=False)
 
     # related to credentials
-    refresh_token = Column(String(255), nullable=True)
     credentials = Column(String(7000), nullable=True)
 
 
