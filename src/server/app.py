@@ -369,38 +369,38 @@ def timer_startup_paytload():
     return json.dumps(payload)
 
 
-@app.route('/')
-@login_required
-def index():
-    """
-        Main page of the website. Gets user's current activity and list of activities, then
-        renders the template with this information.
-    """
-    # Get user's list of activities from the database.
-    user = get_or_create_user(db.session, User, flask.session['user_id'])
-    activities = Activity.query.filter_by(user_id=user.id).order_by(Activity.id).all()
+# @app.route('/')
+# @login_required
+# def index():
+#     """
+#         Main page of the website. Gets user's current activity and list of activities, then
+#         renders the template with this information.
+#     """
+#     # Get user's list of activities from the database.
+#     user = get_or_create_user(db.session, User, flask.session['user_id'])
+#     activities = Activity.query.filter_by(user_id=user.id).order_by(Activity.id).all()
 
-    # Decide whether there is a currently running activity
-    if not user.started_at or not user.stopped_at:
-        running = False
-    else:
-        running = user.stopped_at < user.started_at
+#     # Decide whether there is a currently running activity
+#     if not user.started_at or not user.stopped_at:
+#         running = False
+#     else:
+#         running = user.stopped_at < user.started_at
 
-    started_at = user.started_at
-    current_activity_id = user.current_activity
-    current_activity = Activity.query.filter_by(id=current_activity_id).first()
+#     started_at = user.started_at
+#     current_activity_id = user.current_activity
+#     current_activity = Activity.query.filter_by(id=current_activity_id).first()
 
-    current_activity = current_activity.name if current_activity else ''
+#     current_activity = current_activity.name if current_activity else ''
     
-    now = datetime.utcnow()
+#     now = datetime.utcnow()
 
-    return render_template(
-        "index.html",
-        activities=activities,
-        running_activity=running,
-        start_time=started_at,
-        now_time=str(now),
-        current_activity=current_activity)
+#     return render_template(
+#         "index.html",
+#         activities=activities,
+#         running_activity=running,
+#         start_time=started_at,
+#         now_time=str(now),
+#         current_activity=current_activity)
 
 
 @app.route('/', defaults={'path': ''})
