@@ -1,16 +1,28 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 import {
     Btn,
 } from './components';
 
 function DeleteSaveBtns() {
-    return (
+    const hasUnsavedActivityRecord = useSelector((state) => state.hasUnsavedActivityRecord);
+
+    function deleteCallback() {
+        axios.post('api/delete-activity-record');
+    }
+
+    function saveCallback() {
+        axios.post('api/save-activity');
+    }
+
+    return hasUnsavedActivityRecord ? (
         <div>
-            <Btn callback={() => alert('hello there delete')} text='Delete' />
-            <Btn callback={() => alert('hello there save')} text='Save' />
+            <Btn callback={deleteCallback} text='Delete' />
+            <Btn callback={saveCallback} text='Save' />
         </div>
-    );
+    ) : null;
 }
 
 export default DeleteSaveBtns;

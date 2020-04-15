@@ -138,8 +138,8 @@ def update_activity():
         Updates the server's records of which activity the user is currently doing.
     """
     user_id = flask.session['user_id']
-    # activity_id = request.get_json()['activity_id']
-    activity_id = request.form['activity_id']
+    activity_id = request.get_json()['activity_id']
+    # activity_id = request.form['activity_id']
 
     user = get_or_create_user(db.session, User, user_id)
 
