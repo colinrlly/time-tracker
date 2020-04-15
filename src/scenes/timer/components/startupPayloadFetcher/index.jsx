@@ -8,6 +8,7 @@ import {
     setCurrentActivity,
     setActivityIsRunning,
     setLastActivityStartTime,
+    setHasUnsavedActivityRecord,
 } from '../../../../redux/actions';
 
 function StartupPayloadFetcher() {
@@ -20,6 +21,7 @@ function StartupPayloadFetcher() {
             dispatch(setCurrentActivity(response.data.current_activity));
             dispatch(setActivityIsRunning(response.data.running_activity));
             dispatch(setLastActivityStartTime(moment(response.data.start_time)));
+            dispatch(setHasUnsavedActivityRecord(response.data.has_unsaved_activity_record));
         }).catch((error) => {
             console.log(error);
         });

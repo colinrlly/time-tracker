@@ -345,12 +345,6 @@ def timer_startup_paytload():
     user = get_or_create_user(db.session, User, flask.session['user_id'])
     activities = Activity.query.filter_by(user_id=user.id).order_by(Activity.id).all()
 
-    # Decide whether there is a currently running activity
-    if not user.started_at or not user.stopped_at:
-        running = False
-    else:
-        running = user.stopped_at < user.started_at
-
     started_at = user.started_at
     current_activity_id = user.current_activity
     current_activity = Activity.query.filter_by(id=current_activity_id).first()
@@ -361,7 +355,8 @@ def timer_startup_paytload():
 
     payload = {
         'activities': serialized_activities,
-        'running_activity': running,
+        'running_activity': user.activity_is_running,
+        'has_unsaved_activity_record': user.has_unsaved_activity_record,
         'start_time': str(started_at),
         'current_activity': current_activity.serialize
     }
