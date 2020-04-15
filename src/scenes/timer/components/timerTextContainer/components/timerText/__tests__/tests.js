@@ -1,7 +1,10 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import moment from 'moment';
 import { act } from 'react-dom/test-utils';
+
+import {
+    utcNow,
+} from '../../../../../helpers';
 
 import TimerText from '../index.jsx';
 
@@ -11,7 +14,7 @@ describe('TimerText', () => {
     it('Displays 00:00:00 when props.runningActivity is false.', () => {
         const { container } = render(
             <TimerText
-                lastActivityStartTime={moment().subtract(1, 'hour')}
+                lastActivityStartTime={utcNow().subtract(1, 'hour')}
                 runningActivity={false} />,
         );
 
@@ -21,7 +24,7 @@ describe('TimerText', () => {
     it('Starts counting up from lastActivityStartTime difference.', () => {
         const { container } = render(
             <TimerText
-                lastActivityStartTime={moment().subtract(5, 'hours')}
+                lastActivityStartTime={utcNow().subtract(5, 'hours')}
                 runningActivity={true} />,
         );
 
@@ -43,7 +46,7 @@ describe('TimerText', () => {
     it('Displays days if the diff is larger than 24 hours.', () => {
         const { container } = render(
             <TimerText
-                lastActivityStartTime={moment().subtract(1, 'day').subtract(1, 'hour')}
+                lastActivityStartTime={utcNow().subtract(1, 'day').subtract(1, 'hour')}
                 runningActivity={true} />,
         );
 

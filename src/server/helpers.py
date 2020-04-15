@@ -122,6 +122,8 @@ def save_users_activity(session, User, Activity, user):
     calendar = googleapiclient.discovery.build(
         API_SERVICE_NAME, API_VERSION, credentials=credentials)
 
+    print(calendar.calendars().get(calendarId='primary').execute())
+
     # Store credentials in the database.
     user.credentials = credentials.to_json()
     session.add(user)

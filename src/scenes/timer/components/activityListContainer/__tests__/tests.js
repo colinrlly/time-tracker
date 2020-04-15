@@ -5,6 +5,7 @@ import {
 } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
+import axios from 'axios';
 
 import {
     SET_CURRENT_ACTIVITY,
@@ -15,14 +16,17 @@ import {
 import ActivityListContainer from '../index.jsx';
 
 const mockStore = configureStore([]);
+jest.mock('axios');
 
 describe('ActivityListContainer', () => {
     const allActivitiesList = [
         {
+            id: 54,
             name: 'Log',
             color: 10,
         },
         {
+            id: 10,
             name: 'Games',
             color: 2,
         },
@@ -47,7 +51,19 @@ describe('ActivityListContainer', () => {
         };
     }
 
-    it('Dispatches proper actions on activity click.', () => {
+    it('Tells the API to start an activity on activity click.', () => {
+        const {
+            getByText,
+        } = setUpActivityIsRunningFalse();
+
+        fireEvent.click(getByText('Log'));
+
+        console.log(axios.post.mock.calls);
+
+        expect(axios.post.mock.calls[0][0]).toBe('api/start-activity');
+    });
+
+    it('Dispatches proper Redux actions on activity click.', () => {
         const {
             store,
             getByText,

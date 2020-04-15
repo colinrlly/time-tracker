@@ -17,6 +17,7 @@ function ActivityList(props) {
 ActivityList.propTypes = {
     activities: PropTypes.arrayOf(
         PropTypes.exact({
+            id: PropTypes.number,
             name: PropTypes.string,
             color: PropTypes.number,
         }),

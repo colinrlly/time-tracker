@@ -5,7 +5,10 @@ import {
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import axios from 'axios';
-import moment from 'moment';
+
+import {
+    utcNow,
+} from '../../../helpers';
 
 import {
     SET_ALL_ACTIVITIES_LIST,
@@ -32,7 +35,7 @@ const TEST_API_DATA = {
             color: 9,
         },
         running_activity: false,
-        start_time: moment().format(),
+        start_time: utcNow().format(),
     },
 };
 

@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
+import {
+    utcNow,
+} from '../../../../helpers';
+
 const ONE_DAY = moment.duration(1, 'day');
 
 function TimerText(props) {
@@ -20,7 +24,8 @@ function TimerText(props) {
         let intervalId = null;
 
         if (props.runningActivity) {
-            const diff = moment.utc() - props.lastActivityStartTime;
+            const now = utcNow();
+            const diff = now - props.lastActivityStartTime;
             const duration = moment.duration(diff, 'milliseconds');
 
             displayTime(duration);

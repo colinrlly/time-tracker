@@ -4,7 +4,10 @@ import {
 } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import moment from 'moment';
+
+import {
+    utcNow,
+} from '../../../helpers';
 
 import TimerTextContainer from '../index.jsx';
 
@@ -13,7 +16,7 @@ const mockStore = configureStore([]);
 describe('TimerTextContainer', () => {
     it('Passes lastActivityStartTime from Redux to children components.', () => {
         const store = mockStore({
-            lastActivityStartTime: moment().subtract(1, 'hour'),
+            lastActivityStartTime: utcNow().subtract(1, 'hour'),
             activityIsRunning: true,
         });
 
@@ -28,7 +31,7 @@ describe('TimerTextContainer', () => {
 
     it('Passes activityIsRunning from Redux to children components.', () => {
         const store = mockStore({
-            lastActivityStartTime: moment().subtract(1, 'hour'),
+            lastActivityStartTime: utcNow().subtract(1, 'hour'),
             activityIsRunning: false,
         });
 

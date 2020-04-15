@@ -1,6 +1,10 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import moment from 'moment';
+import axios from 'axios';
+
+import {
+    utcNow,
+} from '../../helpers';
 
 import {
     setCurrentActivity,
@@ -19,7 +23,11 @@ function ActivityListContainer() {
         if (!activityIsRunning) {
             dispatch(setCurrentActivity(activity));
             dispatch(setActivityIsRunning(true));
-            dispatch(setLastActivityStartTime(moment()));
+            dispatch(setLastActivityStartTime(utcNow()));
+
+            axios.post('api/start-activity', {
+                activity_id: activity.id,
+            });
         }
     }
 

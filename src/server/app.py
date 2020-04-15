@@ -138,7 +138,7 @@ def update_activity():
         Updates the server's records of which activity the user is currently doing.
     """
     user_id = flask.session['user_id']
-    activity_id = request.form['activity_id']
+    activity_id = request.get_json()['activity_id']
 
     user = get_or_create_user(db.session, User, user_id)
 
@@ -156,9 +156,6 @@ def update_activity():
 def stop_activity():
     """
         Stops the user's current activity.
-
-        Tries to get user_id from flask session (website version), if that fails this function
-        gets user_id from request.get_json() (app version).
     """
     user_id = flask.session['user_id']
 
@@ -175,11 +172,6 @@ def stop_activity():
 @app.route('/api/save-activity', methods=['POST'])
 @login_required
 def save_activity():
-    """
-        TODO: Lots of room for improvement. This function works for both the app and website but
-        all the code is duplicated for each case, this should be fixed to only separate the
-        differences in the code and use the same code for the similarities.
-    """
     user = get_or_create_user(db.session, User, flask.session['user_id'])
 
     return json.dumps(save_users_activity(db.session, User, Activity, user))
@@ -349,7 +341,6 @@ def timer_startup_paytload():
     current_activity = Activity.query.filter_by(id=current_activity_id).first()
 
     current_activity = current_activity if current_activity else None
-
 
     serialized_activities = [ a.serialize for a in activities]
 
