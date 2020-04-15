@@ -1,13 +1,13 @@
 from __future__ import print_function  # Needs to be imported first
 
 import os
-import datetime
 import sys
 
 from flask import render_template, redirect, url_for
 
 import google
 from datetime import datetime
+from dateutil import tz
 from apiclient.discovery import build
 from httplib2 import Http
 from oauth2client import file, client, tools
@@ -23,6 +23,11 @@ CLIENT_SECRET = client_secret = os.environ['GOOGLE_CLIENT_SECRET']
 SCOPES = 'https://www.googleapis.com/auth/calendar'
 API_SERVICE_NAME = 'calendar'
 API_VERSION = 'v3'
+
+
+def utc_to_local(utc_dt, timezone):
+    utc = utc_dt.replace(tzinfo=tz.gettz('UTC'))
+    return utc.astimezone(tz.gettz(timezone))
 
 
 def get_or_create_user(session, model, user_id):
@@ -122,7 +127,10 @@ def save_users_activity(session, User, Activity, user):
     calendar = googleapiclient.discovery.build(
         API_SERVICE_NAME, API_VERSION, credentials=credentials)
 
-    print(calendar.calendars().get(calendarId='primary').execute())
+    # Update/Set the user's timezone information
+    timezone = calendar.calendars().get(calendarId='primary').execute()['timeZone']
+    if user.timezone != timezone:
+        user.timezone = timezone
 
     # Store credentials in the database.
     user.credentials = credentials.to_json()
@@ -135,15 +143,21 @@ def save_users_activity(session, User, Activity, user):
     name = activity.name
     color = activity.color
 
+    # Convert the utc datetime objects stored in the database to the user's local timezone.
+    # We do this here at the last moment so the Google Calendar event shows in the user's
+    # local timezone.
+    local_started_at = utc_to_local(user.started_at, timezone)
+    local_stopped_at = utc_to_local(user.started_at, timezone)
+
     # Make the event
     event = {
         'summary': name,
         'start': {
-            'dateTime': user.started_at.isoformat() + 'Z',
-            'timeZone': 'UTC'},
+            'dateTime': local_started_at.isoformat(),
+            'timeZone': timezone},
         'end': {
-            'dateTime': user.stopped_at.isoformat() + 'Z',
-            'timeZone': 'UTC'},
+            'dateTime': local_stopped_at.isoformat(),
+            'timeZone': timezone},
         'reminders': {
             'useDefault': False},
         'colorId': color

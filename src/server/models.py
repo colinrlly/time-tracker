@@ -24,6 +24,7 @@ class User(db.Model):
     stopped_at = Column(DateTime, nullable=True)
     has_unsaved_activity_record = Column(Boolean, server_default="False", nullable=False)
     activity_is_running = Column(Boolean, server_default="False", nullable=False)
+    timezone = Column(String(50), nullable=True)
 
     # related to credentials
     credentials = Column(String(7000), nullable=True)
