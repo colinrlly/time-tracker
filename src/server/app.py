@@ -178,6 +178,20 @@ def save_activity():
     return json.dumps(save_users_activity(db.session, User, Activity, user))
 
 
+@app.route('/api/delete-activity-record', methods=['POST'])
+@login_required
+def delete_activity_record():
+    user = get_or_create_user(db.session, User, flask.session['user_id'])
+
+    delete_users_activity_record(
+        session=db.session,
+        model=User,
+        user=user,
+    )
+
+    return { code: 'success' }
+
+
 @app.route('/authorize')
 @login_required
 def authorize():

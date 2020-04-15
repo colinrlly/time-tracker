@@ -54,6 +54,7 @@ def set_users_activity(session, model, user, activity_id):
     """
     user.current_activity = activity_id
     user.started_at = datetime.utcnow()
+    user.activity_is_running = True
     session.add(user)
     session.commit()
     session.close()
@@ -69,6 +70,8 @@ def stop_users_activity(session, model, user):
     """
 
     user.stopped_at = datetime.utcnow()
+    user.activity_is_running = False
+    user.has_unsaved_activity_record = True
     session.add(user)
     session.commit()
     session.close()
@@ -93,14 +96,12 @@ def edit_users_activity(session, Activity, activity_id, new_name, new_color):
     session.close()
 
 
-def delete_users_activity(session, Activity, activity_id):
-    """
-        Deletes an activity by id.
-    """
+def delete_users_activity_record(session, model, user):
+    user.has_unsaved_activity_record = False
 
-    activity = Activity.query.get(activity_id)
-    session.delete(activity)
+    session.add(user)
     session.commit()
+    session.close()
 
 
 def save_users_activity(session, User, Activity, user):
@@ -170,6 +171,10 @@ def save_users_activity(session, User, Activity, user):
     # Google credentials were revoked, need to authorize again
     except HttpAccessTokenRefreshError:
         return {'code': 'need_authorization', 'auth_url': url_for('authorize')}
+
+    user.has_unsaved_activity_record = False
+    session.add(user)
+    session.commit()
 
     return {'code': 'success'}
 
