@@ -7,10 +7,15 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import axios from 'axios';
 
+import {
+    SET_HAS_UNSAVED_ACTIVITY_RECORD,
+} from '../../../../../redux/actions';
+
 import DeleteSaveButtons from '../index.jsx';
 
 const mockStore = configureStore([]);
 jest.mock('axios');
+axios.post.mockImplementation(() => Promise.resolve({ data: { code: 'success' } }));
 
 describe('DeleteSaveBtns', () => {
     function setUpHasUnsavedActivityRecordTrue() {
@@ -66,23 +71,17 @@ describe('DeleteSaveBtns', () => {
         expect(axios.post.mock.calls[1][0]).toBe('api/save-activity');
     });
 
-    xit('Dispatches the proper Redux actions when buttons are clicked.', (done) => {
+    it('Dispatches the proper Redux actions when save is clicked.', (done) => {
         const {
             store,
             getByText,
-        } = setUp();
+        } = setUpHasUnsavedActivityRecordTrue();
 
-        axios.post.mockImplementationOnce(() => Promise.resolve({ data: { code: 'success' } }));
+        fireEvent.click(getByText('Save'));
 
-        fireEvent.click(getByText('Stop'));
-
-        const expectedActivityIsRunningAction = JSON.stringify({
-            type: SET_ACTIVITY_IS_RUNNING,
-            activityIsRunning: false,
-        });
         const expectedHasUnsavedAction = JSON.stringify({
             type: SET_HAS_UNSAVED_ACTIVITY_RECORD,
-            hasUnsavedActivityRecord: true,
+            hasUnsavedActivityRecord: false,
         });
 
         setTimeout(() => {
@@ -91,7 +90,30 @@ describe('DeleteSaveBtns', () => {
             // Convert actions to JSON because array.includes doens't work on objects
             const jsonActions = actions.map((x) => JSON.stringify(x));
 
-            expect(jsonActions.includes(expectedActivityIsRunningAction)).toBeTruthy();
+            expect(jsonActions.includes(expectedHasUnsavedAction)).toBeTruthy();
+            done();
+        }, 1000);
+    });
+
+    it('Dispatches the proper Redux actions when delete is clicked.', (done) => {
+        const {
+            store,
+            getByText,
+        } = setUpHasUnsavedActivityRecordTrue();
+
+        fireEvent.click(getByText('Delete'));
+
+        const expectedHasUnsavedAction = JSON.stringify({
+            type: SET_HAS_UNSAVED_ACTIVITY_RECORD,
+            hasUnsavedActivityRecord: false,
+        });
+
+        setTimeout(() => {
+            const actions = store.getActions();
+
+            // Convert actions to JSON because array.includes doens't work on objects
+            const jsonActions = actions.map((x) => JSON.stringify(x));
+
             expect(jsonActions.includes(expectedHasUnsavedAction)).toBeTruthy();
             done();
         }, 1000);

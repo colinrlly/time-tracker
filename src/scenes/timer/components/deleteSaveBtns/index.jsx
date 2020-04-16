@@ -1,6 +1,10 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
+
+import {
+    setHasUnsavedActivityRecord,
+} from '../../../../redux/actions';
 
 import {
     Btn,
@@ -8,20 +12,22 @@ import {
 
 function DeleteSaveBtns() {
     const hasUnsavedActivityRecord = useSelector((state) => state.hasUnsavedActivityRecord);
+    const dispatch = useDispatch();
 
-    function deleteCallback() {
-        axios.post('api/delete-activity-record');
-        // axios.post('api/stop-activity');
-    }
-
-    function saveCallback() {
-        axios.post('api/save-activity');
+    function callback(url) {
+        axios.post(url).then((response) => {
+            if (response.data.code === 'success') {
+                dispatch(setHasUnsavedActivityRecord(false));
+            } else {
+                console.error('problem deleting or saving activity');
+            }
+        });
     }
 
     return hasUnsavedActivityRecord ? (
         <div>
-            <Btn callback={deleteCallback} text='Delete' />
-            <Btn callback={saveCallback} text='Save' />
+            <Btn callback={() => callback('api/delete-activity-record')} text='Delete' />
+            <Btn callback={() => callback('api/save-activity')} text='Save' />
         </div>
     ) : null;
 }
