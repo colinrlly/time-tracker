@@ -8,6 +8,7 @@ import currentActivityReducer from './timer/currentActivityReducer';
 import activityIsRunningReducer from './timer/activityIsRunningReducer';
 import lastActivityStartTimeReducer from './timer/lastActivityStartTimeReducer';
 import hasUnsavedActivityRecordReducer from './timer/hasUnsavedActivityRecordReducer';
+import lastActivityStopTimeReducer from './timer/lastActivityStopTimeReducer';
 
 /**
  * Combines all the app's reducers into a single reducer.
@@ -22,6 +23,7 @@ const reducers = combineReducers({
     activityIsRunning: activityIsRunningReducer,
     lastActivityStartTime: lastActivityStartTimeReducer,
     hasUnsavedActivityRecord: hasUnsavedActivityRecordReducer,
+    lastActivityStopTime: lastActivityStopTimeReducer,
 });
 
 export default reducers;

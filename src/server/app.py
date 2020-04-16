@@ -341,11 +341,9 @@ def list_events():
 
 @app.route('/api/timer_startup_payload', methods=['POST'])
 def timer_startup_paytload():
-    # Get user's list of activities from the database.
     user = get_or_create_user(db.session, User, flask.session['user_id'])
     activities = Activity.query.filter_by(user_id=user.id).order_by(Activity.id).all()
 
-    started_at = user.started_at
     current_activity_id = user.current_activity
     current_activity = Activity.query.filter_by(id=current_activity_id).first()
 
@@ -357,7 +355,8 @@ def timer_startup_paytload():
         'activities': serialized_activities,
         'running_activity': user.activity_is_running,
         'has_unsaved_activity_record': user.has_unsaved_activity_record,
-        'start_time': str(started_at),
+        'start_time': str(user.started_at),
+        'stop_time': str(user.stopped_at),
         'current_activity': current_activity.serialize
     }
 
