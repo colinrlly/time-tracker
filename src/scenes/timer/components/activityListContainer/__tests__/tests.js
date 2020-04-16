@@ -2,6 +2,7 @@ import React from 'react';
 import {
     render,
     fireEvent,
+    cleanup,
 } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
@@ -56,25 +57,23 @@ describe('ActivityListContainer', () => {
             getByText,
         } = setUpActivityIsRunningFalse();
 
+        axios.post.mockImplementationOnce(() => Promise.resolve({ code: 'success' }));
+
         fireEvent.click(getByText('Log'));
 
-        console.log(axios.post.mock.calls);
-
         expect(axios.post.mock.calls[0][0]).toBe('api/start-activity');
+        expect(axios.post.mock.calls[0][1]).toStrictEqual({ activity_id: 54 });
     });
 
-    it('Dispatches proper Redux actions on activity click.', () => {
+    it('Dispatches proper Redux actions on activity click.', (done) => {
         const {
             store,
             getByText,
         } = setUpActivityIsRunningFalse();
 
+        axios.post.mockImplementationOnce(() => Promise.resolve({ code: 'success' }));
+
         fireEvent.click(getByText('Log'));
-
-        const actions = store.getActions();
-
-        // Convert actions to JSON because array.includes doens't work on objects
-        const jsonActions = actions.map((x) => JSON.stringify(x));
 
         const expectedCurrentActivityAction = JSON.stringify({
             type: SET_CURRENT_ACTIVITY,
@@ -85,16 +84,23 @@ describe('ActivityListContainer', () => {
             activityIsRunning: true,
         });
 
-        expect(jsonActions.includes(expectedCurrentActivityAction)).toBeTruthy();
-        expect(jsonActions.includes(expectedActivityIsRunning)).toBeTruthy();
-
-        // Test for just the lastActivityStartTime type because we won't be able
-        // to match the moment object exactly.
-        const justTypes = actions.map((x) => x.type);
-
         const expectedLastActivityStartTimeAction = SET_LAST_ACTIVITY_START_TIME;
 
-        expect(justTypes.includes(expectedLastActivityStartTimeAction)).toBeTruthy();
+        setTimeout(() => {
+            const actions = store.getActions();
+
+            // Convert actions to JSON because array.includes doens't work on objects
+            const jsonActions = actions.map((x) => JSON.stringify(x));
+
+            // Test for just the lastActivityStartTime type because we won't be able
+            // to match the moment object exactly.
+            const justTypes = actions.map((x) => x.type);
+
+            expect(jsonActions.includes(expectedCurrentActivityAction)).toBeTruthy();
+            expect(jsonActions.includes(expectedActivityIsRunning)).toBeTruthy();
+            expect(justTypes.includes(expectedLastActivityStartTimeAction)).toBeTruthy();
+            done();
+        }, 1000);
     });
 
     it('Renders activity list with proper activities from Redux.', () => {

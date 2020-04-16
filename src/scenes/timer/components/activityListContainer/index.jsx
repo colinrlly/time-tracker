@@ -21,12 +21,16 @@ function ActivityListContainer() {
 
     function handleActivityClick(activity) {
         if (!activityIsRunning) {
-            dispatch(setCurrentActivity(activity));
-            dispatch(setActivityIsRunning(true));
-            dispatch(setLastActivityStartTime(utcNow()));
-
             axios.post('api/start-activity', {
                 activity_id: activity.id,
+            }).then((response) => {
+                if (response.code === 'success') {
+                    dispatch(setCurrentActivity(activity));
+                    dispatch(setActivityIsRunning(true));
+                    dispatch(setLastActivityStartTime(utcNow()));
+                } else {
+                    console.error('problem starting activity');
+                }
             });
         }
     }

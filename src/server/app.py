@@ -149,7 +149,7 @@ def update_activity():
         user=user,
         activity_id=activity_id)
 
-    return 'success'
+    return json.dumps({'code': 'success'})
 
 
 @app.route('/api/stop-activity', methods=['POST'])
@@ -189,7 +189,7 @@ def delete_activity_record():
         user=user,
     )
 
-    return { code: 'success' }
+    return json.dumps({'code': 'success'})
 
 
 @app.route('/authorize')

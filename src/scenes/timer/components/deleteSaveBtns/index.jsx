@@ -11,6 +11,7 @@ function DeleteSaveBtns() {
 
     function deleteCallback() {
         axios.post('api/delete-activity-record');
+        // axios.post('api/stop-activity');
     }
 
     function saveCallback() {
