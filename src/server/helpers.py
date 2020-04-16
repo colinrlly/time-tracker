@@ -69,14 +69,16 @@ def stop_users_activity(session, model, user):
         Sets user.stopped at to utc now.
     """
 
-    user.stopped_at = datetime.utcnow()
+    stopped_at = datetime.utcnow()
+
+    user.stopped_at = stopped_at
     user.activity_is_running = False
     user.has_unsaved_activity_record = True
     session.add(user)
     session.commit()
     session.close()
 
-    return 'stopped'
+    return stopped_at
 
 
 def edit_users_activity(session, Activity, activity_id, new_name, new_color):

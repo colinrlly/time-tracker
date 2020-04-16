@@ -10,6 +10,7 @@ import axios from 'axios';
 import {
     SET_ACTIVITY_IS_RUNNING,
     SET_HAS_UNSAVED_ACTIVITY_RECORD,
+    SET_LAST_ACTIVITY_STOP_TIME,
 } from '../../../../../redux/actions';
 
 import StopBtnContainer from '../index.jsx';
@@ -93,6 +94,11 @@ describe('StopBtnContainer', () => {
 
             expect(jsonActions.includes(expectedActivityIsRunningAction)).toBeTruthy();
             expect(jsonActions.includes(expectedHasUnsavedAction)).toBeTruthy();
+
+            // Convert actions to just types to test for activity stop time
+            const justTypes = actions.map((x) => x.type);
+
+            expect(justTypes.includes(SET_LAST_ACTIVITY_STOP_TIME)).toBeTruthy();
             done();
         }, 1000);
     });

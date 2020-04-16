@@ -162,12 +162,12 @@ def stop_activity():
 
     user = get_or_create_user(db.session, User, user_id)
 
-    stop_users_activity(
+    stopped_at = stop_users_activity(
         session=db.session,
         model=User,
         user=user)
 
-    return jsonify({'code': 'success'})
+    return jsonify({'code': 'success', 'stop_time': str(stopped_at)})
 
 
 @app.route('/api/save-activity', methods=['POST'])

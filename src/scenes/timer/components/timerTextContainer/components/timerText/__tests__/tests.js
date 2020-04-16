@@ -15,7 +15,9 @@ describe('TimerText', () => {
         const { container } = render(
             <TimerText
                 lastActivityStartTime={utcNow().subtract(1, 'hour')}
-                runningActivity={false} />,
+                runningActivity={false}
+                lastActivityStopTime={utcNow()}
+                hasUnsavedActivityRecord={false} />,
         );
 
         expect(container.textContent).toBe('00:00:00');
@@ -25,7 +27,9 @@ describe('TimerText', () => {
         const { container } = render(
             <TimerText
                 lastActivityStartTime={utcNow().subtract(5, 'hours')}
-                runningActivity={true} />,
+                runningActivity={true}
+                lastActivityStopTime={utcNow()}
+                hasUnsavedActivityRecord={false} />,
         );
 
         expect(container.textContent).toBe('05:00:00');
@@ -47,7 +51,9 @@ describe('TimerText', () => {
         const { container } = render(
             <TimerText
                 lastActivityStartTime={utcNow().subtract(1, 'day').subtract(1, 'hour')}
-                runningActivity={true} />,
+                runningActivity={true}
+                lastActivityStopTime={utcNow()}
+                hasUnsavedActivityRecord={false} />,
         );
 
         expect(container.textContent).toBe('01:01:00:00');

@@ -18,6 +18,8 @@ describe('TimerTextContainer', () => {
         const store = mockStore({
             lastActivityStartTime: utcNow().subtract(1, 'hour'),
             activityIsRunning: true,
+            lastActivityStopTime: utcNow(),
+            hasUnsavedActivityRecord: false,
         });
 
         const { getByText } = render(
@@ -33,6 +35,8 @@ describe('TimerTextContainer', () => {
         const store = mockStore({
             lastActivityStartTime: utcNow().subtract(1, 'hour'),
             activityIsRunning: false,
+            lastActivityStopTime: utcNow(),
+            hasUnsavedActivityRecord: false,
         });
 
         const { getByText } = render(
