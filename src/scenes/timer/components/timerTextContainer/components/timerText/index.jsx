@@ -33,12 +33,22 @@ function TimerText(props) {
                 duration.add(1, 'second');
                 displayTime(duration);
             }, 1000);
+        } else if (props.hasUnsavedActivityRecord) {
+            const diff = props.lastActivityStopTime - props.lastActivityStartTime;
+            const duration = moment.duration(diff, 'milliseconds');
+            
+            displayTime(duration);
         } else {
             setDisplayedTime('00:00:00');
         }
 
         return (() => clearInterval(intervalId));
-    }, [props.lastActivityStartTime, props.runningActivity]);
+    }, [
+        props.lastActivityStartTime,
+        props.runningActivity,
+        props.hasUnsavedActivityRecord,
+        props.lastActivityStopTime,
+    ]);
 
     return (
         <span>{displayedTime}</span>
@@ -47,7 +57,9 @@ function TimerText(props) {
 
 TimerText.propTypes = {
     lastActivityStartTime: PropTypes.instanceOf(moment),
+    lastActivityStopTime: PropTypes.instanceOf(moment),
     runningActivity: PropTypes.bool.isRequired,
+    hasUnsavedActivityRecord: PropTypes.bool.isRequired,
 };
 
 export default TimerText;

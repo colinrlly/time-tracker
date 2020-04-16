@@ -43,4 +43,22 @@ describe('TimerTextContainer', () => {
 
         expect(getByText('00:00:00')).toBeTruthy();
     });
+
+    it('Passes lastActivityStop and hasUnsavedActivity from Redux to children components.', () => {
+        const store = mockStore({
+            lastActivityStartTime: utcNow().subtract(2, 'hour'),
+            lastActivityStopTime: utcNow().subtract(1, 'hour'),
+            hasUnsavedActivityRecord: true,
+            activityIsRunning: false,
+        });
+
+        const { getByText } = render(
+            <Provider store={store}>
+                <TimerTextContainer />
+            </Provider>,
+        );
+
+        expect(getByText('01:00:00')).toBeTruthy();
+    });
+
 });

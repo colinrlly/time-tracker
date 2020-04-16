@@ -7,12 +7,16 @@ import {
 
 function TimerTextContainer() {
     const lastActivityStartTime = useSelector((state) => state.lastActivityStartTime);
+    const lastActivityStopTime = useSelector((state) => state.lastActivityStopTime);
     const activityIsRunning = useSelector((state) => state.activityIsRunning);
+    const hasUnsavedActivityRecord = useSelector((state) => state.hasUnsavedActivityRecord);
 
     return (
         <TimerText
             lastActivityStartTime={lastActivityStartTime}
-            runningActivity={activityIsRunning} />
+            lastActivityStopTime={lastActivityStopTime}
+            runningActivity={activityIsRunning}
+            hasUnsavedActivityRecord={hasUnsavedActivityRecord} />
     );
 }
 

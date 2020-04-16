@@ -58,4 +58,16 @@ describe('TimerText', () => {
 
         expect(container.textContent).toBe('01:01:00:01');
     });
+
+    it('Displays time difference if hasUnsavedActivityRecord is true.', () => {
+        const { container } = render(
+            <TimerText
+                lastActivityStartTime={utcNow().subtract(2, 'hour')}
+                lastActivityStopTime={utcNow().subtract(1, 'hour')}
+                runningActivity={false}
+                hasUnsavedActivityRecord={true} />,
+        );
+
+        expect(container.textContent).toBe('01:00:00');
+    });
 });
