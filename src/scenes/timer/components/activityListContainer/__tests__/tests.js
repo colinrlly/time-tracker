@@ -2,7 +2,6 @@ import React from 'react';
 import {
     render,
     fireEvent,
-    cleanup,
 } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
@@ -57,7 +56,7 @@ describe('ActivityListContainer', () => {
             getByText,
         } = setUpActivityIsRunningFalse();
 
-        axios.post.mockImplementationOnce(() => Promise.resolve({ code: 'success' }));
+        axios.post.mockImplementationOnce(() => Promise.resolve({ data: { code: 'success' } }));
 
         fireEvent.click(getByText('Log'));
 
@@ -71,7 +70,7 @@ describe('ActivityListContainer', () => {
             getByText,
         } = setUpActivityIsRunningFalse();
 
-        axios.post.mockImplementationOnce(() => Promise.resolve({ code: 'success' }));
+        axios.post.mockImplementationOnce(() => Promise.resolve({ data: { code: 'success' } }));
 
         fireEvent.click(getByText('Log'));
 

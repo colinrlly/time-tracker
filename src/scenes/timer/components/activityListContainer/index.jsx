@@ -24,7 +24,7 @@ function ActivityListContainer() {
             axios.post('api/start-activity', {
                 activity_id: activity.id,
             }).then((response) => {
-                if (response.code === 'success') {
+                if (response.data.code === 'success') {
                     dispatch(setCurrentActivity(activity));
                     dispatch(setActivityIsRunning(true));
                     dispatch(setLastActivityStartTime(utcNow()));

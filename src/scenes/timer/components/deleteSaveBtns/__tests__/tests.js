@@ -66,7 +66,34 @@ describe('DeleteSaveBtns', () => {
         expect(axios.post.mock.calls[1][0]).toBe('api/save-activity');
     });
 
-    xit('Dispatches the proper Redux actions when buttons are clicked.', () => {
+    xit('Dispatches the proper Redux actions when buttons are clicked.', (done) => {
+        const {
+            store,
+            getByText,
+        } = setUp();
 
+        axios.post.mockImplementationOnce(() => Promise.resolve({ data: { code: 'success' } }));
+
+        fireEvent.click(getByText('Stop'));
+
+        const expectedActivityIsRunningAction = JSON.stringify({
+            type: SET_ACTIVITY_IS_RUNNING,
+            activityIsRunning: false,
+        });
+        const expectedHasUnsavedAction = JSON.stringify({
+            type: SET_HAS_UNSAVED_ACTIVITY_RECORD,
+            hasUnsavedActivityRecord: true,
+        });
+
+        setTimeout(() => {
+            const actions = store.getActions();
+
+            // Convert actions to JSON because array.includes doens't work on objects
+            const jsonActions = actions.map((x) => JSON.stringify(x));
+
+            expect(jsonActions.includes(expectedActivityIsRunningAction)).toBeTruthy();
+            expect(jsonActions.includes(expectedHasUnsavedAction)).toBeTruthy();
+            done();
+        }, 1000);
     });
 });

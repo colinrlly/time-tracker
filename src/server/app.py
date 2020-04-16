@@ -16,7 +16,7 @@ from httplib2 import Http
 
 from functools import wraps
 
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 import psycopg2
 
 import google
@@ -149,7 +149,7 @@ def update_activity():
         user=user,
         activity_id=activity_id)
 
-    return json.dumps({'code': 'success'})
+    return jsonify({'code': 'success'})
 
 
 @app.route('/api/stop-activity', methods=['POST'])
@@ -167,7 +167,7 @@ def stop_activity():
         model=User,
         user=user)
 
-    return json.dumps({'code': 'success'})
+    return jsonify({'code': 'success'})
 
 
 @app.route('/api/save-activity', methods=['POST'])
@@ -175,7 +175,7 @@ def stop_activity():
 def save_activity():
     user = get_or_create_user(db.session, User, flask.session['user_id'])
 
-    return json.dumps(save_users_activity(db.session, User, Activity, user))
+    return jsonify(save_users_activity(db.session, User, Activity, user))
 
 
 @app.route('/api/delete-activity-record', methods=['POST'])
@@ -189,7 +189,7 @@ def delete_activity_record():
         user=user,
     )
 
-    return json.dumps({'code': 'success'})
+    return jsonify({'code': 'success'})
 
 
 @app.route('/authorize')
