@@ -10,6 +10,7 @@ import {
     StartupPayloadFetcher,
     ActivityNameContainer,
     DeleteSaveBtns,
+    StopBtnContainer,
 } from './components';
 
 function Timer() {
@@ -19,6 +20,7 @@ function Timer() {
             <NavBar />
             <ActivityNameContainer />
             <TimerTextContainer />
+            <StopBtnContainer />
             <DeleteSaveBtns />
             <ActivityListContainer />
         </div >

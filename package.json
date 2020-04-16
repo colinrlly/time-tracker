@@ -2,7 +2,7 @@
   "name": "time-turnip",
   "version": "1.0.0",
   "description": "A time tracking application.",
-  "main": "/templates/fancy_data.jsx",
+  "main": "/templates/data.jsx",
   "scripts": {
     "test": "jest",
     "coverage": "jest --coverage",
@@ -77,5 +77,11 @@
     "last 4 versions",
     "Firefox ESR",
     "not ie < 9"
-  ]
+  ],
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/dev/__mocks__/fileMock.js",
+      "\\.(css|less|scss)$": "<rootDir>/dev/__mocks__/styleMock.js"
+    }
+  }
 }

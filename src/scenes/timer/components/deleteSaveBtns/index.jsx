@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import {
     Btn,
-} from './components';
+} from '../../../../components';
 
 function DeleteSaveBtns() {
     const hasUnsavedActivityRecord = useSelector((state) => state.hasUnsavedActivityRecord);
