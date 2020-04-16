@@ -35,6 +35,7 @@ describe('ActivityListContainer', () => {
     function setUpActivityIsRunningFalse() {
         const store = mockStore({
             activityIsRunning: false,
+            hasUnsavedActivityRecord: false,
             allActivitiesList,
         });
 
@@ -114,6 +115,23 @@ describe('ActivityListContainer', () => {
     it('Doesn\'t render anything if activityIsRunning is true.', () => {
         const store = mockStore({
             activityIsRunning: true,
+            hasUnsavedActivityRecord: false,
+            allActivitiesList,
+        });
+
+        const { queryByText } = render(
+            <Provider store={store}>
+                <ActivityListContainer />
+            </Provider>,
+        );
+
+        expect(queryByText(allActivitiesList[0].name)).toBeNull();
+    });
+
+    it('Doesn\'t render anything if hasUnsavedActivityRecord is true.', () => {
+        const store = mockStore({
+            activityIsRunning: false,
+            hasUnsavedActivityRecord: true,
             allActivitiesList,
         });
 

@@ -26,7 +26,8 @@ describe('ActivityList', () => {
         const { getByText } = render(
             <ActivityList
                 activities={ACTIVITY_LIST}
-                handleActivityClick={() => {}}
+                handleActivityClick={() => { }}
+                hasUnsavedActivityRecord={false}
                 activityIsRunning={false} />,
         );
 
@@ -42,6 +43,7 @@ describe('ActivityList', () => {
             <ActivityList
                 activities={ACTIVITY_LIST}
                 handleActivityClick={mockCallback}
+                hasUnsavedActivityRecord={false}
                 activityIsRunning={false} />,
         );
 

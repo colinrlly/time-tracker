@@ -9,7 +9,10 @@ function ActivityList(props) {
 
     return (
         <ul>
-            {props.activityIsRunning ? null : activityComponents}
+            {
+                (props.activityIsRunning || props.hasUnsavedActivityRecord)
+                    ? null
+                    : activityComponents}
         </ul>
     );
 }
@@ -24,6 +27,7 @@ ActivityList.propTypes = {
     ).isRequired,
     handleActivityClick: PropTypes.func.isRequired,
     activityIsRunning: PropTypes.bool.isRequired,
+    hasUnsavedActivityRecord: PropTypes.bool.isRequired,
 };
 
 export default ActivityList;
