@@ -13,6 +13,7 @@ import {
     StopBtnContainer,
     ActivityDialogContainer,
     NewActivityBtnContainer,
+    FullScreenBlur,
 } from './components';
 
 function Timer() {
@@ -20,6 +21,7 @@ function Timer() {
         <div>
             <StartupPayloadFetcher />
             <NavBar />
+            <FullScreenBlur />
             <NewActivityBtnContainer />
             <ActivityDialogContainer />
             <ActivityNameContainer />
