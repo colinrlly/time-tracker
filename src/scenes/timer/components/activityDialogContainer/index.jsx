@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import {
     setActivityDialogDisplayed,
+    setNewActivityName,
 } from '../../../../redux/actions';
 
 import {
@@ -11,6 +12,7 @@ import {
 
 function ActivityDialogContainer() {
     const activityDialogDisplayed = useSelector((state) => state.activityDialog.displayed);
+    const newActivityName = useSelector((state) => state.activityDialog.newActivityName);
     const dispatch = useDispatch();
 
     const wrapperRef = useRef(null);
@@ -33,9 +35,16 @@ function ActivityDialogContainer() {
         dispatch(setActivityDialogDisplayed(false));
     }
 
+    function newActivityNameInputCallback(event) {
+        dispatch(setNewActivityName(event.target.value));
+    }
+
     return activityDialogDisplayed
         ? <div ref={wrapperRef}>
-            <ActivityDialog exitBtnCallback={exitBtnCallback} />
+            <ActivityDialog
+                exitBtnCallback={exitBtnCallback}
+                activityNameInputCallback={newActivityNameInputCallback}
+                activityName={newActivityName} />
         </div>
         : null;
 }

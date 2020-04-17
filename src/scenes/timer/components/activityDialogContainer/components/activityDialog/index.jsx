@@ -21,7 +21,12 @@ function ActivityDialog(props) {
 
             <div>
                 <div>
-                    <input type='text' placeholder='Add Title' />
+                    <input
+                        type='text'
+                        placeholder='Add Title'
+                        aria-label="activity-name-input"
+                        value={props.activityName}
+                        onChange={props.activityNameInputCallback} />
                 </div>
 
                 <div className={style.colorsContainer}>

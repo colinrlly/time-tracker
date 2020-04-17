@@ -8,10 +8,8 @@ import configureStore from 'redux-mock-store';
 import axios from 'axios';
 
 import {
-    SET_ACTIVITY_IS_RUNNING,
-    SET_HAS_UNSAVED_ACTIVITY_RECORD,
-    SET_LAST_ACTIVITY_STOP_TIME,
     SET_ACTIVITY_DIALOG_DISPLAYED,
+    SET_NEW_ACTIVITY_NAME,
 } from '../../../../../redux/actions';
 
 import ActivityDialogContainer from '../index.jsx';
@@ -24,9 +22,10 @@ describe('ActivityDialogContainer', () => {
         const store = mockStore({
             activityDialog:
                 { displayed: true },
+            newActivityName: '',
         });
 
-        const { getByText, container } = render(
+        const { getByText, container, getByLabelText } = render(
             <Provider store={store}>
                 <ActivityDialogContainer />
             </Provider>,
@@ -36,8 +35,51 @@ describe('ActivityDialogContainer', () => {
             store,
             getByText,
             container,
+            getByLabelText,
         };
     }
+
+    it('Displays the proper newActivityName based on redux.', () => {
+        const store = mockStore({
+            activityDialog: {
+                displayed: true,
+                newActivityName: 'test name',
+            },
+        });
+
+        const { getByLabelText } = render(
+            <Provider store={store}>
+                <ActivityDialogContainer />
+            </Provider>,
+        );
+
+        expect(getByLabelText('activity-name-input').value).toBe('test name');
+    });
+
+    it('Dispatches the proper redux events when the input is changed.', (done) => {
+        const {
+            store,
+            getByLabelText,
+        } = setUp();
+
+        const input = getByLabelText('activity-name-input');
+
+        fireEvent.change(input, { target: { value: 'test name' } });
+
+        const expectedAction = JSON.stringify({
+            type: SET_NEW_ACTIVITY_NAME,
+            newActivityName: 'test name',
+        });
+
+        setTimeout(() => {
+            const actions = store.getActions();
+
+            // Convert actions to JSON because array.includes doesn't work on objects
+            const jsonActions = actions.map((x) => JSON.stringify(x));
+            expect(jsonActions.includes(expectedAction)).toBeTruthy();
+            done();
+        }, 1000);
+    });
 
     it('Dispatches the proper redux events when the exit button is clicked.', (done) => {
         const {
@@ -55,7 +97,7 @@ describe('ActivityDialogContainer', () => {
         setTimeout(() => {
             const actions = store.getActions();
 
-            // Convert actions to JSON because array.includes doens't work on objects
+            // Convert actions to JSON because array.includes doesn't work on objects
             const jsonActions = actions.map((x) => JSON.stringify(x));
             expect(jsonActions.includes(expectedAction)).toBeTruthy();
             done();
