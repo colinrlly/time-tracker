@@ -21,11 +21,11 @@ function Timer() {
     return (
         <div>
             <StartupPayloadFetcher />
-            <NavBar />
             <FullScreenClickHandler />
+            <ActivityDialogContainer />
             <FullScreenBlur>
+                <NavBar />
                 <NewActivityBtnContainer />
-                <ActivityDialogContainer />
                 <ActivityNameContainer />
                 <TimerTextContainer />
                 <StopBtnContainer />
