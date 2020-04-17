@@ -4,6 +4,7 @@ export const SET_ACTIVITY_IS_RUNNING = 'SET_ACTIVITY_IS_RUNNING';
 export const SET_LAST_ACTIVITY_START_TIME = 'SET_LAST_ACTIVITY_START_TIME';
 export const SET_HAS_UNSAVED_ACTIVITY_RECORD = 'SET_HAS_UNSAVED_ACTIVITY_RECORD';
 export const SET_LAST_ACTIVITY_STOP_TIME = 'SET_LAST_ACTIVITY_STOP_TIME';
+export const SET_ACTIVITY_DIALOG_DISPLAYED = 'SET_ACTIVITY_DIALOG_DISPLAYED';
 
 export function setAllActivitiesList(activities) {
     return { type: SET_ALL_ACTIVITIES_LIST, activities };
@@ -27,4 +28,8 @@ export function setHasUnsavedActivityRecord(hasUnsavedActivityRecord) {
 
 export function setLastActivityStopTime(lastActivityStopTime) {
     return { type: SET_LAST_ACTIVITY_STOP_TIME, lastActivityStopTime };
+}
+
+export function setActivityDialogDisplayed(activityDialogDisplayed) {
+    return { type: SET_ACTIVITY_DIALOG_DISPLAYED, activityDialogDisplayed };
 }
