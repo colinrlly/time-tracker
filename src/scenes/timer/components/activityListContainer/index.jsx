@@ -18,6 +18,7 @@ function ActivityListContainer() {
     const allActivitiesList = useSelector((state) => state.allActivitiesList);
     const activityIsRunning = useSelector((state) => state.activityIsRunning);
     const hasUnsavedActivityRecord = useSelector((state) => state.hasUnsavedActivityRecord);
+    const activityDialogDisplayed = useSelector((state) => state.activityDialog.displayed);
     const dispatch = useDispatch();
 
     function handleActivityClick(activity) {
@@ -41,7 +42,8 @@ function ActivityListContainer() {
             activities={allActivitiesList}
             handleActivityClick={handleActivityClick}
             hasUnsavedActivityRecord={hasUnsavedActivityRecord}
-            activityIsRunning={activityIsRunning} />
+            activityIsRunning={activityIsRunning}
+            disabled={activityDialogDisplayed} />
     );
 }
 

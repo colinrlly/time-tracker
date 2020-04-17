@@ -38,7 +38,7 @@ describe('NewActivityBtnContainer', () => {
 
         fireEvent.click(getByText('+'));
 
-        const expectedActivityIsRunningAction = JSON.stringify({
+        const expectedActivityDialogDisplayedAction = JSON.stringify({
             type: SET_ACTIVITY_DIALOG_DISPLAYED,
             activityDialogDisplayed: true,
         });
@@ -49,7 +49,7 @@ describe('NewActivityBtnContainer', () => {
             // Convert actions to JSON because array.includes doens't work on objects
             const jsonActions = actions.map((x) => JSON.stringify(x));
 
-            expect(jsonActions.includes(expectedActivityIsRunningAction)).toBeTruthy();
+            expect(jsonActions.includes(expectedActivityDialogDisplayedAction)).toBeTruthy();
             done();
         }, 1000);
     });

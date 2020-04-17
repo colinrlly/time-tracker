@@ -28,7 +28,8 @@ describe('ActivityList', () => {
                 activities={ACTIVITY_LIST}
                 handleActivityClick={() => { }}
                 hasUnsavedActivityRecord={false}
-                activityIsRunning={false} />,
+                activityIsRunning={false}
+                disabled={false} />,
         );
 
         expect(getByText(ACTIVITY_LIST[0].name)).toBeTruthy();
@@ -44,7 +45,8 @@ describe('ActivityList', () => {
                 activities={ACTIVITY_LIST}
                 handleActivityClick={mockCallback}
                 hasUnsavedActivityRecord={false}
-                activityIsRunning={false} />,
+                activityIsRunning={false}
+                disabled={false} />,
         );
 
         fireEvent.click(getByText(ACTIVITY_LIST[0].name));
@@ -56,5 +58,24 @@ describe('ActivityList', () => {
         expect(mockCallback.mock.calls[0][0]).toBe(ACTIVITY_LIST[0]);
         expect(mockCallback.mock.calls[1][0]).toBe(ACTIVITY_LIST[1]);
         expect(mockCallback.mock.calls[2][0]).toBe(ACTIVITY_LIST[2]);
+    });
+
+    it('Disables the buttons when disabled prop is true.', () => {
+        const mockCallback = jest.fn();
+
+        const { getByText } = render(
+            <ActivityList
+                activities={ACTIVITY_LIST}
+                handleActivityClick={mockCallback}
+                hasUnsavedActivityRecord={false}
+                activityIsRunning={false}
+                disabled={true} />,
+        );
+
+        fireEvent.click(getByText(ACTIVITY_LIST[0].name));
+        fireEvent.click(getByText(ACTIVITY_LIST[1].name));
+        fireEvent.click(getByText(ACTIVITY_LIST[2].name));
+
+        expect(mockCallback.mock.calls.length).toBe(0);
     });
 });

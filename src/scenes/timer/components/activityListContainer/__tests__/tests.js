@@ -37,6 +37,8 @@ describe('ActivityListContainer', () => {
             activityIsRunning: false,
             hasUnsavedActivityRecord: false,
             allActivitiesList,
+            activityDialog:
+                { displayed: false },
         });
 
         const { getByText } = render(
@@ -51,6 +53,28 @@ describe('ActivityListContainer', () => {
             getByText,
         };
     }
+
+    it('Disables clicking when activityDialog is shown.', () => {
+        const store = mockStore({
+            activityIsRunning: false,
+            hasUnsavedActivityRecord: false,
+            allActivitiesList,
+            activityDialog:
+                { displayed: true },
+        });
+
+        const { getByText } = render(
+            <Provider store={store}>
+                <ActivityListContainer />
+            </Provider>,
+        );
+
+        axios.post.mockImplementationOnce(() => Promise.resolve({ data: { code: 'success' } }));
+
+        fireEvent.click(getByText('Log'));
+
+        expect(axios.post).not.toHaveBeenCalled();
+    });
 
     it('Tells the API to start an activity on activity click.', () => {
         const {
@@ -117,6 +141,8 @@ describe('ActivityListContainer', () => {
             activityIsRunning: true,
             hasUnsavedActivityRecord: false,
             allActivitiesList,
+            activityDialog:
+                { displayed: false },
         });
 
         const { queryByText } = render(
@@ -133,6 +159,8 @@ describe('ActivityListContainer', () => {
             activityIsRunning: false,
             hasUnsavedActivityRecord: true,
             allActivitiesList,
+            activityDialog:
+                { displayed: false },
         });
 
         const { queryByText } = render(

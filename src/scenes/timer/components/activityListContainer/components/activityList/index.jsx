@@ -4,7 +4,10 @@ import PropTypes from 'prop-types';
 function ActivityList(props) {
     const activityComponents = props.activities.map((x, i) => (
         <li key={i}>
-            <button onClick={() => props.handleActivityClick(x)}>{x.name}</button>
+            <button
+                onClick={() => props.handleActivityClick(x)}
+                disabled={props.disabled}
+            >{x.name}</button>
         </li>));
 
     return (
@@ -28,6 +31,7 @@ ActivityList.propTypes = {
     handleActivityClick: PropTypes.func.isRequired,
     activityIsRunning: PropTypes.bool.isRequired,
     hasUnsavedActivityRecord: PropTypes.bool.isRequired,
+    disabled: PropTypes.bool.isRequired,
 };
 
 export default ActivityList;
