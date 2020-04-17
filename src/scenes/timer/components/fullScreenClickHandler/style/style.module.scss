@@ -1,0 +1,8 @@
+.fullScreenClickHandler {
+    background: red;
+    opacity: .1;
+    width: 100%;
+    height: calc(100vh - 65px);
+    position: absolute;
+    z-index: 2;
+}

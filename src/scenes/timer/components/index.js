@@ -6,4 +6,5 @@ export { default as DeleteSaveBtns } from './deleteSaveBtns';
 export { default as StopBtnContainer } from './stopBtnContainer';
 export { default as ActivityDialogContainer } from './activityDialogContainer';
 export { default as NewActivityBtnContainer } from './newActivityBtnContainer';
+export { default as FullScreenClickHandler } from './fullScreenClickHandler';
 export { default as FullScreenBlur } from './fullScreenBlur';

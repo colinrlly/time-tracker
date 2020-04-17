@@ -9,10 +9,6 @@ import {
     ActivityDialog,
 } from './components';
 
-import {
-    activityDialogContainer,
-} from './style/style.module.scss';
-
 function ActivityDialogContainer() {
     const activityDialogDisplayed = useSelector((state) => state.activityDialog.displayed);
     const dispatch = useDispatch();
@@ -33,7 +29,7 @@ function ActivityDialogContainer() {
     }, [wrapperRef]);
 
     return activityDialogDisplayed
-        ? <div ref={wrapperRef} className={activityDialogContainer}><ActivityDialog /></div>
+        ? <div ref={wrapperRef}><ActivityDialog /></div>
         : null;
 }
 

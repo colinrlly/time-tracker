@@ -13,6 +13,7 @@ import {
     StopBtnContainer,
     ActivityDialogContainer,
     NewActivityBtnContainer,
+    FullScreenClickHandler,
     FullScreenBlur,
 } from './components';
 
@@ -21,14 +22,16 @@ function Timer() {
         <div>
             <StartupPayloadFetcher />
             <NavBar />
-            <FullScreenBlur />
-            <NewActivityBtnContainer />
-            <ActivityDialogContainer />
-            <ActivityNameContainer />
-            <TimerTextContainer />
-            <StopBtnContainer />
-            <DeleteSaveBtns />
-            <ActivityListContainer />
+            <FullScreenClickHandler />
+            <FullScreenBlur>
+                <NewActivityBtnContainer />
+                <ActivityDialogContainer />
+                <ActivityNameContainer />
+                <TimerTextContainer />
+                <StopBtnContainer />
+                <DeleteSaveBtns />
+                <ActivityListContainer />
+            </FullScreenBlur>
         </div >
     );
 }
