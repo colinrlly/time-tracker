@@ -15,6 +15,7 @@ function ActivityDialogContainer() {
 
     const wrapperRef = useRef(null);
 
+    // Handler for clicking outside the dialog.
     useEffect(() => {
         function handleClickOutside(event) {
             if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
@@ -28,8 +29,14 @@ function ActivityDialogContainer() {
         };
     }, [wrapperRef]);
 
+    function exitBtnCallback() {
+        dispatch(setActivityDialogDisplayed(false));
+    }
+
     return activityDialogDisplayed
-        ? <div ref={wrapperRef}><ActivityDialog /></div>
+        ? <div ref={wrapperRef}>
+            <ActivityDialog exitBtnCallback={exitBtnCallback} />
+        </div>
         : null;
 }
 

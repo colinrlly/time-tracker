@@ -4,7 +4,7 @@ import googleColors from '../../../../../../static/js/google_colors';
 
 import style from './style/style.module.scss';
 
-function ActivityDialog() {
+function ActivityDialog(props) {
     const colorButtons = Object.keys(googleColors).map(
         (x, i) => <button
             key={i}
@@ -16,7 +16,7 @@ function ActivityDialog() {
     return (
         <div className={style.overlay}>
             <div>
-                <button>+</button>
+                <button onClick={props.exitBtnCallback}>+</button>
             </div>
 
             <div>

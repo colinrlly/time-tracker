@@ -11,6 +11,7 @@ import {
     SET_ACTIVITY_IS_RUNNING,
     SET_HAS_UNSAVED_ACTIVITY_RECORD,
     SET_LAST_ACTIVITY_STOP_TIME,
+    SET_ACTIVITY_DIALOG_DISPLAYED,
 } from '../../../../../redux/actions';
 
 import ActivityDialogContainer from '../index.jsx';
@@ -25,7 +26,7 @@ describe('ActivityDialogContainer', () => {
                 { displayed: true },
         });
 
-        const { getByText } = render(
+        const { getByText, container } = render(
             <Provider store={store}>
                 <ActivityDialogContainer />
             </Provider>,
@@ -34,13 +35,37 @@ describe('ActivityDialogContainer', () => {
         return {
             store,
             getByText,
+            container,
         };
     }
 
-    it('Displays itself when activityDialogDisplayed is true.', () => {
-        const { getByText } = setUp();
+    it('Dispatches the proper redux events when the exit button is clicked.', (done) => {
+        const {
+            store,
+            getByText,
+        } = setUp();
 
-        expect(getByText('hello there inside')).toBeTruthy();
+        fireEvent.click(getByText('+'));
+
+        const expectedAction = JSON.stringify({
+            type: SET_ACTIVITY_DIALOG_DISPLAYED,
+            activityDialogDisplayed: false,
+        });
+
+        setTimeout(() => {
+            const actions = store.getActions();
+
+            // Convert actions to JSON because array.includes doens't work on objects
+            const jsonActions = actions.map((x) => JSON.stringify(x));
+            expect(jsonActions.includes(expectedAction)).toBeTruthy();
+            done();
+        }, 1000);
+    });
+
+    it('Displays itself when activityDialogDisplayed is true.', () => {
+        const { container } = setUp();
+
+        expect(container.firstChild).toBeTruthy();
     });
 
     it('Doesn\'t display itself when activityDialogDisplayed is false.', () => {
@@ -49,13 +74,13 @@ describe('ActivityDialogContainer', () => {
                 { displayed: false },
         });
 
-        const { queryByText } = render(
+        const { container } = render(
             <Provider store={store}>
                 <ActivityDialogContainer />
             </Provider>,
         );
 
-        expect(queryByText('hello there inside')).toBeNull();
+        expect(container.firstChild).toBeNull();
     });
 
     // it('Hits the proper endpoints when the button is pressed.', () => {
