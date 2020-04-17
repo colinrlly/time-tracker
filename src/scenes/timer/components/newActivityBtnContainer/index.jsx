@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import {
     setActivityDialogDisplayed,
@@ -10,13 +10,18 @@ import {
 } from './components';
 
 function NewActivityBtnContainer() {
+    const activityIsRunning = useSelector((state) => state.activityIsRunning);
+    const hasUnsavedActivityRecord = useSelector((state) => state.hasUnsavedActivityRecord);
+    const activityDialogDisplayed = useSelector((state) => state.activityDialog.displayed);
     const dispatch = useDispatch();
 
     function callback() {
         dispatch(setActivityDialogDisplayed(true));
     }
 
-    return <NewActivityBtn callback={callback} />;
+    return (!activityIsRunning && !hasUnsavedActivityRecord)
+        ? <NewActivityBtn callback={callback} disabled={activityDialogDisplayed} />
+        : null;
 }
 
 export default NewActivityBtnContainer;
