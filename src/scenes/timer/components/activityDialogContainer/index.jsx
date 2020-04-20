@@ -64,7 +64,7 @@ function ActivityDialogContainer() {
                     },
                 ]));
                 dispatch(setNewActivityName(''));
-                dispatch(setNewActivityColor('1'));
+                dispatch(setNewActivityColor(1));
             } else if (response.data.code === 'empty') {
                 window.alert('New activity name cannot be empty.');
             } else if (response.data.code === 'duplicate') {

@@ -7,7 +7,7 @@ import {
 const INITIAL_STATE = {
     displayed: false,
     newActivityName: '',
-    newActivityColor: '1',
+    newActivityColor: 1,
 };
 
 function activityDialogReducer(state = INITIAL_STATE, action) {

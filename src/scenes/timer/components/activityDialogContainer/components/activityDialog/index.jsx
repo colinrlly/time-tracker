@@ -15,9 +15,9 @@ function ActivityDialog(props) {
             data-testid={`colorBtn${x}`}
             className={cx(
                 style.color,
-                props.selectedColor === x ? style.selectedColor : '',
+                props.selectedColor === parseInt(x, 10) ? style.selectedColor : '',
             )}
-            onClick={() => props.colorBtnCallback(x)} />,
+            onClick={() => props.colorBtnCallback(parseInt(x, 10))} />,
     );
 
     return (
@@ -51,7 +51,7 @@ ActivityDialog.propTypes = {
     activityNameInputCallback: PropTypes.func.isRequired,
     activityName: PropTypes.string.isRequired,
     colorBtnCallback: PropTypes.func.isRequired,
-    selectedColor: PropTypes.string.isRequired,
+    selectedColor: PropTypes.number.isRequired,
     submitCallback: PropTypes.func.isRequired,
 };
 

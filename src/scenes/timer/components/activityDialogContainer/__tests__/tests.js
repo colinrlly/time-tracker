@@ -27,7 +27,7 @@ describe('ActivityDialogContainer', () => {
             {
                 displayed: true,
                 newActivityName: '',
-                newActivityColor: '1',
+                newActivityColor: 1,
             },
         });
 
@@ -68,7 +68,7 @@ describe('ActivityDialogContainer', () => {
 
         const expectedAction = JSON.stringify({
             type: SET_NEW_ACTIVITY_COLOR,
-            newActivityColor: '2',
+            newActivityColor: 2,
         });
 
         setTimeout(() => {
@@ -86,7 +86,7 @@ describe('ActivityDialogContainer', () => {
             activityDialog: {
                 displayed: true,
                 newActivityName: 'test name',
-                newActivityColor: '1',
+                newActivityColor: 1,
             },
         });
 
@@ -158,7 +158,7 @@ describe('ActivityDialogContainer', () => {
             activityDialog: {
                 displayed: false,
                 newActivityName: 'test name',
-                newActivityColor: '1',
+                newActivityColor: 1,
             },
         });
 
@@ -191,7 +191,7 @@ describe('ActivityDialogContainer', () => {
             {
                 displayed: true,
                 newActivityName: 'test',
-                newActivityColor: '3',
+                newActivityColor: 3,
             },
         });
 
@@ -230,7 +230,7 @@ describe('ActivityDialogContainer', () => {
             {
                 displayed: true,
                 newActivityName: 'test',
-                newActivityColor: '3',
+                newActivityColor: 3,
             },
         });
 
@@ -257,7 +257,7 @@ describe('ActivityDialogContainer', () => {
                 {
                     id: 15,
                     name: 'test',
-                    color: '3',
+                    color: 3,
                 },
             ],
         });
@@ -267,7 +267,7 @@ describe('ActivityDialogContainer', () => {
         });
         const expectedColorAction = JSON.stringify({
             type: SET_NEW_ACTIVITY_COLOR,
-            newActivityColor: '1',
+            newActivityColor: 1,
         });
 
         setTimeout(() => {
@@ -283,7 +283,7 @@ describe('ActivityDialogContainer', () => {
         }, 1000);
     });
 
-    it('Dispatches the proper redux events when the activity name is empty.', (done) => {
+    it('Alerts the user when the activity name is empty.', (done) => {
         const allActivitiesList = [
             {
                 id: 54,
@@ -303,7 +303,7 @@ describe('ActivityDialogContainer', () => {
             {
                 displayed: true,
                 newActivityName: '',
-                newActivityColor: '10',
+                newActivityColor: 10,
             },
         });
 
@@ -326,7 +326,7 @@ describe('ActivityDialogContainer', () => {
         }, 1000);
     });
 
-    it('Dispatches the proper redux events when the activity name is a duplicate.', (done) => {
+    it('Alerts the user when the activity name is a duplicate.', (done) => {
         const allActivitiesList = [
             {
                 id: 54,
@@ -346,7 +346,7 @@ describe('ActivityDialogContainer', () => {
             {
                 displayed: true,
                 newActivityName: 'Log',
-                newActivityColor: '10',
+                newActivityColor: 10,
             },
         });
 
