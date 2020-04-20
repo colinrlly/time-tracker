@@ -11,12 +11,14 @@ import {
     SET_ACTIVITY_DIALOG_DISPLAYED,
     SET_NEW_ACTIVITY_NAME,
     SET_NEW_ACTIVITY_COLOR,
+    SET_ALL_ACTIVITIES_LIST,
 } from '../../../../../redux/actions';
 
 import ActivityDialogContainer from '../index.jsx';
 
 const mockStore = configureStore([]);
 jest.mock('axios');
+window.alert = jest.fn();
 
 describe('ActivityDialogContainer', () => {
     function setUp() {
@@ -48,6 +50,11 @@ describe('ActivityDialogContainer', () => {
             getByTestId,
         };
     }
+
+    afterEach(() => {
+        axios.post.mockClear();
+        window.alert.mockClear();
+    });
 
     it('Dispatches the proper redux actions when a color button is pressed.', (done) => {
         const {
@@ -164,50 +171,201 @@ describe('ActivityDialogContainer', () => {
         expect(container.firstChild).toBeNull();
     });
 
-    // it('Hits the proper endpoints when the button is pressed.', () => {
-    //     const {
-    //         getByText,
-    //     } = setUp();
+    it('Hits the proper endpoints when the save button is pressed.', () => {
+        const allActivitiesList = [
+            {
+                id: 54,
+                name: 'Log',
+                color: 10,
+            },
+            {
+                id: 10,
+                name: 'Games',
+                color: 2,
+            },
+        ];
 
-    //     axios.post.mockImplementationOnce(() => Promise.resolve({ data: { code: 'success' } }));
+        const store = mockStore({
+            allActivitiesList,
+            activityDialog:
+            {
+                displayed: true,
+                newActivityName: 'test',
+                newActivityColor: '3',
+            },
+        });
 
-    //     fireEvent.click(getByText('Stop'));
-    //     expect(axios.post.mock.calls[0][0]).toBe('api/stop-activity');
-    // });
+        const {
+            getByText,
+        } = render(
+            <Provider store={store}>
+                <ActivityDialogContainer />
+            </Provider>,
+        );
 
-    // it('Dispatches the proper Redux actions when buttons are clicked.', (done) => {
-    //     const {
-    //         store,
-    //         getByText,
-    //     } = setUp();
+        axios.post.mockImplementationOnce(() => Promise.resolve({ data: { code: 'success', activity_id: 15 } }));
 
-    //     axios.post.mockImplementationOnce(() => Promise.resolve({ data: { code: 'success' } }));
+        fireEvent.click(getByText('Add'));
 
-    //     fireEvent.click(getByText('Stop'));
+        expect(axios.post.mock.calls[0][0]).toBe('api/create-activity');
+    });
 
-    //     const expectedActivityIsRunningAction = JSON.stringify({
-    //         type: SET_ACTIVITY_IS_RUNNING,
-    //         activityIsRunning: false,
-    //     });
-    //     const expectedHasUnsavedAction = JSON.stringify({
-    //         type: SET_HAS_UNSAVED_ACTIVITY_RECORD,
-    //         hasUnsavedActivityRecord: true,
-    //     });
+    it('Dispatches the proper redux events when the save button is clicked.', (done) => {
+        const allActivitiesList = [
+            {
+                id: 54,
+                name: 'Log',
+                color: 10,
+            },
+            {
+                id: 10,
+                name: 'Games',
+                color: 2,
+            },
+        ];
 
-    //     setTimeout(() => {
-    //         const actions = store.getActions();
+        const store = mockStore({
+            allActivitiesList,
+            activityDialog:
+            {
+                displayed: true,
+                newActivityName: 'test',
+                newActivityColor: '3',
+            },
+        });
 
-    //         // Convert actions to JSON because array.includes doens't work on objects
-    //         const jsonActions = actions.map((x) => JSON.stringify(x));
+        const {
+            getByText,
+        } = render(
+            <Provider store={store}>
+                <ActivityDialogContainer />
+            </Provider>,
+        );
 
-    //         expect(jsonActions.includes(expectedActivityIsRunningAction)).toBeTruthy();
-    //         expect(jsonActions.includes(expectedHasUnsavedAction)).toBeTruthy();
+        axios.post.mockImplementationOnce(() => Promise.resolve({ data: { code: 'success', activity_id: 15 } }));
 
-    //         // Convert actions to just types to test for activity stop time
-    //         const justTypes = actions.map((x) => x.type);
+        fireEvent.click(getByText('Add'));
 
-    //         expect(justTypes.includes(SET_LAST_ACTIVITY_STOP_TIME)).toBeTruthy();
-    //         done();
-    //     }, 1000);
-    // });
+        const expectedDisplayedAction = JSON.stringify({
+            type: SET_ACTIVITY_DIALOG_DISPLAYED,
+            activityDialogDisplayed: false,
+        });
+        const expectedActivitiesListAction = JSON.stringify({
+            type: SET_ALL_ACTIVITIES_LIST,
+            activities: [
+                ...allActivitiesList,
+                {
+                    id: 15,
+                    name: 'test',
+                    color: '3',
+                },
+            ],
+        });
+        const expectedNameAction = JSON.stringify({
+            type: SET_NEW_ACTIVITY_NAME,
+            newActivityName: '',
+        });
+        const expectedColorAction = JSON.stringify({
+            type: SET_NEW_ACTIVITY_COLOR,
+            newActivityColor: '1',
+        });
+
+        setTimeout(() => {
+            const actions = store.getActions();
+
+            // Convert actions to JSON because array.includes doesn't work on objects
+            const jsonActions = actions.map((x) => JSON.stringify(x));
+            expect(jsonActions.includes(expectedDisplayedAction)).toBeTruthy();
+            expect(jsonActions.includes(expectedActivitiesListAction)).toBeTruthy();
+            expect(jsonActions.includes(expectedNameAction)).toBeTruthy();
+            expect(jsonActions.includes(expectedColorAction)).toBeTruthy();
+            done();
+        }, 1000);
+    });
+
+    it('Dispatches the proper redux events when the activity name is empty.', (done) => {
+        const allActivitiesList = [
+            {
+                id: 54,
+                name: 'Log',
+                color: 10,
+            },
+            {
+                id: 10,
+                name: 'Games',
+                color: 2,
+            },
+        ];
+
+        const store = mockStore({
+            allActivitiesList,
+            activityDialog:
+            {
+                displayed: true,
+                newActivityName: '',
+                newActivityColor: '10',
+            },
+        });
+
+        const {
+            getByText,
+        } = render(
+            <Provider store={store}>
+                <ActivityDialogContainer />
+            </Provider>,
+        );
+
+        axios.post.mockImplementationOnce(() => Promise.resolve({ data: { code: 'empty' } }));
+
+        fireEvent.click(getByText('Add'));
+
+        setTimeout(() => {
+            expect(window.alert.mock.calls[0][0]).toBe('New activity name cannot be empty.');
+
+            done();
+        }, 1000);
+    });
+
+    it('Dispatches the proper redux events when the activity name is a duplicate.', (done) => {
+        const allActivitiesList = [
+            {
+                id: 54,
+                name: 'Log',
+                color: 10,
+            },
+            {
+                id: 10,
+                name: 'Games',
+                color: 2,
+            },
+        ];
+
+        const store = mockStore({
+            allActivitiesList,
+            activityDialog:
+            {
+                displayed: true,
+                newActivityName: 'Log',
+                newActivityColor: '10',
+            },
+        });
+
+        const {
+            getByText,
+        } = render(
+            <Provider store={store}>
+                <ActivityDialogContainer />
+            </Provider>,
+        );
+
+        axios.post.mockImplementationOnce(() => Promise.resolve({ data: { code: 'duplicate' } }));
+
+        fireEvent.click(getByText('Add'));
+
+        setTimeout(() => {
+            expect(window.alert.mock.calls[0][0]).toBe('New activity name cannot be a duplicate.');
+
+            done();
+        }, 1000);
+    });
 });

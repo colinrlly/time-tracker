@@ -4,7 +4,8 @@
   "description": "A time tracking application.",
   "main": "/templates/data.jsx",
   "scripts": {
-    "test": "jest",
+    "test": "jest -o",
+    "test-all": "jest",
     "coverage": "jest --coverage",
     "build": "webpack -p --progress --config webpack.config.js",
     "dev-build": "webpack --progress -d --config webpack.config.js",

@@ -257,8 +257,8 @@ def create_activity():
         Returns object of shape { 'success': 'true'/'false', 'activity_id': int }
     """
     user_id = flask.session['user_id']
-    name = request.form['activity']
-    color = request.form['color']
+    name = request.get_json()['name']
+    color = request.get_json()['color']
 
     activities = Activity.query.filter_by(user_id=user_id).all()
 

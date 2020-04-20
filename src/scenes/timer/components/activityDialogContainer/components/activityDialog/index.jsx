@@ -41,7 +41,7 @@ function ActivityDialog(props) {
                 </div>
             </div>
 
-            <button>ADD</button>
+            <button onClick={props.submitCallback}>Add</button>
         </div>
     );
 }
@@ -52,6 +52,7 @@ ActivityDialog.propTypes = {
     activityName: PropTypes.string.isRequired,
     colorBtnCallback: PropTypes.func.isRequired,
     selectedColor: PropTypes.string.isRequired,
+    submitCallback: PropTypes.func.isRequired,
 };
 
 export default ActivityDialog;
