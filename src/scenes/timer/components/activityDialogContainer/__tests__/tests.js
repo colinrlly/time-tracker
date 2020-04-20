@@ -10,6 +10,7 @@ import axios from 'axios';
 import {
     SET_ACTIVITY_DIALOG_DISPLAYED,
     SET_NEW_ACTIVITY_NAME,
+    SET_NEW_ACTIVITY_COLOR,
 } from '../../../../../redux/actions';
 
 import ActivityDialogContainer from '../index.jsx';
@@ -21,11 +22,19 @@ describe('ActivityDialogContainer', () => {
     function setUp() {
         const store = mockStore({
             activityDialog:
-                { displayed: true },
-            newActivityName: '',
+            {
+                displayed: true,
+                newActivityName: '',
+                newActivityColor: '1',
+            },
         });
 
-        const { getByText, container, getByLabelText } = render(
+        const {
+            getByText,
+            container,
+            getByLabelText,
+            getByTestId,
+        } = render(
             <Provider store={store}>
                 <ActivityDialogContainer />
             </Provider>,
@@ -36,14 +45,41 @@ describe('ActivityDialogContainer', () => {
             getByText,
             container,
             getByLabelText,
+            getByTestId,
         };
     }
+
+    it('Dispatches the proper redux actions when a color button is pressed.', (done) => {
+        const {
+            store,
+            getByTestId,
+        } = setUp();
+
+        const colorBtn2 = getByTestId('colorBtn2');
+
+        fireEvent.click(colorBtn2);
+
+        const expectedAction = JSON.stringify({
+            type: SET_NEW_ACTIVITY_COLOR,
+            newActivityColor: '2',
+        });
+
+        setTimeout(() => {
+            const actions = store.getActions();
+
+            // Convert actions to JSON because array.includes doesn't work on objects
+            const jsonActions = actions.map((x) => JSON.stringify(x));
+            expect(jsonActions.includes(expectedAction)).toBeTruthy();
+            done();
+        }, 1000);
+    });
 
     it('Displays the proper newActivityName based on redux.', () => {
         const store = mockStore({
             activityDialog: {
                 displayed: true,
                 newActivityName: 'test name',
+                newActivityColor: '1',
             },
         });
 
@@ -112,8 +148,11 @@ describe('ActivityDialogContainer', () => {
 
     it('Doesn\'t display itself when activityDialogDisplayed is false.', () => {
         const store = mockStore({
-            activityDialog:
-                { displayed: false },
+            activityDialog: {
+                displayed: false,
+                newActivityName: 'test name',
+                newActivityColor: '1',
+            },
         });
 
         const { container } = render(

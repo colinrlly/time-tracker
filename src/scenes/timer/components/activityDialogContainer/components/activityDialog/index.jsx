@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import cx from 'classnames';
 
 import googleColors from '../../../../../../static/js/google_colors';
 
@@ -10,7 +12,12 @@ function ActivityDialog(props) {
             key={i}
             style={{ backgroundColor: googleColors[x] }}
             name={x}
-            className={style.color} />,
+            data-testid={`colorBtn${x}`}
+            className={cx(
+                style.color,
+                props.selectedColor === x ? style.selectedColor : '',
+            )}
+            onClick={() => props.colorBtnCallback(x)} />,
     );
 
     return (
@@ -38,5 +45,13 @@ function ActivityDialog(props) {
         </div>
     );
 }
+
+ActivityDialog.propTypes = {
+    exitBtnCallback: PropTypes.func.isRequired,
+    activityNameInputCallback: PropTypes.func.isRequired,
+    activityName: PropTypes.string.isRequired,
+    colorBtnCallback: PropTypes.func.isRequired,
+    selectedColor: PropTypes.string.isRequired,
+};
 
 export default ActivityDialog;

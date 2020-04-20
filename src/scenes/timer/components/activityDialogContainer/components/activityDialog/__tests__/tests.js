@@ -11,10 +11,12 @@ describe('ActivityNameContainer', () => {
         const mockCallback = jest.fn();
 
         const { getByText } = render(
-            <div>
-                <ActivityDialog
-                    exitBtnCallback={mockCallback} />
-            </div>,
+            <ActivityDialog
+                exitBtnCallback={mockCallback}
+                activityNameInputCallback={() => { }}
+                activityName={''}
+                colorBtnCallback={() => { }}
+                selectedColor={'1'} />,
         );
 
         fireEvent.click(getByText('+'));

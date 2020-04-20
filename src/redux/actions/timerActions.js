@@ -6,6 +6,7 @@ export const SET_HAS_UNSAVED_ACTIVITY_RECORD = 'SET_HAS_UNSAVED_ACTIVITY_RECORD'
 export const SET_LAST_ACTIVITY_STOP_TIME = 'SET_LAST_ACTIVITY_STOP_TIME';
 export const SET_ACTIVITY_DIALOG_DISPLAYED = 'SET_ACTIVITY_DIALOG_DISPLAYED';
 export const SET_NEW_ACTIVITY_NAME = 'SET_NEW_ACTIVITY_NAME';
+export const SET_NEW_ACTIVITY_COLOR = 'SET_NEW_ACTIVITY_COLOR';
 
 export function setAllActivitiesList(activities) {
     return { type: SET_ALL_ACTIVITIES_LIST, activities };
@@ -37,4 +38,8 @@ export function setActivityDialogDisplayed(activityDialogDisplayed) {
 
 export function setNewActivityName(newActivityName) {
     return { type: SET_NEW_ACTIVITY_NAME, newActivityName };
+}
+
+export function setNewActivityColor(newActivityColor) {
+    return { type: SET_NEW_ACTIVITY_COLOR, newActivityColor };
 }

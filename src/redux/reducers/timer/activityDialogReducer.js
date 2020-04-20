@@ -1,11 +1,13 @@
 import {
     SET_ACTIVITY_DIALOG_DISPLAYED,
     SET_NEW_ACTIVITY_NAME,
+    SET_NEW_ACTIVITY_COLOR,
 } from '../../actions';
 
 const INITIAL_STATE = {
     displayed: false,
     newActivityName: '',
+    newActivityColor: '1',
 };
 
 function activityDialogReducer(state = INITIAL_STATE, action) {
@@ -19,6 +21,11 @@ function activityDialogReducer(state = INITIAL_STATE, action) {
 
         case SET_NEW_ACTIVITY_NAME:
             newState.newActivityName = action.newActivityName;
+
+            return newState;
+
+        case SET_NEW_ACTIVITY_COLOR:
+            newState.newActivityColor = action.newActivityColor;
 
             return newState;
 

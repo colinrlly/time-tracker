@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
     setActivityDialogDisplayed,
     setNewActivityName,
+    setNewActivityColor,
 } from '../../../../redux/actions';
 
 import {
@@ -13,6 +14,7 @@ import {
 function ActivityDialogContainer() {
     const activityDialogDisplayed = useSelector((state) => state.activityDialog.displayed);
     const newActivityName = useSelector((state) => state.activityDialog.newActivityName);
+    const newActivityColor = useSelector((state) => state.activityDialog.newActivityColor);
     const dispatch = useDispatch();
 
     const wrapperRef = useRef(null);
@@ -39,12 +41,18 @@ function ActivityDialogContainer() {
         dispatch(setNewActivityName(event.target.value));
     }
 
+    function newColorBtnCallback(colorId) {
+        dispatch(setNewActivityColor(colorId));
+    }
+
     return activityDialogDisplayed
         ? <div ref={wrapperRef}>
             <ActivityDialog
                 exitBtnCallback={exitBtnCallback}
                 activityNameInputCallback={newActivityNameInputCallback}
-                activityName={newActivityName} />
+                activityName={newActivityName}
+                colorBtnCallback={newColorBtnCallback}
+                selectedColor={newActivityColor} />
         </div>
         : null;
 }
