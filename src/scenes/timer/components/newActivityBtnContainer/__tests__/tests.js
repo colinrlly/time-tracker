@@ -2,9 +2,11 @@ import React from 'react';
 import {
     render,
     fireEvent,
+    waitFor,
 } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
+import MutationObserver from 'mutation-observer';
 
 import {
     SET_ACTIVITY_DIALOG_DISPLAYED,
@@ -13,6 +15,7 @@ import {
 import NewActivityBtnContainer from '../index.jsx';
 
 const mockStore = configureStore([]);
+global.MutationObserver = MutationObserver;
 
 describe('NewActivityBtnContainer', () => {
     function setUp() {
@@ -36,7 +39,7 @@ describe('NewActivityBtnContainer', () => {
         };
     }
 
-    it('Dispatches the proper Redux actions when buttons are clicked.', (done) => {
+    it('Dispatches the proper Redux actions when buttons are clicked.', async () => {
         const {
             store,
             getByText,
@@ -49,15 +52,14 @@ describe('NewActivityBtnContainer', () => {
             activityDialogDisplayed: true,
         });
 
-        setTimeout(() => {
-            const actions = store.getActions();
+        await waitFor(() => expect(store.getActions()).not.toHaveLength(0));
 
-            // Convert actions to JSON because array.includes doens't work on objects
-            const jsonActions = actions.map((x) => JSON.stringify(x));
+        const actions = store.getActions();
 
-            expect(jsonActions.includes(expectedActivityDialogDisplayedAction)).toBeTruthy();
-            done();
-        }, 1000);
+        // Convert actions to JSON because array.includes doens't work on objects
+        const jsonActions = actions.map((x) => JSON.stringify(x));
+
+        expect(jsonActions.includes(expectedActivityDialogDisplayedAction)).toBeTruthy();
     });
 
     it('Doesn\'t show itself when acitivtyIsRunning is true.', () => {
@@ -94,30 +96,5 @@ describe('NewActivityBtnContainer', () => {
         );
 
         expect(queryByText('+')).toBeNull();
-    });
-
-    it('Disables itself when activityDialogDisplayed is true.', (done) => {
-        const store = mockStore({
-            activityIsRunning: false,
-            hasUnsavedActivityRecord: false,
-            activityDialog: {
-                displayed: true,
-            },
-        });
-
-        const { getByText } = render(
-            <Provider store={store}>
-                <NewActivityBtnContainer />
-            </Provider>,
-        );
-
-        fireEvent.click(getByText('+'));
-
-        setTimeout(() => {
-            const actions = store.getActions();
-
-            expect(actions).toStrictEqual([]);
-            done();
-        }, 1000);
     });
 });

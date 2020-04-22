@@ -1,11 +1,13 @@
 import React from 'react';
 import {
     render,
+    waitFor,
     fireEvent,
 } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import axios from 'axios';
+import MutationObserver from 'mutation-observer';
 
 import {
     SET_CURRENT_ACTIVITY,
@@ -22,6 +24,7 @@ import ActivityListContainer from '../index.jsx';
 
 const mockStore = configureStore([]);
 jest.mock('axios');
+global.MutationObserver = MutationObserver;
 
 describe('ActivityListContainer', () => {
     const allActivitiesList = [
@@ -95,7 +98,7 @@ describe('ActivityListContainer', () => {
         expect(axios.post.mock.calls[0][1]).toStrictEqual({ activity_id: 54 });
     });
 
-    it('Dispatches proper Redux actions on activity click.', (done) => {
+    it('Dispatches proper Redux actions on activity click.', async () => {
         const {
             store,
             getByText,
@@ -104,6 +107,8 @@ describe('ActivityListContainer', () => {
         axios.post.mockImplementationOnce(() => Promise.resolve({ data: { code: 'success' } }));
 
         fireEvent.click(getByText('Log'));
+
+        await waitFor(() => expect(store.getActions()).not.toHaveLength(0));
 
         const expectedCurrentActivityAction = JSON.stringify({
             type: SET_CURRENT_ACTIVITY,
@@ -116,21 +121,18 @@ describe('ActivityListContainer', () => {
 
         const expectedLastActivityStartTimeAction = SET_LAST_ACTIVITY_START_TIME;
 
-        setTimeout(() => {
-            const actions = store.getActions();
+        const actions = store.getActions();
 
-            // Convert actions to JSON because array.includes doens't work on objects
-            const jsonActions = actions.map((x) => JSON.stringify(x));
+        // Convert actions to JSON because array.includes doens't work on objects
+        const jsonActions = actions.map((x) => JSON.stringify(x));
 
-            // Test for just the lastActivityStartTime type because we won't be able
-            // to match the moment object exactly.
-            const justTypes = actions.map((x) => x.type);
+        // Test for just the lastActivityStartTime type because we won't be able
+        // to match the moment object exactly.
+        const justTypes = actions.map((x) => x.type);
 
-            expect(jsonActions.includes(expectedCurrentActivityAction)).toBeTruthy();
-            expect(jsonActions.includes(expectedActivityIsRunning)).toBeTruthy();
-            expect(justTypes.includes(expectedLastActivityStartTimeAction)).toBeTruthy();
-            done();
-        }, 1000);
+        expect(jsonActions.includes(expectedCurrentActivityAction)).toBeTruthy();
+        expect(jsonActions.includes(expectedActivityIsRunning)).toBeTruthy();
+        expect(justTypes.includes(expectedLastActivityStartTimeAction)).toBeTruthy();
     });
 
     it('Renders activity list with proper activities from Redux.', () => {
@@ -178,13 +180,15 @@ describe('ActivityListContainer', () => {
         expect(queryByText(allActivitiesList[0].name)).toBeNull();
     });
 
-    it('Dispatches the proper redux events when edit button is clicked.', (done) => {
+    it('Dispatches the proper redux events when edit button is clicked.', async () => {
         const {
             getByTestId,
             store,
         } = setUpActivityIsRunningFalse();
 
         fireEvent.click(getByTestId('edit-Log'));
+
+        await waitFor(() => expect(store.getActions()).not.toHaveLength(0));
 
         const expectedEditDisplayedAction = JSON.stringify({
             type: SET_ACTIVITY_DIALOG_DISPLAYED,
@@ -207,18 +211,15 @@ describe('ActivityListContainer', () => {
             id: 54,
         });
 
-        setTimeout(() => {
-            const actions = store.getActions();
+        const actions = store.getActions();
 
-            // Convert actions to JSON because array.includes doens't work on objects
-            const jsonActions = actions.map((x) => JSON.stringify(x));
+        // Convert actions to JSON because array.includes doens't work on objects
+        const jsonActions = actions.map((x) => JSON.stringify(x));
 
-            expect(jsonActions.includes(expectedEditDisplayedAction)).toBeTruthy();
-            expect(jsonActions.includes(expectedEditOrNewAction)).toBeTruthy();
-            expect(jsonActions.includes(expectedEditNameAction)).toBeTruthy();
-            expect(jsonActions.includes(expectedEditColorAction)).toBeTruthy();
-            expect(jsonActions.includes(expectedEditIdAction)).toBeTruthy();
-            done();
-        }, 1000);
+        expect(jsonActions.includes(expectedEditDisplayedAction)).toBeTruthy();
+        expect(jsonActions.includes(expectedEditOrNewAction)).toBeTruthy();
+        expect(jsonActions.includes(expectedEditNameAction)).toBeTruthy();
+        expect(jsonActions.includes(expectedEditColorAction)).toBeTruthy();
+        expect(jsonActions.includes(expectedEditIdAction)).toBeTruthy();
     });
 });

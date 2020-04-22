@@ -1,11 +1,13 @@
 import React from 'react';
 import {
     render,
+    waitFor,
     fireEvent,
 } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import axios from 'axios';
+import MutationObserver from 'mutation-observer';
 
 import {
     SET_ACTIVITY_DIALOG_DISPLAYED,
@@ -19,6 +21,7 @@ import ActivityDialogContainer from '../index.jsx';
 const mockStore = configureStore([]);
 jest.mock('axios');
 window.alert = jest.fn();
+global.MutationObserver = MutationObserver;
 
 describe('ActivityDialogContainer', () => {
     function setUp() {
@@ -56,7 +59,7 @@ describe('ActivityDialogContainer', () => {
         window.alert.mockClear();
     });
 
-    it('Dispatches the proper redux actions when a color button is pressed.', (done) => {
+    it('Dispatches the proper redux actions when a color button is pressed.', async () => {
         const {
             store,
             getByTestId,
@@ -66,20 +69,19 @@ describe('ActivityDialogContainer', () => {
 
         fireEvent.click(colorBtn2);
 
+        await waitFor(() => expect(store.getActions()).not.toHaveLength(0));
+
         const expectedAction = JSON.stringify({
             type: SET_NEW_ACTIVITY_COLOR,
             color: 2,
         });
 
-        setTimeout(() => {
-            const actions = store.getActions();
+        const actions = store.getActions();
 
-            // Convert actions to JSON because array.includes doesn't work on objects
-            const jsonActions = actions.map((x) => JSON.stringify(x));
+        // Convert actions to JSON because array.includes doesn't work on objects
+        const jsonActions = actions.map((x) => JSON.stringify(x));
 
-            expect(jsonActions.includes(expectedAction)).toBeTruthy();
-            done();
-        }, 1000);
+        expect(jsonActions.includes(expectedAction)).toBeTruthy();
     });
 
     it('Displays the proper newActivityName based on redux.', () => {
@@ -100,7 +102,7 @@ describe('ActivityDialogContainer', () => {
         expect(getByLabelText('activity-name-input').value).toBe('test name');
     });
 
-    it('Dispatches the proper redux events when the input is changed.', (done) => {
+    it('Dispatches the proper redux events when the input is changed.', async () => {
         const {
             store,
             getByLabelText,
@@ -110,22 +112,21 @@ describe('ActivityDialogContainer', () => {
 
         fireEvent.change(input, { target: { value: 'test name' } });
 
+        await waitFor(() => expect(store.getActions()).not.toHaveLength(0));
+
         const expectedAction = JSON.stringify({
             type: SET_NEW_ACTIVITY_NAME,
             name: 'test name',
         });
 
-        setTimeout(() => {
-            const actions = store.getActions();
+        const actions = store.getActions();
 
-            // Convert actions to JSON because array.includes doesn't work on objects
-            const jsonActions = actions.map((x) => JSON.stringify(x));
-            expect(jsonActions.includes(expectedAction)).toBeTruthy();
-            done();
-        }, 1000);
+        // Convert actions to JSON because array.includes doesn't work on objects
+        const jsonActions = actions.map((x) => JSON.stringify(x));
+        expect(jsonActions.includes(expectedAction)).toBeTruthy();
     });
 
-    it('Dispatches the proper redux events when the eit button is clicked.', (done) => {
+    it('Dispatches the proper redux events when the eit button is clicked.', async () => {
         const {
             store,
             getByText,
@@ -133,19 +134,18 @@ describe('ActivityDialogContainer', () => {
 
         fireEvent.click(getByText('+'));
 
+        await waitFor(() => expect(store.getActions()).not.toHaveLength(0));
+
         const expectedAction = JSON.stringify({
             type: SET_ACTIVITY_DIALOG_DISPLAYED,
             activityDialogDisplayed: false,
         });
 
-        setTimeout(() => {
-            const actions = store.getActions();
+        const actions = store.getActions();
 
-            // Convert actions to JSON because array.includes doesn't work on objects
-            const jsonActions = actions.map((x) => JSON.stringify(x));
-            expect(jsonActions.includes(expectedAction)).toBeTruthy();
-            done();
-        }, 1000);
+        // Convert actions to JSON because array.includes doesn't work on objects
+        const jsonActions = actions.map((x) => JSON.stringify(x));
+        expect(jsonActions.includes(expectedAction)).toBeTruthy();
     });
 
     it('Displays itself when activityDialogDisplayed is true.', () => {
@@ -211,7 +211,7 @@ describe('ActivityDialogContainer', () => {
         expect(axios.post.mock.calls[0][0]).toBe('api/create-activity');
     });
 
-    it('Dispatches the proper redux events when the save button is clicked.', (done) => {
+    it('Dispatches the proper redux events when the save button is clicked.', async () => {
         const allActivitiesList = [
             {
                 id: 54,
@@ -247,6 +247,8 @@ describe('ActivityDialogContainer', () => {
 
         fireEvent.click(getByText('Add'));
 
+        await waitFor(() => expect(store.getActions()).not.toHaveLength(0));
+
         const expectedDisplayedAction = JSON.stringify({
             type: SET_ACTIVITY_DIALOG_DISPLAYED,
             activityDialogDisplayed: false,
@@ -271,20 +273,17 @@ describe('ActivityDialogContainer', () => {
             color: 1,
         });
 
-        setTimeout(() => {
-            const actions = store.getActions();
+        const actions = store.getActions();
 
-            // Convert actions to JSON because array.includes doesn't work on objects
-            const jsonActions = actions.map((x) => JSON.stringify(x));
-            expect(jsonActions.includes(expectedDisplayedAction)).toBeTruthy();
-            expect(jsonActions.includes(expectedActivitiesListAction)).toBeTruthy();
-            expect(jsonActions.includes(expectedNameAction)).toBeTruthy();
-            expect(jsonActions.includes(expectedColorAction)).toBeTruthy();
-            done();
-        }, 1000);
+        // Convert actions to JSON because array.includes doesn't work on objects
+        const jsonActions = actions.map((x) => JSON.stringify(x));
+        expect(jsonActions.includes(expectedDisplayedAction)).toBeTruthy();
+        expect(jsonActions.includes(expectedActivitiesListAction)).toBeTruthy();
+        expect(jsonActions.includes(expectedNameAction)).toBeTruthy();
+        expect(jsonActions.includes(expectedColorAction)).toBeTruthy();
     });
 
-    it('Alerts the user when the activity name is empty.', (done) => {
+    it('Alerts the user when the activity name is empty.', async () => {
         const allActivitiesList = [
             {
                 id: 54,
@@ -320,14 +319,14 @@ describe('ActivityDialogContainer', () => {
 
         fireEvent.click(getByText('Add'));
 
-        setTimeout(() => {
-            expect(window.alert.mock.calls[0][0]).toBe('New activity name cannot be empty.');
-
-            done();
-        }, 1000);
+        await waitFor(
+            () => expect(window.alert.mock.calls[0][0]).toBe(
+                'New activity name cannot be empty.',
+            ),
+        );
     });
 
-    it('Alerts the user when the activity name is a duplicate.', (done) => {
+    it('Alerts the user when the activity name is a duplicate.', async () => {
         const allActivitiesList = [
             {
                 id: 54,
@@ -363,10 +362,10 @@ describe('ActivityDialogContainer', () => {
 
         fireEvent.click(getByText('Add'));
 
-        setTimeout(() => {
-            expect(window.alert.mock.calls[0][0]).toBe('New activity name cannot be a duplicate.');
-
-            done();
-        }, 1000);
+        await waitFor(
+            () => expect(window.alert.mock.calls[0][0]).toBe(
+                'New activity name cannot be a duplicate.',
+            ),
+        );
     });
 });
