@@ -126,6 +126,24 @@ function ActivityDialogContainer() {
         });
     }
 
+    function deleteActivityCallback() {
+        axios.post('api/delete-activity', {
+            activity_id: editActivityId,
+        }).then((response) => {
+            if (response.data.code === 'success') {
+                dispatch(setActivityDialogDisplayed(false));
+                dispatch(setAllActivitiesList(allActivitiesList.filter(
+                    (activity) => (!(activity.id === editActivityId)),
+                )));
+                dispatch(setEditActivityName(''));
+                dispatch(setEditActivityColor(1));
+                dispatch(setEditActivityId(-1));
+            } else {
+                console.error('problem deleting activity');
+            }
+        });
+    }
+
     return activityDialogDisplayed
         ? <div ref={wrapperRef}>
             <ActivityDialog
@@ -135,7 +153,9 @@ function ActivityDialogContainer() {
                 colorBtnCallback={(newOrEditDialog === 'new') ? newColorBtnCallback : editColorBtnCallback}
                 selectedColor={(newOrEditDialog === 'new') ? newActivityColor : editActivityColor}
                 submitCallback={(newOrEditDialog === 'new') ? saveNewActivityCallback : saveEditActivityCallback}
-                submitText={(newOrEditDialog === 'new') ? 'Add' : 'Save'} />
+                submitText={(newOrEditDialog === 'new') ? 'Add' : 'Save'}
+                showDelete={(newOrEditDialog === 'edit')}
+                deleteActivityCallback={deleteActivityCallback} />
         </div>
         : null;
 }

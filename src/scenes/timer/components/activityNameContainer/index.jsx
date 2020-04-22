@@ -9,7 +9,9 @@ function ActivityNameContainer() {
     const activityIsRunning = useSelector((state) => state.activityIsRunning);
     const currentActivity = useSelector((state) => state.currentActivity);
 
-    return <ActivityName name={currentActivity.name} activityIsRunning={activityIsRunning} />;
+    return activityIsRunning
+        ? <ActivityName name={currentActivity.name} />
+        : null;
 }
 
 export default ActivityNameContainer;

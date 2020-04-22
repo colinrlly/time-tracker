@@ -321,11 +321,11 @@ def delete_activity():
 
         TODO: What happens if the activity we try to delete doesn't exist?
     """
-    activity_id = request.form['activity_id']
+    activity_id = request.get_json()['activity_id']
 
     delete_users_activity(db.session, Activity, activity_id)
 
-    return json.dumps('success')
+    return json.dumps({'code': 'success'})
 
 
 @app.route('/api/list_events', methods=['POST'])
@@ -347,7 +347,7 @@ def timer_startup_paytload():
     current_activity_id = user.current_activity
     current_activity = Activity.query.filter_by(id=current_activity_id).first()
 
-    current_activity = current_activity if current_activity else None
+    current_activity = current_activity.serialize if current_activity else None
 
     serialized_activities = [ a.serialize for a in activities]
 
@@ -357,7 +357,7 @@ def timer_startup_paytload():
         'has_unsaved_activity_record': user.has_unsaved_activity_record,
         'start_time': str(user.started_at),
         'stop_time': str(user.stopped_at),
-        'current_activity': current_activity.serialize
+        'current_activity': current_activity
     }
 
     return json.dumps(payload)

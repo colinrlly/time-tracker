@@ -106,6 +106,12 @@ def delete_users_activity_record(session, model, user):
     session.close()
 
 
+def delete_users_activity(session, Activity, activity_id):
+    activity = Activity.query.get(activity_id)
+    session.delete(activity)
+    session.commit()
+
+
 def save_users_activity(session, User, Activity, user):
     """
         Saves the @user's last stopped event to Google calendar.

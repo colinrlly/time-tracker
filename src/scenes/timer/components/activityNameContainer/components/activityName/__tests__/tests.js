@@ -14,14 +14,4 @@ describe('ActivityName', () => {
 
         expect(getByText('test name')).toBeTruthy();
     });
-
-    it('Doesn\'t show when activityIsRunning is false', () => {
-        const { queryByText } = render(
-            <ActivityName
-                name={'test name'}
-                activityIsRunning={false} />,
-        );
-
-        expect(queryByText('test name')).toBeNull();
-    });
 });

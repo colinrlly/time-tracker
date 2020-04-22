@@ -18,7 +18,9 @@ describe('ActivityNameContainer', () => {
                 colorBtnCallback={() => { }}
                 selectedColor={1}
                 submitCallback={() => { }}
-                submitText={'Save'} />,
+                submitText={'Save'}
+                showDelete={false}
+                deleteActivityCallback={() => { }} />,
         );
 
         fireEvent.click(getByText('+'));

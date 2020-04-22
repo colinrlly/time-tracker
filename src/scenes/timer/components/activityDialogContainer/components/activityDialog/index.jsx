@@ -42,6 +42,10 @@ function ActivityDialog(props) {
             </div>
 
             <button onClick={props.submitCallback}>{props.submitText}</button>
+
+            {props.showDelete
+                ? <button onClick={props.deleteActivityCallback}>Delete Activity</button>
+                : null}
         </div>
     );
 }
@@ -54,6 +58,8 @@ ActivityDialog.propTypes = {
     selectedColor: PropTypes.number.isRequired,
     submitCallback: PropTypes.func.isRequired,
     submitText: PropTypes.oneOf(['Add', 'Save']).isRequired,
+    showDelete: PropTypes.bool.isRequired,
+    deleteActivityCallback: PropTypes.func.isRequired,
 };
 
 export default ActivityDialog;
