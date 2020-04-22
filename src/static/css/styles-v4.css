@@ -137,6 +137,13 @@ hr.style2 {
 
 /****** ACTIVITIES *******/
 
+.butt {
+    align-content: center;
+    text-align: center;
+    margin: 20px auto;
+    width:90%;
+}
+
 .activity {
     height: 80px;
     width: 200px;
@@ -219,13 +226,6 @@ button.edit_activity_btn > img {
 .timebox {
     align-items: center;
     text-align: center;
-}
-
-.butt {
-    align-content: center;
-    text-align: center;
-    margin: 20px auto;
-    width:90%;
 }
 
 .butt2 {
