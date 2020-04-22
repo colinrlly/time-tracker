@@ -7,6 +7,9 @@ import {
     setNewActivityName,
     setNewActivityColor,
     setAllActivitiesList,
+    setEditActivityName,
+    setEditActivityColor,
+    setEditActivityId,
 } from '../../../../redux/actions';
 
 import {
@@ -19,6 +22,9 @@ function ActivityDialogContainer() {
     const newActivityColor = useSelector((state) => state.activityDialog.newActivityColor);
     const allActivitiesList = useSelector((state) => state.allActivitiesList);
     const newOrEditDialog = useSelector((state) => state.activityDialog.newOrEditDialog);
+    const editActivityName = useSelector((state) => state.activityDialog.editActivityName);
+    const editActivityColor = useSelector((state) => state.activityDialog.editActivityColor);
+    const editActivityId = useSelector((state) => state.activityDialog.editActivityId);
     const dispatch = useDispatch();
 
     const wrapperRef = useRef(null);
@@ -41,6 +47,9 @@ function ActivityDialogContainer() {
         dispatch(setActivityDialogDisplayed(false));
     }
 
+    /**
+     * New activity dialog callbacks.
+     */
     function newActivityNameInputCallback(event) {
         dispatch(setNewActivityName(event.target.value));
     }
@@ -76,18 +85,57 @@ function ActivityDialogContainer() {
         });
     }
 
-    const submitText = (newOrEditDialog === 'new') ? 'Add' : 'Save';
+    /**
+     * Edit activity dialog callbacks.
+     */
+    function editActivityNameInputCallback(event) {
+        dispatch(setEditActivityName(event.target.value));
+    }
+
+    function editColorBtnCallback(colorId) {
+        dispatch(setEditActivityColor(colorId));
+    }
+
+    function saveEditActivityCallback() {
+        axios.post('api/edit-activity', {
+            activity_id: editActivityId,
+            new_name: editActivityName,
+            new_color: editActivityColor,
+        }).then((response) => {
+            if (response.data.code === 'success') {
+                dispatch(setActivityDialogDisplayed(false));
+                dispatch(setAllActivitiesList(allActivitiesList.map(
+                    (activity) => ((activity.id === editActivityId)
+                        ? {
+                            id: activity.id,
+                            name: editActivityName,
+                            color: editActivityColor,
+                        } : activity
+                    ),
+                )));
+                dispatch(setEditActivityName(''));
+                dispatch(setEditActivityColor(1));
+                dispatch(setEditActivityId(-1));
+            } else if (response.data.code === 'empty') {
+                window.alert('Activity name cannot be empty.');
+            } else if (response.data.code === 'duplicate') {
+                window.alert('Activity name cannot be a duplicate.');
+            } else {
+                console.error('problem saving activity');
+            }
+        });
+    }
 
     return activityDialogDisplayed
         ? <div ref={wrapperRef}>
             <ActivityDialog
                 exitBtnCallback={exitBtnCallback}
-                activityNameInputCallback={newActivityNameInputCallback}
-                activityName={newActivityName}
-                colorBtnCallback={newColorBtnCallback}
-                selectedColor={newActivityColor}
-                submitCallback={saveNewActivityCallback}
-                submitText={submitText} />
+                activityNameInputCallback={(newOrEditDialog === 'new') ? newActivityNameInputCallback : editActivityNameInputCallback}
+                activityName={(newOrEditDialog === 'new') ? newActivityName : editActivityName}
+                colorBtnCallback={(newOrEditDialog === 'new') ? newColorBtnCallback : editColorBtnCallback}
+                selectedColor={(newOrEditDialog === 'new') ? newActivityColor : editActivityColor}
+                submitCallback={(newOrEditDialog === 'new') ? saveNewActivityCallback : saveEditActivityCallback}
+                submitText={(newOrEditDialog === 'new') ? 'Add' : 'Save'} />
         </div>
         : null;
 }

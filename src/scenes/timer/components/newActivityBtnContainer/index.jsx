@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import {
-    setActivityDialogDisplayed,
+    setActivityDialogDisplayed, setNewOrEditDialog,
 } from '../../../../redux/actions';
 
 import {
@@ -17,6 +17,7 @@ function NewActivityBtnContainer() {
 
     function callback() {
         dispatch(setActivityDialogDisplayed(true));
+        dispatch(setNewOrEditDialog('new'));
     }
 
     return (!activityIsRunning && !hasUnsavedActivityRecord)

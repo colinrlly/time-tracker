@@ -9,7 +9,7 @@ import configureStore from 'redux-mock-store';
 import MutationObserver from 'mutation-observer';
 
 import {
-    SET_ACTIVITY_DIALOG_DISPLAYED,
+    SET_ACTIVITY_DIALOG_DISPLAYED, SET_NEW_OR_EDIT_DIALOG,
 } from '../../../../../redux/actions';
 
 import NewActivityBtnContainer from '../index.jsx';
@@ -39,7 +39,7 @@ describe('NewActivityBtnContainer', () => {
         };
     }
 
-    it('Dispatches the proper Redux actions when buttons are clicked.', async () => {
+    it('Dispatches the proper Redux actions when button is clicked.', async () => {
         const {
             store,
             getByText,
@@ -51,6 +51,10 @@ describe('NewActivityBtnContainer', () => {
             type: SET_ACTIVITY_DIALOG_DISPLAYED,
             activityDialogDisplayed: true,
         });
+        const expectedNewOrEditAction = JSON.stringify({
+            type: SET_NEW_OR_EDIT_DIALOG,
+            newOrEdit: 'new',
+        });
 
         await waitFor(() => expect(store.getActions()).not.toHaveLength(0));
 
@@ -60,6 +64,7 @@ describe('NewActivityBtnContainer', () => {
         const jsonActions = actions.map((x) => JSON.stringify(x));
 
         expect(jsonActions.includes(expectedActivityDialogDisplayedAction)).toBeTruthy();
+        expect(jsonActions.includes(expectedNewOrEditAction)).toBeTruthy();
     });
 
     it('Doesn\'t show itself when acitivtyIsRunning is true.', () => {

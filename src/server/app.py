@@ -289,9 +289,9 @@ def save_activity_edit():
         {'code': 'duplicate'} if new activity name is a duplicate
         {'code': 'success'} if activity was succesfully edited
     """
-    activity_id = request.form['activity_id']
-    new_color = request.form['new_color']
-    new_name = request.form['new_name']
+    activity_id = request.get_json()['activity_id']
+    new_color = request.get_json()['new_color']
+    new_name = request.get_json()['new_name']
 
     # Get user's activities
     activities = Activity.query.filter_by(user_id=flask.session['user_id']).all()

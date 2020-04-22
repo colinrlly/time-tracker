@@ -14,6 +14,9 @@ import {
     SET_NEW_ACTIVITY_NAME,
     SET_NEW_ACTIVITY_COLOR,
     SET_ALL_ACTIVITIES_LIST,
+    SET_EDIT_ACTIVITY_NAME,
+    SET_EDIT_ACTIVITY_COLOR,
+    SET_EDIT_ACTIVITY_ID,
 } from '../../../../../redux/actions';
 
 import ActivityDialogContainer from '../index.jsx';
@@ -134,7 +137,7 @@ describe('ActivityDialogContainer', () => {
         expect(jsonActions.includes(expectedAction)).toBeTruthy();
     });
 
-    it('Dispatches the proper redux events when the eit button is clicked.', async () => {
+    it('Dispatches the proper redux events when the exit button is clicked.', async () => {
         const {
             store,
             getByText,
@@ -184,7 +187,7 @@ describe('ActivityDialogContainer', () => {
         expect(container.firstChild).toBeNull();
     });
 
-    it('Hits the proper endpoints when the save button is pressed.', () => {
+    it('Hits the proper endpoints when the add button is pressed.', () => {
         const allActivitiesList = [
             {
                 id: 54,
@@ -227,7 +230,7 @@ describe('ActivityDialogContainer', () => {
         expect(axios.post.mock.calls[0][0]).toBe('api/create-activity');
     });
 
-    it('Dispatches the proper redux events when the save button is clicked.', async () => {
+    it('Dispatches the proper redux events when the add button is clicked.', async () => {
         const allActivitiesList = [
             {
                 id: 54,
@@ -438,5 +441,157 @@ describe('ActivityDialogContainer', () => {
         );
 
         expect(getByText('Add')).toBeTruthy();
+    });
+
+    it('Displays the proper editActivityName based on redux.', () => {
+        const store = mockStore({
+            activityDialog: {
+                displayed: true,
+                newActivityName: 'test name',
+                newActivityColor: 1,
+                newOrEditDialog: 'edit',
+                editActivityName: 'Games',
+                editActivityColor: 8,
+                editActivityId: 61,
+            },
+        });
+
+        const { getByLabelText } = render(
+            <Provider store={store}>
+                <ActivityDialogContainer />
+            </Provider>,
+        );
+
+        expect(getByLabelText('activity-name-input').value).toBe('Games');
+    });
+
+    it('Hits the proper endpoints when the save button is pressed.', () => {
+        const allActivitiesList = [
+            {
+                id: 54,
+                name: 'Log',
+                color: 10,
+            },
+            {
+                id: 10,
+                name: 'Games',
+                color: 2,
+            },
+        ];
+
+        const store = mockStore({
+            allActivitiesList,
+            activityDialog:
+            {
+                displayed: true,
+                newActivityName: 'test',
+                newActivityColor: 3,
+                newOrEditDialog: 'edit',
+                editActivityName: 'Games',
+                editActivityColor: 8,
+                editActivityId: 61,
+            },
+        });
+
+        const {
+            getByText,
+        } = render(
+            <Provider store={store}>
+                <ActivityDialogContainer />
+            </Provider>,
+        );
+
+        axios.post.mockImplementationOnce(() => Promise.resolve({ data: { code: 'success' } }));
+
+        fireEvent.click(getByText('Save'));
+
+        expect(axios.post.mock.calls[0][0]).toBe('api/edit-activity');
+    });
+
+    it('Dispatches the proper redux events when the save button is clicked.', async () => {
+        const allActivitiesList = [
+            {
+                id: 54,
+                name: 'Log',
+                color: 10,
+            },
+            {
+                id: 10,
+                name: 'Games',
+                color: 2,
+            },
+        ];
+
+        const editedAllActivityList = [
+            {
+                id: 54,
+                name: 'Log',
+                color: 10,
+            },
+            {
+                id: 10,
+                name: 'Games Edited',
+                color: 4,
+            },
+        ];
+
+        const store = mockStore({
+            allActivitiesList,
+            activityDialog:
+            {
+                displayed: true,
+                newActivityName: 'test',
+                newActivityColor: 3,
+                newOrEditDialog: 'edit',
+                editActivityName: 'Games Edited',
+                editActivityColor: 4,
+                editActivityId: 10,
+            },
+        });
+
+        const {
+            getByText,
+        } = render(
+            <Provider store={store}>
+                <ActivityDialogContainer />
+            </Provider>,
+        );
+
+        axios.post.mockImplementationOnce(() => Promise.resolve({ data: { code: 'success' } }));
+
+        fireEvent.click(getByText('Save'));
+
+        await waitFor(() => expect(store.getActions()).not.toHaveLength(0));
+
+        const expectedDisplayedAction = JSON.stringify({
+            type: SET_ACTIVITY_DIALOG_DISPLAYED,
+            activityDialogDisplayed: false,
+        });
+        const expectedActivitiesListAction = JSON.stringify({
+            type: SET_ALL_ACTIVITIES_LIST,
+            activities: editedAllActivityList,
+        });
+        const expectedNameAction = JSON.stringify({
+            type: SET_EDIT_ACTIVITY_NAME,
+            name: '',
+        });
+        const expectedColorAction = JSON.stringify({
+            type: SET_EDIT_ACTIVITY_COLOR,
+            color: 1,
+        });
+        const expectedIDAction = JSON.stringify({
+            type: SET_EDIT_ACTIVITY_ID,
+            id: -1,
+        });
+
+        const actions = store.getActions();
+
+        // Convert actions to JSON because array.includes doesn't work on objects
+        const jsonActions = actions.map((x) => JSON.stringify(x));
+        expect(jsonActions.includes(expectedDisplayedAction)).toBeTruthy();
+        expect(jsonActions.includes(expectedActivitiesListAction)).toBeTruthy();
+        expect(jsonActions.includes(expectedNameAction)).toBeTruthy();
+        expect(jsonActions.includes(expectedColorAction)).toBeTruthy();
+        expect(jsonActions.includes(expectedIDAction)).toBeTruthy();
     });
 });
