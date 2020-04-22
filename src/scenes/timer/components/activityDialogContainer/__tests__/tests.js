@@ -31,6 +31,10 @@ describe('ActivityDialogContainer', () => {
                 displayed: true,
                 newActivityName: '',
                 newActivityColor: 1,
+                newOrEditDialog: 'new',
+                editActivityName: 'Games',
+                editActivityColor: 8,
+                editActivityId: 61,
             },
         });
 
@@ -90,6 +94,10 @@ describe('ActivityDialogContainer', () => {
                 displayed: true,
                 newActivityName: 'test name',
                 newActivityColor: 1,
+                newOrEditDialog: 'new',
+                editActivityName: 'Games',
+                editActivityColor: 8,
+                editActivityId: 61,
             },
         });
 
@@ -160,6 +168,10 @@ describe('ActivityDialogContainer', () => {
                 displayed: false,
                 newActivityName: 'test name',
                 newActivityColor: 1,
+                newOrEditDialog: 'new',
+                editActivityName: 'Games',
+                editActivityColor: 8,
+                editActivityId: 61,
             },
         });
 
@@ -193,6 +205,10 @@ describe('ActivityDialogContainer', () => {
                 displayed: true,
                 newActivityName: 'test',
                 newActivityColor: 3,
+                newOrEditDialog: 'new',
+                editActivityName: 'Games',
+                editActivityColor: 8,
+                editActivityId: 61,
             },
         });
 
@@ -232,6 +248,10 @@ describe('ActivityDialogContainer', () => {
                 displayed: true,
                 newActivityName: 'test',
                 newActivityColor: 3,
+                newOrEditDialog: 'new',
+                editActivityName: 'Games',
+                editActivityColor: 8,
+                editActivityId: 61,
             },
         });
 
@@ -304,6 +324,10 @@ describe('ActivityDialogContainer', () => {
                 displayed: true,
                 newActivityName: '',
                 newActivityColor: 10,
+                newOrEditDialog: 'new',
+                editActivityName: 'Games',
+                editActivityColor: 8,
+                editActivityId: 61,
             },
         });
 
@@ -342,11 +366,14 @@ describe('ActivityDialogContainer', () => {
 
         const store = mockStore({
             allActivitiesList,
-            activityDialog:
-            {
+            activityDialog: {
                 displayed: true,
                 newActivityName: 'Log',
                 newActivityColor: 10,
+                newOrEditDialog: 'new',
+                editActivityName: 'Games',
+                editActivityColor: 8,
+                editActivityId: 61,
             },
         });
 
@@ -367,5 +394,49 @@ describe('ActivityDialogContainer', () => {
                 'New activity name cannot be a duplicate.',
             ),
         );
+    });
+
+    it('Displays edit activity dialog acording to redux.', () => {
+        const store = mockStore({
+            activityDialog: {
+                displayed: true,
+                newOrEditDialog: 'edit',
+                newActivityName: '',
+                newActivityColor: 1,
+                editActivityName: 'Games',
+                editActivityColor: 8,
+                editActivityId: 61,
+            },
+        });
+
+        const { getByText } = render(
+            <Provider store={store}>
+                <ActivityDialogContainer />
+            </Provider>,
+        );
+
+        expect(getByText('Save')).toBeTruthy();
+    });
+
+    it('Displays new activity dialog acording to redux.', () => {
+        const store = mockStore({
+            activityDialog: {
+                displayed: true,
+                newOrEditDialog: 'new',
+                newActivityName: '',
+                newActivityColor: 1,
+                editActivityName: 'Games',
+                editActivityColor: 8,
+                editActivityId: 61,
+            },
+        });
+
+        const { getByText } = render(
+            <Provider store={store}>
+                <ActivityDialogContainer />
+            </Provider>,
+        );
+
+        expect(getByText('Add')).toBeTruthy();
     });
 });

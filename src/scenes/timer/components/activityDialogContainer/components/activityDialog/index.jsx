@@ -41,7 +41,7 @@ function ActivityDialog(props) {
                 </div>
             </div>
 
-            <button onClick={props.submitCallback}>Add</button>
+            <button onClick={props.submitCallback}>{props.submitText}</button>
         </div>
     );
 }
@@ -53,6 +53,7 @@ ActivityDialog.propTypes = {
     colorBtnCallback: PropTypes.func.isRequired,
     selectedColor: PropTypes.number.isRequired,
     submitCallback: PropTypes.func.isRequired,
+    submitText: PropTypes.oneOf(['Add', 'Save']).isRequired,
 };
 
 export default ActivityDialog;

@@ -18,6 +18,7 @@ function ActivityDialogContainer() {
     const newActivityName = useSelector((state) => state.activityDialog.newActivityName);
     const newActivityColor = useSelector((state) => state.activityDialog.newActivityColor);
     const allActivitiesList = useSelector((state) => state.allActivitiesList);
+    const newOrEditDialog = useSelector((state) => state.activityDialog.newOrEditDialog);
     const dispatch = useDispatch();
 
     const wrapperRef = useRef(null);
@@ -75,6 +76,8 @@ function ActivityDialogContainer() {
         });
     }
 
+    const submitText = (newOrEditDialog === 'new') ? 'Add' : 'Save';
+
     return activityDialogDisplayed
         ? <div ref={wrapperRef}>
             <ActivityDialog
@@ -83,7 +86,8 @@ function ActivityDialogContainer() {
                 activityName={newActivityName}
                 colorBtnCallback={newColorBtnCallback}
                 selectedColor={newActivityColor}
-                submitCallback={saveNewActivityCallback} />
+                submitCallback={saveNewActivityCallback}
+                submitText={submitText} />
         </div>
         : null;
 }
