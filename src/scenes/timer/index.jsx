@@ -17,6 +17,8 @@ import {
     FullScreenBlur,
 } from './components';
 
+import style from './style/style.module.scss';
+
 function Timer() {
     return (
         <div>
@@ -25,9 +27,11 @@ function Timer() {
             <ActivityDialogContainer />
             <FullScreenBlur>
                 <NavBar />
-                <NewActivityBtnContainer />
                 <ActivityNameContainer />
-                <TimerTextContainer />
+                <div className={style.timerContainer}>
+                    <NewActivityBtnContainer />
+                    <TimerTextContainer />
+                </div>
                 <StopBtnContainer />
                 <DeleteSaveBtns />
                 <ActivityListContainer />

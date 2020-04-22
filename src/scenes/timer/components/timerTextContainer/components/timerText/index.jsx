@@ -6,6 +6,8 @@ import {
     utcNow,
 } from '../../../../helpers';
 
+import style from './style/style.module.scss';
+
 const ONE_DAY = moment.duration(1, 'day');
 
 function TimerText(props) {
@@ -36,7 +38,7 @@ function TimerText(props) {
         } else if (props.hasUnsavedActivityRecord) {
             const diff = props.lastActivityStopTime - props.lastActivityStartTime;
             const duration = moment.duration(diff, 'milliseconds');
-            
+
             displayTime(duration);
         } else {
             setDisplayedTime('00:00:00');
@@ -51,7 +53,7 @@ function TimerText(props) {
     ]);
 
     return (
-        <span>{displayedTime}</span>
+        <span className={style.timerText}>{displayedTime}</span>
     );
 }
 

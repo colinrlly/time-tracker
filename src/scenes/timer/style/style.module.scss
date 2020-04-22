@@ -1,0 +1,9 @@
+.timerContainer {
+    margin: auto auto;
+    margin-top: 20px;
+    margin-bottom: 45px;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+}
