@@ -10,6 +10,11 @@ import {
     setCurrentActivity,
     setActivityIsRunning,
     setLastActivityStartTime,
+    setActivityDialogDisplayed,
+    setNewOrEditDialog,
+    setEditActivityName,
+    setEditActivityColor,
+    setEditActivityId,
 } from '../../../../redux/actions';
 
 import { ActivityList } from './components';
@@ -37,13 +42,22 @@ function ActivityListContainer() {
         }
     }
 
+    function editCallback(activity) {
+        dispatch(setActivityDialogDisplayed(true));
+        dispatch(setNewOrEditDialog('edit'));
+        dispatch(setEditActivityName(activity.name));
+        dispatch(setEditActivityColor(activity.color));
+        dispatch(setEditActivityId(activity.id));
+    }
+
     return (
         <ActivityList
             activities={allActivitiesList}
             handleActivityClick={handleActivityClick}
             hasUnsavedActivityRecord={hasUnsavedActivityRecord}
             activityIsRunning={activityIsRunning}
-            disabled={activityDialogDisplayed} />
+            disabled={activityDialogDisplayed}
+            editCallback={editCallback} />
     );
 }
 

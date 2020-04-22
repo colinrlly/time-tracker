@@ -37,6 +37,7 @@
     "graphviz": "0.0.9",
     "jest": "^24.9.0",
     "madge": "^3.7.0",
+    "mutation-observer": "^1.0.3",
     "node-sass": "^4.13.1",
     "postcss-loader": "^3.0.0",
     "react": "^16.12.0",

@@ -29,7 +29,8 @@ describe('ActivityList', () => {
                 handleActivityClick={() => { }}
                 hasUnsavedActivityRecord={false}
                 activityIsRunning={false}
-                disabled={false} />,
+                disabled={false}
+                editCallback={() => { }} />,
         );
 
         expect(getByText(ACTIVITY_LIST[0].name)).toBeTruthy();
@@ -46,7 +47,8 @@ describe('ActivityList', () => {
                 handleActivityClick={mockCallback}
                 hasUnsavedActivityRecord={false}
                 activityIsRunning={false}
-                disabled={false} />,
+                disabled={false}
+                editCallback={() => { }} />,
         );
 
         fireEvent.click(getByText(ACTIVITY_LIST[0].name));
@@ -69,7 +71,8 @@ describe('ActivityList', () => {
                 handleActivityClick={mockCallback}
                 hasUnsavedActivityRecord={false}
                 activityIsRunning={false}
-                disabled={true} />,
+                disabled={true}
+                editCallback={() => { }} />,
         );
 
         fireEvent.click(getByText(ACTIVITY_LIST[0].name));

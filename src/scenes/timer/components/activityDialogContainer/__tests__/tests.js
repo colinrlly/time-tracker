@@ -68,7 +68,7 @@ describe('ActivityDialogContainer', () => {
 
         const expectedAction = JSON.stringify({
             type: SET_NEW_ACTIVITY_COLOR,
-            newActivityColor: 2,
+            color: 2,
         });
 
         setTimeout(() => {
@@ -76,6 +76,7 @@ describe('ActivityDialogContainer', () => {
 
             // Convert actions to JSON because array.includes doesn't work on objects
             const jsonActions = actions.map((x) => JSON.stringify(x));
+
             expect(jsonActions.includes(expectedAction)).toBeTruthy();
             done();
         }, 1000);
@@ -111,7 +112,7 @@ describe('ActivityDialogContainer', () => {
 
         const expectedAction = JSON.stringify({
             type: SET_NEW_ACTIVITY_NAME,
-            newActivityName: 'test name',
+            name: 'test name',
         });
 
         setTimeout(() => {
@@ -124,7 +125,7 @@ describe('ActivityDialogContainer', () => {
         }, 1000);
     });
 
-    it('Dispatches the proper redux events when the exit button is clicked.', (done) => {
+    it('Dispatches the proper redux events when the eit button is clicked.', (done) => {
         const {
             store,
             getByText,
@@ -263,11 +264,11 @@ describe('ActivityDialogContainer', () => {
         });
         const expectedNameAction = JSON.stringify({
             type: SET_NEW_ACTIVITY_NAME,
-            newActivityName: '',
+            name: '',
         });
         const expectedColorAction = JSON.stringify({
             type: SET_NEW_ACTIVITY_COLOR,
-            newActivityColor: 1,
+            color: 1,
         });
 
         setTimeout(() => {

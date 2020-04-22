@@ -8,6 +8,10 @@ function ActivityList(props) {
                 onClick={() => props.handleActivityClick(x)}
                 disabled={props.disabled}
             >{x.name}</button>
+            <button
+                onClick={() => props.editCallback(x)}
+                data-testid={`edit-${x.name}`}
+            >edit</button>
         </li>));
 
     return (
@@ -32,6 +36,7 @@ ActivityList.propTypes = {
     activityIsRunning: PropTypes.bool.isRequired,
     hasUnsavedActivityRecord: PropTypes.bool.isRequired,
     disabled: PropTypes.bool.isRequired,
+    editCallback: PropTypes.func.isRequired,
 };
 
 export default ActivityList;

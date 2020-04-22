@@ -11,6 +11,11 @@ import {
     SET_CURRENT_ACTIVITY,
     SET_ACTIVITY_IS_RUNNING,
     SET_LAST_ACTIVITY_START_TIME,
+    SET_ACTIVITY_DIALOG_DISPLAYED,
+    SET_NEW_OR_EDIT_DIALOG,
+    SET_EDIT_ACTIVITY_NAME,
+    SET_EDIT_ACTIVITY_COLOR,
+    SET_EDIT_ACTIVITY_ID,
 } from '../../../../../redux/actions';
 
 import ActivityListContainer from '../index.jsx';
@@ -41,7 +46,7 @@ describe('ActivityListContainer', () => {
                 { displayed: false },
         });
 
-        const { getByText } = render(
+        const { getByText, getByTestId } = render(
             <Provider store={store}>
                 <ActivityListContainer />
             </Provider>,
@@ -51,6 +56,7 @@ describe('ActivityListContainer', () => {
             allActivitiesList,
             store,
             getByText,
+            getByTestId,
         };
     }
 
@@ -170,5 +176,49 @@ describe('ActivityListContainer', () => {
         );
 
         expect(queryByText(allActivitiesList[0].name)).toBeNull();
+    });
+
+    it('Dispatches the proper redux events when edit button is clicked.', (done) => {
+        const {
+            getByTestId,
+            store,
+        } = setUpActivityIsRunningFalse();
+
+        fireEvent.click(getByTestId('edit-Log'));
+
+        const expectedEditDisplayedAction = JSON.stringify({
+            type: SET_ACTIVITY_DIALOG_DISPLAYED,
+            activityDialogDisplayed: true,
+        });
+        const expectedEditOrNewAction = JSON.stringify({
+            type: SET_NEW_OR_EDIT_DIALOG,
+            newOrEdit: 'edit',
+        });
+        const expectedEditNameAction = JSON.stringify({
+            type: SET_EDIT_ACTIVITY_NAME,
+            name: 'Log',
+        });
+        const expectedEditColorAction = JSON.stringify({
+            type: SET_EDIT_ACTIVITY_COLOR,
+            color: 10,
+        });
+        const expectedEditIdAction = JSON.stringify({
+            type: SET_EDIT_ACTIVITY_ID,
+            id: 54,
+        });
+
+        setTimeout(() => {
+            const actions = store.getActions();
+
+            // Convert actions to JSON because array.includes doens't work on objects
+            const jsonActions = actions.map((x) => JSON.stringify(x));
+
+            expect(jsonActions.includes(expectedEditDisplayedAction)).toBeTruthy();
+            expect(jsonActions.includes(expectedEditOrNewAction)).toBeTruthy();
+            expect(jsonActions.includes(expectedEditNameAction)).toBeTruthy();
+            expect(jsonActions.includes(expectedEditColorAction)).toBeTruthy();
+            expect(jsonActions.includes(expectedEditIdAction)).toBeTruthy();
+            done();
+        }, 1000);
     });
 });
