@@ -114,7 +114,7 @@ class Data extends Component {
                 <StackedTotalsAggregator />
                 <FilteredTotalsAggregator />
                 <TotalTimeAggregator />
-                <NavBar />
+                <NavBar shadow={true} />
 
                 <nav className={cx(controls, controlsClosed ? closedControls : openControls)}>
                     <H5>DATA SETTINGS</H5>

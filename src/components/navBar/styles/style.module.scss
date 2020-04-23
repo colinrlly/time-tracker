@@ -4,14 +4,16 @@
     grid-template-columns: 5fr repeat(5, auto);
     align-items: center;
     text-align: center;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
-    background-color: white;
     position: relative;
     z-index: 3;
 }
 
+.shadow {
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
+}
+
 .pageLink {
-    color: black;
+    color: inherit;
     letter-spacing: .07em;
     font-weight: normal;
     padding-right: 25px;
@@ -20,9 +22,13 @@
 .logo {
     justify-self: start;
     padding-left: 25px;
-    color: black;
+    color: inherit;
     letter-spacing: .07em;
     font-weight: normal;
+}
+
+a.pageLink:hover, a.logo:hover {
+    color: inherit;
 }
 
 .hamburger {

@@ -10,6 +10,8 @@ import {
     Btn,
 } from '../../../../components';
 
+import style from './style/style.module.scss';
+
 function DeleteSaveBtns() {
     const hasUnsavedActivityRecord = useSelector((state) => state.hasUnsavedActivityRecord);
     const dispatch = useDispatch();
@@ -25,9 +27,15 @@ function DeleteSaveBtns() {
     }
 
     return hasUnsavedActivityRecord ? (
-        <div>
-            <Btn callback={() => callback('api/delete-activity-record')} text='Delete' />
-            <Btn callback={() => callback('api/save-activity')} text='Save' />
+        <div className={style.deleteSaveBtns}>
+            <Btn
+                callback={() => callback('api/delete-activity-record')}
+                text='Delete'
+                className={style.deleteBtn} />
+            <Btn
+                callback={() => callback('api/save-activity')}
+                text='Save'
+                className={style.saveBtn} />
         </div>
     ) : null;
 }

@@ -6,6 +6,8 @@ import {
     NavBar,
 } from '../../components';
 
+import googleColors from '../../static/js/google_colors';
+
 import {
     TimerTextContainer,
     ActivityListContainer,
@@ -24,14 +26,23 @@ import style from './style/style.module.scss';
 function Timer() {
     const activityIsRunning = useSelector((state) => state.activityIsRunning);
     const hasUnsavedActivityRecord = useSelector((state) => state.hasUnsavedActivityRecord);
+    const currentActivity = useSelector((state) => state.currentActivity);
 
     return (
-        <div>
+        <div style={{
+            backgroundColor: (activityIsRunning)
+                ? googleColors[currentActivity.color]
+                : null,
+        }}>
             <StartupPayloadFetcher />
             <FullScreenClickHandler />
             <ActivityDialogContainer />
             <FullScreenBlur>
-                <NavBar />
+                <NavBar
+                    shadow={false}
+                    backgroundColor={
+                        activityIsRunning ? googleColors[currentActivity.color] : null
+                    } />
                 <div className={
                     (activityIsRunning || hasUnsavedActivityRecord)
                         ? style.verticalCenterShown

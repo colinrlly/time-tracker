@@ -1,4 +1,15 @@
 .activityName {
     grid-column: 2;
     grid-row: 1;
+    font-size: 4em;
+    color: white;
+    opacity: .9;
+    padding: 0;
+    margin: 0;
+    line-height: .71;
+}
+
+.blackText {
+    color: black;
+    opacity: .95;
 }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import cx from 'classnames';
 
 import {
     utcNow,
@@ -53,7 +54,10 @@ function TimerText(props) {
     ]);
 
     return (
-        <span className={style.timerText}>{displayedTime}</span>
+        <span className={cx(
+            style.timerText,
+            props.runningActivity ? style.runningActivity : null,
+        )}>{displayedTime}</span>
     );
 }
 

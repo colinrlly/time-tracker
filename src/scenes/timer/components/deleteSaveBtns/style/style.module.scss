@@ -1,0 +1,35 @@
+.deleteSaveBtns {
+    grid-row: 3;
+    grid-column: 2;
+    display: grid;
+    grid-template-columns: 200px 200px;
+    grid-template-rows: 70px;
+    height: 70px;
+    column-gap: 25px;
+}
+
+.deleteBtn {
+    border: 4px solid #D42027;
+    grid-column: 1;
+    grid-row: 1;
+    color: black;
+    opacity: .95;
+}
+
+.deleteBtn:hover {
+    background-color: #D42027;
+    color: white;
+}
+
+.saveBtn {
+    border: 4px solid #0A8042;
+    grid-column: 2;
+    grid-row: 1;
+    opacity: .95;
+    color: black;
+}
+
+.saveBtn:hover {
+    background-color: #0A8042;
+    color: white;
+}

@@ -1,17 +1,12 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 
 import {
     HamburgerMenu,
 } from './components';
 
-import {
-    navigation,
-    pageLink,
-    logo,
-    hamburger,
-    navPageLink,
-} from './styles/style.module.scss';
+import style from './styles/style.module.scss';
 
 import hamburgerImage from './images/hamburger.png';
 
@@ -60,15 +55,29 @@ export class NavBar extends Component {
         const { hamburgerMenuOpen } = this.state;
 
         return (
-            <nav className={navigation} ref={this.setContainerRef}>
-                <a className={logo} href='/'>TURNIP</a>
-                <a className={cx(pageLink, navPageLink)} href='/'>Timer</a>
-                <a className={cx(pageLink, navPageLink)} href='/data'>Data</a>
-                <a className={cx(pageLink, navPageLink)} href='https://calendar.google.com/'>Calendar</a>
-                <a className={cx(pageLink, navPageLink)} href='https://www.buymeacoffee.com/LogTheApp'>Donate</a>
-                <a className={cx(pageLink, navPageLink)} href='/'>Sign Out</a>
+            <nav
+                className={cx(
+                    style.navigation,
+                    this.props.shadow ? style.shadow : null,
+                )}
+                ref={this.setContainerRef}
+                style={{
+                    backgroundColor: this.props.backgroundColor
+                        ? this.props.backgroundColor : '#FFFFFF',
+                    color: this.props.backgroundColor
+                        ? '#FFFFFF' : '#000000',
+                    opacity: this.props.backgroundColor
+                        ? 0.95 : 1,
+                }}
+            >
+                <a className={style.logo} href='/'>TURNIP</a>
+                <a className={cx(style.pageLink, style.navPageLink)} href='/'>Timer</a>
+                <a className={cx(style.pageLink, style.navPageLink)} href='/data'>Data</a>
+                <a className={cx(style.pageLink, style.navPageLink)} href='https://calendar.google.com/'>Calendar</a>
+                <a className={cx(style.pageLink, style.navPageLink)} href='https://www.buymeacoffee.com/LogTheApp'>Donate</a>
+                <a className={cx(style.pageLink, style.navPageLink)} href='/'>Sign Out</a>
 
-                <button className={hamburger} onClick={this.handleHamburgerClick}>
+                <button className={style.hamburger} onClick={this.handleHamburgerClick}>
                     <img src={hamburgerImage} />
                 </button>
 
@@ -77,5 +86,10 @@ export class NavBar extends Component {
         );
     }
 }
+
+NavBar.Proptypes = {
+    shadow: PropTypes.bool.isRequired,
+    backgroundColor: PropTypes.string,
+};
 
 export default NavBar;

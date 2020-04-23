@@ -7,10 +7,13 @@ import {
 
 function ActivityNameContainer() {
     const activityIsRunning = useSelector((state) => state.activityIsRunning);
+    const hasUnsavedActivityRecord = useSelector((state) => state.hasUnsavedActivityRecord);
     const currentActivity = useSelector((state) => state.currentActivity);
 
-    return activityIsRunning
-        ? <ActivityName name={currentActivity.name} />
+    return (activityIsRunning || hasUnsavedActivityRecord)
+        ? <ActivityName
+            name={currentActivity.name}
+            hasUnsavedActivityRecord={hasUnsavedActivityRecord} />
         : null;
 }
 
