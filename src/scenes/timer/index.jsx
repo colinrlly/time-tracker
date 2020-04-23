@@ -1,4 +1,6 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import cx from 'classnames';
 
 import {
     NavBar,
@@ -20,6 +22,9 @@ import {
 import style from './style/style.module.scss';
 
 function Timer() {
+    const activityIsRunning = useSelector((state) => state.activityIsRunning);
+    const hasUnsavedActivityRecord = useSelector((state) => state.hasUnsavedActivityRecord);
+
     return (
         <div>
             <StartupPayloadFetcher />
@@ -27,13 +32,26 @@ function Timer() {
             <ActivityDialogContainer />
             <FullScreenBlur>
                 <NavBar />
-                <ActivityNameContainer />
-                <div className={style.timerContainer}>
-                    <NewActivityBtnContainer />
-                    <TimerTextContainer />
+                <div className={
+                    (activityIsRunning || hasUnsavedActivityRecord)
+                        ? style.verticalCenterShown
+                        : null
+                }>
+                    <div className={
+                        cx(
+                            style.timerContainer,
+                            (activityIsRunning || hasUnsavedActivityRecord)
+                                ? style.activityIsRunning
+                                : null,
+                        )
+                    }>
+                        <ActivityNameContainer />
+                        <NewActivityBtnContainer />
+                        <TimerTextContainer />
+                        <StopBtnContainer />
+                        <DeleteSaveBtns />
+                    </div>
                 </div>
-                <StopBtnContainer />
-                <DeleteSaveBtns />
                 <ActivityListContainer />
             </FullScreenBlur>
         </div >

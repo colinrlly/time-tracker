@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import { googleColorsRGB } from '../../../../../../static/js/google_colors';
 
+import cog from './images/cog.png';
+
 import style from './style/style.module.scss';
 
 function ActivityList(props) {
@@ -25,20 +27,21 @@ function ActivityList(props) {
                 disabled={props.disabled}
                 className={style.activityListBtn}
             >{x.name}</button>
-            {/* <button
+            <button
                 onClick={() => props.editCallback(x)}
                 data-testid={`edit-${x.name}`}
                 className={style.activityListEditBtn}
-            >edit</button> */}
+            >
+                <img src={cog} />
+            </button>
         </li>));
 
     return (
-        <ul className={style.activityList}>
-            {
-                (props.activityIsRunning || props.hasUnsavedActivityRecord)
-                    ? null
-                    : activityComponents}
-        </ul>
+        (props.activityIsRunning || props.hasUnsavedActivityRecord)
+            ? null
+            : <ul className={style.activityList}>
+                {activityComponents}
+            </ul>
     );
 }
 

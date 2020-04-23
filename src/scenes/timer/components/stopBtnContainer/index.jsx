@@ -13,6 +13,8 @@ import {
     Btn,
 } from '../../../../components';
 
+import style from './style/style.module.scss';
+
 function StopBtnContainer() {
     const activityIsRunning = useSelector((state) => state.activityIsRunning);
     const dispatch = useDispatch();
@@ -29,7 +31,9 @@ function StopBtnContainer() {
         });
     }
 
-    return activityIsRunning ? <Btn callback={callback} text={'Stop'} /> : null;
+    return activityIsRunning
+        ? <Btn callback={callback} text={'Stop'} className={style.stopBtn} />
+        : null;
 }
 
 export default StopBtnContainer;

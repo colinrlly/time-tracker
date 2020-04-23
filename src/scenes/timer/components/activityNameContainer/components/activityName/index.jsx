@@ -1,8 +1,10 @@
 import React from 'react';
 
+import style from './style/style.module.scss';
+
 function ActivityName(props) {
     return (
-        <span>{props.name}</span>
+        <span className={style.activityName}>{props.name}</span>
     );
 }
 
