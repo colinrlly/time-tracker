@@ -1,16 +1,58 @@
 .overlay {
-    position: absolute;
+    position: fixed;
     z-index: 3;
     width: 300px;
     background-color: white;
     border-radius: 12px;
     left: calc(50% - 150px);
     top: calc(50% - 200px);
-    padding: 20px;
+    padding-bottom: 30px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.exitBtnContainer {
+    width: 100%;
+    height: 50px;
+}
+
+.exitBtn {
+    background: transparent;
+    border: none;
+    font-size: 2.7em;
+    width: 50px;
+    height: 50px;
+}
+
+.titleInputContainer {
+    width: 250px;
+    height: 75px;
+    border-radius: 5px;
+    margin: auto auto;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    margin-bottom: 15px;
+}
+
+.titleInput {
+    background: transparent;
+    border: none;
+    // border-bottom: 2px solid white;
+    font-size: 1.6em;
+    color: white;
+    opacity: .95;
+    width: 225px;
+    text-align: center;
+}
+
+.titleInput::placeholder {
+    color: white;
+    opacity: .75;
 }
 
 .colorsContainer {
     width: 250px;
+    margin: auto auto;
     margin-bottom: 15px;
     display: flex;
     flex-wrap: wrap;
@@ -29,4 +71,31 @@
 
 .selectedColor {
     box-shadow: inset 0 0 10px #000000;
+}
+
+.submitBtn {
+    border: 4px solid black;
+    color: black;
+    width: 150px;
+    height: 50px;
+    margin: auto auto;
+    padding: 0;
+    display: block;
+}
+
+.submitBtn:hover {
+    background-color: black;
+    color: white;
+}
+
+.deleteBtn {
+    background: transparent;
+    border: none;
+    color: #D42027;
+    width: 150px;
+    margin: auto auto;
+    text-align: center;
+    display: block;
+    margin-top: 10px;
+    text-decoration: underline;
 }

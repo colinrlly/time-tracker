@@ -4,6 +4,10 @@ import cx from 'classnames';
 
 import googleColors from '../../../../../../static/js/google_colors';
 
+import { Btn } from '../../../../../../components';
+
+import exitBtn from './images/exitBtn.png';
+
 import style from './style/style.module.scss';
 
 function ActivityDialog(props) {
@@ -22,29 +26,41 @@ function ActivityDialog(props) {
 
     return (
         <div className={style.overlay}>
-            <div>
-                <button onClick={props.exitBtnCallback}>+</button>
+            <div className={style.exitBtnContainer}>
+                <button className={style.exitBtn} onClick={props.exitBtnCallback}>
+                    <img src={exitBtn} />
+                </button>
             </div>
 
-            <div>
-                <div>
-                    <input
-                        type='text'
-                        placeholder='Add Title'
-                        aria-label="activity-name-input"
-                        value={props.activityName}
-                        onChange={props.activityNameInputCallback} />
-                </div>
-
-                <div className={style.colorsContainer}>
-                    {colorButtons}
-                </div>
+            <div
+                className={style.titleInputContainer}
+                style={{
+                    backgroundColor: googleColors[props.selectedColor],
+                }}
+            >
+                <input
+                    type='text'
+                    placeholder='Add Title'
+                    aria-label="activity-name-input"
+                    value={props.activityName}
+                    onChange={props.activityNameInputCallback}
+                    className={style.titleInput} />
             </div>
 
-            <button onClick={props.submitCallback}>{props.submitText}</button>
+            <div className={style.colorsContainer}>
+                {colorButtons}
+            </div>
+
+            <Btn
+                callback={props.submitCallback}
+                text={props.submitText}
+                className={style.submitBtn} />
 
             {props.showDelete
-                ? <button onClick={props.deleteActivityCallback}>Delete Activity</button>
+                ? <button
+                    onClick={props.deleteActivityCallback}
+                    className={style.deleteBtn}
+                >Delete Activity</button>
                 : null}
         </div>
     );
@@ -60,6 +76,11 @@ ActivityDialog.propTypes = {
     submitText: PropTypes.oneOf(['Add', 'Save']).isRequired,
     showDelete: PropTypes.bool.isRequired,
     deleteActivityCallback: PropTypes.func.isRequired,
+    currentActivity: PropTypes.exact({
+        id: PropTypes.number,
+        name: PropTypes.string,
+        color: PropTypes.number,
+    }).isRequired,
 };
 
 export default ActivityDialog;

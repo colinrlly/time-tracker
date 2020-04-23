@@ -25,6 +25,7 @@ function ActivityDialogContainer() {
     const editActivityName = useSelector((state) => state.activityDialog.editActivityName);
     const editActivityColor = useSelector((state) => state.activityDialog.editActivityColor);
     const editActivityId = useSelector((state) => state.activityDialog.editActivityId);
+    const currentActivity = useSelector((state) => state.currentActivity);
     const dispatch = useDispatch();
 
     const wrapperRef = useRef(null);
@@ -155,7 +156,8 @@ function ActivityDialogContainer() {
                 submitCallback={(newOrEditDialog === 'new') ? saveNewActivityCallback : saveEditActivityCallback}
                 submitText={(newOrEditDialog === 'new') ? 'Add' : 'Save'}
                 showDelete={(newOrEditDialog === 'edit')}
-                deleteActivityCallback={deleteActivityCallback} />
+                deleteActivityCallback={deleteActivityCallback}
+                currentActivity={currentActivity} />
         </div>
         : null;
 }

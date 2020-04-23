@@ -1,8 +1,8 @@
 .fullScreenClickHandler {
-    background: red;
-    opacity: .1;
     width: 100%;
     height: 100vh;
-    position: absolute;
+    position: fixed;
     z-index: 2;
+    background-color: #000000;
+    opacity: .1;
 }
