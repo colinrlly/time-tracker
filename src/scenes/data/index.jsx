@@ -18,6 +18,7 @@ import TotalTime from './components/totalTime';
 import {
     NavBar,
     H5,
+    Footer,
 } from '../../components';
 
 import {
@@ -27,6 +28,7 @@ import {
     closedControls,
     fullWidthContent,
     openControls,
+    footerPusher,
 } from './style/structure.module.scss';
 
 import './style/fonts.scss';
@@ -128,9 +130,12 @@ class Data extends Component {
                     handleControlsBtnClick={() => this.handleControlsBtnClick()} />
 
                 <main className={cx(content, controlsClosed ? fullWidthContent : null)}>
-                    <Tooltip />
-                    <BarChart tweenStatus={tweenStatus} />
-                    <StackedBarChart tweenStatus={tweenStatus} />
+                    <div className={footerPusher}>
+                        <Tooltip />
+                        <BarChart tweenStatus={tweenStatus} />
+                        <StackedBarChart tweenStatus={tweenStatus} />
+                    </div>
+                    <Footer />
                 </main>
             </div>
         );

@@ -1,3 +1,9 @@
 .blur {
     filter: blur(5px);
 }
+
+.fullHeight {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}

@@ -37,8 +37,9 @@
     height: calc(100vh - 65px);
     overflow-y: scroll;
     padding-top: 50px;
-    padding-bottom: 50px;
     -ms-overflow-style: none;
+    display: flex;
+    flex-direction: column;
 }
 
 .content::-webkit-scrollbar {
@@ -47,6 +48,10 @@
 
 .fullWidthContent {
     margin-left: 0px;
+}
+
+.footerPusher {
+    flex: 1 0 auto;
 }
 
 
