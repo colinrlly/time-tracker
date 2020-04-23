@@ -4,6 +4,7 @@ import cx from 'classnames';
 
 import {
     NavBar,
+    Footer,
 } from '../../components';
 
 import googleColors from '../../static/js/google_colors';
@@ -64,6 +65,7 @@ function Timer() {
                     </div>
                 </div>
                 <ActivityListContainer />
+                <Footer />
             </FullScreenBlur>
         </div >
     );
