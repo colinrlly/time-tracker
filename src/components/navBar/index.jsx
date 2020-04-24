@@ -9,6 +9,8 @@ import {
 import style from './styles/style.module.scss';
 
 import hamburgerImage from './images/hamburger.png';
+import logoLight from './images/logoLight.png';
+import logoDark from './images/logoDark.png';
 
 export class NavBar extends Component {
     constructor(props) {
@@ -70,7 +72,11 @@ export class NavBar extends Component {
                         ? 0.95 : 1,
                 }}
             >
-                <a className={style.logo} href='/'>TURNIP</a>
+                <a className={style.logo} href='/'>
+                    {this.props.backgroundColor
+                        ? <img src={logoLight} />
+                        : <img src={logoDark} />}
+                </a>
                 <a className={cx(style.pageLink, style.navPageLink)} href='/'>Timer</a>
                 <a className={cx(style.pageLink, style.navPageLink)} href='/data'>Data</a>
                 <a className={cx(style.pageLink, style.navPageLink)} href='https://calendar.google.com/'>Calendar</a>
