@@ -9,7 +9,7 @@ describe('ActivityName', () => {
         const { getByText } = render(
             <ActivityName
                 name={'test name'}
-                activityIsRunning={true} />,
+                hasUnsavedActivityRecord={false} />,
         );
 
         expect(getByText('test name')).toBeTruthy();

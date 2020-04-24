@@ -17,6 +17,7 @@ describe('ActivityNameContainer', () => {
                 color: 5,
             },
             activityIsRunning: true,
+            hasUnsavedActivityRecord: false,
         });
 
         const { getByText } = render(
@@ -35,6 +36,7 @@ describe('ActivityNameContainer', () => {
                 color: 5,
             },
             activityIsRunning: false,
+            hasUnsavedActivityRecord: false,
         });
 
         const { queryByText } = render(
@@ -51,6 +53,7 @@ describe('ActivityNameContainer', () => {
                 color: 5,
             },
             activityIsRunning: true,
+            hasUnsavedActivityRecord: false,
         });
 
         const { getByText } = render(

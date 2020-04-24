@@ -10,6 +10,7 @@ function NewActivityBtn(props) {
         onClick={props.callback}
         disabled={props.disabled}
         className={style.plusBtn}
+        data-testid={'newActivityBtn'}
     >
         <img src={plus} style={
             {

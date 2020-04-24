@@ -27,7 +27,7 @@ describe('NewActivityBtnContainer', () => {
             },
         });
 
-        const { getByText } = render(
+        const { getByText, getByTestId } = render(
             <Provider store={store}>
                 <NewActivityBtnContainer />
             </Provider>,
@@ -36,16 +36,17 @@ describe('NewActivityBtnContainer', () => {
         return {
             store,
             getByText,
+            getByTestId,
         };
     }
 
     it('Dispatches the proper Redux actions when button is clicked.', async () => {
         const {
             store,
-            getByText,
+            getByTestId,
         } = setUp();
 
-        fireEvent.click(getByText('+'));
+        fireEvent.click(getByTestId('newActivityBtn'));
 
         const expectedActivityDialogDisplayedAction = JSON.stringify({
             type: SET_ACTIVITY_DIALOG_DISPLAYED,
@@ -76,13 +77,13 @@ describe('NewActivityBtnContainer', () => {
             },
         });
 
-        const { queryByText } = render(
+        const { queryByTestId } = render(
             <Provider store={store}>
                 <NewActivityBtnContainer />
             </Provider>,
         );
 
-        expect(queryByText('+')).toBeNull();
+        expect(queryByTestId('newActivityBtn')).toBeNull();
     });
 
     it('Doesn\'t show itself when hasUnsavedActivityRecord is true.', () => {
@@ -94,12 +95,12 @@ describe('NewActivityBtnContainer', () => {
             },
         });
 
-        const { queryByText } = render(
+        const { queryByTestId } = render(
             <Provider store={store}>
                 <NewActivityBtnContainer />
             </Provider>,
         );
 
-        expect(queryByText('+')).toBeNull();
+        expect(queryByTestId('newActivityBtn')).toBeNull();
     });
 });

@@ -27,7 +27,10 @@ function ActivityDialog(props) {
     return (
         <div className={style.overlay}>
             <div className={style.exitBtnContainer}>
-                <button className={style.exitBtn} onClick={props.exitBtnCallback}>
+                <button
+                    className={style.exitBtn}
+                    onClick={props.exitBtnCallback}
+                    data-testid={'exitBtn'}>
                     <img src={exitBtn} />
                 </button>
             </div>

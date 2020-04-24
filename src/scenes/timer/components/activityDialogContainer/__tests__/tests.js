@@ -39,6 +39,11 @@ describe('ActivityDialogContainer', () => {
                 editActivityColor: 8,
                 editActivityId: 61,
             },
+            currentActivity: {
+                id: 54,
+                name: 'Games',
+                color: 3,
+            },
         });
 
         const {
@@ -102,6 +107,11 @@ describe('ActivityDialogContainer', () => {
                 editActivityColor: 8,
                 editActivityId: 61,
             },
+            currentActivity: {
+                id: 54,
+                name: 'Games',
+                color: 3,
+            },
         });
 
         const { getByLabelText } = render(
@@ -140,10 +150,10 @@ describe('ActivityDialogContainer', () => {
     it('Dispatches the proper redux events when the exit button is clicked.', async () => {
         const {
             store,
-            getByText,
+            getByTestId,
         } = setUp();
 
-        fireEvent.click(getByText('+'));
+        fireEvent.click(getByTestId('exitBtn'));
 
         await waitFor(() => expect(store.getActions()).not.toHaveLength(0));
 
@@ -175,6 +185,11 @@ describe('ActivityDialogContainer', () => {
                 editActivityName: 'Games',
                 editActivityColor: 8,
                 editActivityId: 61,
+            },
+            currentActivity: {
+                id: 54,
+                name: 'Games',
+                color: 3,
             },
         });
 
@@ -212,6 +227,11 @@ describe('ActivityDialogContainer', () => {
                 editActivityName: 'Games',
                 editActivityColor: 8,
                 editActivityId: 61,
+            },
+            currentActivity: {
+                id: 54,
+                name: 'Games',
+                color: 3,
             },
         });
 
@@ -255,6 +275,11 @@ describe('ActivityDialogContainer', () => {
                 editActivityName: 'Games',
                 editActivityColor: 8,
                 editActivityId: 61,
+            },
+            currentActivity: {
+                id: 54,
+                name: 'Games',
+                color: 3,
             },
         });
 
@@ -332,6 +357,11 @@ describe('ActivityDialogContainer', () => {
                 editActivityColor: 8,
                 editActivityId: 61,
             },
+            currentActivity: {
+                id: 54,
+                name: 'Games',
+                color: 3,
+            },
         });
 
         const {
@@ -378,6 +408,11 @@ describe('ActivityDialogContainer', () => {
                 editActivityColor: 8,
                 editActivityId: 61,
             },
+            currentActivity: {
+                id: 54,
+                name: 'Games',
+                color: 3,
+            },
         });
 
         const {
@@ -410,6 +445,11 @@ describe('ActivityDialogContainer', () => {
                 editActivityColor: 8,
                 editActivityId: 61,
             },
+            currentActivity: {
+                id: 54,
+                name: 'Games',
+                color: 3,
+            },
         });
 
         const { getByText } = render(
@@ -432,6 +472,11 @@ describe('ActivityDialogContainer', () => {
                 editActivityColor: 8,
                 editActivityId: 61,
             },
+            currentActivity: {
+                id: 54,
+                name: 'Games',
+                color: 3,
+            },
         });
 
         const { getByText } = render(
@@ -453,6 +498,11 @@ describe('ActivityDialogContainer', () => {
                 editActivityName: 'Games',
                 editActivityColor: 8,
                 editActivityId: 61,
+            },
+            currentActivity: {
+                id: 54,
+                name: 'Games',
+                color: 3,
             },
         });
 
@@ -490,6 +540,11 @@ describe('ActivityDialogContainer', () => {
                 editActivityName: 'Games',
                 editActivityColor: 8,
                 editActivityId: 61,
+            },
+            currentActivity: {
+                id: 54,
+                name: 'Games',
+                color: 3,
             },
         });
 
@@ -546,6 +601,11 @@ describe('ActivityDialogContainer', () => {
                 editActivityName: 'Games Edited',
                 editActivityColor: 4,
                 editActivityId: 10,
+            },
+            currentActivity: {
+                id: 54,
+                name: 'Games',
+                color: 3,
             },
         });
 
@@ -607,6 +667,11 @@ describe('ActivityDialogContainer', () => {
                 editActivityColor: 8,
                 editActivityId: 61,
             },
+            currentActivity: {
+                id: 54,
+                name: 'Games',
+                color: 3,
+            },
         });
 
         const {
@@ -645,6 +710,11 @@ describe('ActivityDialogContainer', () => {
                 editActivityName: 'Games',
                 editActivityColor: 8,
                 editActivityId: 10,
+            },
+            currentActivity: {
+                id: 54,
+                name: 'Games',
+                color: 3,
             },
         });
 
@@ -696,6 +766,11 @@ describe('ActivityDialogContainer', () => {
                 editActivityName: 'Games Edited',
                 editActivityColor: 4,
                 editActivityId: 10,
+            },
+            currentActivity: {
+                id: 54,
+                name: 'Games',
+                color: 3,
             },
         });
 

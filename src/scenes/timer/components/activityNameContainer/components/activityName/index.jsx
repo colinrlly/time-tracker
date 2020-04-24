@@ -15,8 +15,8 @@ function ActivityName(props) {
     );
 }
 
-ActivityName.PropTypes = {
-    activityName: PropTypes.string.isRequired,
+ActivityName.propTypes = {
+    name: PropTypes.string.isRequired,
     hasUnsavedActivityRecord: PropTypes.bool.isRequired,
 };
 
