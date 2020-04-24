@@ -81,7 +81,7 @@ export class NavBar extends Component {
                 <a className={cx(style.pageLink, style.navPageLink)} href='/data'>Data</a>
                 <a className={cx(style.pageLink, style.navPageLink)} href='https://calendar.google.com/'>Calendar</a>
                 <a className={cx(style.pageLink, style.navPageLink)} href='https://www.buymeacoffee.com/LogTheApp'>Donate</a>
-                <a className={cx(style.pageLink, style.navPageLink)} href='/'>Sign Out</a>
+                <a className={cx(style.pageLink, style.navPageLink)} href='/logout'>Sign Out</a>
 
                 <button className={style.hamburger} onClick={this.handleHamburgerClick}>
                     <img src={hamburgerImage} />

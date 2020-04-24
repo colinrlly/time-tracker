@@ -1,10 +1,11 @@
 from sqlalchemy import Column, Integer, DateTime, String, ForeignKey, BigInteger, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.dialects.postgresql import JSON
+from flask_login import UserMixin
 
 from settings import db
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     """ Model to store a user. 
     
         One model to rule them all. This model holds the 

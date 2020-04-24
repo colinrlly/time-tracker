@@ -13,6 +13,7 @@ import os
 import flask
 from datetime import datetime
 from httplib2 import Http
+from flask_login import login_user, LoginManager, current_user, logout_user, login_required
 
 from functools import wraps
 
@@ -34,6 +35,19 @@ from helpers import *
 from settings import app, db
 
 
+# Set up flask_login
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(user_id)
+
+@login_manager.unauthorized_handler
+def unauthorized_handler():
+    return redirect(url_for('login'))
+
+
 # Set up Google Constants
 CLIENT_ID = client_id = os.environ['GOOGLE_CLIENT_ID']
 CLIENT_SECRET = client_secret = os.environ['GOOGLE_CLIENT_SECRET']
@@ -45,22 +59,6 @@ API_VERSION = 'v3'
 @app.teardown_appcontext
 def shutdown_session(exception=None):
     db.session.remove()
-
-
-def login_required(f):
-    """
-        After decorating a function this function gets run before the decorated function.
-
-        Checks if user_id is in flask.session. If not, redirects user to login page, else
-        runs decorated function.
-    """
-    @wraps(f)
-    # If the user is not logged in return them to the login page
-    def decorated_function(*args, **kwargs):
-        if 'user_id' not in flask.session:
-            return redirect(url_for('login'))
-        return f(*args, **kwargs)
-    return decorated_function
 
 
 @app.route('/login', methods=['GET'])
@@ -108,27 +106,24 @@ def login_oauth2callback():
     idinfo = get_idinfo(token)  # Get the permanent Google profile dictionary
 
     if idinfo:
-        flask.session['user_id'] = idinfo['sub']  # Get the permanent Google id
-        flask.session['user_name'] = idinfo['name']
-        flask.session['user_picture'] = idinfo['picture']
-        flask.session['user_email'] = idinfo['email']
-
         user = get_or_create_user(db.session, User, idinfo['sub'])
+
+        login_user(user, remember=True)
 
         return redirect('/')
 
     return 'Error logging in, please try again.'
 
 
-@app.route('/logout', methods=['POST'])
+@app.route('/logout', methods=['GET'])
 @login_required
 def logout():
     """
         Logs the currently signed in user out.
     """
-    flask.session.clear()
+    logout_user()
 
-    return url_for('login')
+    return redirect(url_for('login'))
 
 
 @app.route('/api/start-activity', methods=['POST'])
@@ -137,7 +132,7 @@ def update_activity():
     """
         Updates the server's records of which activity the user is currently doing.
     """
-    user_id = flask.session['user_id']
+    user_id = current_user.get_id()
     activity_id = request.get_json()['activity_id']
     # activity_id = request.form['activity_id']
 
@@ -158,7 +153,7 @@ def stop_activity():
     """
         Stops the user's current activity.
     """
-    user_id = flask.session['user_id']
+    user_id = current_user.get_id()
 
     user = get_or_create_user(db.session, User, user_id)
 
@@ -173,7 +168,7 @@ def stop_activity():
 @app.route('/api/save-activity', methods=['POST'])
 @login_required
 def save_activity():
-    user = get_or_create_user(db.session, User, flask.session['user_id'])
+    user = get_or_create_user(db.session, User, current_user.get_id())
 
     return jsonify(save_users_activity(db.session, User, Activity, user))
 
@@ -181,7 +176,7 @@ def save_activity():
 @app.route('/api/delete-activity-record', methods=['POST'])
 @login_required
 def delete_activity_record():
-    user = get_or_create_user(db.session, User, flask.session['user_id'])
+    user = get_or_create_user(db.session, User, current_user.get_id())
 
     delete_users_activity_record(
         session=db.session,
@@ -236,7 +231,7 @@ def oauth2callback():
     credentials = flow.step2_exchange(authorization_response)
 
     # Store credentials in the database.
-    user = get_or_create_user(db.session, User, flask.session['user_id'])
+    user = get_or_create_user(db.session, User, current_user.get_id())
     user.credentials = credentials.to_json()
     db.session.add(user)
     db.session.commit()
@@ -256,7 +251,7 @@ def create_activity():
 
         Returns object of shape { 'success': 'true'/'false', 'activity_id': int }
     """
-    user_id = flask.session['user_id']
+    user_id = current_user.get_id()
     name = request.get_json()['name']
     color = request.get_json()['color']
 
@@ -294,7 +289,7 @@ def save_activity_edit():
     new_name = request.get_json()['new_name']
 
     # Get user's activities
-    activities = Activity.query.filter_by(user_id=flask.session['user_id']).all()
+    activities = Activity.query.filter_by(user_id=current_user.get_id()).all()
     activity = Activity.query.get(activity_id)
 
     # convert list of objects to list of names
@@ -334,14 +329,14 @@ def list_events():
     startDateTime = data['startDateTime']
     endDateTime = data['endDateTime']
 
-    user = get_or_create_user(db.session, User, flask.session['user_id'])
+    user = get_or_create_user(db.session, User, current_user.get_id())
 
     return json.dumps(list_users_events(db.session, User, Activity, user, startDateTime, endDateTime))
 
 
 @app.route('/api/timer_startup_payload', methods=['POST'])
 def timer_startup_paytload():
-    user = get_or_create_user(db.session, User, flask.session['user_id'])
+    user = get_or_create_user(db.session, User, current_user.get_id())
     activities = Activity.query.filter_by(user_id=user.id).order_by(Activity.id).all()
 
     current_activity_id = user.current_activity
@@ -371,7 +366,7 @@ def timer_startup_paytload():
 #         renders the template with this information.
 #     """
 #     # Get user's list of activities from the database.
-#     user = get_or_create_user(db.session, User, flask.session['user_id'])
+#     user = get_or_create_user(db.session, User, current_user.get_id())
 #     activities = Activity.query.filter_by(user_id=user.id).order_by(Activity.id).all()
 
 #     # Decide whether there is a currently running activity
