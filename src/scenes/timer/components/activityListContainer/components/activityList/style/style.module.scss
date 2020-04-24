@@ -4,7 +4,6 @@
     align-content: center;
     text-align: center;
     margin: 20px auto;
-    width:90%;
 }
 
 .activityListItem {
@@ -46,4 +45,10 @@
 
 .activityListItem:hover .activityListEditBtn {
     display: block;
+}
+
+@media (max-width: 596px) {
+    .activityListItem {
+        width: 90%;
+    }
 }

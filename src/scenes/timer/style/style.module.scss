@@ -29,3 +29,9 @@
     grid-template-rows: auto auto auto;
     grid-row-gap: 50px;
 }
+
+@media (max-width: 500px) {
+    .timerContainer {
+        grid-template-rows: 20px 100px 20px;
+    }
+}
