@@ -132,11 +132,10 @@ def update_activity():
     """
         Updates the server's records of which activity the user is currently doing.
     """
-    user_id = current_user.get_id()
     activity_id = request.get_json()['activity_id']
     # activity_id = request.form['activity_id']
 
-    user = get_or_create_user(db.session, User, user_id)
+    user = current_user
 
     set_users_activity(
         session=db.session,
@@ -153,9 +152,7 @@ def stop_activity():
     """
         Stops the user's current activity.
     """
-    user_id = current_user.get_id()
-
-    user = get_or_create_user(db.session, User, user_id)
+    user = current_user
 
     stopped_at = stop_users_activity(
         session=db.session,
@@ -168,7 +165,7 @@ def stop_activity():
 @app.route('/api/save-activity', methods=['POST'])
 @login_required
 def save_activity():
-    user = get_or_create_user(db.session, User, current_user.get_id())
+    user = current_user
 
     return jsonify(save_users_activity(db.session, User, Activity, user))
 
@@ -176,7 +173,7 @@ def save_activity():
 @app.route('/api/delete-activity-record', methods=['POST'])
 @login_required
 def delete_activity_record():
-    user = get_or_create_user(db.session, User, current_user.get_id())
+    user = current_user
 
     delete_users_activity_record(
         session=db.session,
@@ -231,7 +228,7 @@ def oauth2callback():
     credentials = flow.step2_exchange(authorization_response)
 
     # Store credentials in the database.
-    user = get_or_create_user(db.session, User, current_user.get_id())
+    user = current_user
     user.credentials = credentials.to_json()
     db.session.add(user)
     db.session.commit()
@@ -329,15 +326,15 @@ def list_events():
     startDateTime = data['startDateTime']
     endDateTime = data['endDateTime']
 
-    user = get_or_create_user(db.session, User, current_user.get_id())
+    user = current_user
 
     return json.dumps(list_users_events(db.session, User, Activity, user, startDateTime, endDateTime))
 
 
 @app.route('/api/timer_startup_payload', methods=['POST'])
 def timer_startup_paytload():
-    user = get_or_create_user(db.session, User, current_user.get_id())
-    activities = Activity.query.filter_by(user_id=user.id).order_by(Activity.id).all()
+    user = current_user
+    activities = Activity.query.filter_by(user_id=user.get_id()).order_by(Activity.id).all()
 
     current_activity_id = user.current_activity
     current_activity = Activity.query.filter_by(id=current_activity_id).first()

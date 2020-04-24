@@ -20,8 +20,10 @@ function DeleteSaveBtns() {
         axios.post(url).then((response) => {
             if (response.data.code === 'success') {
                 dispatch(setHasUnsavedActivityRecord(false));
+            } else if (response.data.code === 'need_authorization') {
+                window.location.replace(response.data.auth_url);
             } else {
-                console.error('problem deleting or saving activity');
+                console.error('problem deleting or saving activity', response.data);
             }
         });
     }
