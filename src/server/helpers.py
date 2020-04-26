@@ -156,7 +156,7 @@ def save_users_activity(session, User, Activity, user):
     # We do this here at the last moment so the Google Calendar event shows in the user's
     # local timezone.
     local_started_at = utc_to_local(user.started_at, timezone)
-    local_stopped_at = utc_to_local(user.started_at, timezone)
+    local_stopped_at = utc_to_local(user.stopped_at, timezone)
 
     # Make the event
     event = {
