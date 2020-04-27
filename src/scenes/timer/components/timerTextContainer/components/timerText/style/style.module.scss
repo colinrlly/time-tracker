@@ -10,6 +10,10 @@
     opacity: .9;
 }
 
+.timerText.runningActivity {
+    font-size: 5.5em;
+}
+
 @media (max-width: 600px) {
     .timerText {
         font-size: 5em;
@@ -20,15 +24,15 @@
     .timerText {
         font-size: 4em;
     }
-
-    .timerText.runningActivity {
-        font-size: 4.3em;
-    }
 }
 
 @media (max-width: 450px) {
     .timerText {
         font-size: 3.5em;
+    }
+
+    .timerText.runningActivity {
+        font-size: 4.3em;
     }
 }
 

@@ -8,7 +8,8 @@ import {
 
 import style from './styles/style.module.scss';
 
-import hamburgerImage from './images/hamburger.png';
+import hamburgerDark from './images/hamburgerDark.png';
+import hamburgerLight from './images/hamburgerLight.png';
 import logoLight from './images/logoLight.png';
 import logoDark from './images/logoDark.png';
 
@@ -84,7 +85,7 @@ export class NavBar extends Component {
                 <a className={cx(style.pageLink, style.navPageLink)} href='/logout'>Sign Out</a>
 
                 <button className={style.hamburger} onClick={this.handleHamburgerClick}>
-                    <img src={hamburgerImage} />
+                    <img src={this.props.backgroundColor ? hamburgerLight : hamburgerDark} />
                 </button>
 
                 <HamburgerMenu open={hamburgerMenuOpen} />

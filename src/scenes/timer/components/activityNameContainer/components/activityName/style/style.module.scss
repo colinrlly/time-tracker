@@ -6,8 +6,12 @@
     opacity: .9;
     padding: 0;
     margin: 0;
-    line-height: .71;
+    line-height: 1.2;
     font-weight: 300;
+    max-width: 90vw;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .blackText {
