@@ -51,8 +51,8 @@ function Timer() {
             <FullScreenClickHandler />
             <ActivityDialogContainer />
             <FullScreenBlur>
+                <NavBar shadow={false} backgroundColor={navBarBackgroundColor} />
                 <div className={style.content}>
-                    <NavBar shadow={false} backgroundColor={navBarBackgroundColor} />
                     <div className={verticleContainerShown}>
                         <div className={timerContainerStyle}>
                             <ActivityNameContainer />
@@ -64,7 +64,7 @@ function Timer() {
                     </div>
                     <ActivityListContainer />
                 </div>
-                <Footer color={activityIsRunning ? '#FFFFFF' : null}/>
+                <Footer color={activityIsRunning ? '#FFFFFF' : null} />
             </FullScreenBlur>
         </div >
     );
