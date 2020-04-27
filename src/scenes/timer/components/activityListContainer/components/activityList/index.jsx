@@ -11,22 +11,20 @@ function ActivityList(props) {
     const activityComponents = props.activities.map((x, i) => (
         <li
             key={i}
-            className={style.activityListItem}
-            style={{
-                backgroundColor:
-                    `rgba(
-                        ${googleColorsRGB[x.color][0]},
-                        ${googleColorsRGB[x.color][1]},
-                        ${googleColorsRGB[x.color][2]},
-                        1
-                    )`,
-            }}
-        >
+            className={style.activityListItem}>
             <button
                 onClick={() => props.handleActivityClick(x)}
                 disabled={props.disabled}
                 className={style.activityListBtn}
-            >{x.name}</button>
+                style={{
+                    backgroundColor:
+                        `rgba(
+                            ${googleColorsRGB[x.color][0]},
+                            ${googleColorsRGB[x.color][1]},
+                            ${googleColorsRGB[x.color][2]},
+                            1
+                        )`,
+                }}>{x.name}</button>
             <button
                 onClick={() => props.editCallback(x)}
                 data-testid={`edit-${x.name}`}

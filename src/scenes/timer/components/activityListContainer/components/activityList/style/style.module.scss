@@ -13,8 +13,6 @@
     margin: 20px;
     display: inline-block;
     border: none;
-    border-radius: 5px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
     position: relative;
 }
 
@@ -28,6 +26,19 @@
     margin: 0;
     color: white;
     opacity: .95;
+    border-radius: 5px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 05s;
+    transition: transform .05s;
+    transition: color .05s;
+    transition: opacity .05s;
+    transition: background-color .05s;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.activityListItem:hover .activityListBtn, .activityListBtn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 7px 14px rgba(50,50,93,.1), 0 3px 6px rgba(0,0,0,.08)
 }
 
 .activityListEditBtn {
