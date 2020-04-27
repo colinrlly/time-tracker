@@ -20,6 +20,10 @@
     .timerText {
         font-size: 4em;
     }
+
+    .timerText.runningActivity {
+        font-size: 4.3em;
+    }
 }
 
 @media (max-width: 450px) {
