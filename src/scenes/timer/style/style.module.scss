@@ -21,10 +21,9 @@
     justify-items: center;
 }
 
-.activityIsRunning {
+.timerContainer.activityIsRunning {
     position: absolute;
-    top: 33%;
-    transform: translateY(-50%);
+    top: 15%;
     width: 100%;
     grid-template-rows: auto auto auto;
     grid-row-gap: 50px;
