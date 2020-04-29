@@ -4,6 +4,9 @@ const autoprefixer = require('autoprefixer');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 const CSSModuleLoader = {
     loader: 'css-loader',
@@ -64,6 +67,9 @@ const config = {
             filename: '../../templates/data.html',
             template: './src/templates/extended/data/webpack_template.html',
         }),
+        new MomentLocalesPlugin(), // Removes all moment locales except en.
+        new CompressionPlugin(),
+        // new BundleAnalyzerPlugin(), // Uncomment to visualize bundles.
     ],
     module: {
         rules: [
