@@ -19,7 +19,7 @@ import {
     ActivityDialogContainer,
     NewActivityBtnContainer,
     FullScreenClickHandler,
-    FullScreenBlur,
+    Container,
 } from './components';
 
 import style from './style/style.module.scss';
@@ -29,15 +29,7 @@ function Timer() {
     const hasUnsavedActivityRecord = useSelector((state) => state.hasUnsavedActivityRecord);
     const currentActivity = useSelector((state) => state.currentActivity);
 
-    const backgroundColor = {
-        backgroundColor: (activityIsRunning)
-            ? googleColors[currentActivity.color]
-            : null,
-    };
     const navBarBackgroundColor = activityIsRunning ? googleColors[currentActivity.color] : null;
-    const verticleContainerShown = (activityIsRunning || hasUnsavedActivityRecord)
-        ? style.verticalCenterShown
-        : null;
     const timerContainerStyle = cx(
         style.timerContainer,
         (activityIsRunning || hasUnsavedActivityRecord)
@@ -46,27 +38,23 @@ function Timer() {
     );
 
     return (
-        <div style={backgroundColor} className={style.backgroundColor}>
+        <Container>
             <StartupPayloadFetcher />
             <FullScreenClickHandler />
             <ActivityDialogContainer />
-            <FullScreenBlur>
+            <div className={style.content}>
                 <NavBar shadow={false} backgroundColor={navBarBackgroundColor} />
-                <div className={style.content}>
-                    <div className={verticleContainerShown}>
-                        <div className={timerContainerStyle}>
-                            <ActivityNameContainer />
-                            <NewActivityBtnContainer />
-                            <TimerTextContainer />
-                            <StopBtnContainer />
-                            <DeleteSaveBtns />
-                        </div>
-                    </div>
-                    <ActivityListContainer />
+                <div className={timerContainerStyle}>
+                    <ActivityNameContainer />
+                    <NewActivityBtnContainer />
+                    <TimerTextContainer />
+                    <StopBtnContainer />
+                    <DeleteSaveBtns />
                 </div>
-                <Footer color={activityIsRunning ? '#FFFFFF' : null} />
-            </FullScreenBlur>
-        </div >
+                <ActivityListContainer />
+            </div>
+            <Footer color={activityIsRunning ? '#FFFFFF' : null} />
+        </Container>
     );
 }
 

@@ -5,6 +5,6 @@ export { default as ActivityNameContainer } from './activityNameContainer';
 export { default as ActivityDialogContainer } from './activityDialogContainer';
 export { default as NewActivityBtnContainer } from './newActivityBtnContainer';
 export { default as FullScreenClickHandler } from './fullScreenClickHandler';
-export { default as FullScreenBlur } from './fullScreenBlur';
+export { default as Container } from './container';
 export { default as DeleteSaveBtns } from './runningActivityButtons/deleteSaveBtns';
 export { default as StopBtnContainer } from './runningActivityButtons/stopBtnContainer';
