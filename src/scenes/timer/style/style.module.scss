@@ -8,6 +8,10 @@
     flex: 1 0 auto;
 }
 
+.blur {
+    filter: blur(5px);
+}
+
 .timerContainer {
     margin: auto auto;
     display: grid;

@@ -13,7 +13,7 @@ import {
     SET_ACTIVITY_IS_RUNNING,
     SET_HAS_UNSAVED_ACTIVITY_RECORD,
     SET_LAST_ACTIVITY_STOP_TIME,
-} from '../../../../../redux/actions';
+} from '../../../../../../redux/actions';
 
 import StopBtnContainer from '../index.jsx';
 

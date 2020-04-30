@@ -11,7 +11,7 @@ import MutationObserver from 'mutation-observer';
 
 import {
     SET_HAS_UNSAVED_ACTIVITY_RECORD,
-} from '../../../../../redux/actions';
+} from '../../../../../../redux/actions';
 
 import DeleteSaveButtons from '../index.jsx';
 

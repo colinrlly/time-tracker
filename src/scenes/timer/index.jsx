@@ -28,6 +28,7 @@ function Timer() {
     const activityIsRunning = useSelector((state) => state.activityIsRunning);
     const hasUnsavedActivityRecord = useSelector((state) => state.hasUnsavedActivityRecord);
     const currentActivity = useSelector((state) => state.currentActivity);
+    const activityDialogDisplayed = useSelector((state) => state.activityDialog.displayed);
 
     const navBarBackgroundColor = activityIsRunning ? googleColors[currentActivity.color] : null;
     const timerContainerStyle = cx(
@@ -36,13 +37,14 @@ function Timer() {
             ? style.activityIsRunning
             : null,
     );
+    const contentStyle = cx(activityDialogDisplayed ? style.blur : '', style.content);
 
     return (
         <Container>
             <StartupPayloadFetcher />
             <FullScreenClickHandler />
             <ActivityDialogContainer />
-            <div className={style.content}>
+            <div className={contentStyle}>
                 <NavBar shadow={false} backgroundColor={navBarBackgroundColor} />
                 <div className={timerContainerStyle}>
                     <ActivityNameContainer />
