@@ -27,6 +27,10 @@
     font-weight: normal;
 }
 
+.logo:hover {
+    opacity: .5;
+}
+
 a.pageLink:hover, a.logo:hover {
     color: inherit;
 }

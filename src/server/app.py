@@ -369,7 +369,7 @@ if __name__ == '__main__':
     #     When running in production *do not* leave this option enabled.
     os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
-    app.debug = False
+    app.debug = True
     app.host = '0.0.0.0'
     app.port = '5000'
     app.run()
