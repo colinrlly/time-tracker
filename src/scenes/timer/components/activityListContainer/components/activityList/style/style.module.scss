@@ -22,7 +22,7 @@
     height: 100%;
     width: 100%;
     border: none;
-    padding: 0;
+    padding: 0 15px 0 15px;
     margin: 0;
     color: white;
     opacity: .95;
@@ -34,6 +34,9 @@
     transition: opacity .05s;
     transition: background-color .05s;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .activityListItem:hover .activityListBtn, .activityListBtn:hover {
