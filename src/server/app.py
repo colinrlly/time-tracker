@@ -365,6 +365,17 @@ def offline():
     return render_template('offline.html')
 
 
+@app.route('/manifest')
+def manifest():
+    return current_app.send_static_file('js/manifest.webmanifest')
+
+
+@app.route('/image/<path:path>')
+def image(path):
+    print('image/' + path)
+    return current_app.send_static_file('image/' + path)
+
+
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 @login_required

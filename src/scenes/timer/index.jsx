@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import cx from 'classnames';
 
@@ -38,6 +38,18 @@ function Timer() {
             : null,
     );
     const contentStyle = cx(activityDialogDisplayed ? style.blur : '', style.content);
+
+    useEffect(() => {
+        document.querySelector('meta[name="theme-color"]')
+            .setAttribute('content', activityIsRunning
+                ? googleColors[currentActivity.color]
+                : '#FFFFFF');
+
+        return () => {
+            document.querySelector('meta[name="theme-color"]')
+                .setAttribute('content', '#FFFFFF');
+        };
+    }, [activityIsRunning, currentActivity]);
 
     return (
         <Container>

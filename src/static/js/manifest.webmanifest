@@ -1,0 +1,22 @@
+{
+    "short_name": "Turnip",
+    "name": "Turnip: Log those activities.",
+    "description": "Track and analyze your time.",
+    "icons": [
+        {
+            "src": "/image/icon-192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "/image/icon-512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ],
+    "start_url": "/",
+    "background_color": "#FFFFFF",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "#FFFFFF"
+}
