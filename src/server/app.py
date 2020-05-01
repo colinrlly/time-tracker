@@ -17,7 +17,7 @@ from flask_login import login_user, LoginManager, current_user, logout_user, log
 
 from functools import wraps
 
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, redirect, url_for, jsonify, current_app
 import psycopg2
 
 import google
@@ -355,6 +355,16 @@ def timer_startup_paytload():
     return json.dumps(payload)
 
 
+@app.route('/service-worker.js')
+def service_worker():
+    return current_app.send_static_file('js/service-worker.js')
+
+
+@app.route('/offline')
+def offline():
+    return render_template('offline.html')
+
+
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 @login_required
@@ -369,7 +379,7 @@ if __name__ == '__main__':
     #     When running in production *do not* leave this option enabled.
     os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
-    app.debug = True
+    app.debug = False
     app.host = '0.0.0.0'
     app.port = '5000'
     app.run()

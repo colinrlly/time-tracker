@@ -17,4 +17,4 @@ db = SQLAlchemy(app)
 app.secret_key = os.environ['FLASK_SECRET_KEY']
 
 # Send gzip assets using middleware.
-# app.wsgi_app = WhiteNoise(app.wsgi_app, root=os.path.abspath('../static'), prefix='static/')
+app.wsgi_app = WhiteNoise(app.wsgi_app, root=os.path.abspath('../static'), prefix='static/')

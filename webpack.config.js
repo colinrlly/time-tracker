@@ -41,9 +41,9 @@ const config = {
     devtool: 'eval-source-map',
     entry: path.join(__dirname, '/src/index.jsx'),
     output: {
-        path: resolve('./src/static/build'),
+        path: resolve('./src/static/build/'),
         filename: '[name].[hash].js',
-        publicPath: '../static/build',
+        publicPath: '../static/build/',
     },
     optimization: {
         runtimeChunk: 'single',
@@ -65,10 +65,12 @@ const config = {
         new HtmlWebpackPlugin({
             title: 'Log Those Activities',
             filename: '../../templates/data.html',
-            template: './src/templates/extended/data/webpack_template.html',
+            template: './src/templates/webpack_template.html',
         }),
         new MomentLocalesPlugin(), // Removes all moment locales except en.
-        new CompressionPlugin(),
+        new CompressionPlugin({
+            test: /\.js(\?.*)?$/i,
+        }),
         // new BundleAnalyzerPlugin(), // Uncomment to visualize bundles.
     ],
     module: {
