@@ -372,7 +372,6 @@ def manifest():
 
 @app.route('/image/<path:path>')
 def image(path):
-    print('image/' + path)
     return current_app.send_static_file('image/' + path)
 
 

@@ -27,13 +27,15 @@ function TimerText(props) {
         let intervalId = null;
 
         if (props.runningActivity) {
-            const now = utcNow();
-            const diff = now - props.lastActivityStartTime;
-            const duration = moment.duration(diff, 'milliseconds');
+            let now = utcNow();
+            let diff = now - props.lastActivityStartTime;
+            let duration = moment.duration(diff, 'milliseconds');
 
             displayTime(duration);
             intervalId = setInterval(() => {
-                duration.add(1, 'second');
+                now = utcNow();
+                diff = now - props.lastActivityStartTime;
+                duration = moment.duration(diff, 'milliseconds');
                 displayTime(duration);
             }, 1000);
         } else if (props.hasUnsavedActivityRecord) {

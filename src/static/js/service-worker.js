@@ -1,4 +1,4 @@
-const version = 'v1';
+const version = 'v3';
 const offlineUrl = '/offline';
 
 this.addEventListener('install', (event) => {

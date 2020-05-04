@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
+import moment from 'moment';
 
 import {
     utcNow,
@@ -9,8 +10,15 @@ import {
 import TimerText from '../index.jsx';
 
 jest.useFakeTimers();
+jest.mock('../../../../../helpers', () => ({
+    utcNow: jest.fn(),
+}));
 
 describe('TimerText', () => {
+    beforeEach(() => {
+        utcNow.mockImplementation(() => moment('2020-05-04 00:00:00Z'));
+    });
+
     it('Displays 00:00:00 when props.runningActivity is false.', () => {
         const { container } = render(
             <TimerText
@@ -34,11 +42,15 @@ describe('TimerText', () => {
 
         expect(container.textContent).toBe('05:00:00');
 
+        utcNow.mockImplementation(() => moment('2020-05-04 00:00:01Z'));
+
         act(() => {
             jest.advanceTimersByTime(1000);
         });
 
         expect(container.textContent).toBe('05:00:01');
+
+        utcNow.mockImplementation(() => moment('2020-05-04 00:00:02Z'));
 
         act(() => {
             jest.advanceTimersByTime(1000);
@@ -57,6 +69,8 @@ describe('TimerText', () => {
         );
 
         expect(container.textContent).toBe('01:01:00:00');
+
+        utcNow.mockImplementation(() => moment('2020-05-04 00:00:01Z'));
 
         act(() => {
             jest.advanceTimersByTime(1000);
