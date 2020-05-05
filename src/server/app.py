@@ -5,7 +5,6 @@
     a certain activity and then record the activity in Google Calendar.
 """
 import sys
-# sys.path.append('./src/server')
 
 from models import *
 
@@ -14,11 +13,10 @@ import flask
 from datetime import datetime
 from httplib2 import Http
 from flask_login import login_user, LoginManager, current_user, logout_user, login_required
-
 from functools import wraps
-
 from flask import Flask, render_template, request, redirect, url_for, jsonify, current_app
 import psycopg2
+from flask_socketio import emit, join_room, leave_room
 
 import google
 from google.oauth2 import credentials, id_token
@@ -32,16 +30,18 @@ from oauth2client.client import credentials_from_code, AccessTokenCredentials, H
 import json
 
 from helpers import *
-from settings import app, db
+from settings import app, db, socketIo
 
 
 # Set up flask_login
 login_manager = LoginManager()
 login_manager.init_app(app)
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
+
 
 @login_manager.unauthorized_handler
 def unauthorized_handler():
@@ -56,6 +56,12 @@ API_SERVICE_NAME = 'calendar'
 API_VERSION = 'v3'
 
 
+# Set up SocketIO
+@socketIo.on('connect')
+def handle_connect():
+    join_room(current_user.get_id())
+
+
 @app.teardown_appcontext
 def shutdown_session(exception=None):
     db.session.remove()
@@ -67,6 +73,17 @@ def login():
         Serves the login page.
     """
     return render_template('login.html')
+
+
+@app.route('/logout', methods=['GET'])
+@login_required
+def logout():
+    """
+        Logs the currently signed in user out.
+    """
+    logout_user()
+
+    return redirect(url_for('login'))
 
 
 @app.route('/login_oauth_server_flow')
@@ -115,17 +132,6 @@ def login_oauth2callback():
     return 'Error logging in, please try again.'
 
 
-@app.route('/logout', methods=['GET'])
-@login_required
-def logout():
-    """
-        Logs the currently signed in user out.
-    """
-    logout_user()
-
-    return redirect(url_for('login'))
-
-
 @app.route('/api/start-activity', methods=['POST'])
 @login_required
 def update_activity():
@@ -153,13 +159,18 @@ def stop_activity():
         Stops the user's current activity.
     """
     user = current_user
+    id = user.get_id()
 
     stopped_at = stop_users_activity(
         session=db.session,
         model=User,
         user=user)
 
-    return jsonify({'code': 'success', 'stop_time': str(stopped_at)})
+    socketIo.emit('update', {
+        'type': 'stopped_activity',
+        'code': 'success',
+        'stop_time': str(stopped_at)
+    }, room=id)
 
 
 @app.route('/api/save-activity', methods=['POST'])
@@ -263,7 +274,7 @@ def create_activity():
         return json.dumps({'code': 'empty'})
     if name in names:  # If new activity is a duplicate
         return json.dumps({'code': 'duplicate'})
-    
+
     activity = Activity(user_id=user_id, name=name, color=color)
     db.session.add(activity)
     db.session.commit()
@@ -307,6 +318,7 @@ def save_activity_edit():
 
 
 @app.route('/api/delete-activity', methods=['POST'])
+@login_required
 def delete_activity():
     """
         Deletes a user's activity.
@@ -321,6 +333,7 @@ def delete_activity():
 
 
 @app.route('/api/list_events', methods=['POST'])
+@login_required
 def list_events():
     data = request.get_json()
     startDateTime = data['startDateTime']
@@ -332,16 +345,18 @@ def list_events():
 
 
 @app.route('/api/timer_startup_payload', methods=['POST'])
+@login_required
 def timer_startup_paytload():
     user = current_user
-    activities = Activity.query.filter_by(user_id=user.get_id()).order_by(Activity.id).all()
+    activities = Activity.query.filter_by(
+        user_id=user.get_id()).order_by(Activity.id).all()
 
     current_activity_id = user.current_activity
     current_activity = Activity.query.filter_by(id=current_activity_id).first()
 
     current_activity = current_activity.serialize if current_activity else None
 
-    serialized_activities = [ a.serialize for a in activities]
+    serialized_activities = [a.serialize for a in activities]
 
     payload = {
         'activities': serialized_activities,
@@ -392,4 +407,4 @@ if __name__ == '__main__':
     app.debug = False
     app.host = '0.0.0.0'
     app.port = '5000'
-    app.run()
+    socketIo.run(app)

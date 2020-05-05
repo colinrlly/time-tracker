@@ -2,6 +2,7 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from whitenoise import WhiteNoise
+from flask_socketio import SocketIO
 
 instance_location = os.path.abspath('instance')
 template_location = os.path.abspath('../templates')
@@ -18,3 +19,7 @@ app.secret_key = os.environ['FLASK_SECRET_KEY']
 
 # Send gzip assets using middleware.
 app.wsgi_app = WhiteNoise(app.wsgi_app, root=os.path.abspath('../static'), prefix='static/')
+
+# Set up sockets
+socketIo = SocketIO(app)
+

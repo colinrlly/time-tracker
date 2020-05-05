@@ -33,7 +33,7 @@ function HamburgerMenu(props) {
 
             <a className={
                 cx(pageLink, hamburgerPageLink, props.open ? pageLinkOpen : null)
-            } href='/'>SIGN OUT</a>
+            } href='/logout'>SIGN OUT</a>
         </div>
     );
 }
