@@ -42,7 +42,6 @@ def get_or_create_user(session, model, user_id):
         instance = model(id=user_id)
         session.add(instance)
         session.commit()
-        session.close()
         return instance
 
 
