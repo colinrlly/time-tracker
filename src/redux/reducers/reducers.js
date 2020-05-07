@@ -16,7 +16,7 @@ import activityDialogReducer from './timer/activityDialogReducer';
  */
 const reducers = combineReducers({
     range: recordsRangeReducer,
-    list: recordsListReducer,
+    activityRecords: recordsListReducer,
     names: activityNamesReducer,
     aggregations: aggregationsReducer,
     allActivitiesList: allActivitiesListReducer,

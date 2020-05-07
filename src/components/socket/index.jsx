@@ -31,6 +31,7 @@ function Socket() {
 
                 case 'saved_activity':
                     dispatch(actions.setHasUnsavedActivityRecord(false));
+                    dispatch(actions.updateList());
                     break;
 
                 case 'deleted_activity_record':

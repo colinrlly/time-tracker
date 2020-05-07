@@ -18,7 +18,7 @@ function TotalsAggregator(props) {
 }
 
 const mapStateToProps = (state) => ({
-    list: state.list,
+    list: state.activityRecords.list,
 });
 
 const mapDispatchToProps = {

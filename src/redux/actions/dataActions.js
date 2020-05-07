@@ -5,6 +5,7 @@ export const SET_AGG_TOTALS = 'SET_AGG_TOTALS';
 export const SET_AGG_FILTERED_TOTALS = 'SET_AGG_FILTERED_TOTALS';
 export const SET_AGG_TOTAL_TIME = 'SET_AGG_TOTAL_TIME';
 export const SET_AGG_STACKED_TOTALS = 'SET_AGG_STACKED_TOTALS';
+export const UPDATE_LIST = 'UPDATE_LIST';
 
 export function setRange(startDateTime, endDateTime) {
     return {
@@ -36,4 +37,8 @@ export function setAggTotalTime(totalTime) {
 
 export function setAggStackedTotals(stackedTotals) {
     return { type: SET_AGG_STACKED_TOTALS, stackedTotals };
+}
+
+export function updateList() {
+    return { type: UPDATE_LIST };
 }

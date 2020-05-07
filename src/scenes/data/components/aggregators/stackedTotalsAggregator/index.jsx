@@ -31,7 +31,7 @@ function StackedTotalsAggregator(props) {
 }
 
 const mapStateToProps = (state) => ({
-    list: state.list,
+    list: state.activityRecords.list,
     names: state.names,
     range: state.range,
 });
