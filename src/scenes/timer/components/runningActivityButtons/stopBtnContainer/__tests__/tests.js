@@ -70,38 +70,38 @@ describe('StopBtnContainer', () => {
         expect(axios.post.mock.calls[0][0]).toBe('api/stop-activity');
     });
 
-    it('Dispatches the proper Redux actions when buttons are clicked.', async () => {
-        const {
-            store,
-            getByText,
-        } = setUp();
+    // it('Dispatches the proper Redux actions when buttons are clicked.', async () => {
+    //     const {
+    //         store,
+    //         getByText,
+    //     } = setUp();
 
-        axios.post.mockImplementationOnce(() => Promise.resolve({ data: { code: 'success' } }));
+    //     axios.post.mockImplementationOnce(() => Promise.resolve({ data: { code: 'success' } }));
 
-        fireEvent.click(getByText('Stop'));
+    //     fireEvent.click(getByText('Stop'));
 
-        await waitFor(() => expect(store.getActions()).not.toHaveLength(0));
+    //     await waitFor(() => expect(store.getActions()).not.toHaveLength(0));
 
-        const expectedActivityIsRunningAction = JSON.stringify({
-            type: SET_ACTIVITY_IS_RUNNING,
-            activityIsRunning: false,
-        });
-        const expectedHasUnsavedAction = JSON.stringify({
-            type: SET_HAS_UNSAVED_ACTIVITY_RECORD,
-            hasUnsavedActivityRecord: true,
-        });
+    //     const expectedActivityIsRunningAction = JSON.stringify({
+    //         type: SET_ACTIVITY_IS_RUNNING,
+    //         activityIsRunning: false,
+    //     });
+    //     const expectedHasUnsavedAction = JSON.stringify({
+    //         type: SET_HAS_UNSAVED_ACTIVITY_RECORD,
+    //         hasUnsavedActivityRecord: true,
+    //     });
 
-        const actions = store.getActions();
+    //     const actions = store.getActions();
 
-        // Convert actions to JSON because array.includes doens't work on objects
-        const jsonActions = actions.map((x) => JSON.stringify(x));
+    //     // Convert actions to JSON because array.includes doens't work on objects
+    //     const jsonActions = actions.map((x) => JSON.stringify(x));
 
-        expect(jsonActions.includes(expectedActivityIsRunningAction)).toBeTruthy();
-        expect(jsonActions.includes(expectedHasUnsavedAction)).toBeTruthy();
+    //     expect(jsonActions.includes(expectedActivityIsRunningAction)).toBeTruthy();
+    //     expect(jsonActions.includes(expectedHasUnsavedAction)).toBeTruthy();
 
-        // Convert actions to just types to test for activity stop time
-        const justTypes = actions.map((x) => x.type);
+    //     // Convert actions to just types to test for activity stop time
+    //     const justTypes = actions.map((x) => x.type);
 
-        expect(justTypes.includes(SET_LAST_ACTIVITY_STOP_TIME)).toBeTruthy();
-    });
+    //     expect(justTypes.includes(SET_LAST_ACTIVITY_STOP_TIME)).toBeTruthy();
+    // });
 });

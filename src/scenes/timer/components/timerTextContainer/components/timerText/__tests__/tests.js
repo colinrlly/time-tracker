@@ -5,12 +5,12 @@ import moment from 'moment';
 
 import {
     utcNow,
-} from '../../../../../helpers';
+} from '../../../../../../../helpers';
 
 import TimerText from '../index.jsx';
 
 jest.useFakeTimers();
-jest.mock('../../../../../helpers', () => ({
+jest.mock('../../../../../../../helpers', () => ({
     utcNow: jest.fn(),
 }));
 

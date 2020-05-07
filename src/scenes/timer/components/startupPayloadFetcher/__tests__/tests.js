@@ -8,7 +8,7 @@ import axios from 'axios';
 
 import {
     utcNow,
-} from '../../../helpers';
+} from '../../../../../helpers';
 
 import {
     SET_ALL_ACTIVITIES_LIST,

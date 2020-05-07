@@ -7,7 +7,7 @@ import configureStore from 'redux-mock-store';
 
 import {
     utcNow,
-} from '../../../helpers';
+} from '../../../../../helpers';
 
 import TimerTextContainer from '../index.jsx';
 
