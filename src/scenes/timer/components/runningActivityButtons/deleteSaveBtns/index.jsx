@@ -1,11 +1,7 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
 import cx from 'classnames';
-
-import {
-    setHasUnsavedActivityRecord,
-} from '../../../../../redux/actions';
 
 import {
     Btn,
@@ -16,17 +12,16 @@ import buttonStyle from '../style/style.module.scss';
 
 function DeleteSaveBtns() {
     const hasUnsavedActivityRecord = useSelector((state) => state.hasUnsavedActivityRecord);
-    const dispatch = useDispatch();
 
     function callback(url) {
         axios.post(url).then((response) => {
-            if (response.data.code === 'success') {
-                dispatch(setHasUnsavedActivityRecord(false));
-            } else if (response.data.code === 'need_authorization') {
+            if (response.data.code === 'need_authorization') {
                 window.location.replace(response.data.auth_url);
-            } else {
-                console.error('problem deleting or saving activity', response.data);
+            } else if (response.data.code !== 'success') {
+                console.error('Problem deleting or saving activity', response.data);
             }
+        }).catch(() => {
+            console.error('Error deleting or saving activity');
         });
     }
 

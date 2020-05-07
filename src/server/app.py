@@ -138,16 +138,22 @@ def update_activity():
     """
         Updates the server's records of which activity the user is currently doing.
     """
-    activity_id = request.get_json()['activity_id']
-    # activity_id = request.form['activity_id']
+    activity = request.get_json()['activity']
 
     user = current_user
+    id = user.get_id()
 
     set_users_activity(
         session=db.session,
         model=User,
         user=user,
-        activity_id=activity_id)
+        activity_id=activity['id'])
+
+    socketIo.emit('update', {
+        'type': 'started_activity',
+        'code': 'success',
+        'activity': activity
+    }, room=id)
 
     return jsonify({'code': 'success'})
 
@@ -172,25 +178,44 @@ def stop_activity():
         'stop_time': str(stopped_at)
     }, room=id)
 
+    return jsonify({'code': 'success'})
+
 
 @app.route('/api/save-activity', methods=['POST'])
 @login_required
 def save_activity():
     user = current_user
+    id = user.get_id()
 
-    return jsonify(save_users_activity(db.session, User, Activity, user))
+    response = save_users_activity(db.session, User, Activity, user)
+
+    if response['code'] is 'success':
+        socketIo.emit('update', {
+            'type': 'saved_activity',
+            'code': 'success'
+        }, room=id)
+    elif response.code is 'need_authorization':
+        return response
+
+    return jsonify({'code': 'success'})
 
 
 @app.route('/api/delete-activity-record', methods=['POST'])
 @login_required
 def delete_activity_record():
     user = current_user
+    id = user.get_id()
 
     delete_users_activity_record(
         session=db.session,
         model=User,
         user=user,
     )
+
+    socketIo.emit('update', {
+        'type': 'deleted_activity_record',
+        'code': 'success',
+    }, room=id)
 
     return jsonify({'code': 'success'})
 
@@ -252,13 +277,6 @@ def oauth2callback():
 @app.route('/api/create-activity', methods=['POST'])
 @login_required
 def create_activity():
-    """
-        Gets new activity information either from flask sesion for website or request.get_json()
-        for app. Attempts to add a new activity for the user. Will return success: false if
-        the activity name is a duplicate.
-
-        Returns object of shape { 'success': 'true'/'false', 'activity_id': int }
-    """
     user_id = current_user.get_id()
     name = request.get_json()['name']
     color = request.get_json()['color']
@@ -271,14 +289,21 @@ def create_activity():
         names.append(x.name)
 
     if str.lstrip(name) == '':
-        return json.dumps({'code': 'empty'})
+        return jsonify({'code': 'empty'})
     if name in names:  # If new activity is a duplicate
-        return json.dumps({'code': 'duplicate'})
+        return jsonify({'code': 'duplicate'})
 
     activity = Activity(user_id=user_id, name=name, color=color)
     db.session.add(activity)
     db.session.commit()
-    return json.dumps({'code': 'success', 'activity_id': activity.id})
+
+    socketIo.emit('update', {
+        'type': 'created_activity',
+        'code': 'success',
+        'activity': activity.serialize
+    }, room=user_id)
+
+    return jsonify({'code': 'success'})
 
 
 @app.route('/api/edit-activity', methods=['POST'])
@@ -296,8 +321,10 @@ def save_activity_edit():
     new_color = request.get_json()['new_color']
     new_name = request.get_json()['new_name']
 
+    user_id = current_user.get_id()
+
     # Get user's activities
-    activities = Activity.query.filter_by(user_id=current_user.get_id()).all()
+    activities = Activity.query.filter_by(user_id=user_id).all()
     activity = Activity.query.get(activity_id)
 
     # convert list of objects to list of names
@@ -314,6 +341,17 @@ def save_activity_edit():
         return json.dumps({'code': 'duplicate'})
 
     edit_users_activity(db.session, Activity, activity_id, new_name, new_color)
+
+    socketIo.emit('update', {
+        'type': 'edited_activity',
+        'code': 'success',
+        'edited_activity': {
+            'id': activity_id,
+            'name': new_name,
+            'color': new_color,
+        },
+    }, room=user_id)
+
     return json.dumps({'code': 'success'})
 
 
@@ -327,7 +365,15 @@ def delete_activity():
     """
     activity_id = request.get_json()['activity_id']
 
+    user_id = current_user.get_id()
+
     delete_users_activity(db.session, Activity, activity_id)
+
+    socketIo.emit('update', {
+        'type': 'deleted_activity',
+        'code': 'success',
+        'activity_id': activity_id,
+    }, room=user_id)
 
     return json.dumps({'code': 'success'})
 
@@ -404,7 +450,7 @@ if __name__ == '__main__':
     #     When running in production *do not* leave this option enabled.
     os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
-    app.debug = False
+    app.debug = True
     app.host = '0.0.0.0'
     app.port = '5000'
     socketIo.run(app)

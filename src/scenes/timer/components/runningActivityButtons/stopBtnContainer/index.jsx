@@ -12,7 +12,13 @@ function StopBtnContainer() {
     const activityIsRunning = useSelector((state) => state.activityIsRunning);
 
     function callback() {
-        axios.post('api/stop-activity');
+        axios.post('api/stop-activity').then((response) => {
+            if (response.data.code !== 'success') {
+                console.error('Problem stopping activity');
+            }
+        }).catch(() => {
+            console.error('Error stopping activity');
+        });
     }
 
     return activityIsRunning

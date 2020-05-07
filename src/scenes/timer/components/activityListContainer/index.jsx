@@ -3,10 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 
 import {
-    utcNow,
-} from '../../helpers';
-
-import {
     setCurrentActivity,
     setActivityIsRunning,
     setLastActivityStartTime,
@@ -29,15 +25,13 @@ function ActivityListContainer() {
     function handleActivityClick(activity) {
         if (!activityIsRunning) {
             axios.post('api/start-activity', {
-                activity_id: activity.id,
+                activity,
             }).then((response) => {
-                if (response.data.code === 'success') {
-                    dispatch(setCurrentActivity(activity));
-                    dispatch(setActivityIsRunning(true));
-                    dispatch(setLastActivityStartTime(utcNow()));
-                } else {
-                    console.error('problem starting activity');
+                if (response.data.code !== 'success') {
+                    console.error('Problem starting activity');
                 }
+            }).catch(() => {
+                console.error('Error starting activity');
             });
         }
     }

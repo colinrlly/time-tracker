@@ -5,7 +5,7 @@ import cx from 'classnames';
 
 import {
     utcNow,
-} from '../../../../helpers';
+} from '../../../../../../helpers';
 
 import style from './style/style.module.scss';
 
