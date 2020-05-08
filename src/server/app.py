@@ -194,8 +194,8 @@ def save_activity():
             'type': 'saved_activity',
             'code': 'success'
         }, room=id)
-    elif response.code is 'need_authorization':
-        return response
+    elif response['code'] is 'need_authorization':
+        return jsonify(response)
 
     return jsonify({'code': 'success'})
 
