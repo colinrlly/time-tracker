@@ -1,1 +1,1 @@
-web: gunicorn --chdir src/server -w 1 --worker-class eventlet --log-file=- app:app
+web: gunicorn --chdir src/server -w 1 --worker-class eventlet --log-file=- app:app --no-sendfile
