@@ -5,6 +5,7 @@ import cx from 'classnames';
 import {
     NavBar,
     Footer,
+    PageVisibilityWatcher,
 } from '../../components';
 
 import googleColors from '../../static/js/google_colors';
@@ -53,6 +54,7 @@ function Timer() {
 
     return (
         <Container>
+            <PageVisibilityWatcher />
             <StartupPayloadFetcher />
             <FullScreenClickHandler />
             <ActivityDialogContainer />
