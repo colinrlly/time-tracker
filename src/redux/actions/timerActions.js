@@ -1,3 +1,6 @@
+import fetch from 'cross-fetch';
+import moment from 'moment';
+
 export const SET_ALL_ACTIVITIES_LIST = 'SET_ALL_ACTIVITIES_LIST';
 export const SET_CURRENT_ACTIVITY = 'SET_CURRENT_ACTIVITY';
 export const SET_ACTIVITY_IS_RUNNING = 'SET_ACTIVITY_IS_RUNNING';
@@ -11,6 +14,7 @@ export const SET_EDIT_ACTIVITY_NAME = 'SET_EDIT_ACTIVITY_NAME';
 export const SET_EDIT_ACTIVITY_COLOR = 'SET_EDIT_ACTIVITY_COLOR';
 export const SET_NEW_OR_EDIT_DIALOG = 'SET_NEW_OR_EDIT_DIALOG';
 export const SET_EDIT_ACTIVITY_ID = 'SET_EDIT_ACTIVITY_ID';
+export const SET_IS_REFRESHING = 'SET_IS_REFRESHING';
 
 export function setAllActivitiesList(activities) {
     return { type: SET_ALL_ACTIVITIES_LIST, activities };
@@ -62,4 +66,30 @@ export function setNewOrEditDialog(newOrEdit) {
 
 export function setEditActivityId(id) {
     return { type: SET_EDIT_ACTIVITY_ID, id };
+}
+
+export function setIsRefreshing(isRefreshing) {
+    return { type: SET_IS_REFRESHING, isRefreshing };
+}
+
+export function refresh() {
+    return (dispatch) => {
+        dispatch(setIsRefreshing(true));
+        return fetch('/api/timer_startup_payload', {
+            method: 'post',
+            headers: {
+                'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            },
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                dispatch(setAllActivitiesList(data.activities));
+                dispatch(setCurrentActivity(data.current_activity));
+                dispatch(setActivityIsRunning(data.running_activity));
+                dispatch(setLastActivityStartTime(moment(data.start_time)));
+                dispatch(setHasUnsavedActivityRecord(data.has_unsaved_activity_record));
+                dispatch(setLastActivityStopTime(moment(data.stop_time)));
+                dispatch(setIsRefreshing(false));
+            });
+    };
 }

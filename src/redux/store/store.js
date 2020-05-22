@@ -1,5 +1,7 @@
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import thunkMiddleware from 'redux-thunk';
+
 import reducers from '../reducers/reducers';
 
 /**
@@ -8,5 +10,7 @@ import reducers from '../reducers/reducers';
  */
 export default createStore(
     reducers,
-    composeWithDevTools(),
+    composeWithDevTools(
+        applyMiddleware(thunkMiddleware),
+    ),
 );

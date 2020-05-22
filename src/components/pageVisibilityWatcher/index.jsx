@@ -1,8 +1,16 @@
 import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import {
+    refresh,
+} from '../../redux/actions';
 
 function PageVisibilityWatcher() {
+    const dispatch = useDispatch();
+
     function handleVisibilityChange() {
-        console.log(document.hidden);
+        if (!document.hidden) {
+            dispatch(refresh());
+        }
     }
 
     useEffect(() => {
