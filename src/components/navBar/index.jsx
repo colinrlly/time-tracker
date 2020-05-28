@@ -12,6 +12,7 @@ import hamburgerDark from './images/hamburgerDark.png';
 import hamburgerLight from './images/hamburgerLight.png';
 import logoLight from './images/logoLight.png';
 import logoDark from './images/logoDark.png';
+import gsignin from './images/gsignin.png';
 
 export class NavBar extends Component {
     constructor(props) {
@@ -78,17 +79,26 @@ export class NavBar extends Component {
                         ? <img src={logoLight} />
                         : <img src={logoDark} />}
                 </a>
-                <a className={cx(style.pageLink, style.navPageLink)} href='/'>Timer</a>
-                <a className={cx(style.pageLink, style.navPageLink)} href='/data'>Data</a>
-                <a className={cx(style.pageLink, style.navPageLink)} href='https://calendar.google.com/'>Calendar</a>
-                <a className={cx(style.pageLink, style.navPageLink)} href='https://www.buymeacoffee.com/LogTheApp'>Donate</a>
-                <a className={cx(style.pageLink, style.navPageLink)} href='/logout'>Sign Out</a>
 
-                <button className={style.hamburger} onClick={this.handleHamburgerClick}>
-                    <img src={this.props.backgroundColor ? hamburgerLight : hamburgerDark} />
-                </button>
+                {this.props.landing ? (
+                    <a href='/'>
+                        <img className={style.gsignin} src={gsignin} />
+                    </a>
+                ) : (
+                    <div>
+                        <a className={cx(style.pageLink, style.navPageLink)} href='/'>Timer</a>
+                        <a className={cx(style.pageLink, style.navPageLink)} href='/data'>Data</a>
+                        <a className={cx(style.pageLink, style.navPageLink)} href='https://calendar.google.com/'>Calendar</a>
+                        <a className={cx(style.pageLink, style.navPageLink)} href='https://www.buymeacoffee.com/LogTheApp'>Donate</a>
+                        <a className={cx(style.pageLink, style.navPageLink)} href='/logout'>Sign Out</a>
 
-                <HamburgerMenu open={hamburgerMenuOpen} />
+
+                        <button className={style.hamburger} onClick={this.handleHamburgerClick}>
+                            <img src={this.props.backgroundColor ? hamburgerLight : hamburgerDark} />
+                        </button>
+
+                        <HamburgerMenu open={hamburgerMenuOpen} />
+                    </div>)}
             </nav>
         );
     }
@@ -97,6 +107,7 @@ export class NavBar extends Component {
 NavBar.Proptypes = {
     shadow: PropTypes.bool.isRequired,
     backgroundColor: PropTypes.string,
+    landing: PropTypes.bool,
 };
 
 export default NavBar;

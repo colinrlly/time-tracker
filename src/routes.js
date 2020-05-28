@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import store from './redux/store/store';
 import Data from './scenes/data';
 import Timer from './scenes/timer';
+import Landing from './scenes/landing';
 import { Socket } from './components';
 
 export default (
@@ -13,6 +14,7 @@ export default (
             <Switch>
                 <Route exact path='/' component={Timer} />
                 <Route path='/data' component={Data} />
+                <Route path='/landing' component={Landing} />
             </Switch>
         </BrowserRouter>
     </Provider>

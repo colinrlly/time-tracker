@@ -42,6 +42,11 @@ a.pageLink:hover, a.logo:hover {
     display: none;
 }
 
+.gsignin {
+    width: 175px;
+    padding-right: 25px;
+}
+
 @media (max-width: 600px) {
     .navigation {
         grid-template-columns: 1fr 80px;
