@@ -1,14 +1,44 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { NavBar } from '../../components';
+import { NavBar, Btn } from '../../components';
 
-import activityListStyle from
-    '../timer/components/activityListContainer/components/activityList/style/style.module.scss';
+import {
+    TimerTextContainer,
+    ActivityNameContainer,
+} from '../timer/components';
+
+import {
+    ActivityList,
+} from '../timer/components/activityListContainer/components';
+
+import btnStyle from
+    '../timer/components/runningActivityButtons/style/style.module.scss';
+import { timerContainerStyle } from
+    '../timer/style/style.module.scss';
 import style from './style/style.module.scss';
 
-import googleColors from '../../static/js/google_colors';
+import {
+    utcNow,
+} from '../../helpers';
+import * as actions from '../../redux/actions';
 
 function Landing() {
+    const activityIsRunning = useSelector((state) => state.activityIsRunning);
+    const hasUnsavedActivityRecord = useSelector((state) => state.hasUnsavedActivityRecord);
+
+    const dispatch = useDispatch();
+
+    function handleActivityClick(activity) {
+        dispatch(actions.setCurrentActivity(activity));
+        dispatch(actions.setActivityIsRunning(true));
+        dispatch(actions.setLastActivityStartTime(utcNow()));
+    }
+
+    function handleStopClick() {
+
+    }
+
     return <div>
         <NavBar landing={true} />
         <div className={style.header}>
@@ -32,30 +62,38 @@ function Landing() {
         </div>
         <div className={style.timeTracking}>
             <h2>Satisfying Time Tracking</h2>
-            <div className={style.timeTrackingButtons}>
-                <ul className={activityListStyle.activityList}>
-                    <li className={activityListStyle.activityListItem}>
-                        <button
-                            className={activityListStyle.activityListBtn}
-                            style={{
-                                backgroundColor: `${googleColors[3]}`,
-                            }}>Hello</button>
-                    </li>
-                    <li className={activityListStyle.activityListItem}>
-                        <button
-                            className={activityListStyle.activityListBtn}
-                            style={{
-                                backgroundColor: `${googleColors[6]}`,
-                            }}>Goodbye</button>
-                    </li>
-                    <li className={activityListStyle.activityListItem}>
-                        <button
-                            className={activityListStyle.activityListBtn}
-                            style={{
-                                backgroundColor: `${googleColors[5]}`,
-                            }}>Hello Again</button>
-                    </li>
-                </ul>
+            <ActivityList
+                activities={[{
+                    id: 1,
+                    name: 'Hello',
+                    color: 3,
+                }, {
+                    id: 2,
+                    name: 'Hi there',
+                    color: 9,
+                }, {
+                    id: 3,
+                    name: 'Bien Vienue',
+                    color: 6,
+                }]}
+                handleActivityClick={handleActivityClick}
+                activityIsRunning={activityIsRunning}
+                hasUnsavedActivityRecord={hasUnsavedActivityRecord}
+                disabled={false}
+                editCallback={() => { }} />
+            <div
+                className={timerContainerStyle}
+                style={{
+                    display: activityIsRunning ? 'block' : 'none',
+                }}>
+                <ActivityNameContainer />
+                <TimerTextContainer />
+                {activityIsRunning
+                    ? <Btn
+                        callback={handleStopClick}
+                        text={'Stop'}
+                        className={btnStyle.btn} />
+                    : null}
             </div>
         </div>
     </div >;
