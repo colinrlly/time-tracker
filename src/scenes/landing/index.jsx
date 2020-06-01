@@ -36,7 +36,9 @@ function Landing() {
     }
 
     function handleStopClick() {
-
+        dispatch(actions.setActivityIsRunning(false));
+        dispatch(actions.setHasUnsavedActivityRecord(true));
+        dispatch(actions.setLastActivityStopTime(utcNow()));
     }
 
     return <div>
@@ -84,7 +86,7 @@ function Landing() {
             <div
                 className={timerContainerStyle}
                 style={{
-                    display: activityIsRunning ? 'block' : 'none',
+                    display: activityIsRunning || hasUnsavedActivityRecord ? 'block' : 'none',
                 }}>
                 <ActivityNameContainer />
                 <TimerTextContainer />
