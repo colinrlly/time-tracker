@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import cx from 'classnames';
 
 import { NavBar, Btn } from '../../components';
 
@@ -16,16 +17,20 @@ import btnStyle from
     '../timer/components/runningActivityButtons/style/style.module.scss';
 import { timerContainerStyle } from
     '../timer/style/style.module.scss';
+import dsbStyle from
+    '../timer/components/runningActivityButtons/deleteSaveBtns/style/style.module.scss';
 import style from './style/style.module.scss';
 
 import {
     utcNow,
 } from '../../helpers';
 import * as actions from '../../redux/actions';
+import googleColors from '../../static/js/google_colors';
 
 function Landing() {
     const activityIsRunning = useSelector((state) => state.activityIsRunning);
     const hasUnsavedActivityRecord = useSelector((state) => state.hasUnsavedActivityRecord);
+    const currentActivity = useSelector((state) => state.currentActivity);
 
     const dispatch = useDispatch();
 
@@ -40,6 +45,26 @@ function Landing() {
         dispatch(actions.setHasUnsavedActivityRecord(true));
         dispatch(actions.setLastActivityStopTime(utcNow()));
     }
+
+    function deleteSaveCallback() {
+        dispatch(actions.setHasUnsavedActivityRecord(false));
+    }
+
+    const timerBackgroundColor = activityIsRunning ? googleColors[currentActivity.color] : null;
+
+    const activities = [{
+        id: 1,
+        name: 'Hello',
+        color: 3,
+    }, {
+        id: 2,
+        name: 'Hi there',
+        color: 9,
+    }, {
+        id: 3,
+        name: 'Bien Vienue',
+        color: 6,
+    }];
 
     return <div>
         <NavBar landing={true} />
@@ -62,22 +87,10 @@ function Landing() {
 
             </div>
         </div>
-        <div className={style.timeTracking}>
+        <div className={style.timeTracking} style={{ backgroundColor: timerBackgroundColor }}>
             <h2>Satisfying Time Tracking</h2>
             <ActivityList
-                activities={[{
-                    id: 1,
-                    name: 'Hello',
-                    color: 3,
-                }, {
-                    id: 2,
-                    name: 'Hi there',
-                    color: 9,
-                }, {
-                    id: 3,
-                    name: 'Bien Vienue',
-                    color: 6,
-                }]}
+                activities={activities}
                 handleActivityClick={handleActivityClick}
                 activityIsRunning={activityIsRunning}
                 hasUnsavedActivityRecord={hasUnsavedActivityRecord}
@@ -86,7 +99,8 @@ function Landing() {
             <div
                 className={timerContainerStyle}
                 style={{
-                    display: activityIsRunning || hasUnsavedActivityRecord ? 'block' : 'none',
+                    display: activityIsRunning || hasUnsavedActivityRecord
+                        ? 'block' : 'none',
                 }}>
                 <ActivityNameContainer />
                 <TimerTextContainer />
@@ -96,6 +110,18 @@ function Landing() {
                         text={'Stop'}
                         className={btnStyle.btn} />
                     : null}
+                {hasUnsavedActivityRecord ? (
+                    <div className={dsbStyle.deleteSaveBtns}>
+                        <Btn
+                            callback={deleteSaveCallback}
+                            text='Delete'
+                            className={cx(dsbStyle.deleteBtn, btnStyle.btn)} />
+                        <Btn
+                            callback={deleteSaveCallback}
+                            text='Save'
+                            className={cx(dsbStyle.saveBtn, btnStyle.btn)} />
+                    </div>
+                ) : null}
             </div>
         </div>
     </div >;
