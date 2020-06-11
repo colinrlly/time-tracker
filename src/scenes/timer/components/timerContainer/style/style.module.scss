@@ -1,0 +1,12 @@
+.timerContainer {
+    display: none;
+}
+
+.timerContainer.activityIsRunning {
+    position: absolute;
+    top: 15%;
+    width: 100%;
+    grid-template-rows: 48px auto auto;
+    grid-row-gap: 50px;
+    display: grid;
+}
