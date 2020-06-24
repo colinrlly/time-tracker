@@ -58,7 +58,7 @@ function formatStacks(stacks, interval) {
                 break;
 
             case 'day':
-                range = stack.range.start.format('D');
+                range = stack.range.start.format('dd D');
                 break;
 
             case 'week':

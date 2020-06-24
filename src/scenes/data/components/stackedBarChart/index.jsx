@@ -64,6 +64,7 @@ class StackedBarChart extends Component {
                 this.chart,
                 this.props.filteredTotals,
                 this.props.names,
+                this.props.range,
             );
         });
     }
@@ -83,6 +84,7 @@ class StackedBarChart extends Component {
             this.chart,
             this.props.filteredTotals,
             this.props.names,
+            this.props.range,
         );
     }
 
