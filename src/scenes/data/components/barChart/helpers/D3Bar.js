@@ -115,6 +115,7 @@ D3Bar.update = function update(newData, configuration, chart) {
         .tickPadding(10));
 
     const newYAxis = d3.axisLeft()
+        .ticks(5)
         .scale(newYScale);
 
     oldYAxis.call(newYAxis
