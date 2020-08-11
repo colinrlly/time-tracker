@@ -77,8 +77,8 @@ D3StackedBar.update = function update(newData, configuration, chart, filteredTot
     let newXScale = d3.scaleBand()
         .domain(newData.map((d) => d.rangeBeginning))
         .range([0, configuration.width - configuration.margin.left])
-        .padding(0.15)
-        .paddingOuter(0.75);
+        .padding(configuration.barGutter)
+        .paddingOuter(configuration.paddingOuter);
 
     const formattedData = formatLabels(stackedData, newXScale.bandwidth(), range);
 
@@ -99,11 +99,16 @@ D3StackedBar.update = function update(newData, configuration, chart, filteredTot
         .append('rect')
         .merge(oldRects)
         .attr('x', (d) => newXScale(d.rangeBeginning) + configuration.margin.left)
-        .attr('y', (d) => newYScale(d.y2) + configuration.margin.bottom + configuration.barSpacing)
+        .attr(
+            'y',
+            (d) => newYScale(d.y2)
+                + configuration.margin.bottom
+                + configuration.barVerticleSpacing,
+        )
         .attr('height', (d) => newYScale(d.y1)
             - newYScale(d.y2)
-            - (((newYScale(d.y1) - newYScale(d.y2) - configuration.barSpacing) > 0)
-                ? configuration.barSpacing : 0))
+            - (((newYScale(d.y1) - newYScale(d.y2) - configuration.barVerticleSpacing) > 0)
+                ? configuration.barVerticleSpacing : 0))
         .attr('width', newXScale.bandwidth())
         .attr('fill', (d) => googleColors[names[d.name].colorId])
         .on('mouseover', (d) => {

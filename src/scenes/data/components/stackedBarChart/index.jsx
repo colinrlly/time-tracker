@@ -14,13 +14,15 @@ import {
 import './style/chart.css';
 
 const MARGIN = {
-    left: 25,
-    bottom: 20,
+    left: 40,
+    bottom: 30,
 };
 
 const HEIGHT = 300;
 
-const BAR_SPACING = 2;
+const BAR_VERTICLE_SPACING = 2;
+const BAR_GUTTER = 0.4;
+const PADDING_OUTER = 0.5;
 
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -55,7 +57,9 @@ class StackedBarChart extends Component {
                 margin: MARGIN,
                 width: this.stackedBarChartContainerRef.current.clientWidth - MARGIN.left - 5,
                 height: HEIGHT,
-                barSpacing: BAR_SPACING,
+                barVerticleSpacing: BAR_VERTICLE_SPACING,
+                barGutter: BAR_GUTTER,
+                paddingOuter: PADDING_OUTER,
             };
 
             D3StackedBar.update(
@@ -75,7 +79,9 @@ class StackedBarChart extends Component {
             margin: MARGIN,
             width: this.stackedBarChartContainerRef.current.clientWidth - MARGIN.left - 5,
             height: HEIGHT,
-            barSpacing: BAR_SPACING,
+            barVerticleSpacing: BAR_VERTICLE_SPACING,
+            barGutter: BAR_GUTTER,
+            paddingOuter: PADDING_OUTER,
         };
 
         D3StackedBar.update(
