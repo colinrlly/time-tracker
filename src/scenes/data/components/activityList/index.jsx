@@ -94,7 +94,7 @@ function ActivityList(props) {
 
     return (
         <div className={activityListContainer}>
-            <H5>ACTIVITIES</H5>
+            <H5>Activities</H5>
             <ul className={activitiesList}>
                 {inActivitiesList}
             </ul>

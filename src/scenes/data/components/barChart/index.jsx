@@ -14,7 +14,7 @@ const MARGIN = {
     bottom: 20,
 };
 
-const BAR_GUTTER = 0.4;
+const BAR_GUTTER = 0.1;
 const PADDING_OUTER = 0.5;
 
 class BarChart extends Component {

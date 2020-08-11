@@ -2,6 +2,7 @@
     background-color: transparent;
     border: none;
     width: 100%;
+    font-weight: 500;
 }
 
 .pickerContainer {
@@ -9,8 +10,10 @@
     grid-template-columns: 30px 1fr 30px;
     border: 2px solid #828282;
     justify-content: space-between;
+    align-content: center;
     margin-bottom: 40px;
     border-radius: 6px;
+    height: 35px;
 }
 
 .rangeDirectionButton {

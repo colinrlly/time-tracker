@@ -21,7 +21,7 @@ const MARGIN = {
 const HEIGHT = 300;
 
 const BAR_VERTICLE_SPACING = 2;
-const BAR_GUTTER = 0.4;
+const BAR_GUTTER = 0.3;
 const PADDING_OUTER = 0.5;
 
 function capitalizeFirstLetter(string) {
