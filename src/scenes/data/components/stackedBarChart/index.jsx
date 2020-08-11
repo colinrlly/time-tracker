@@ -18,7 +18,7 @@ const MARGIN = {
     bottom: 30,
 };
 
-const HEIGHT = 300;
+const HEIGHT = 400;
 
 const BAR_VERTICLE_SPACING = 2;
 const BAR_GUTTER = 0.3;
