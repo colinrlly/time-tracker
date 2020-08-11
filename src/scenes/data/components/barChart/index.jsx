@@ -17,7 +17,7 @@ const MARGIN = {
 const BAR_GUTTER = 0.1;
 const PADDING_OUTER = 0.5;
 
-const HEIGHT = 400;
+const HEIGHT = 375;
 
 class BarChart extends Component {
     constructor(props) {
