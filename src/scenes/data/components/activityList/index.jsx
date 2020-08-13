@@ -31,6 +31,15 @@ function ActivityList(props) {
         props.setActivityNames(newNames);
     }
 
+    function convertDuration(duration) {
+        const numHours = Math.floor(duration);
+        const hourRemainder = duration % 1;
+
+        const numMinutes = Math.floor(hourRemainder * 60);
+
+        return `${numHours}H ${numMinutes}M`;
+    }
+
     function mapActivityNames(activity, i) {
         return (
             <li className={activityListItem} key={i}>
@@ -51,9 +60,9 @@ function ActivityList(props) {
                     <div className={activityButtonTextContainer}>
                         <span className={cx(activityText, activityName)}>{activity.name}</span>
                         <span className={cx(activityText, activityTime)}>
-                            {props.totals.find(
+                            {convertDuration(props.totals.find(
                                 (el) => el.name === activity.name,
-                            ).duration.toFixed(2)}
+                            ).duration)}
                         </span>
                     </div>
                 </button>
@@ -85,7 +94,7 @@ function ActivityList(props) {
 
     return (
         <div className={activityListContainer}>
-            <H5>ACTIVITIES</H5>
+            <H5>Activities</H5>
             <ul className={activitiesList}>
                 {inActivitiesList}
             </ul>

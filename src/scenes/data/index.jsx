@@ -119,7 +119,7 @@ class Data extends Component {
                 <NavBar shadow={true} />
 
                 <nav className={cx(controls, controlsClosed ? closedControls : openControls)}>
-                    <H5>DATA SETTINGS</H5>
+                    <H5>Time Range</H5>
                     <Picker />
                     <ActivityList />
                     <TotalTime />

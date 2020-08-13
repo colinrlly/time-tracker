@@ -14,6 +14,11 @@ const MARGIN = {
     bottom: 20,
 };
 
+const BAR_GUTTER = 0.1;
+const PADDING_OUTER = 0.5;
+
+const HEIGHT = 375;
+
 class BarChart extends Component {
     constructor(props) {
         super(props);
@@ -26,7 +31,7 @@ class BarChart extends Component {
         this.configuration = {
             margin: MARGIN,
             width: this.barChartContainerRef.current.clientWidth - MARGIN.left - 5,
-            height: 300,
+            height: HEIGHT,
         };
 
         // D3 code to create the chart
@@ -42,7 +47,9 @@ class BarChart extends Component {
             const newConfiguration = {
                 margin: MARGIN,
                 width: this.barChartContainerRef.current.clientWidth - MARGIN.left - 5,
-                height: 300,
+                height: HEIGHT,
+                barGutter: BAR_GUTTER,
+                paddingOuter: PADDING_OUTER,
             };
 
             D3Bar.update(
@@ -58,7 +65,9 @@ class BarChart extends Component {
         const newConfiguration = {
             margin: MARGIN,
             width: this.barChartContainerRef.current.clientWidth - MARGIN.left - 5,
-            height: 300,
+            height: HEIGHT,
+            barGutter: BAR_GUTTER,
+            paddingOuter: PADDING_OUTER,
         };
 
         D3Bar.update(

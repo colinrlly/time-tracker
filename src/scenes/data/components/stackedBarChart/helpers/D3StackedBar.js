@@ -1,6 +1,7 @@
 import * as d3 from 'd3';
 
 import googleColors from '../../../../../static/js/google_colors';
+import formatLabels from './formatLabels';
 
 const D3StackedBar = {};
 
@@ -44,7 +45,7 @@ D3StackedBar.create = function create(barChartContainer, configuration) {
     return chart;
 };
 
-D3StackedBar.update = function update(newData, configuration, chart, filteredTotals, names) {
+D3StackedBar.update = function update(newData, configuration, chart, filteredTotals, names, range) {
     const stack = d3.stack()
         .keys(filteredTotals.map((total) => total.name))
         .order(d3.stackOrderNone)
@@ -73,11 +74,15 @@ D3StackedBar.update = function update(newData, configuration, chart, filteredTot
     chart.attr('width', configuration.width)
         .attr('height', configuration.height);
 
-    const newXScale = d3.scaleBand()
+    let newXScale = d3.scaleBand()
         .domain(newData.map((d) => d.rangeBeginning))
         .range([0, configuration.width - configuration.margin.left])
-        .padding(0.15)
-        .paddingOuter(0.75);
+        .padding(configuration.barGutter)
+        .paddingOuter(configuration.paddingOuter);
+
+    const formattedData = formatLabels(stackedData, newXScale.bandwidth(), range);
+
+    newXScale = newXScale.domain(formattedData.map((d) => d.rangeBeginning));
 
     const newYScale = d3.scaleLinear()
         .domain([0, d3.max(stackedData.map((d) => d.y2))])
@@ -85,7 +90,7 @@ D3StackedBar.update = function update(newData, configuration, chart, filteredTot
         .nice();
 
     const oldRects = chart.selectAll('rect')
-        .data(stackedData, (d) => d.rangeBeginning);
+        .data(formattedData, (d) => d.rangeBeginning);
 
     oldRects.exit()
         .remove();
@@ -94,11 +99,16 @@ D3StackedBar.update = function update(newData, configuration, chart, filteredTot
         .append('rect')
         .merge(oldRects)
         .attr('x', (d) => newXScale(d.rangeBeginning) + configuration.margin.left)
-        .attr('y', (d) => newYScale(d.y2) + configuration.margin.bottom + configuration.barSpacing)
+        .attr(
+            'y',
+            (d) => newYScale(d.y2)
+                + configuration.margin.bottom
+                + configuration.barVerticleSpacing,
+        )
         .attr('height', (d) => newYScale(d.y1)
             - newYScale(d.y2)
-            - (((newYScale(d.y1) - newYScale(d.y2) - configuration.barSpacing) > 0)
-                ? configuration.barSpacing : 0))
+            - (((newYScale(d.y1) - newYScale(d.y2) - configuration.barVerticleSpacing) > 0)
+                ? configuration.barVerticleSpacing : 0))
         .attr('width', newXScale.bandwidth())
         .attr('fill', (d) => googleColors[names[d.name].colorId])
         .on('mouseover', (d) => {
@@ -134,6 +144,7 @@ D3StackedBar.update = function update(newData, configuration, chart, filteredTot
         .tickPadding(10));
 
     const newYAxis = d3.axisLeft()
+        .ticks(5)
         .scale(newYScale);
 
     oldYAxis.call(newYAxis

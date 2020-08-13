@@ -53,8 +53,8 @@ D3Bar.update = function update(newData, configuration, chart) {
     let newXScale = d3.scaleBand()
         .domain(newData.map((d) => d.name))
         .range([0, configuration.width - configuration.margin.left])
-        .padding(0.15)
-        .paddingOuter(0.75);
+        .padding(configuration.barGutter)
+        .paddingOuter(configuration.paddingOuter);
 
     // Format the labels based on the bandwidth then reset the x domain.
     const formattedData = formatLabels(newData, newXScale.bandwidth());
@@ -115,6 +115,7 @@ D3Bar.update = function update(newData, configuration, chart) {
         .tickPadding(10));
 
     const newYAxis = d3.axisLeft()
+        .ticks(5)
         .scale(newYScale);
 
     oldYAxis.call(newYAxis

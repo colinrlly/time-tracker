@@ -7,18 +7,18 @@ import { NavBar, Btn } from '../../components';
 import {
     TimerTextContainer,
     ActivityNameContainer,
-} from '../timer/components';
+} from '../timer/components/timerContainer/components';
 
 import {
     ActivityList,
 } from '../timer/components/activityListContainer/components';
 
 import btnStyle from
-    '../timer/components/runningActivityButtons/style/style.module.scss';
+    '../timer/components/timerContainer/components/runningActivityButtons/style/style.module.scss';
 import { timerContainerStyle } from
     '../timer/style/style.module.scss';
 import dsbStyle from
-    '../timer/components/runningActivityButtons/deleteSaveBtns/style/style.module.scss';
+    '../timer/components/timerContainer/components/runningActivityButtons/deleteSaveBtns/style/style.module.scss';
 import style from './style/style.module.scss';
 
 import {
