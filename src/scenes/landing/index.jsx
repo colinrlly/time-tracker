@@ -2,16 +2,33 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import cx from 'classnames';
 
-import { NavBar, Btn } from '../../components';
-
+import {
+    H5,
+    NavBar,
+    Btn,
+    FakeListFetcher,
+} from '../../components';
 import {
     TimerTextContainer,
     ActivityNameContainer,
 } from '../timer/components/timerContainer/components';
-
 import {
-    ActivityList,
+    ActivityList as TimerActivityList,
 } from '../timer/components/activityListContainer/components';
+import {
+    Picker,
+    ActivityList as DataActivityList,
+    BarChart,
+    StackedBarChart,
+    TotalsAggregator,
+    ActivityListAggregator,
+    FilteredTotalsAggregator,
+    TotalTimeAggregator,
+    StackedTotalsAggregator,
+    Tooltip,
+    ControlsBtn,
+    TotalTime,
+} from '../data/components';
 
 import btnStyle from
     '../timer/components/timerContainer/components/runningActivityButtons/style/style.module.scss';
@@ -20,6 +37,15 @@ import { timerContainerStyle } from
 import dsbStyle from
     '../timer/components/timerContainer/components/runningActivityButtons/deleteSaveBtns/style/style.module.scss';
 import style from './style/style.module.scss';
+import {
+    controls,
+    content,
+    container,
+    closedControls,
+    fullWidthContent,
+    openControls,
+    footerPusher,
+} from '../data/style/structure.module.scss';
 
 import {
     utcNow,
@@ -81,7 +107,7 @@ function Landing() {
                 Google Calendar so you can use the tools you
                 already love. Turnip also pulls in your
                 pre-existing events so you can use our
-                    tools to analyze the rest of your time.</p>
+                tools to analyze the rest of your time.</p>
             </div>
             <div className={style.gCalSection}>
 
@@ -89,7 +115,7 @@ function Landing() {
         </div>
         <div className={style.timeTracking} style={{ backgroundColor: timerBackgroundColor }}>
             <h2>Satisfying Time Tracking</h2>
-            <ActivityList
+            <TimerActivityList
                 activities={activities}
                 handleActivityClick={handleActivityClick}
                 activityIsRunning={activityIsRunning}
@@ -99,8 +125,7 @@ function Landing() {
             <div
                 className={timerContainerStyle}
                 style={{
-                    display: activityIsRunning || hasUnsavedActivityRecord
-                        ? 'block' : 'none',
+                    display: activityIsRunning || hasUnsavedActivityRecord ? 'block' : 'none',
                 }}>
                 <ActivityNameContainer />
                 <TimerTextContainer />
@@ -123,6 +148,31 @@ function Landing() {
                     </div>
                 ) : null}
             </div>
+        </div>
+        <div>
+            <FakeListFetcher />
+            <TotalsAggregator />
+            <ActivityListAggregator />
+            <StackedTotalsAggregator />
+            <FilteredTotalsAggregator />
+            <TotalTimeAggregator />
+
+            <nav className={cx(controls, false ? closedControls : openControls)}>
+                <H5>Time Range</H5>
+                <Picker />
+                <DataActivityList />
+            </nav>
+
+            <ControlsBtn
+                controlsClosed={false}
+                handleControlsBtnClick={() => this.handleControlsBtnClick()} />
+
+            <main className={cx(content, false ? fullWidthContent : null)}>
+                <div>
+                    <Tooltip />
+                    <StackedBarChart tweenStatus={0} />
+                </div>
+            </main>
         </div>
     </div >;
 }

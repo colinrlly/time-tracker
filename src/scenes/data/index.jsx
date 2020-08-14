@@ -1,20 +1,22 @@
 import React, { Component } from 'react';
 import cx from 'classnames';
 
-import Picker from './components/picker';
-import ListFetcher from './components/listFetcher';
-import ActivityList from './components/activityList';
-import BarChart from './components/barChart';
-import StackedBarChart from './components/stackedBarChart';
-import TotalsAggregator from './components/aggregators/totalsAggregator';
-import ActivityListAggregator from './components/aggregators/activityListAggregator';
-import FilteredTotalsAggregator from './components/aggregators/filteredTotalsAggregator';
-import TotalTimeAggregator from './components/aggregators/totalTimeAggregator';
-import StackedTotalsAggregator from './components/aggregators/StackedTotalsAggregator';
-import Tooltip from './components/tooltip';
-import ControlsBtn from './components/controlsBtn';
+import {
+    Picker,
+    ListFetcher,
+    ActivityList,
+    BarChart,
+    StackedBarChart,
+    TotalsAggregator,
+    ActivityListAggregator,
+    FilteredTotalsAggregator,
+    TotalTimeAggregator,
+    StackedTotalsAggregator,
+    Tooltip,
+    ControlsBtn,
+    TotalTime,
+} from './components';
 
-import TotalTime from './components/totalTime';
 import {
     NavBar,
     H5,

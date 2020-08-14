@@ -5,3 +5,4 @@ export { default as Btn } from './btn';
 export { default as Footer } from './footer';
 export { default as Socket } from './socket';
 export { default as PageVisibilityWatcher } from './pageVisibilityWatcher';
+export { default as FakeListFetcher } from './fakeListFetcher';

@@ -435,6 +435,14 @@ def manifest():
 def image(path):
     return current_app.send_static_file('image/' + path)
 
+@app.route('/landing')
+def landing_page():
+    user = current_user
+
+    if user.is_authenticated:
+        return redirect('/')
+
+    return render_template('data.html')
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
