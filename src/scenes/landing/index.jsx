@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import cx from 'classnames';
 
+// Components
 import {
     H5,
     NavBar,
@@ -30,6 +31,7 @@ import {
     TotalTime,
 } from '../data/components';
 
+// Styles
 import btnStyle from
     '../timer/components/timerContainer/components/runningActivityButtons/style/style.module.scss';
 import { timerContainerStyle } from
@@ -47,11 +49,17 @@ import {
     footerPusher,
 } from '../data/style/structure.module.scss';
 
+// Helper functions
 import {
     utcNow,
 } from '../../helpers';
 import * as actions from '../../redux/actions';
 import googleColors from '../../static/js/google_colors';
+
+// Images
+import GoogleSigninLight from './images/gsignin_light.png';
+import CalendarImage from './images/calendar.png';
+import TimeTrackingIcon from './images/time_tracking_icon.png';
 
 function Landing() {
     const activityIsRunning = useSelector((state) => state.activityIsRunning);
@@ -93,24 +101,28 @@ function Landing() {
     }];
 
     return <div>
-        <NavBar landing={true} />
+        <NavBar landing={true} backgroundColor='#31B77A'/>
         <div className={style.header}>
             <h1>Finding Time to Follow Your Dreams</h1>
             <h2>Turnip is a minimal time tracking app that gives you the tools
                  to analyze how you live your life.</h2>
+            <a href='/login'>
+                <img src={GoogleSigninLight} className={style.gsignin} />
+            </a>
         </div>
         <div className={style.gCal}>
             <div className={style.gCalSection}>
-                <h2>In Sync With Google Calendar</h2>
-                <p>Turnip reads and wrties to your Google Calendar.
-                When you save an activity it shows in your
-                Google Calendar so you can use the tools you
-                already love. Turnip also pulls in your
-                pre-existing events so you can use our
-                tools to analyze the rest of your time.</p>
+                <img className={style.timeTrackingIcon} src={TimeTrackingIcon} />
+                <h1>In Sync With Google Calendar</h1>
+                <h2>All activities tracked with Turnip save to 
+                    your Google Calendar so you can use the 
+                    tools you already love to view and edit 
+                    your activity records. </h2>
             </div>
             <div className={style.gCalSection}>
-
+                <div className={style.calendarImageContainer}>
+                    <img src={CalendarImage} />
+                </div>
             </div>
         </div>
         <div className={style.timeTracking} style={{ backgroundColor: timerBackgroundColor }}>
@@ -149,7 +161,7 @@ function Landing() {
                 ) : null}
             </div>
         </div>
-        <div>
+        {/* <div>
             <FakeListFetcher />
             <TotalsAggregator />
             <ActivityListAggregator />
@@ -173,7 +185,7 @@ function Landing() {
                     <StackedBarChart tweenStatus={0} />
                 </div>
             </main>
-        </div>
+        </div> */}
     </div >;
 }
 

@@ -79,7 +79,7 @@ export class NavBar extends Component {
                         ? <img src={logoLight} />
                         : <img src={logoDark} />}
                 </a>
-
+{/* 
                 {this.props.landing ? (
                     <a href='/'>
                         <img className={style.gsignin} src={gsignin} />
@@ -98,7 +98,7 @@ export class NavBar extends Component {
                         </button>
 
                         <HamburgerMenu open={hamburgerMenuOpen} />
-                    </div>)}
+                    </div>)} */}
             </nav>
         );
     }
