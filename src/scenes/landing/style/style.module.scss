@@ -21,6 +21,22 @@ h2 {
     margin: auto auto;
 }
 
+.sectionH1 {
+    width: 315px;
+    margin-bottom: 20px;
+    font-family: Work Sans;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 42px;
+    text-align: center;
+}
+
+.sectionH2 {
+    color: #4F4F4F;
+    width: 90%;
+}
+
 .header {
     height: 500px;
     padding-top: 100px;
@@ -46,7 +62,7 @@ h2 {
     width: 200px;
 }
 
-.timeTrackingIcon {
+.sectionIcon {
     margin: auto auto;
     display: block;
     margin-bottom: 30px;
@@ -62,23 +78,11 @@ h2 {
     box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     padding-top: 50px;
+    margin-bottom: 100px;
 }
 
 .gCal h1 {
     color: #2B98D4;
-    width: 315px;
-    margin-bottom: 20px;
-    font-family: Work Sans;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 36px;
-    line-height: 42px;
-    text-align: center;
-}
-
-.gCal h2 {
-    color: #4F4F4F;
-    width: 90%;
 }
 
 .calendarImageContainer {
@@ -94,6 +98,28 @@ h2 {
 }
 
 .timeTracking {
-    background-color: silver;
+    background-color: white;
     margin-bottom: 400px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.timeTracking h1 {
+    color: #31B77A;
+}
+
+.timeTracking h2 {
+    margin-bottom: 50px;
+}
+
+.timeTracking h3 {
+    font-family: Work Sans;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 26px;
+    text-align: center;
+    color: #000000;
+    width: 130px;
+    margin-left: 50%;
 }

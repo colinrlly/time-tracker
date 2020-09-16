@@ -59,6 +59,7 @@ import googleColors from '../../static/js/google_colors';
 // Images
 import GoogleSigninLight from './images/gsignin_light.png';
 import CalendarImage from './images/calendar.png';
+import CalendarIcon from './images/calendar_icon.png';
 import TimeTrackingIcon from './images/time_tracking_icon.png';
 
 function Landing() {
@@ -102,31 +103,47 @@ function Landing() {
 
     return <div>
         <NavBar landing={true} backgroundColor='#31B77A'/>
+
         <div className={style.header}>
             <h1>Finding Time to Follow Your Dreams</h1>
+
             <h2>Turnip is a minimal time tracking app that gives you the tools
                  to analyze how you live your life.</h2>
+
             <a href='/login'>
                 <img src={GoogleSigninLight} className={style.gsignin} />
             </a>
         </div>
+
         <div className={style.gCal}>
             <div className={style.gCalSection}>
-                <img className={style.timeTrackingIcon} src={TimeTrackingIcon} />
-                <h1>In Sync With Google Calendar</h1>
-                <h2>All activities tracked with Turnip save to 
+                <img className={style.sectionIcon} src={CalendarIcon} />
+
+                <h1 className={style.sectionH1}>In Sync With Google Calendar</h1>
+
+                <h2 className={style.sectionH2}>All activities tracked with Turnip save to 
                     your Google Calendar so you can use the 
                     tools you already love to view and edit 
-                    your activity records. </h2>
+                    your activity records.</h2>
             </div>
+
             <div className={style.gCalSection}>
                 <div className={style.calendarImageContainer}>
                     <img src={CalendarImage} />
                 </div>
             </div>
         </div>
+
         <div className={style.timeTracking} style={{ backgroundColor: timerBackgroundColor }}>
-            <h2>Satisfying Time Tracking</h2>
+            <img className={style.sectionIcon} src={TimeTrackingIcon} />
+
+            <h1 className={style.sectionH1}>Satisfying Time Tracking</h1>
+
+            <h2 className={style.sectionH2}>Creating and tracking activies is easy with Turnip’s 
+                clean interface. just create an activity button 
+                and then click the button to start 
+                tracking the activity.</h2>
+
             <TimerActivityList
                 activities={activities}
                 handleActivityClick={handleActivityClick}
@@ -134,25 +151,31 @@ function Landing() {
                 hasUnsavedActivityRecord={hasUnsavedActivityRecord}
                 disabled={false}
                 editCallback={() => { }} />
+
+            <h3>Click a button to give it a try!</h3>
+
             <div
-                className={timerContainerStyle}
                 style={{
                     display: activityIsRunning || hasUnsavedActivityRecord ? 'block' : 'none',
                 }}>
                 <ActivityNameContainer />
+
                 <TimerTextContainer />
+
                 {activityIsRunning
                     ? <Btn
                         callback={handleStopClick}
                         text={'Stop'}
                         className={btnStyle.btn} />
                     : null}
+
                 {hasUnsavedActivityRecord ? (
                     <div className={dsbStyle.deleteSaveBtns}>
                         <Btn
                             callback={deleteSaveCallback}
                             text='Delete'
                             className={cx(dsbStyle.deleteBtn, btnStyle.btn)} />
+
                         <Btn
                             callback={deleteSaveCallback}
                             text='Save'
