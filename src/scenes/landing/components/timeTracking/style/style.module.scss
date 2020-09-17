@@ -1,0 +1,41 @@
+.timeTracking {
+    background-color: white;
+    margin-bottom: 400px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.timeTracking h1 {
+    color: #31B77A;
+}
+
+.timeTracking h2 {
+    margin-bottom: 50px;
+}
+
+.timeTracking h3 {
+    font-family: Work Sans;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 26px;
+    text-align: center;
+    color: #000000;
+    width: 130px;
+    margin-left: 50%;
+}
+
+.timerContainer {
+    display: none;
+}
+
+.timerContainer.activityIsRunning {
+    width: 100%;
+    grid-template-rows: 48px auto auto;
+    grid-template-columns: auto auto auto;
+    grid-row-gap: 40px;
+    display: grid;
+    text-align: center;
+    align-items: center;
+    justify-items: center;
+}
