@@ -10,6 +10,9 @@ import {
     FakeListFetcher,
 } from '../../components';
 import {
+    TimerContainer,
+} from '../timer/components';
+import {
     TimerTextContainer,
     ActivityNameContainer,
 } from '../timer/components/timerContainer/components';
@@ -34,8 +37,8 @@ import {
 // Styles
 import btnStyle from
     '../timer/components/timerContainer/components/runningActivityButtons/style/style.module.scss';
-import { timerContainerStyle } from
-    '../timer/style/style.module.scss';
+import timerContainerStyle from
+    '../timer/components/timerContainer/style/style.module.scss';
 import dsbStyle from
     '../timer/components/timerContainer/components/runningActivityButtons/deleteSaveBtns/style/style.module.scss';
 import style from './style/style.module.scss';
@@ -86,6 +89,14 @@ function Landing() {
     }
 
     const timerBackgroundColor = activityIsRunning ? googleColors[currentActivity.color] : null;
+    const timerContainerStyles = cx(
+        style.timerContainer,
+        (activityIsRunning || hasUnsavedActivityRecord)
+            ? style.activityIsRunning
+            : null,
+    );
+    const timeTrackingH1Color = activityIsRunning ? 'white' : '#31B77A';
+    const timeTrackingH2Color = activityIsRunning ? 'white' : '#4F4F4F';
 
     const activities = [{
         id: 1,
@@ -102,7 +113,7 @@ function Landing() {
     }];
 
     return <div>
-        <NavBar landing={true} backgroundColor='#31B77A'/>
+        <NavBar landing={true} backgroundColor='#31B77A' />
 
         <div className={style.header}>
             <h1>Finding Time to Follow Your Dreams</h1>
@@ -121,9 +132,9 @@ function Landing() {
 
                 <h1 className={style.sectionH1}>In Sync With Google Calendar</h1>
 
-                <h2 className={style.sectionH2}>All activities tracked with Turnip save to 
-                    your Google Calendar so you can use the 
-                    tools you already love to view and edit 
+                <h2 className={style.sectionH2}>All activities tracked with Turnip save to
+                your Google Calendar so you can use the
+                tools you already love to view and edit
                     your activity records.</h2>
             </div>
 
@@ -137,11 +148,16 @@ function Landing() {
         <div className={style.timeTracking} style={{ backgroundColor: timerBackgroundColor }}>
             <img className={style.sectionIcon} src={TimeTrackingIcon} />
 
-            <h1 className={style.sectionH1}>Satisfying Time Tracking</h1>
+            <h1
+                className={style.sectionH1}
+                style={{ color: timeTrackingH1Color }}>Satisfying Time Tracking</h1>
 
-            <h2 className={style.sectionH2}>Creating and tracking activies is easy with Turnip’s 
-                clean interface. just create an activity button 
-                and then click the button to start 
+            <h2
+                className={style.sectionH2}
+                style={{ color: timeTrackingH2Color }}>Creating and tracking activies
+                is easy with Turnip’s
+                clean interface. just create an activity button
+                and then click the button to start
                 tracking the activity.</h2>
 
             <TimerActivityList
@@ -152,12 +168,11 @@ function Landing() {
                 disabled={false}
                 editCallback={() => { }} />
 
-            <h3>Click a button to give it a try!</h3>
+            <h3 style={{
+                display: activityIsRunning || hasUnsavedActivityRecord ? 'none' : 'block',
+            }}>Click a button to give it a try!</h3>
 
-            <div
-                style={{
-                    display: activityIsRunning || hasUnsavedActivityRecord ? 'block' : 'none',
-                }}>
+            <div className={timerContainerStyles}>
                 <ActivityNameContainer />
 
                 <TimerTextContainer />

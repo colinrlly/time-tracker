@@ -123,3 +123,18 @@ h2 {
     width: 130px;
     margin-left: 50%;
 }
+
+.timerContainer {
+    display: none;
+}
+
+.timerContainer.activityIsRunning {
+    width: 100%;
+    grid-template-rows: 48px auto auto;
+    grid-template-columns: auto auto auto;
+    grid-row-gap: 40px;
+    display: grid;
+    text-align: center;
+    align-items: center;
+    justify-items: center;
+}
