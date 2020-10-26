@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import cx from 'classnames';
 
 // Components
 import {
     Picker,
     ActivityList as DataActivityList,
-    BarChart,
     StackedBarChart,
     TotalsAggregator,
     ActivityListAggregator,
@@ -14,7 +13,6 @@ import {
     StackedTotalsAggregator,
     Tooltip,
     ControlsBtn,
-    TotalTime,
 } from '../../../data/components';
 import {
     H5,
@@ -25,6 +23,12 @@ import {
 import dataStyle from '../../../data/style/structure.module.scss';
 
 function Data() {
+    const [controlsClosed, setControlsClosed] = useState(true);
+
+    function handleControlsBtnClick() {
+        setControlsClosed(!controlsClosed);
+    }
+
     return (
         <div>
             <FakeListFetcher />
@@ -38,7 +42,7 @@ function Data() {
                 className={
                     cx(
                         dataStyle.controls,
-                        false ? dataStyle.closedControls : dataStyle.openControls,
+                        controlsClosed ? dataStyle.closedControls : dataStyle.openControls,
                     )}>
                 <H5>Time Range</H5>
                 <Picker />
@@ -46,13 +50,14 @@ function Data() {
             </nav>
 
             <ControlsBtn
-                controlsClosed={false}
-                handleControlsBtnClick={() => this.handleControlsBtnClick()} />
+                controlsClosed={controlsClosed}
+                handleControlsBtnClick={() => handleControlsBtnClick()} />
 
-            <main className={cx(dataStyle.content, false ? dataStyle.fullWidthContent : null)}>
+            <main className={
+                cx(dataStyle.content, controlsClosed ? dataStyle.fullWidthContent : null)}>
                 <div>
                     <Tooltip />
-                    <StackedBarChart tweenStatus={0} />
+                    <StackedBarChart />
                 </div>
             </main>
         </div>
