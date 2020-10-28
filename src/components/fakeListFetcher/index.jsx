@@ -4,7 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
     setActivityRecords,
 } from '../../redux/actions';
-import events from './data/events';
+
+import { fakeDataGenerator } from './helpers';
 
 function FakeListFetcher() {
     const startDateTime = useSelector((state) => state.range.startDateTime);
@@ -13,7 +14,7 @@ function FakeListFetcher() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(setActivityRecords(events));
+        dispatch(setActivityRecords(fakeDataGenerator(startDateTime, endDateTime)));
     }, [numberUpdates, startDateTime, endDateTime]);
 
     return (null);
