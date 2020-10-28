@@ -214,25 +214,41 @@ def credentials_to_dict(credentials):
 
 
 def list_users_events(session, User, Activity, user, startOfRange, endOfRange):
+    # print('listing users events')
+
     # Check if the user doesn't have any credentials at all.
     if not user.credentials:
         return {'code': 'need_authorization', 'auth_url': url_for('authorize')}
+
+    # print('done checking credentials')
 
     # Check if the credentials are invalid.
     try:
         credentials = client.OAuth2Credentials.from_json(user.credentials)
 
+        # print('done getting credentials from json')
+
+        # print('token expired? ' + str(credentials.access_token_expired))
+
         # Credentials expired, just refresh them.
         if credentials.access_token_expired:
             credentials.refresh(Http())
+
+            # print('done refreshing credentials')
     # Token could not be refreshed, need to auth again.
     except HttpAccessTokenRefreshError:
+        # print('HttpAccessTokenRefreshError')
+
         return {'code': 'need_authorization', 'auth_url': url_for('authorize')}
+
+    # print('done checking if credentials are valid')
 
     # By this point we know the credentials are valid.
     # Build the Google Calendar object.
     calendar = googleapiclient.discovery.build(
         API_SERVICE_NAME, API_VERSION, credentials=credentials)
+
+    # print('done building google calendar object')
 
     # Store credentials in the database.
     user.credentials = credentials.to_json()
@@ -240,10 +256,14 @@ def list_users_events(session, User, Activity, user, startOfRange, endOfRange):
     session.commit()
     # session.close()
 
+    # print('done storing credentials in the database')
+
     # Get the user's activities
     activities = Activity.query.filter_by(user_id=user.id).all()
     names = [activity.name for activity in activities]
     colors = { a.name: a.color for a in activities}
+
+    # print('done getting the users activities')
     
     # Get and format the users Google Calendar events
     page_token = None  # Used to get the next 'page' of results
@@ -258,6 +278,8 @@ def list_users_events(session, User, Activity, user, startOfRange, endOfRange):
                 timeMin=startOfRange,
                 singleEvents=True,  # Expand recurring events
                 pageToken=page_token).execute()
+
+            # print('done listing calendar events')
 
             # calendars = calendar.calendarList().list().execute()
         # Google credentials were revoked, need to authorize again
@@ -274,17 +296,20 @@ def list_users_events(session, User, Activity, user, startOfRange, endOfRange):
                 else:
                     colorId = x['colorId']
 
-                trimmed_list.append({
-                    'end': x['end'],
-                    'start': x['start'],
-                    'summary': x['summary'],
-                    'colorId': colorId,
-                    'inActivities': (x['summary'] in names)
-                })
+                if x['summary'] != 'Games':
+                    trimmed_list.append({
+                        'end': x['end'],
+                        'start': x['start'],
+                        'summary': x['summary'],
+                        'colorId': colorId,
+                        'inActivities': (x['summary'] in names)
+                    })
         
         page_token = events_list.get('nextPageToken')
         if not page_token:
             break
+
+    # print('done formatting the users activities')
 
     # return calendars
     # return {'code': 'success', 'list': events_list }
