@@ -20,7 +20,7 @@ import {
 } from '../../../../components';
 
 // Styles
-import dataStyle from '../../../data/style/structure.module.scss';
+import style from './style/style.module.scss';
 
 function Data() {
     const [controlsClosed, setControlsClosed] = useState(true);
@@ -41,8 +41,8 @@ function Data() {
             <nav
                 className={
                     cx(
-                        dataStyle.controls,
-                        controlsClosed ? dataStyle.closedControls : dataStyle.openControls,
+                        style.controls,
+                        controlsClosed ? style.closedControls : style.openControls,
                     )}>
                 <H5>Time Range</H5>
                 <Picker />
@@ -54,7 +54,7 @@ function Data() {
                 handleControlsBtnClick={() => handleControlsBtnClick()} />
 
             <main className={
-                cx(dataStyle.content, controlsClosed ? dataStyle.fullWidthContent : null)}>
+                cx(style.content, controlsClosed ? style.fullWidthContent : null)}>
                 <div>
                     <Tooltip />
                     <StackedBarChart />

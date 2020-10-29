@@ -1,0 +1,51 @@
+.controls {
+    width: 350px;
+    float: left;
+    background-color: white;
+    padding: 50px 35px 50px 35px;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
+    margin-left: 0px;
+    transition: margin .5s;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    position: absolute;
+    z-index: 1;
+    height: 600px;
+}
+
+.controls.closedControls {
+    margin-left: -350px;
+}
+
+.controls.openControls {
+    margin-left: 0px;
+}
+
+.controls::-webkit-scrollbar {
+    display: none;
+}
+
+.content {
+    margin-left: 350px;
+    transition: margin .5s;
+    overflow-y: scroll;
+    padding-top: 40px;
+    -ms-overflow-style: none;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 75px;
+}
+
+.content::-webkit-scrollbar {
+    display: none;
+}
+
+@media (max-width: 900px) {
+    .content {
+        margin-left: 0px;
+    }
+
+    .controls {
+        margin-left: -350px;
+    }
+}
