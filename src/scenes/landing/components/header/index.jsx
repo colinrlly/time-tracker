@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import GoogleSigninLight from '../../images/gsignin_light.png';
 

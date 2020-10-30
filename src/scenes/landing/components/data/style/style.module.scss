@@ -1,3 +1,11 @@
+.data h1 {
+    color: #4F4F4F;
+}
+
+.data h2 {
+    margin-bottom: 75px;
+}
+
 .controls {
     width: 350px;
     float: left;
@@ -33,7 +41,7 @@
     -ms-overflow-style: none;
     display: flex;
     flex-direction: column;
-    margin-bottom: 75px;
+    padding-bottom: 75px;
 }
 
 .content::-webkit-scrollbar {

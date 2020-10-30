@@ -1,7 +1,8 @@
 .header {
     height: 500px;
     padding-top: 100px;
-    background-color: #31B77A;
+    position: relative;
+    z-index: 2;
 }
 
 .header h1 {

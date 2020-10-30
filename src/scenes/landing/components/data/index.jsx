@@ -21,6 +21,10 @@ import {
 
 // Styles
 import style from './style/style.module.scss';
+import landingStyle from '../../style/style.module.scss';
+
+// Images
+import AnalyticsIcon from '../../images/analytics_icon.png';
 
 function Data() {
     const [controlsClosed, setControlsClosed] = useState(true);
@@ -30,13 +34,22 @@ function Data() {
     }
 
     return (
-        <div>
+        <div className={style.data}>
             <FakeListFetcher />
             <TotalsAggregator />
             <ActivityListAggregator />
             <StackedTotalsAggregator />
             <FilteredTotalsAggregator />
             <TotalTimeAggregator />
+
+            <img className={landingStyle.sectionIcon} src={AnalyticsIcon} />
+
+            <h1 className={landingStyle.sectionIcon}>Illuminating Data Analytics</h1>
+
+            <h2 className={landingStyle.sectionH2}>Unlock your productivity by clearly
+            seeing how you spend your time. Turnip gives you complete power to see
+            where you spend your time. See your habits through clear visuals and
+            precise controls.</h2>
 
             <nav
                 className={
