@@ -14,8 +14,11 @@ import {
     BlueBlock,
 } from './components/backgroundColors';
 
+// style
+import style from './style/style.module.scss';
+
 function Landing() {
-    return <div>
+    return <div className={style.landing}>
         <NavBar landing={true} backgroundColor='#31B77A' />
         <GreenBlock />
         <Header />

@@ -7,6 +7,10 @@
     top: 15%;
     width: 100%;
     grid-template-rows: 48px auto auto;
+    grid-template-columns: auto auto auto;
     grid-row-gap: 50px;
     display: grid;
+    text-align: center;
+    align-items: center;
+    justify-items: center;
 }
