@@ -3,9 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 
 import {
-    setCurrentActivity,
-    setActivityIsRunning,
-    setLastActivityStartTime,
     setActivityDialogDisplayed,
     setNewOrEditDialog,
     setEditActivityName,
@@ -36,6 +33,11 @@ function ActivityListContainer() {
         }
     }
 
+    function NewActivityBtnCallback() {
+        dispatch(setActivityDialogDisplayed(true));
+        dispatch(setNewOrEditDialog('new'));
+    }
+
     function editCallback(activity) {
         dispatch(setActivityDialogDisplayed(true));
         dispatch(setNewOrEditDialog('edit'));
@@ -51,7 +53,8 @@ function ActivityListContainer() {
             hasUnsavedActivityRecord={hasUnsavedActivityRecord}
             activityIsRunning={activityIsRunning}
             disabled={activityDialogDisplayed}
-            editCallback={editCallback} />
+            editCallback={editCallback}
+            NewActivityBtnCallback={NewActivityBtnCallback} />
     );
 }
 

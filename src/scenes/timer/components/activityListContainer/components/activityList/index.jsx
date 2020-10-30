@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import cx from 'classnames';
+
 import { googleColorsRGB } from '../../../../../../static/js/google_colors';
 
 import cog from './images/cog.png';
@@ -34,6 +36,21 @@ function ActivityList(props) {
             </button>
         </li>));
 
+    activityComponents.push(
+        <li
+            key={10000}
+            className={style.activityListItem}>
+            <button
+                onClick={() => props.NewActivityBtnCallback()}
+                disabled={props.disabled}
+                className={cx(style.activityListBtn, style.addActivityBtn)}
+                style={{
+                    backgroundColor: '#BDBDBD',
+                }}
+            >+</button>
+        </li>,
+    );
+
     return (
         (props.activityIsRunning || props.hasUnsavedActivityRecord)
             ? null
@@ -56,6 +73,7 @@ ActivityList.propTypes = {
     hasUnsavedActivityRecord: PropTypes.bool.isRequired,
     disabled: PropTypes.bool.isRequired,
     editCallback: PropTypes.func.isRequired,
+    NewActivityBtnCallback: PropTypes.func.isRequired,
 };
 
 export default ActivityList;
