@@ -12,7 +12,7 @@ import {
 
 import { ActivityList } from './components';
 
-function ActivityListContainer() {
+function ActivityListContainer(props) {
     const allActivitiesList = useSelector((state) => state.allActivitiesList);
     const activityIsRunning = useSelector((state) => state.activityIsRunning);
     const hasUnsavedActivityRecord = useSelector((state) => state.hasUnsavedActivityRecord);
@@ -54,7 +54,8 @@ function ActivityListContainer() {
             activityIsRunning={activityIsRunning}
             disabled={activityDialogDisplayed}
             editCallback={editCallback}
-            NewActivityBtnCallback={NewActivityBtnCallback} />
+            NewActivityBtnCallback={NewActivityBtnCallback}
+            usedInLandingPage={props.usedInLandingPage} />
     );
 }
 

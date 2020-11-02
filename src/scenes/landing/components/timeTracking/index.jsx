@@ -101,7 +101,8 @@ function TimeTracking() {
                 activityIsRunning={activityIsRunning}
                 hasUnsavedActivityRecord={hasUnsavedActivityRecord}
                 disabled={false}
-                editCallback={() => { }} />
+                editCallback={() => { }}
+                usedInLandingPage={true} />
 
             <h3 style={{
                 display: activityIsRunning || hasUnsavedActivityRecord ? 'none' : 'block',

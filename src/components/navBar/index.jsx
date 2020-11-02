@@ -12,7 +12,6 @@ import hamburgerDark from './images/hamburgerDark.png';
 import hamburgerLight from './images/hamburgerLight.png';
 import logoLight from './images/logoLight.png';
 import logoDark from './images/logoDark.png';
-import gsignin from './images/gsignin.png';
 
 export class NavBar extends Component {
     constructor(props) {

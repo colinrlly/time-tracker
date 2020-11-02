@@ -36,20 +36,22 @@ function ActivityList(props) {
             </button>
         </li>));
 
-    activityComponents.push(
-        <li
-            key={10000}
-            className={style.activityListItem}>
-            <button
-                onClick={() => props.NewActivityBtnCallback()}
-                disabled={props.disabled}
-                className={cx(style.activityListBtn, style.addActivityBtn)}
-                style={{
-                    backgroundColor: '#BDBDBD',
-                }}
-            >+</button>
-        </li>,
-    );
+    if (!props.usedInLandingPage) {
+        activityComponents.push(
+            <li
+                key={10000}
+                className={style.activityListItem}>
+                <button
+                    onClick={() => props.NewActivityBtnCallback()}
+                    disabled={props.disabled}
+                    className={cx(style.activityListBtn, style.addActivityBtn)}
+                    style={{
+                        backgroundColor: '#BDBDBD',
+                    }}
+                >+</button>
+            </li>,
+        );
+    }
 
     return (
         (props.activityIsRunning || props.hasUnsavedActivityRecord)
@@ -73,7 +75,12 @@ ActivityList.propTypes = {
     hasUnsavedActivityRecord: PropTypes.bool.isRequired,
     disabled: PropTypes.bool.isRequired,
     editCallback: PropTypes.func.isRequired,
-    NewActivityBtnCallback: PropTypes.func.isRequired,
+    NewActivityBtnCallback: PropTypes.func,
+    usedInLandingPage: PropTypes.bool,
+};
+
+ActivityList.defaultProps = {
+    usedInLandingPage: false,
 };
 
 export default ActivityList;
