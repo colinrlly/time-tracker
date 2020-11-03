@@ -7,3 +7,11 @@
     height: 800px;
     z-index: 1;
 }
+
+@media only screen and (min-width: 750px) {
+    .greenBlock {
+        background-color: transparent;
+        background-image: url("../images/green_block.svg");
+        background-repeat: no-repeat;
+    }
+}

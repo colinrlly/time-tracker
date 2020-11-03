@@ -19,7 +19,7 @@ import style from './style/style.module.scss';
 
 function Landing() {
     return <div className={style.landing}>
-        <NavBar landing={true} backgroundColor='#31B77A' />
+        <NavBar landing={true} backgroundColor='transparent' />
         <GreenBlock />
         <Header />
         <BlueBlock />

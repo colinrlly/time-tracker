@@ -23,3 +23,53 @@
 .gsignin {
     width: 200px;
 }
+
+
+@media only screen and (min-width: 750px) {
+    .header {
+        display: grid;
+        grid-template-columns: 60% 40%;
+    }
+
+    .textContainer {
+        grid-column-start: 1;
+        margin: 20px;
+        margin-top: 0;
+        width: 390px;
+    }
+
+    .header h1 {
+        text-align: left;
+        width: 350px;
+    }
+
+    .header h2 {
+        text-align: left;
+    }
+
+    .activityListContainer {
+        grid-column-start: 2;
+    }
+
+    .header a.gSigningLink {
+        margin: 0;
+        margin-left: 20px;
+    }
+}
+
+@media only screen and (min-width: 880px) {
+    .header {
+        width: 820px;
+        margin: auto auto;
+    }
+
+    .header h1 {
+        margin: 0;
+        margin-bottom: 20px;
+    }
+
+    .header h2 {
+        margin: 0;
+        margin-bottom: 20px;
+    }
+}

@@ -1,6 +1,4 @@
 .gCal {
-    display: grid;
-    grid-template-rows: auto auto;
     background-color: #F4F4F4;
     width: 95%;
     margin: auto auto;
@@ -10,6 +8,10 @@
     padding-top: 50px;
     position: relative;
     z-index: 3;
+}
+
+.gCalInnerContainer {
+    width: 100%;
 }
 
 .gCal h1 {
@@ -26,4 +28,98 @@
 
 .calendarImageContainer img {
     width: 100%;
+}
+
+@media only screen and (min-width: 450px) {
+    .gCalInnerContainer {
+        width: 80%;
+        margin: auto auto;
+        margin-bottom: 10%;
+    }
+}
+
+@media only screen and (min-width: 700px) {
+    .gCal {
+        padding: 25px;
+    }
+
+    .gCalInnerContainer {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 25px;
+        padding: 0;
+        margin: 0;
+        align-items: center;
+    }
+
+    .imgSection {
+        grid-column-start: 1;
+        grid-row-start: 1;
+    }
+
+    .calendarImageContainer {
+        margin: 0;
+    }
+
+    .textSection {
+        grid-column-start: 2;
+        grid-row-start: 1;
+        display: grid;
+        grid-template-columns: 85px 2fr;
+        grid-template-rows: 85px min-content;
+        column-gap: 10px;
+        row-gap: 10px;
+        height: 80%;
+        align-items: center;
+    }
+
+    .gCal img.sectionIcon {
+        grid-column-start: 1;
+        grid-row-start: 1;
+        margin: 0;
+        width: 85px;
+    }
+
+    .gCal .sectionH1 {
+        font-size: 1.5em;
+        grid-column-start: 2;
+        grid-row-start: 1;
+        margin: 0;
+        width: 200px;
+        text-align: left;
+        line-height: 1.2em;
+    }
+
+    h2.sectionH2 {
+        grid-column-start: 1;
+        grid-column-end: 3;
+        grid-row-start: 2;
+        text-align: left;
+        font-size: 1em;
+        margin: 0;
+        align-self: start;
+    }
+}
+
+@media only screen and (min-width: 750px) {
+    .gCalInnerContainer {
+        column-gap: 40px;
+    }
+    
+    .textSection {
+        grid-template-columns: 100px 2fr;
+        grid-template-rows: 100px min-content;
+        column-gap: 20px;
+    }
+
+    .gCal img.sectionIcon {
+        width: 100px;
+    }
+}
+
+@media only screen and (min-width: 880px) {
+    .gCal {
+        width: 820px;
+    }
 }

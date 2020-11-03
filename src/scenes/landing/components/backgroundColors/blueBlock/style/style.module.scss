@@ -1,9 +1,7 @@
 .chevron {
     position: absolute;
     text-align: center;
-    // padding: 12px;
-    // margin-bottom: 6px;
-    height: 750px;
+    height: calc(100vw + 350px);
     width: 100vw;
     top: 675px;
     z-index: 2;
@@ -29,4 +27,48 @@
     width: 50%;
     background: #2B98D4;
     transform: skew(0deg, 25deg);
+}
+
+@media only screen and (min-width: 700px) {
+    .chevron {
+        height: calc(50vw);
+    }
+}
+
+@media only screen and (min-width: 880px) {
+    .chevron {
+        height: 400px;
+        top: 700px;
+    }
+
+    .chevron:before {
+        transform: skew(0deg, -20deg);
+    }
+    
+    .chevron:after {
+        transform: skew(0deg, 20deg);
+    }
+}
+
+@media only screen and (min-width: 1100px) {
+    .chevron:before {
+        transform: skew(0deg, -15deg);
+    }
+    
+    .chevron:after {
+        transform: skew(0deg, 15deg);
+    }
+}
+
+@media only screen and (min-width: 1500px) {
+    .chevron {
+        height: 350px;
+        top: 800px;
+    }
+}
+
+@media only screen and (min-width: 2000px) {
+    .chevron {
+        height: 400px;
+    }
 }
