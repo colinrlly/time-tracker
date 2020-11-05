@@ -296,14 +296,13 @@ def list_users_events(session, User, Activity, user, startOfRange, endOfRange):
                 else:
                     colorId = x['colorId']
 
-                if x['summary'] != 'Games':
-                    trimmed_list.append({
-                        'end': x['end'],
-                        'start': x['start'],
-                        'summary': x['summary'],
-                        'colorId': colorId,
-                        'inActivities': (x['summary'] in names)
-                    })
+                trimmed_list.append({
+                    'end': x['end'],
+                    'start': x['start'],
+                    'summary': x['summary'],
+                    'colorId': colorId,
+                    'inActivities': (x['summary'] in names)
+                })
         
         page_token = events_list.get('nextPageToken')
         if not page_token:

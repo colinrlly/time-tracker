@@ -6,6 +6,11 @@
     clip-path: ellipse(150% 50% at 50% 50%);
 }
 
+.timeTrackingContent {
+    max-width: 850px;
+    margin: auto auto;
+}
+
 .timeTracking h1 {
     color: #31B77A;
 }
@@ -41,4 +46,28 @@
     text-align: center;
     align-items: center;
     justify-items: center;
+}
+
+@media only screen and (min-width: 600px) {
+    .timeTracking {
+        height: 1000px;
+        clip-path: ellipse(100% 50% at 50% 50%);
+        padding-top: 200px;
+    }
+
+    .timeTracking h2 {
+        width: 465px;
+    }
+
+    .timerContainer {
+        margin-top: 100px;
+        display: none;
+    }
+}
+
+@media only screen and (min-width: 700px) {
+    .timeTracking h1 {
+        width: auto;
+        font-size: 3em;
+    }
 }

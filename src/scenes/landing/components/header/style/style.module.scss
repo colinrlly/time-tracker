@@ -5,6 +5,11 @@
     z-index: 2;
 }
 
+.textContainer {
+    max-width: 415px;
+    margin: auto auto;
+}
+
 .header h1 {
     margin: 0 20px 20px 20px;
 }
@@ -24,11 +29,21 @@
     width: 200px;
 }
 
+.activityListContainer {
+    display: none;
+}
 
-@media only screen and (min-width: 750px) {
+@media only screen and (min-width: 500px) {
+    .textContainer {
+        max-width: 450px;
+    }
+}
+
+@media only screen and (min-width: 800px) {
     .header {
         display: grid;
         grid-template-columns: 60% 40%;
+        height: 600px;
     }
 
     .textContainer {
@@ -36,6 +51,7 @@
         margin: 20px;
         margin-top: 0;
         width: 390px;
+        margin-top: 50px;
     }
 
     .header h1 {
@@ -49,6 +65,7 @@
 
     .activityListContainer {
         grid-column-start: 2;
+        display: block;
     }
 
     .header a.gSigningLink {

@@ -1,17 +1,42 @@
-.greenBlock {
-    background-color: #31B77A;
+.container {
+    width: calc(100vw - (100vw - 100%));
+    height: 800px;
     position: absolute;
     top: 0;
     left: 0;
-    width: 100vw;
+}
+
+.greenBlock {
+    background-color: #31B77A;
+    position: absolute;
+    width: calc(100vw - (100vw - 100%));
     height: 800px;
     z-index: 1;
 }
 
-@media only screen and (min-width: 750px) {
+.leftFiller {
+    display: none;
+}
+
+@media only screen and (min-width: 800px) {
+    .container {
+        width: auto;
+    }
+
     .greenBlock {
         background-color: transparent;
         background-image: url("../images/green_block.svg");
         background-repeat: no-repeat;
+        height: 1000px;
+        left: calc(50vw - 400px);
+        width: 550px;
+    }
+
+    .leftFiller {
+        height: 1000px;
+        width: 300px;
+        background-color: #31B77A;
+        float: left;
+        display: block;
     }
 }

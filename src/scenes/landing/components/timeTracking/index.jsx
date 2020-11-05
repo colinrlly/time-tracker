@@ -81,58 +81,60 @@ function TimeTracking() {
 
     return (
         <div className={style.timeTracking} style={{ backgroundColor: timerBackgroundColor }}>
-            <img className={landingStyle.sectionIcon} src={TimeTrackingIcon} />
+            <div className={style.timeTrackingContent}>
+                <img className={landingStyle.sectionIcon} src={TimeTrackingIcon} />
 
-            <h1
-                className={landingStyle.sectionH1}
-                style={{ color: timeTrackingH1Color }}>Satisfying Time Tracking</h1>
+                <h1
+                    className={landingStyle.sectionH1}
+                    style={{ color: timeTrackingH1Color }}>Satisfying Time Tracking</h1>
 
-            <h2
-                className={landingStyle.sectionH2}
-                style={{ color: timeTrackingH2Color }}>Creating and tracking activies
-                is easy with Turnip’s
-                clean interface. just create an activity button
-                and then click the button to start
-                tracking the activity.</h2>
+                <h2
+                    className={landingStyle.sectionH2}
+                    style={{ color: timeTrackingH2Color }}>Creating and tracking activies
+                    is easy with Turnip’s
+                    clean interface. just create an activity button
+                    and then click the button to start
+                    tracking the activity.</h2>
 
-            <TimerActivityList
-                activities={activities}
-                handleActivityClick={handleActivityClick}
-                activityIsRunning={activityIsRunning}
-                hasUnsavedActivityRecord={hasUnsavedActivityRecord}
-                disabled={false}
-                editCallback={() => { }}
-                usedInLandingPage={true} />
+                <TimerActivityList
+                    activities={activities}
+                    handleActivityClick={handleActivityClick}
+                    activityIsRunning={activityIsRunning}
+                    hasUnsavedActivityRecord={hasUnsavedActivityRecord}
+                    disabled={false}
+                    editCallback={() => { }}
+                    usedInLandingPage={true} />
 
-            <h3 style={{
-                display: activityIsRunning || hasUnsavedActivityRecord ? 'none' : 'block',
-            }}>Click a button to give it a try!</h3>
+                <h3 style={{
+                    display: activityIsRunning || hasUnsavedActivityRecord ? 'none' : 'block',
+                }}>Click a button to give it a try!</h3>
 
-            <div className={timerContainerStyles}>
-                <ActivityNameContainer />
+                <div className={timerContainerStyles}>
+                    <ActivityNameContainer />
 
-                <TimerTextContainer />
+                    <TimerTextContainer />
 
-                {activityIsRunning
-                    ? <Btn
-                        callback={handleStopClick}
-                        text={'Stop'}
-                        className={btnStyle.btn} />
-                    : null}
+                    {activityIsRunning
+                        ? <Btn
+                            callback={handleStopClick}
+                            text={'Stop'}
+                            className={btnStyle.btn} />
+                        : null}
 
-                {hasUnsavedActivityRecord ? (
-                    <div className={dsbStyle.deleteSaveBtns}>
-                        <Btn
-                            callback={deleteSaveCallback}
-                            text='Delete'
-                            className={cx(dsbStyle.deleteBtn, btnStyle.btn)} />
+                    {hasUnsavedActivityRecord ? (
+                        <div className={dsbStyle.deleteSaveBtns}>
+                            <Btn
+                                callback={deleteSaveCallback}
+                                text='Delete'
+                                className={cx(dsbStyle.deleteBtn, btnStyle.btn)} />
 
-                        <Btn
-                            callback={deleteSaveCallback}
-                            text='Save'
-                            className={cx(dsbStyle.saveBtn, btnStyle.btn)} />
-                    </div>
-                ) : null}
+                            <Btn
+                                callback={deleteSaveCallback}
+                                text='Save'
+                                className={cx(dsbStyle.saveBtn, btnStyle.btn)} />
+                        </div>
+                    ) : null}
+                </div>
             </div>
         </div>
     );
