@@ -51,28 +51,32 @@ function Data() {
             where you spend your time. See your habits through clear visuals and
             precise controls.</h2>
 
-            <nav
-                className={
-                    cx(
-                        style.controls,
-                        controlsClosed ? style.closedControls : style.openControls,
-                    )}>
-                <H5>Time Range</H5>
-                <Picker />
-                <DataActivityList />
-            </nav>
+            <div className={style.dataContainer}>
+                <nav
+                    className={
+                        cx(
+                            style.controls,
+                            controlsClosed ? style.closedControls : style.openControls,
+                        )}>
+                    <H5>Time Range</H5>
+                    <Picker />
+                    <DataActivityList />
+                </nav>
 
-            <ControlsBtn
-                controlsClosed={controlsClosed}
-                handleControlsBtnClick={() => handleControlsBtnClick()} />
+                <ControlsBtn
+                    className={style.controlsBtn}
+                    controlsClosed={controlsClosed}
+                    handleControlsBtnClick={() => handleControlsBtnClick()} />
 
-            <main className={
-                cx(style.content, controlsClosed ? style.fullWidthContent : null)}>
-                <div>
-                    <Tooltip />
-                    <StackedBarChart />
-                </div>
-            </main>
+                <main className={
+                    cx(style.content, controlsClosed ? style.fullWidthContent : null)}>
+                    <div>
+                        <Tooltip />
+                        <StackedBarChart
+                            className={style.stackedBarChartContainer} />
+                    </div>
+                </main>
+            </div>
         </div>
     );
 }

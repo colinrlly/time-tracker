@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 
 import {
@@ -13,11 +14,19 @@ import rightArrow from '../../images/rightArrow.png';
 function ControlsBtn(props) {
     return (
         <button
-            className={cx(controlsBtn, props.controlsClosed ? controlsClosed : controlsOpen)}
+            className={cx(
+                controlsBtn,
+                props.controlsClosed ? controlsClosed : controlsOpen,
+                props.className,
+            )}
             onClick={() => props.handleControlsBtnClick()}>
             <img src={props.controlsClosed ? rightArrow : leftArrow} />
         </button>
     );
 }
+
+ControlsBtn.propTypes = {
+    className: PropTypes.string,
+};
 
 export default ControlsBtn;

@@ -12,7 +12,7 @@
     background-color: white;
     padding: 50px 35px 50px 35px;
     box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
-    margin-left: 0px;
+    margin-left: -350px;
     transition: margin .5s;
     overflow-y: scroll;
     -ms-overflow-style: none;
@@ -34,7 +34,7 @@
 }
 
 .content {
-    margin-left: 350px;
+    margin-left: 0;
     transition: margin .5s;
     overflow-y: scroll;
     padding-top: 40px;
@@ -48,12 +48,62 @@
     display: none;
 }
 
-@media (max-width: 900px) {
-    .content {
-        margin-left: 0px;
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 700px) {
+    .data h1 {
+        width: auto;
+        font-size: 3em;
     }
 
-    .controls {
-        margin-left: -350px;
+    .data h2 {
+        width: 600px;
+        margin: auto auto;
+    }
+}
+
+@media only screen and (min-width: 900px) {
+    .data h2 {
+        margin-bottom: 75px;
+    }
+
+    .dataContainer {
+        width: 90%;
+        margin: auto auto;
+        background: #FFFFFF;
+        box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        height: 450px;
+        margin-bottom: 200px;
+    }
+
+    .content {
+        margin-left: 350px;
+        padding: 0;
+    }
+
+    .controls, .controls.closedControls, .controls.openControls {
+        margin-left: 0;
+        box-shadow: none;
+        border-radius: 10px;
+        height: auto;
+    }
+
+    .controlsBtn {
+        display: none;
+    }
+
+    .stackedBarChartContainer {
+        box-shadow: none;
+        width: 100%;
+        margin-top: 15px;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .dataContainer {
+        width: 1080px;
     }
 }

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import cx from 'classnames';
+
 import { D3StackedBar } from './helpers';
 import { H6 } from '../../../../components';
 
@@ -102,7 +104,9 @@ class StackedBarChart extends Component {
         const interval = capitalizeFirstLetter(getIntervalFromRange(this.props.range));
 
         return (
-            <div className={container} ref={this.stackedBarChartContainerRef}>
+            <div
+                className={cx(container, this.props.className)}
+                ref={this.stackedBarChartContainerRef}>
                 <H6 marginLeft={MARGIN.left}>
                     {`Total Hours Per ${interval}`}
                 </H6>
@@ -123,6 +127,7 @@ StackedBarChart.propTypes = {
     filteredTotals: PropTypes.array.isRequired,
     names: PropTypes.object.isRequired,
     range: PropTypes.object.isRequired,
+    className: PropTypes.string,
 };
 
 export default connect(mapStateToProps, null)(StackedBarChart);
