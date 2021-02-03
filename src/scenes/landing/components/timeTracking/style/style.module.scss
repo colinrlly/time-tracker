@@ -50,9 +50,11 @@
 
 @media only screen and (min-width: 600px) {
     .timeTracking {
-        height: 1000px;
+        height: 950px;
         clip-path: ellipse(100% 50% at 50% 50%);
         padding-top: 200px;
+        position: relative;
+        top: -50px;
     }
 
     .timeTracking h2 {

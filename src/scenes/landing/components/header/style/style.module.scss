@@ -10,12 +10,22 @@
     margin: auto auto;
 }
 
-.header h1 {
+.header h1.headerH1 {
     margin: 0 20px 20px 20px;
+    font-size: 34px;
+    font-weight: 600;
+    line-height: 40px;
+    text-align: center;
+    color: white;
 }
 
-.header h2 {
+.header h2.headerH2 {
     width: 90%;
+    font-size: 18px;
+    color: white;
+    text-align: center;
+    font-weight: 500;
+    line-height: 145.3%;
     margin: 0 20px 40px 20px;
 }
 
@@ -54,12 +64,12 @@
         margin-top: 50px;
     }
 
-    .header h1 {
+    .header h1.headerH1 {
         text-align: left;
         width: 350px;
     }
 
-    .header h2 {
+    .header h2.headerH2 {
         text-align: left;
     }
 
@@ -80,12 +90,12 @@
         margin: auto auto;
     }
 
-    .header h1 {
+    .header h1.headerH1 {
         margin: 0;
         margin-bottom: 20px;
     }
 
-    .header h2 {
+    .header h2.headerH2 {
         margin: 0;
         margin-bottom: 20px;
     }
@@ -93,19 +103,19 @@
 
 @media only screen and (min-width: 1100px) {
     .header {
-        height: 750px;
+        height: 800px;
         width: 80%;
         padding-top: 150px;
         grid-template-columns: 1fr 300px;
     }
 
-    .header h1 {
+    .header h1.headerH1 {
         font-size: 3em;
         line-height: 1em;
         width: 500px;
     }
 
-    .header h2 {
+    .header h2.headerH2 {
         font-size: 1.5em;
         width: 450px;
     }

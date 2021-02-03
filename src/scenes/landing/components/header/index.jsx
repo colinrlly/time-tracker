@@ -26,9 +26,9 @@ function Header() {
     return (
         <div className={style.header}>
             <div className={style.textContainer}>
-                <h1>Finding Time to Follow Your Dreams</h1>
+                <h1 className={style.headerH1}>Finding Time to Follow Your Dreams</h1>
 
-                <h2>Turnip is a minimal time tracking app that gives you the tools
+                <h2 className={style.headerH2}>Turnip is a minimal time tracking app that gives you the tools
                     to analyze your life.</h2>
 
                 <a href='/login' className={style.gSigningLink}>
