@@ -29,6 +29,8 @@ from oauth2client.client import credentials_from_code, AccessTokenCredentials, H
 
 import json
 
+import stripe
+
 from helpers import *
 from settings import app, db, socketIo
 
@@ -56,6 +58,11 @@ API_SERVICE_NAME = 'calendar'
 API_VERSION = 'v3'
 
 
+# Set your secret key. Remember to switch to your live secret key in production!
+# See your keys here: https://dashboard.stripe.com/account/apikeys
+stripe.api_key = 'sk_test_TnjqHfQrSuWp5CE2h8WBB1E700fWfZBbNZ'
+
+
 # Set up SocketIO
 @socketIo.on('connect')
 def handle_connect():
@@ -65,6 +72,34 @@ def handle_connect():
 @app.teardown_appcontext
 def shutdown_session(exception=None):
     db.session.remove()
+
+
+@app.route('/create-checkout-session', methods=['POST'])
+def create_checkout_session():
+    data = json.loads(request.data)
+
+    try:
+        # See https://stripe.com/docs/api/checkout/sessions/create
+        # for additional parameters to pass.
+        # {CHECKOUT_SESSION_ID} is a string literal; do not change it!
+        # the actual Session ID is returned in the query parameter when your customer
+        # is redirected to the success page.
+        checkout_session = stripe.checkout.Session.create(
+            success_url="https://example.com/success.html?session_id={CHECKOUT_SESSION_ID}",
+            cancel_url="https://example.com/canceled.html",
+            payment_method_types=["card"],
+            mode="subscription",
+            line_items=[
+                {
+                    "price": data['priceId'],
+                    # For metered billing, do not pass quantity
+                    "quantity": 1
+                }
+            ],
+        )
+        return jsonify({'sessionId': checkout_session['id']})
+    except Exception as e:
+        return jsonify({'error': {'message': str(e)}}), 400
 
 
 @app.route('/login', methods=['GET'])
@@ -435,6 +470,7 @@ def manifest():
 def image(path):
     return current_app.send_static_file('image/' + path)
 
+
 @app.route('/landing')
 def landing_page():
     user = current_user
@@ -443,6 +479,7 @@ def landing_page():
         return redirect('/')
 
     return render_template('data.html')
+
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
