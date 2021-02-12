@@ -25,4 +25,3 @@ app.wsgi_app = WhiteNoise(app.wsgi_app, root=os.path.abspath('../static'), prefi
 
 # Set up sockets
 socketIo = SocketIO(app)
-

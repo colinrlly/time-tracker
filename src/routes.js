@@ -9,6 +9,7 @@ import Data from './scenes/data';
 import Timer from './scenes/timer';
 import Landing from './scenes/landing';
 import PremiumLanding from './scenes/premiumLanding';
+import PremiumSuccess from './scenes/premiumSuccess';
 import { Socket } from './components';
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
@@ -24,6 +25,7 @@ export default (
                     <Route exact path='/' component={Timer} />
                     <Route path='/data' component={Data} />
                     <Route path='/landing' component={Landing} />
+                    <Route path='/premium/success' component={PremiumSuccess} />
                     <Route path='/premium' component={PremiumLanding} />
                 </Switch>
             </BrowserRouter>
