@@ -9,7 +9,7 @@ function PremiumLanding() {
     const stripe = useStripe();
 
     function createCheckoutSession(priceId) {
-        return fetch('/create-checkout-session', {
+        return fetch('/api/create-checkout-session', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
@@ -24,7 +24,11 @@ function PremiumLanding() {
         <button
             onClick={() => {
                 createCheckoutSession(STRIPE_PREMIUM_PRICE_ID).then((data) => {
-                    console.log(data.sessionId);
+                    if (data.error) {
+                        window.alert(data.error.message);
+
+                        window.location.replace(data.error.redirect_url);
+                    }
 
                     stripe.redirectToCheckout({
                         sessionId: data.sessionId,

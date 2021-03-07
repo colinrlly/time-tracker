@@ -27,6 +27,7 @@ class User(UserMixin, db.Model):
     credentials = Column(String(7000), nullable=True)
     stripe_customer_id = Column(String(25), nullable=True, unique=True)
     open_stripe_sessions = relationship('OpenStripeSession', back_populates="user")
+    premium_status = Column(String(50), nullable=True)
 
 
 class Activity(db.Model):

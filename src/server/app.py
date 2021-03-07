@@ -34,6 +34,8 @@ import stripe
 from helpers import *
 from settings import app, db, socketIo
 
+# Premium constants
+HAS_PREMIUM_STATUS = 'has_premium'
 
 # Set up flask_login
 login_manager = LoginManager()
@@ -83,14 +85,14 @@ def create_customer_portal_session():
 
     session = stripe.billing_portal.Session.create(
         customer=customer_id,
-        return_url='http://localhost:5000/timer',
+        return_url='http://localhost:5000',
     )
 
     return redirect(session.url)
 
 
 @login_required
-@app.route('/create-checkout-session', methods=['POST'])
+@app.route('/api/create-checkout-session', methods=['POST'])
 def create_checkout_session():
     data = json.loads(request.data)
 
@@ -116,7 +118,13 @@ def create_checkout_session():
 
         # Make a new open stripe checkout session
         user = current_user
-        
+
+        if user.premium_status == 'has_premium':
+            return jsonify({'error': {
+                'message': 'You already have premium',
+                'redirect_url': '/',
+            }}), 400
+
         open_stripe_session = OpenStripeSession(
             session_id = checkout_session['id'],
             user_id = user.id,
@@ -159,7 +167,13 @@ def webhook_received():
     # Payment is successful and the subscription is created.
     # You should provision the subscription.
         open_stripe_session = OpenStripeSession.query.get(data_object.id)
-        open_stripe_session.user.stripe_customer_id = data_object.customer
+
+        user = open_stripe_session.user
+
+        user.stripe_customer_id = data_object.customer
+
+        user.premium_status = HAS_PREMIUM_STATUS
+
         db.session.add(open_stripe_session)
         db.session.commit()
     elif event_type == 'invoice.paid':
