@@ -74,19 +74,22 @@ def shutdown_session(exception=None):
     db.session.remove()
 
 
-@app.route('/create-customer-portal-session', methods=['POST'])
+@login_required
+@app.route('/create-customer-portal-session', methods=['GET'])
 def create_customer_portal_session():
     # Authenticate your user.
-    print('create_customer')
+    user = current_user
+    customer_id = user.stripe_customer_id
 
     session = stripe.billing_portal.Session.create(
-        customer="cus_J3crfuHwWs3CDR",
+        customer=customer_id,
         return_url='http://localhost:5000/timer',
     )
 
     return redirect(session.url)
 
 
+@login_required
 @app.route('/create-checkout-session', methods=['POST'])
 def create_checkout_session():
     data = json.loads(request.data)
@@ -127,6 +130,7 @@ def create_checkout_session():
         return jsonify({'error': {'message': str(e)}}), 400
 
 
+@login_required
 @app.route('/webhook', methods=['POST'])
 def webhook_received():
     webhook_secret = 'whsec_Sy1atBJcQfF0KFWQQGoufJqauy7mNP0H'
