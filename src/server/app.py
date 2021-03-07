@@ -84,8 +84,6 @@ def create_customer_portal_session():
         return_url='http://localhost:5000/timer',
     )
 
-    print(session.url)
-
     return redirect(session.url)
 
 
@@ -113,7 +111,16 @@ def create_checkout_session():
             ],
         )
 
-        print(checkout_session)
+        # Make a new open stripe checkout session
+        user = current_user
+        
+        open_stripe_session = OpenStripeSession(
+            session_id = checkout_session['id'],
+            user_id = user.id,
+            user = user
+        )
+        db.session.add(open_stripe_session)
+        db.session.commit()
 
         return jsonify({'sessionId': checkout_session['id']})
     except Exception as e:
@@ -147,7 +154,10 @@ def webhook_received():
     if event_type == 'checkout.session.completed':
     # Payment is successful and the subscription is created.
     # You should provision the subscription.
-        print(data.object.customer)
+        open_stripe_session = OpenStripeSession.query.get(data_object.id)
+        open_stripe_session.user.stripe_customer_id = data_object.customer
+        db.session.add(open_stripe_session)
+        db.session.commit()
     elif event_type == 'invoice.paid':
     # Continue to provision the subscription as payments continue to be made.
     # Store the status in your database and check when a user accesses your service.

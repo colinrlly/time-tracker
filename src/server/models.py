@@ -1,6 +1,5 @@
-from sqlalchemy import Column, Integer, DateTime, String, ForeignKey, BigInteger, Boolean
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.dialects.postgresql import JSON
+from sqlalchemy import Column, Integer, DateTime, String, ForeignKey, Boolean
+from sqlalchemy.orm import relationship
 from flask_login import UserMixin
 
 from settings import db
@@ -19,16 +18,15 @@ class User(UserMixin, db.Model):
 
     id = Column(String(30), primary_key=True, nullable=False, unique=True)
 
-    # related to activity
     current_activity = Column(Integer, nullable=True)  # Should be FK but I don't want to deal with that
     started_at = Column(DateTime, nullable=True)
     stopped_at = Column(DateTime, nullable=True)
     has_unsaved_activity_record = Column(Boolean, server_default="False", nullable=False)
     activity_is_running = Column(Boolean, server_default="False", nullable=False)
     timezone = Column(String(50), nullable=True)
-
-    # related to credentials
     credentials = Column(String(7000), nullable=True)
+    stripe_customer_id = Column(String(25), nullable=True, unique=True)
+    open_stripe_sessions = relationship('OpenStripeSession', back_populates="user")
 
 
 class Activity(db.Model):
@@ -51,3 +49,14 @@ class Activity(db.Model):
             'name': self.name,
             'color': self.color,
         }
+
+
+class OpenStripeSession(db.Model):
+    """ Model to store open Stripe sessions
+    """
+
+    __tablename__ = 'open_stripe_session'
+
+    session_id = Column(String(100), primary_key=True, nullable=False, unique=True)
+    user_id = Column(String(30), ForeignKey("user.id"), nullable=False)
+    user = relationship('User', back_populates='open_stripe_sessions')
