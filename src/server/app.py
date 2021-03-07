@@ -74,6 +74,21 @@ def shutdown_session(exception=None):
     db.session.remove()
 
 
+@app.route('/create-customer-portal-session', methods=['POST'])
+def create_customer_portal_session():
+    # Authenticate your user.
+    print('create_customer')
+
+    session = stripe.billing_portal.Session.create(
+        customer="cus_J3crfuHwWs3CDR",
+        return_url='http://localhost:5000/timer',
+    )
+
+    print(session.url)
+
+    return redirect(session.url)
+
+
 @app.route('/create-checkout-session', methods=['POST'])
 def create_checkout_session():
     data = json.loads(request.data)
@@ -97,36 +112,42 @@ def create_checkout_session():
                 }
             ],
         )
+
+        print(checkout_session)
+
         return jsonify({'sessionId': checkout_session['id']})
     except Exception as e:
         return jsonify({'error': {'message': str(e)}}), 400
 
 
-@app.route('/webhook', method=['POST'])
+@app.route('/webhook', methods=['POST'])
 def webhook_received():
-    webhook_secret = {{'STRIPE_WEBHOOD_SECRET'}}
+    webhook_secret = 'whsec_Sy1atBJcQfF0KFWQQGoufJqauy7mNP0H'
     request_data = json.loads(request.data)
 
     if webhook_secret:
         # Retrieve the event by verifying the signature using the raw body and secret if webhook signing is configured.
         signature = request.headers.get('stripe-signature')
+
         try:
             event = stripe.Webhook.construct_event(
                 payload=request.data, sig_header=signature, secret=webhook_secret)
             data = event['data']
         except Exception as e:
             return e
+
         # Get the type of webhook event sent - used to check the status of PaymentIntents.
         event_type = event['type']
     else:
         data = request_data['data']
         event_type = request_data['type']
+
     data_object = data['object']
 
     if event_type == 'checkout.session.completed':
     # Payment is successful and the subscription is created.
     # You should provision the subscription.
-        print(data)
+        print(data.object.customer)
     elif event_type == 'invoice.paid':
     # Continue to provision the subscription as payments continue to be made.
     # Store the status in your database and check when a user accesses your service.
