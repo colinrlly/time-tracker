@@ -10,6 +10,7 @@ import lastActivityStartTimeReducer from './timer/lastActivityStartTimeReducer';
 import hasUnsavedActivityRecordReducer from './timer/hasUnsavedActivityRecordReducer';
 import lastActivityStopTimeReducer from './timer/lastActivityStopTimeReducer';
 import activityDialogReducer from './timer/activityDialogReducer';
+import premiumSubscriptionReducer from './global/premiumSubscriptionReducer';
 
 /**
  * Combines all the app's reducers into a single reducer.
@@ -26,6 +27,7 @@ const reducers = combineReducers({
     hasUnsavedActivityRecord: hasUnsavedActivityRecordReducer,
     lastActivityStopTime: lastActivityStopTimeReducer,
     activityDialog: activityDialogReducer,
+    premium: premiumSubscriptionReducer,
 });
 
 export default reducers;

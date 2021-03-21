@@ -35,7 +35,7 @@ from helpers import *
 from settings import app, db, socketIo
 
 # Premium constants
-HAS_PREMIUM_STATUS = 'has_premium'
+PREMIUM_SUBSCRIPTION = 'premium'
 
 # Set up flask_login
 login_manager = LoginManager()
@@ -119,7 +119,7 @@ def create_checkout_session():
         # Make a new open stripe checkout session
         user = current_user
 
-        if user.premium_status == 'has_premium':
+        if user.premium_subscription == 'premium':
             return jsonify({'error': {
                 'message': 'You already have premium',
                 'redirect_url': '/',
@@ -172,9 +172,9 @@ def webhook_received():
 
         user.stripe_customer_id = data_object.customer
 
-        user.premium_status = HAS_PREMIUM_STATUS
+        user.premium_subscription = PREMIUM_SUBSCRIPTION
 
-        db.session.add(open_stripe_session)
+        db.session.add(user)
         db.session.commit()
     elif event_type == 'invoice.paid':
     # Continue to provision the subscription as payments continue to be made.
@@ -535,11 +535,20 @@ def timer_startup_paytload():
         'has_unsaved_activity_record': user.has_unsaved_activity_record,
         'start_time': str(user.started_at),
         'stop_time': str(user.stopped_at),
-        'current_activity': current_activity
+        'current_activity': current_activity,
     }
 
     return json.dumps(payload)
 
+
+@app.route('/api/premium_subscription', methods=['GET'])
+@login_required
+def premium_subscription():
+    user = current_user
+
+    premium_subscription = user.premium_subscription
+
+    return json.dumps({'premium_subscription': premium_subscription})
 
 @app.route('/service-worker.js')
 def service_worker():
@@ -575,7 +584,7 @@ def landing_page():
 @app.route('/<path:path>')
 @login_required
 def catch_all(path):
-    return render_template('data.html')
+    return render_template('data.html', test = 'test')
 
 
 if __name__ == '__main__':

@@ -12,10 +12,15 @@ import PremiumLanding from './scenes/premiumLanding';
 import PremiumSuccess from './scenes/premiumSuccess';
 import PremiumManage from './scenes/premiumManage';
 import { Socket } from './components';
+import {
+    fetchPremiumSubscription,
+} from './redux/actions/globalActions';
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
 const stripePromise = loadStripe('pk_test_Dt7r6xru8VEdvmTAkELr3zGg00XLII0yUP');
+
+store.dispatch(fetchPremiumSubscription());
 
 export default (
     <Elements stripe={stripePromise}>

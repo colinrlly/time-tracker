@@ -89,7 +89,6 @@ export class NavBar extends Component {
                         <a className={cx(style.pageLink, style.navPageLink)} href='https://www.buymeacoffee.com/LogTheApp'>Donate</a>
                         <a className={cx(style.pageLink, style.navPageLink)} href='/logout'>Sign Out</a>
 
-
                         <button className={style.hamburger} onClick={this.handleHamburgerClick}>
                             <img src={this.props.backgroundColor ? hamburgerLight : hamburgerDark} />
                         </button>
