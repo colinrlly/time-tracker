@@ -16,6 +16,9 @@ class User(UserMixin, db.Model):
 
     __tablename__ = 'user'
 
+    # Premium constants
+    PREMIUM_SUBSCRIPTION = 'premium'
+
     id = Column(String(30), primary_key=True, nullable=False, unique=True)
 
     current_activity = Column(Integer, nullable=True)  # Should be FK but I don't want to deal with that
@@ -28,6 +31,7 @@ class User(UserMixin, db.Model):
     stripe_customer_id = Column(String(25), nullable=True, unique=True)
     open_stripe_sessions = relationship('OpenStripeSession', back_populates="user")
     premium_subscription = Column(String(50), nullable=True)
+    subscription_end = Column(DateTime, nullable=True)
 
 
 class Activity(db.Model):

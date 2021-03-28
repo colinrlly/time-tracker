@@ -158,6 +158,7 @@ class Picker extends Component {
                     locale={locale}
                     onApply={(event, picker) => this.handleApplyEvent(picker)}
                     alwaysShowCalendars={true}
+                    timePicker={true}
                 >
                     <button className={pickerButton}>{buttonText}</button>
                 </DateRangePicker>

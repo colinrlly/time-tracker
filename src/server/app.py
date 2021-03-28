@@ -6,11 +6,13 @@
 """
 import sys
 
+from sqlalchemy.sql.selectable import subquery
+
 from models import *
 
 import os
 import flask
-from datetime import datetime
+from datetime import datetime, timedelta
 from httplib2 import Http
 from flask_login import login_user, LoginManager, current_user, logout_user, login_required
 from functools import wraps
@@ -33,9 +35,6 @@ import stripe
 
 from helpers import *
 from settings import app, db, socketIo
-
-# Premium constants
-PREMIUM_SUBSCRIPTION = 'premium'
 
 # Set up flask_login
 login_manager = LoginManager()
@@ -85,7 +84,7 @@ def create_customer_portal_session():
 
     session = stripe.billing_portal.Session.create(
         customer=customer_id,
-        return_url='http://localhost:5000',
+        return_url='http://localhost:5000/account',
     )
 
     return redirect(session.url)
@@ -103,7 +102,7 @@ def create_checkout_session():
         # the actual Session ID is returned in the query parameter when your customer
         # is redirected to the success page.
         checkout_session = stripe.checkout.Session.create(
-            success_url="http://localhost:5000/premium/success?session_id={CHECKOUT_SESSION_ID}",
+            success_url="http://localhost:5000/account/success?session_id={CHECKOUT_SESSION_ID}",
             cancel_url="http://localhost:5000/premium",
             payment_method_types=["card"],
             mode="subscription",
@@ -166,13 +165,21 @@ def webhook_received():
     if event_type == 'checkout.session.completed':
     # Payment is successful and the subscription is created.
     # You should provision the subscription.
+        print(event_type)
+        print(data)
+
         open_stripe_session = OpenStripeSession.query.get(data_object.id)
 
         user = open_stripe_session.user
 
         user.stripe_customer_id = data_object.customer
 
-        user.premium_subscription = PREMIUM_SUBSCRIPTION
+        user.premium_subscription = User.PREMIUM_SUBSCRIPTION
+
+        subscription = stripe.Subscription.retrieve(data_object.subscription)
+        current_period_end = datetime.utcfromtimestamp(subscription['current_period_end'])
+        two_days_after_end = current_period_end + timedelta(days=2)
+        user.subscription_end = two_days_after_end
 
         db.session.add(user)
         db.session.commit()
@@ -180,12 +187,54 @@ def webhook_received():
     # Continue to provision the subscription as payments continue to be made.
     # Store the status in your database and check when a user accesses your service.
     # This approach helps you avoid hitting rate limits.
+        data_object = data['object']
+        print(event_type)
         print(data)
+        print(data_object.customer)
+        print(data_object.subscription)
+
+        stripe_customer_id = data_object.customer
+
+        subscription = stripe.Subscription.retrieve(data_object.subscription)
+        current_period_end = datetime.utcfromtimestamp(subscription['current_period_end'])
+        two_days_after_end = current_period_end + timedelta(days=2)
+        
+        user = User.query.filter_by(stripe_customer_id=stripe_customer_id).first()
+        user.premium_subscription = User.PREMIUM_SUBSCRIPTION
+        user.subscription_end = two_days_after_end
+
+        db.session.add(user)
+        db.session.commit()
     elif event_type == 'invoice.payment_failed':
     # The payment failed or the customer does not ahve a valid payment method.
     # The subscription becomes past_due. Notifiy your customer and send them to the
     # customer portal to update their payment information.
+        print(event_type)
         print(data)
+    # elif event_type == 'customer.subscription.updated':
+    # # Listen for the customer.subscription.updated event and check the
+    # # subscription.items.data[0].price attribute to find the price the customer is
+    # # subscribed to. Then, grant access to the new product.
+    #     print(event_type)
+    #     print(data)
+    #     print(data['object']['object'])
+    #     print(data['object']['status'])
+    #     ts = int(data['object']['current_period_end'])
+    #     print(datetime.utcfromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S'))
+    # elif event_type == 'customer.subscription.deleted':
+    # # Listen to the customer.subscription.deleted event and then remove the
+    # # customer’s access to the product.
+    #     print(event_type)
+    #     print(data)
+    # elif event_type == 'invoice.payment_action_required':
+    # # Some payment methods may require additional steps, such as customer authentication,
+    # # to complete. When an invoice’s payment requires additional action,
+    # # invoice.payment_action_required and invoice.payment_failed events are sent and
+    # # the status of the PaymentIntent is requires_action. Upon receiving these
+    # # events, your application will need to notify the customer to complete the required
+    # # action. For details on how to handle these payments, see How subscriptions work.
+    #     print(event_type)
+    #     print(data)
     else:
         print('Unhandled event type {}'.format(event_type))
 
@@ -541,14 +590,21 @@ def timer_startup_paytload():
     return json.dumps(payload)
 
 
-@app.route('/api/premium_subscription', methods=['GET'])
+@app.route('/api/startup-payload', methods=['GET'])
 @login_required
 def premium_subscription():
     user = current_user
 
     premium_subscription = user.premium_subscription
+    email = json.loads(user.credentials)['id_token']['email']
 
-    return json.dumps({'premium_subscription': premium_subscription})
+    payload = {
+        'premium_subscription': premium_subscription,
+        'email': email,
+    }
+
+    return json.dumps(payload)
+
 
 @app.route('/service-worker.js')
 def service_worker():
