@@ -82,6 +82,11 @@ def create_customer_portal_session():
     user = current_user
     customer_id = user.stripe_customer_id
 
+    if not customer_id:
+        # User doesn't have a Stipe customer id yet
+        error_message = 'User has not linked account to Stripe payments.'
+        return jsonify({'error': {'message': error_message }}), 404
+
     session = stripe.billing_portal.Session.create(
         customer=customer_id,
         return_url='http://localhost:5000/account',
