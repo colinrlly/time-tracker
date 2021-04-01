@@ -601,7 +601,11 @@ def premium_subscription():
     user = current_user
 
     premium_subscription = user.premium_subscription
-    email = json.loads(user.credentials)['id_token']['email']
+    try:
+        email = json.loads(user.credentials)['id_token']['email']
+    except TypeError as e:
+        # User hasn't given email yet
+        email = ''
 
     payload = {
         'premium_subscription': premium_subscription,
