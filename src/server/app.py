@@ -368,12 +368,12 @@ def save_activity():
 
     response = save_users_activity(db.session, User, Activity, user)
 
-    if response['code'] is 'success':
+    if response['code'] == 'success':
         socketIo.emit('update', {
             'type': 'saved_activity',
             'code': 'success'
         }, room=id)
-    elif response['code'] is 'need_authorization':
+    elif response['code'] == 'need_authorization':
         return jsonify(response)
 
     return jsonify({'code': 'success'})
