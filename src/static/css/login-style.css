@@ -1,4 +1,40 @@
 html {
-    background: linear-gradient(#523624, #1e1310);
-    background-repeat: no-repeat;
+    /* background: linear-gradient(#523624, #1e1310); */
+    /* background-repeat: no-repeat; */
+}
+
+html {
+    background-color: #31B77A;
+}
+
+.slogo {
+    padding-top: 100px;
+    padding-bottom: 5px;
+    margin: auto auto;
+    text-align: center;
+}
+
+.gbutton {
+    margin: auto auto;
+    display: block;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin-top: 30px;
+    width: 200px;
+}
+
+.gbutton:hover {
+    cursor: pointer;
+}
+
+.gbutton-image {
+    width: 200px;
+}
+
+hr.style2 {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(255, 255, 255, 0.75), rgba(0, 0, 0, 0));
+    width: 60%;
 }

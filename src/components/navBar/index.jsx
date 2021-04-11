@@ -10,8 +10,8 @@ import style from './styles/style.module.scss';
 
 import hamburgerDark from './images/hamburgerDark.png';
 import hamburgerLight from './images/hamburgerLight.png';
-import logoLight from './images/logoLight.png';
-import logoDark from './images/logoDark.png';
+import logoLight from '../../static/image/logoLight.png';
+import logoDark from '../../static/image/logoDark.png';
 
 export class NavBar extends Component {
     constructor(props) {
