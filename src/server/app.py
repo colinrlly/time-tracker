@@ -597,7 +597,7 @@ def timer_startup_paytload():
 
 @app.route('/api/startup-payload', methods=['GET'])
 @login_required
-def premium_subscription():
+def startup_payload():
     user = current_user
 
     premium_subscription = user.premium_subscription

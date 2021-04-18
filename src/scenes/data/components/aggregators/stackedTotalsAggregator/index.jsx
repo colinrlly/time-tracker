@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -24,7 +25,9 @@ function StackedTotalsAggregator(props) {
             1,
         );
 
-        props.setAggStackedTotals(stackedTotals);
+        useEffect(() => {
+            props.setAggStackedTotals(stackedTotals);
+        }, [stackedTotals]);
     }
 
     return null;

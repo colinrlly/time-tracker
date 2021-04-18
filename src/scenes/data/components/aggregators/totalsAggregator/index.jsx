@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -12,7 +13,9 @@ function TotalsAggregator(props) {
     const eventsWithDuration = getDurations(props.list);
     const totals = totalsAggregator(eventsWithDuration);
 
-    props.setAggTotals(totals);
+    useEffect(() => {
+        props.setAggTotals(totals);
+    }, [totals]);
 
     return null;
 }

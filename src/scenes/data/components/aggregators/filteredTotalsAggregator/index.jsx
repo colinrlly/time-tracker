@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -5,11 +6,14 @@ import {
 } from '../../../../../redux/actions';
 
 function FilteredTotalsAggregator(props) {
-    const filteredTotals = props.totals.filter(
-        (activity) => props.names[activity.name].selected,
-    );
+    const filteredTotals = (Object.keys(props.names).length !== 0)
+        ? props.totals.filter(
+            (activity) => props.names[activity.name].selected,
+        ) : [];
 
-    props.setAggFilteredTotals(filteredTotals);
+    useEffect(() => {
+        props.setAggFilteredTotals(filteredTotals);
+    }, [filteredTotals]);
 
     return null;
 }

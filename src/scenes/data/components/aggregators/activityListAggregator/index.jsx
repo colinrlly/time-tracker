@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -10,7 +11,9 @@ import {
 function ListAggregator(props) {
     const activityNames = generateActivityNames(props.totals);
 
-    props.setActivityNames(activityNames);
+    useEffect(() => {
+        props.setActivityNames(activityNames);
+    }, [activityNames]);
 
     return null;
 }

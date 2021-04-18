@@ -6,3 +6,4 @@ export { default as Footer } from './footer';
 export { default as Socket } from './socket';
 export { default as PageVisibilityWatcher } from './pageVisibilityWatcher';
 export { default as FakeListFetcher } from './fakeListFetcher';
+export { default as withPremiumRBAC } from './withPremiumRBAC';

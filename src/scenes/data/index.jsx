@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import cx from 'classnames';
 
 import {
@@ -21,6 +21,7 @@ import {
     NavBar,
     H5,
     Footer,
+    withPremiumRBAC,
 } from '../../components';
 
 import {
@@ -40,108 +41,76 @@ const TWEEN_INCREMENT = 2; // Each increment is activated every 2 miliseconds.
 
 const CONTROLS_BREAKPOINT = 900;
 
-/**
- * Data page entry point.
- */
-class Data extends Component {
-    constructor(props) {
-        super(props);
+function Data() {
+    const [controlsClosed, setControlsClosed] = useState(window.innerWidth < CONTROLS_BREAKPOINT);
+    const [tweenStatus, setTweenStatus] = useState(true);
+    const [screenSize, setScreenSize] = useState(window.innerWidth);
 
-        this.state = {
-            controlsClosed: window.innerWidth < CONTROLS_BREAKPOINT,
-            tweenStatus: true,
-            screenSize: window.innerWidth,
-        };
-
-        this.handleResize = this.handleResize.bind(this);
-    }
-
-    handleResize() {
-        const { screenSize } = this.state;
-
+    function handleResize() {
         // If the window width passes over the controls breakpoint.
         if (
             (screenSize > CONTROLS_BREAKPOINT && window.innerWidth <= CONTROLS_BREAKPOINT)
             || (screenSize <= CONTROLS_BREAKPOINT && window.innerWidth > CONTROLS_BREAKPOINT)
         ) {
-            this.setState({
-                tweenStatus: 0, // Begin the animation
-                screenSize: window.innerWidth,
-            });
+            setTweenStatus(0);
+            setScreenSize(window.innerWidth);
         } else {
-            this.setState({
-                screenSize: window.innerWidth,
-            });
+            setScreenSize(window.innerWidth);
         }
     }
 
-    componentDidMount() {
-        window.addEventListener('resize', this.handleResize);
+    function handleControlsBtnClick() {
+        setControlsClosed(!controlsClosed);
+        setTweenStatus(0); // Begin the animation.
     }
 
-    static componentWillUnmount() {
-        window.addEventListener('resize', this.handleResize);
-    }
-
-    handleControlsBtnClick() {
-        const { controlsClosed } = this.state;
-
-        this.setState({
-            controlsClosed: !controlsClosed,
-            tweenStatus: 0, // Begin the animation.
-        });
-    }
-
-    tweenCharts() {
+    useEffect(() => {
         setTimeout(() => {
-            if (this.state.tweenStatus < TWEEN_LENGTH) {
-                this.setState({
-                    tweenStatus: this.state.tweenStatus + TWEEN_INCREMENT,
-                });
+            if (tweenStatus < TWEEN_LENGTH) {
+                setTweenStatus(tweenStatus + TWEEN_INCREMENT);
             }
         }, TWEEN_INCREMENT);
-    }
+    }, [tweenStatus]);
 
-    render() {
-        const {
-            controlsClosed,
-            tweenStatus,
-        } = this.state;
+    const StackedBarChartWithRBAC = withPremiumRBAC(
+        <StackedBarChart tweenStatus={tweenStatus} />,
+    );
 
-        this.tweenCharts(); // Will animate the charts while tweenStatus is less than TWEEN_LENGTH.
+    useEffect(() => {
+        window.addEventListener('resize', handleResize);
+    }, []);
 
-        return (
-            <div className={container}>
-                <ListFetcher />
-                <TotalsAggregator />
-                <ActivityListAggregator />
-                <StackedTotalsAggregator />
-                <FilteredTotalsAggregator />
-                <TotalTimeAggregator />
-                <NavBar shadow={true} />
+    return (
+        <div className={container}>
+            <ListFetcher />
+            <TotalsAggregator />
+            <ActivityListAggregator />
+            <StackedTotalsAggregator />
+            <FilteredTotalsAggregator />
+            <TotalTimeAggregator />
+            <NavBar shadow={true} />
 
-                <nav className={cx(controls, controlsClosed ? closedControls : openControls)}>
-                    <H5>Time Range</H5>
-                    <Picker />
-                    <ActivityList />
-                    <TotalTime />
-                </nav>
+            <nav className={cx(controls, controlsClosed ? closedControls : openControls)}>
+                <H5>Time Range</H5>
+                <Picker />
+                <ActivityList />
+                <TotalTime />
+            </nav>
 
-                <ControlsBtn
-                    controlsClosed={controlsClosed}
-                    handleControlsBtnClick={() => this.handleControlsBtnClick()} />
+            <ControlsBtn
+                controlsClosed={controlsClosed}
+                handleControlsBtnClick={() => handleControlsBtnClick()} />
 
-                <main className={cx(content, controlsClosed ? fullWidthContent : null)}>
-                    <div className={footerPusher}>
-                        <Tooltip />
-                        <BarChart tweenStatus={tweenStatus} />
-                        <StackedBarChart tweenStatus={tweenStatus} />
-                    </div>
-                    <Footer />
-                </main>
-            </div>
-        );
-    }
+            <main className={cx(content, controlsClosed ? fullWidthContent : null)}>
+                <div className={footerPusher}>
+                    <Tooltip />
+                    <BarChart tweenStatus={tweenStatus} />
+                    {StackedBarChartWithRBAC}
+                </div>
+                <Footer />
+            </main>
+        </div>
+    );
 }
 
 export default Data;

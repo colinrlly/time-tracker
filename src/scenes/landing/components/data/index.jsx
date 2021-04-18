@@ -47,9 +47,9 @@ function Data() {
             <h1 className={landingStyle.sectionH1}>Illuminating Data Analytics</h1>
 
             <h2 className={landingStyle.sectionH2}>Unlock your productivity by clearly
-            seeing how you spend your time. Turnip gives you complete power to see
-            where you spend your time. See your habits through clear visuals and
-            precise controls.</h2>
+                seeing how you spend your time. Turnip gives you complete power to see
+                where you spend your time. See your habits through clear visuals and
+                precise controls.</h2>
 
             <div className={style.dataContainer}>
                 <nav

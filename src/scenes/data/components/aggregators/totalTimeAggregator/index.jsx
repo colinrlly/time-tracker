@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -10,7 +11,9 @@ import {
 function TotalTimeAggregator(props) {
     const filteredTotalTime = totalTimeAggregator(props.filteredTotals);
 
-    props.setAggTotalTime(filteredTotalTime);
+    useEffect(() => {
+        props.setAggTotalTime(filteredTotalTime);
+    }, [filteredTotalTime]);
 
     return null;
 }
