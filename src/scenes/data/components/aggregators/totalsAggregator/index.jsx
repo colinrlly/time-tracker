@@ -10,12 +10,14 @@ import {
 } from './helpers';
 
 function TotalsAggregator(props) {
-    const eventsWithDuration = getDurations(props.list);
-    const totals = totalsAggregator(eventsWithDuration);
-
     useEffect(() => {
+        console.log('totalsAggregator ' + JSON.stringify(props.list).length);
+
+        const eventsWithDuration = getDurations(props.list);
+        const totals = totalsAggregator(eventsWithDuration);
+
         props.setAggTotals(totals);
-    }, [totals]);
+    }, [props.list]);
 
     return null;
 }

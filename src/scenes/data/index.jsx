@@ -15,6 +15,7 @@ import {
     Tooltip,
     ControlsBtn,
     TotalTime,
+    DataGenerator
 } from './components';
 
 import {
@@ -82,12 +83,13 @@ function Data() {
 
     return (
         <div className={container}>
-            <ListFetcher />
+            <DataGenerator />
+            {/* <ListFetcher />
             <TotalsAggregator />
             <ActivityListAggregator />
             <StackedTotalsAggregator />
             <FilteredTotalsAggregator />
-            <TotalTimeAggregator />
+            <TotalTimeAggregator /> */}
             <NavBar shadow={true} />
 
             <nav className={cx(controls, controlsClosed ? closedControls : openControls)}>

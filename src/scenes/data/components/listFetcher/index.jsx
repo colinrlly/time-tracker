@@ -16,6 +16,7 @@ function ListFetcher() {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        console.log('listFetcher');
         // Fetch the user's list of activity records from the server.
         axios.post('/api/list_events', {
             startDateTime: startDateTime.format(),

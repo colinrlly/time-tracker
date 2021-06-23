@@ -13,22 +13,24 @@ import {
 } from './helpers';
 
 function StackedTotalsAggregator(props) {
-    if (Object.keys(props.names).length !== 0 && props.names.constructor === Object) {
-        const interval = getIntervalFromRange(props.range);
+    useEffect(() => {
+        console.log('stackedTotalsAggregator ' + JSON.stringify(props.list).length + ' ' + JSON.stringify(props.names).length + ' ' + JSON.stringify(props.range).length);
 
-        const stackedTotals = aggregateStackedTotals(
-            props.list,
-            props.range.startDateTime,
-            props.range.endDateTime,
-            props.names,
-            interval,
-            1,
-        );
+        if (Object.keys(props.names).length !== 0 && props.names.constructor === Object) {
+            const interval = getIntervalFromRange(props.range);
 
-        useEffect(() => {
+            const stackedTotals = aggregateStackedTotals(
+                props.list,
+                props.range.startDateTime,
+                props.range.endDateTime,
+                props.names,
+                interval,
+                1,
+            );
+
             props.setAggStackedTotals(stackedTotals);
-        }, [stackedTotals]);
-    }
+        }
+    }, [props.list, props.names, props.range]);
 
     return null;
 }

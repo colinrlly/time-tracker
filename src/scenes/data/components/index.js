@@ -11,3 +11,4 @@ export { default as StackedTotalsAggregator } from './aggregators/StackedTotalsA
 export { default as Tooltip } from './tooltip';
 export { default as ControlsBtn } from './controlsBtn';
 export { default as TotalTime } from './totalTime';
+export { default as DataGenerator } from './dataGenerator';

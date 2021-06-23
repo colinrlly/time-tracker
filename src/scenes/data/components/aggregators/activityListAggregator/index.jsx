@@ -9,11 +9,11 @@ import {
 } from './helpers';
 
 function ListAggregator(props) {
-    const activityNames = generateActivityNames(props.totals);
-
     useEffect(() => {
+        const activityNames = generateActivityNames(props.totals);
+
         props.setActivityNames(activityNames);
-    }, [activityNames]);
+    }, [props.totals]);
 
     return null;
 }

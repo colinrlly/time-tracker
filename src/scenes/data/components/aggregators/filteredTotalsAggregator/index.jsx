@@ -6,14 +6,14 @@ import {
 } from '../../../../../redux/actions';
 
 function FilteredTotalsAggregator(props) {
-    const filteredTotals = (Object.keys(props.names).length !== 0)
-        ? props.totals.filter(
-            (activity) => props.names[activity.name].selected,
-        ) : [];
-
     useEffect(() => {
+        const filteredTotals = (Object.keys(props.names).length !== 0)
+            ? props.totals.filter(
+                (activity) => props.names[activity.name].selected,
+            ) : [];
+
         props.setAggFilteredTotals(filteredTotals);
-    }, [filteredTotals]);
+    }, [props.totals, props.names]);
 
     return null;
 }
