@@ -3,19 +3,13 @@ import cx from 'classnames';
 
 import {
     Picker,
-    ListFetcher,
     ActivityList,
     BarChart,
     StackedBarChart,
-    TotalsAggregator,
-    ActivityListAggregator,
-    FilteredTotalsAggregator,
-    TotalTimeAggregator,
-    StackedTotalsAggregator,
     Tooltip,
     ControlsBtn,
     TotalTime,
-    DataGenerator
+    DataGenerator,
 } from './components';
 
 import {
@@ -84,12 +78,6 @@ function Data() {
     return (
         <div className={container}>
             <DataGenerator />
-            {/* <ListFetcher />
-            <TotalsAggregator />
-            <ActivityListAggregator />
-            <StackedTotalsAggregator />
-            <FilteredTotalsAggregator />
-            <TotalTimeAggregator /> */}
             <NavBar shadow={true} />
 
             <nav className={cx(controls, controlsClosed ? closedControls : openControls)}>
