@@ -29,6 +29,9 @@ import {
 function DataGenerator() {
     const range = useSelector((state) => state.range);
     const numberUpdates = useSelector((state) => state.activityRecords.numberUpdates);
+    const reduxActivityNames = useSelector((state) => state.names);
+    const reduxEventsList = useSelector((state) => state.activityRecords.list);
+    const reduxTotals = useSelector((state) => state.aggregations.totals);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -38,27 +41,35 @@ function DataGenerator() {
         ).then((eventsList) => {
             const totals = generateTotals(eventsList);
             const activityNames = generateActivityNames(totals);
-            const stackedTotals = generateStackedTotals(
-                eventsList,
-                range.startDateTime,
-                range.endDateTime,
-                activityNames,
-                getIntervalFromRange(range),
-                1,
-            );
             const filteredTotals = generateFilteredTotals(totals, activityNames);
-            const totalTime = generateTotalTime(filteredTotals);
 
             batch(() => {
                 dispatch(setActivityRecords(eventsList));
                 dispatch(setAggTotals(totals));
                 dispatch(setActivityNames(activityNames));
-                dispatch(setAggStackedTotals(stackedTotals));
                 dispatch(setAggFilteredTotals(filteredTotals));
-                dispatch(setAggTotalTime(totalTime));
             });
         });
     }, [numberUpdates, range]);
+
+    useEffect(() => {
+        const stackedTotals = generateStackedTotals(
+            reduxEventsList,
+            range.startDateTime,
+            range.endDateTime,
+            reduxActivityNames,
+            getIntervalFromRange(range),
+            1,
+        );
+        const filteredTotals = generateFilteredTotals(reduxTotals, reduxActivityNames);
+        const totalTime = generateTotalTime(filteredTotals);
+
+        batch(() => {
+            dispatch(setAggStackedTotals(stackedTotals));
+            dispatch(setAggFilteredTotals(filteredTotals));
+            dispatch(setAggTotalTime(totalTime));
+        });
+    }, [reduxEventsList, reduxActivityNames, reduxTotals]);
 
     return (null);
 }
