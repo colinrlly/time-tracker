@@ -82,7 +82,7 @@ D3StackedBar.update = function update(newData, configuration, chart, filteredTot
 
     const formattedData = formatLabels(stackedData, newXScale.bandwidth(), range);
 
-    newXScale = newXScale.domain(formattedData.map((d) => d.rangeBeginning));
+    newXScale = newXScale.domain(newData.map((d) => d.rangeBeginning));
 
     const newYScale = d3.scaleLinear()
         .domain([0, d3.max(stackedData.map((d) => d.y2))])
