@@ -16,8 +16,8 @@ import {
 import './style/chart.css';
 
 const MARGIN = {
-    left: 40,
-    bottom: 30,
+    left: 25,
+    bottom: 20,
 };
 
 const HEIGHT = 375;
